@@ -3,5 +3,7 @@
 
 int main() {
     std::cout << "Bruh" << std::endl;
-    return 0;
+    std::cout << "Bruh" << std::endl;
+    std::cout << "Bruh" << std::endl;
+
 }
