@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     //For Background
-    QPixmap pix("C:/programming/SP23/1.jpg");
+    QPixmap pix("C:/programming/softwareproject/softwareproject/code/Staging_Environment/SP23/assets/mainwindow/1.jpg");
     ui->bg_main->setPixmap(pix);
 
     //Using the connect function to call the openRegistrationWindow() function
