@@ -24,6 +24,7 @@ class Ui_registration_window
 public:
     QWidget *centralwidget;
     QTextBrowser *textBrowser;
+    QTextBrowser *textBrowser_2;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -37,6 +38,9 @@ public:
         textBrowser = new QTextBrowser(centralwidget);
         textBrowser->setObjectName("textBrowser");
         textBrowser->setGeometry(QRect(60, 100, 181, 51));
+        textBrowser_2 = new QTextBrowser(centralwidget);
+        textBrowser_2->setObjectName("textBrowser_2");
+        textBrowser_2->setGeometry(QRect(60, 170, 101, 41));
         registration_window->setCentralWidget(centralwidget);
         menubar = new QMenuBar(registration_window);
         menubar->setObjectName("menubar");
@@ -62,6 +66,14 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:22pt; font-weight:700;\">Registration</span></p></body></html>", nullptr));
+        textBrowser_2->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">First Name</span></p></body></html>", nullptr));
     } // retranslateUi
 
 };

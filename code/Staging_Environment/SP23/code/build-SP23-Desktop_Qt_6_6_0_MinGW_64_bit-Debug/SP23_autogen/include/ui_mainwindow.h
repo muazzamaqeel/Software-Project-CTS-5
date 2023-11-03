@@ -50,6 +50,8 @@ public:
         textBrowser = new QTextBrowser(centralwidget);
         textBrowser->setObjectName("textBrowser");
         textBrowser->setGeometry(QRect(60, 170, 301, 61));
+        textBrowser->setAutoFillBackground(false);
+        textBrowser->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0%)"));
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName("pushButton");
         pushButton->setGeometry(QRect(70, 380, 111, 41));
@@ -77,6 +79,7 @@ public:
         bg_main = new QLabel(centralwidget);
         bg_main->setObjectName("bg_main");
         bg_main->setGeometry(QRect(-520, -880, 2621, 1921));
+        bg_main->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0%)"));
         MainWindow->setCentralWidget(centralwidget);
         bg_main->raise();
         textBrowser->raise();
@@ -111,7 +114,7 @@ public:
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:28pt; font-weight:700; font-style:italic;\">Scrummy 1.0</span></p></body></html>", nullptr));
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:28pt; font-weight:700; font-style:italic; color:#ffffff;\">Scrummy 1.0</span></p></body></html>", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "Sign In", nullptr));
         registerbutton_main->setText(QCoreApplication::translate("MainWindow", "Register", nullptr));
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "Settings", nullptr));
