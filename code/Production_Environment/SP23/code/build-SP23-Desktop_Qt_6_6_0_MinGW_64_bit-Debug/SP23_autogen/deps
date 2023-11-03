@@ -510,16 +510,34 @@ SP23_autogen/timestamp: \
 	C:/programming/QT_InstallationFiles/Tools/mingw1120_64/x86_64-w64-mingw32/include/vadefs.h \
 	C:/programming/QT_InstallationFiles/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h \
 	C:/programming/SP23/code/SP23/CMakeLists.txt \
+	C:/programming/SP23/code/SP23/backlog.cpp \
+	C:/programming/SP23/code/SP23/backlog.h \
+	C:/programming/SP23/code/SP23/calendar.cpp \
+	C:/programming/SP23/code/SP23/calendar.h \
+	C:/programming/SP23/code/SP23/confluence.cpp \
+	C:/programming/SP23/code/SP23/confluence.h \
 	C:/programming/SP23/code/SP23/main.cpp \
 	C:/programming/SP23/code/SP23/mainwindow.cpp \
 	C:/programming/SP23/code/SP23/mainwindow.h \
 	C:/programming/SP23/code/SP23/registration_window.cpp \
 	C:/programming/SP23/code/SP23/registration_window.h \
+	C:/programming/SP23/code/SP23/settings.cpp \
+	C:/programming/SP23/code/SP23/settings.h \
+	C:/programming/SP23/code/SP23/sprints.cpp \
+	C:/programming/SP23/code/SP23/sprints.h \
+	C:/programming/SP23/code/SP23/taskboard.cpp \
+	C:/programming/SP23/code/SP23/taskboard.h \
 	C:/programming/SP23/code/build-SP23-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake \
 	C:/programming/SP23/code/build-SP23-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/CMakeFiles/3.24.2/CMakeCXXCompiler.cmake \
 	C:/programming/SP23/code/build-SP23-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/CMakeFiles/3.24.2/CMakeRCCompiler.cmake \
 	C:/programming/SP23/code/build-SP23-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/CMakeFiles/3.24.2/CMakeSystem.cmake \
 	C:/programming/SP23/code/build-SP23-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/SP23_autogen/moc_predefs.h \
+	C:/programming/SP23/code/SP23/backlog.ui \
+	C:/programming/SP23/code/SP23/calendar.ui \
+	C:/programming/SP23/code/SP23/confluence.ui \
 	C:/programming/SP23/code/SP23/mainwindow.ui \
 	C:/programming/SP23/code/SP23/registration_window.ui \
+	C:/programming/SP23/code/SP23/settings.ui \
+	C:/programming/SP23/code/SP23/sprints.ui \
+	C:/programming/SP23/code/SP23/taskboard.ui \
 	C:/programming/QT_InstallationFiles/Tools/CMake_64/bin/cmake.exe

@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     QPixmap pix("C:/programming/softwareproject/softwareproject/code/Production_Environment/SP23/assets/mainwindow/1.jpg");
     ui->bg_main->setPixmap(pix);
 
+
+
     // Using the connect function to call the openRegistrationWindow() function
     connect(ui->registerbutton_main, SIGNAL(clicked()), this, SLOT(openRegistrationWindow()));
 }

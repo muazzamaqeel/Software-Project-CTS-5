@@ -256,6 +256,24 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/programming/SP23/code/SP23/backlog.h",
+			"MU",
+			"EWIEGA46WW/moc_backlog.cpp",
+			null
+		],
+		[
+			"C:/programming/SP23/code/SP23/calendar.h",
+			"MU",
+			"EWIEGA46WW/moc_calendar.cpp",
+			null
+		],
+		[
+			"C:/programming/SP23/code/SP23/confluence.h",
+			"MU",
+			"EWIEGA46WW/moc_confluence.cpp",
+			null
+		],
+		[
 			"C:/programming/SP23/code/SP23/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
@@ -265,6 +283,24 @@
 			"C:/programming/SP23/code/SP23/registration_window.h",
 			"MU",
 			"EWIEGA46WW/moc_registration_window.cpp",
+			null
+		],
+		[
+			"C:/programming/SP23/code/SP23/settings.h",
+			"MU",
+			"EWIEGA46WW/moc_settings.cpp",
+			null
+		],
+		[
+			"C:/programming/SP23/code/SP23/sprints.h",
+			"MU",
+			"EWIEGA46WW/moc_sprints.cpp",
+			null
+		],
+		[
+			"C:/programming/SP23/code/SP23/taskboard.h",
+			"MU",
+			"EWIEGA46WW/moc_taskboard.cpp",
 			null
 		]
 	],
@@ -337,9 +373,15 @@
 	"SETTINGS_FILE" : "C:/programming/SP23/code/build-SP23-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/CMakeFiles/SP23_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[ "C:/programming/SP23/code/SP23/backlog.cpp", "MU", null ],
+		[ "C:/programming/SP23/code/SP23/calendar.cpp", "MU", null ],
+		[ "C:/programming/SP23/code/SP23/confluence.cpp", "MU", null ],
 		[ "C:/programming/SP23/code/SP23/main.cpp", "MU", null ],
 		[ "C:/programming/SP23/code/SP23/mainwindow.cpp", "MU", null ],
-		[ "C:/programming/SP23/code/SP23/registration_window.cpp", "MU", null ]
+		[ "C:/programming/SP23/code/SP23/registration_window.cpp", "MU", null ],
+		[ "C:/programming/SP23/code/SP23/settings.cpp", "MU", null ],
+		[ "C:/programming/SP23/code/SP23/sprints.cpp", "MU", null ],
+		[ "C:/programming/SP23/code/SP23/taskboard.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],

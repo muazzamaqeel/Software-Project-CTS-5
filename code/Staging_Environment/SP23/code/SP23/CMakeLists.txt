@@ -24,6 +24,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         registration_window.h registration_window.cpp registration_window.ui
+        settings.h settings.cpp settings.ui
+        backlog.h backlog.cpp backlog.ui
+        taskboard.h taskboard.cpp taskboard.ui
+        calendar.h calendar.cpp calendar.ui
+        sprints.h sprints.cpp sprints.ui
+        confluence.h confluence.cpp confluence.ui
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SP23 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
