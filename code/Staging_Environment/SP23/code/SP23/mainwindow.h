@@ -21,5 +21,12 @@ private:
 public slots:
     void openRegistrationWindow();
 
+public slots:
+    void closeApp();
+
+
+private slots:
+    void openSettings();
+
 };
 #endif // MAINWINDOW_H
