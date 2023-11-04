@@ -10,6 +10,9 @@ class Settings;
 class Settings : public QMainWindow
 {
     Q_OBJECT
+public slots:
+    void goBackToMainWindow();
+
 
 public:
     explicit Settings(QWidget *parent = nullptr);
@@ -18,5 +21,6 @@ public:
 private:
     Ui::Settings *ui;
 };
+
 
 #endif // SETTINGS_H

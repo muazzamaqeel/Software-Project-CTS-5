@@ -25,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(closeApp()));
 
 
+
+
+
 }
 
 // Function that opens the registration_window
@@ -52,6 +55,13 @@ void MainWindow::openSettings()
 void MainWindow::closeApp()
 {
     QApplication::quit(); // This will close the application.
+}
+
+void Settings::goBackToMainWindow()
+{
+    hide(); // Hide the settings window
+    MainWindow* mainWindow = new MainWindow; // Create a new instance of the main window
+    mainWindow->showMaximized(); // Show the main window
 }
 
 
