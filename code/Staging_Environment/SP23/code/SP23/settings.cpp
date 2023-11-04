@@ -12,3 +12,6 @@ Settings::~Settings()
 {
     delete ui;
 }
+
+
+//TEST FOR RUTH
