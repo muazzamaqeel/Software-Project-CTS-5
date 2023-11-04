@@ -11,7 +11,6 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -27,8 +26,6 @@ public:
     QWidget *centralwidget;
     QRadioButton *radioButton;
     QPushButton *pushButton;
-    QWidget *gridLayoutWidget;
-    QGridLayout *gridLayout;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -45,12 +42,6 @@ public:
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName("pushButton");
         pushButton->setGeometry(QRect(280, 230, 80, 24));
-        gridLayoutWidget = new QWidget(centralwidget);
-        gridLayoutWidget->setObjectName("gridLayoutWidget");
-        gridLayoutWidget->setGeometry(QRect(70, 20, 160, 80));
-        gridLayout = new QGridLayout(gridLayoutWidget);
-        gridLayout->setObjectName("gridLayout");
-        gridLayout->setContentsMargins(0, 0, 0, 0);
         Settings->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Settings);
         menubar->setObjectName("menubar");

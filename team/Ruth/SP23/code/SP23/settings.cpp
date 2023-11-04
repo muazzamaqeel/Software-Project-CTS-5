@@ -12,3 +12,6 @@ Settings::~Settings()
 {
     delete ui;
 }
+
+
+//Muazzam said i should test
