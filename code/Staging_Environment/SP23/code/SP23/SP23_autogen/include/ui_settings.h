@@ -30,7 +30,7 @@ public:
     QScrollBar *DarkMode;
     QLabel *label_3;
     QLabel *label_5;
-    QPushButton *pushButton;
+    QPushButton *backButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -78,9 +78,9 @@ public:
         label_5->setObjectName("label_5");
         label_5->setGeometry(QRect(40, 60, 49, 16));
         label_5->setFrameShape(QFrame::NoFrame);
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(530, 50, 80, 24));
+        backButton = new QPushButton(centralwidget);
+        backButton->setObjectName("backButton");
+        backButton->setGeometry(QRect(530, 50, 80, 24));
         Settings->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Settings);
         menubar->setObjectName("menubar");
@@ -102,7 +102,7 @@ public:
         label_2->setText(QCoreApplication::translate("Settings", "      Settings", nullptr));
         label_3->setText(QCoreApplication::translate("Settings", "Dark Mode", nullptr));
         label_5->setText(QCoreApplication::translate("Settings", "Logo", nullptr));
-        pushButton->setText(QCoreApplication::translate("Settings", "Back", nullptr));
+        backButton->setText(QCoreApplication::translate("Settings", "Back", nullptr));
     } // retranslateUi
 
 };

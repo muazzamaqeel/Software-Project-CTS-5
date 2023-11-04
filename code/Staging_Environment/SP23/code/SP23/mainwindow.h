@@ -25,6 +25,8 @@ public slots:
     void closeApp();
 
 
+
+
 private slots:
     void openSettings();
 
