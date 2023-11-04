@@ -14,4 +14,4 @@ Settings::~Settings()
 }
 
 
-//TEST FOR RUTH
+//Muazzam said i should test
