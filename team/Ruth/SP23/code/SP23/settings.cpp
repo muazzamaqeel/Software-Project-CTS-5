@@ -12,3 +12,7 @@ Settings::~Settings()
 {
     delete ui;
 }
+
+
+//Muazzam said i should test
+//Ruth passed the test

@@ -14,4 +14,5 @@ Settings::~Settings()
 }
 
 
-//TEST FOR RUTH
+//Muazzam said i should test
+//Ruth passed the test
