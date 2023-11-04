@@ -16,3 +16,5 @@ Settings::~Settings()
 
 //Muazzam said i should test
 //Ruth passed the test
+//Ruth test
+//Ruth
