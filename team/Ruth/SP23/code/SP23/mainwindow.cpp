@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include <QPixmap>
 #include "registration_window.h"
+#include "settings.h"
 
 // Constructor of MainWindow Class
 MainWindow::MainWindow(QWidget *parent)
@@ -18,6 +19,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Using the connect function to call the openRegistrationWindow() function
     connect(ui->registerbutton_main, SIGNAL(clicked()), this, SLOT(openRegistrationWindow()));
+
+    connect(ui->settingsbutton_main, SIGNAL(clicked()), this, SLOT(openSettings()));
+
+    connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(closeApp()));
+
+
 }
 
 // Function that opens the registration_window
@@ -32,6 +39,22 @@ void MainWindow::openRegistrationWindow()
     registration_window* registrationWindow = new registration_window;
     registrationWindow->showMaximized();
 }
+
+// Function that opens the settings_windows
+void MainWindow::openSettings()
+{
+
+    close();
+    Settings* settingWindow = new Settings;
+    settingWindow -> showMaximized();
+
+}
+void MainWindow::closeApp()
+{
+    QApplication::quit(); // This will close the application.
+}
+
+
 
 // Destructor to avoid memory leak problems
 MainWindow::~MainWindow()

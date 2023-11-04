@@ -72,7 +72,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Register</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="settingsbutton_main">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -85,7 +85,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Settings</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="quitButton">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -198,8 +198,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <zorder>textBrowser</zorder>
    <zorder>pushButton</zorder>
    <zorder>registerbutton_main</zorder>
-   <zorder>pushButton_3</zorder>
-   <zorder>pushButton_4</zorder>
+   <zorder>settingsbutton_main</zorder>
+   <zorder>quitButton</zorder>
    <zorder>textEdit</zorder>
    <zorder>textEdit_2</zorder>
    <zorder>textBrowser_2</zorder>
