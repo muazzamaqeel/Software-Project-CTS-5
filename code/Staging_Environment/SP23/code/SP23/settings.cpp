@@ -6,7 +6,10 @@ Settings::Settings(QWidget *parent) :
     ui(new Ui::Settings)
 {
     ui->setupUi(this);
+    connect(ui->backButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
+
 }
+
 
 Settings::~Settings()
 {
@@ -14,5 +17,4 @@ Settings::~Settings()
 }
 
 
-//Muazzam said i should test
-//Ruth passed the test
+//Ruth

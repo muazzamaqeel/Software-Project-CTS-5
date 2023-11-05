@@ -29,8 +29,8 @@ public:
     QTextBrowser *textBrowser;
     QPushButton *pushButton;
     QPushButton *registerbutton_main;
-    QPushButton *pushButton_3;
-    QPushButton *pushButton_4;
+    QPushButton *settingsbutton_main;
+    QPushButton *quitButton;
     QTextEdit *textEdit;
     QTextEdit *textEdit_2;
     QTextBrowser *textBrowser_2;
@@ -58,12 +58,12 @@ public:
         registerbutton_main = new QPushButton(centralwidget);
         registerbutton_main->setObjectName("registerbutton_main");
         registerbutton_main->setGeometry(QRect(70, 430, 111, 41));
-        pushButton_3 = new QPushButton(centralwidget);
-        pushButton_3->setObjectName("pushButton_3");
-        pushButton_3->setGeometry(QRect(70, 480, 111, 41));
-        pushButton_4 = new QPushButton(centralwidget);
-        pushButton_4->setObjectName("pushButton_4");
-        pushButton_4->setGeometry(QRect(70, 530, 111, 41));
+        settingsbutton_main = new QPushButton(centralwidget);
+        settingsbutton_main->setObjectName("settingsbutton_main");
+        settingsbutton_main->setGeometry(QRect(70, 480, 111, 41));
+        quitButton = new QPushButton(centralwidget);
+        quitButton->setObjectName("quitButton");
+        quitButton->setGeometry(QRect(70, 530, 111, 41));
         textEdit = new QTextEdit(centralwidget);
         textEdit->setObjectName("textEdit");
         textEdit->setGeometry(QRect(180, 260, 181, 31));
@@ -85,8 +85,8 @@ public:
         textBrowser->raise();
         pushButton->raise();
         registerbutton_main->raise();
-        pushButton_3->raise();
-        pushButton_4->raise();
+        settingsbutton_main->raise();
+        quitButton->raise();
         textEdit->raise();
         textEdit_2->raise();
         textBrowser_2->raise();
@@ -117,8 +117,8 @@ public:
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:28pt; font-weight:700; font-style:italic; color:#ffffff;\">Scrummy 1.0</span></p></body></html>", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "Sign In", nullptr));
         registerbutton_main->setText(QCoreApplication::translate("MainWindow", "Register", nullptr));
-        pushButton_3->setText(QCoreApplication::translate("MainWindow", "Settings", nullptr));
-        pushButton_4->setText(QCoreApplication::translate("MainWindow", "Quit", nullptr));
+        settingsbutton_main->setText(QCoreApplication::translate("MainWindow", "Settings", nullptr));
+        quitButton->setText(QCoreApplication::translate("MainWindow", "Quit", nullptr));
         textEdit->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
