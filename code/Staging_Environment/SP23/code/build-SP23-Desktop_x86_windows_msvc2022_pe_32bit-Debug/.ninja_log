@@ -1,0 +1,16 @@
+# ninja log v5
+1	1286	7210790456381426	SP23_autogen/timestamp	9a9ae0bded8f58e4
+1	1286	7210790456381426	SP23_autogen/mocs_compilation.cpp	9a9ae0bded8f58e4
+1	1286	7210790456381426	C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/SP23_autogen/timestamp	9a9ae0bded8f58e4
+1	1286	7210790456381426	C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/SP23_autogen/mocs_compilation.cpp	9a9ae0bded8f58e4
+1287	4737	7210790492202721	CMakeFiles/SP23.dir/main.cpp.obj	f9dff73d54c67acf
+1296	4977	7210790495151674	CMakeFiles/SP23.dir/mainwindow.cpp.obj	7980edc551397c3b
+1291	5028	7210790495404282	CMakeFiles/SP23.dir/SP23_autogen/mocs_compilation.cpp.obj	ddfccc3faa2fb9d1
+1314	5047	7210790495863457	CMakeFiles/SP23.dir/settings.cpp.obj	69613ef10b5fbee8
+1304	5122	7210790496634098	CMakeFiles/SP23.dir/backlog.cpp.obj	49df43c11232d26
+1300	5137	7210790496765391	CMakeFiles/SP23.dir/registration_window.cpp.obj	ee9db8de9ac80ce3
+1328	5161	7210790497020638	CMakeFiles/SP23.dir/confluence.cpp.obj	ae5f42d2de87e0f3
+1310	5196	7210790497365702	CMakeFiles/SP23.dir/taskboard.cpp.obj	cd063bca6104426d
+1343	5550	7210790500914332	CMakeFiles/SP23.dir/calendar.cpp.obj	e85dd51421390a21
+1321	5597	7210790501374324	CMakeFiles/SP23.dir/sprints.cpp.obj	9c128b770f75249b
+5598	6068	7210790506034571	SP23.exe	36661f94fd3ccd83
