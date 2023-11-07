@@ -11,11 +11,11 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextBrowser>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -25,16 +25,16 @@ class Ui_registration_window
 public:
     QWidget *centralwidget;
     QTextBrowser *textBrowser_5;
-    QTextEdit *textEdit;
-    QTextEdit *textEdit_4;
     QTextBrowser *textBrowser_4;
     QTextBrowser *textBrowser_7;
-    QTextEdit *textEdit_3;
     QTextBrowser *textBrowser_3;
-    QTextEdit *textEdit_5;
-    QTextEdit *textEdit_2;
     QTextBrowser *textBrowser_8;
     QTextBrowser *textBrowser_6;
+    QLineEdit *lineEdit;
+    QLineEdit *lineEdit_2;
+    QLineEdit *lineEdit_3;
+    QLineEdit *lineEdit_4;
+    QLineEdit *lineEdit_5;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -48,36 +48,36 @@ public:
         textBrowser_5 = new QTextBrowser(centralwidget);
         textBrowser_5->setObjectName("textBrowser_5");
         textBrowser_5->setGeometry(QRect(60, 320, 101, 41));
-        textEdit = new QTextEdit(centralwidget);
-        textEdit->setObjectName("textEdit");
-        textEdit->setGeometry(QRect(180, 170, 211, 41));
-        textEdit_4 = new QTextEdit(centralwidget);
-        textEdit_4->setObjectName("textEdit_4");
-        textEdit_4->setGeometry(QRect(180, 320, 211, 41));
         textBrowser_4 = new QTextBrowser(centralwidget);
         textBrowser_4->setObjectName("textBrowser_4");
         textBrowser_4->setGeometry(QRect(60, 100, 181, 51));
         textBrowser_7 = new QTextBrowser(centralwidget);
         textBrowser_7->setObjectName("textBrowser_7");
         textBrowser_7->setGeometry(QRect(60, 370, 101, 41));
-        textEdit_3 = new QTextEdit(centralwidget);
-        textEdit_3->setObjectName("textEdit_3");
-        textEdit_3->setGeometry(QRect(180, 270, 211, 41));
         textBrowser_3 = new QTextBrowser(centralwidget);
         textBrowser_3->setObjectName("textBrowser_3");
         textBrowser_3->setGeometry(QRect(60, 220, 101, 41));
-        textEdit_5 = new QTextEdit(centralwidget);
-        textEdit_5->setObjectName("textEdit_5");
-        textEdit_5->setGeometry(QRect(180, 370, 211, 41));
-        textEdit_2 = new QTextEdit(centralwidget);
-        textEdit_2->setObjectName("textEdit_2");
-        textEdit_2->setGeometry(QRect(180, 220, 211, 41));
         textBrowser_8 = new QTextBrowser(centralwidget);
         textBrowser_8->setObjectName("textBrowser_8");
         textBrowser_8->setGeometry(QRect(60, 170, 101, 41));
         textBrowser_6 = new QTextBrowser(centralwidget);
         textBrowser_6->setObjectName("textBrowser_6");
         textBrowser_6->setGeometry(QRect(60, 270, 101, 41));
+        lineEdit = new QLineEdit(centralwidget);
+        lineEdit->setObjectName("lineEdit");
+        lineEdit->setGeometry(QRect(180, 170, 211, 41));
+        lineEdit_2 = new QLineEdit(centralwidget);
+        lineEdit_2->setObjectName("lineEdit_2");
+        lineEdit_2->setGeometry(QRect(180, 220, 211, 41));
+        lineEdit_3 = new QLineEdit(centralwidget);
+        lineEdit_3->setObjectName("lineEdit_3");
+        lineEdit_3->setGeometry(QRect(180, 270, 211, 41));
+        lineEdit_4 = new QLineEdit(centralwidget);
+        lineEdit_4->setObjectName("lineEdit_4");
+        lineEdit_4->setGeometry(QRect(180, 320, 211, 41));
+        lineEdit_5 = new QLineEdit(centralwidget);
+        lineEdit_5->setObjectName("lineEdit_5");
+        lineEdit_5->setGeometry(QRect(180, 370, 211, 41));
         registration_window->setCentralWidget(centralwidget);
         menubar = new QMenuBar(registration_window);
         menubar->setObjectName("menubar");
@@ -143,6 +143,7 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">Username</span></p></body></html>", nullptr));
+        lineEdit->setText(QString());
     } // retranslateUi
 
 };
