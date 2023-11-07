@@ -218,6 +218,15 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Label&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
+   <zorder>tableView_9</zorder>
+   <zorder>textBrowser</zorder>
+   <zorder>comboBox</zorder>
+   <zorder>textEdit_4</zorder>
+   <zorder>pushButton_2</zorder>
+   <zorder>pushButton</zorder>
+   <zorder>tableWidget</zorder>
+   <zorder>textBrowser_2</zorder>
+   <zorder>textEdit_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
