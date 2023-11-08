@@ -39,7 +39,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <rect>
       <x>60</x>
       <y>100</y>
-      <width>181</width>
+      <width>191</width>
       <height>51</height>
      </rect>
     </property>
@@ -185,6 +185,32 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <width>211</width>
       <height>41</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="back">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>20</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Back</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="next">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>430</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Next</string>
     </property>
    </widget>
   </widget>
