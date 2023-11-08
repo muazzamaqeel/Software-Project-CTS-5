@@ -10,6 +10,7 @@ registration_window::registration_window(QWidget *parent) :
     ui(new Ui::registration_window)
 {
     ui->setupUi(this); // Set up the user interface
+    ui->display_error->setVisible(false); // Initially hide the error message
     connect(ui->back, SIGNAL(clicked()), this, SLOT(FromRegToMainWindow())); // Connect the "back" button to go back
     connect(ui->next, SIGNAL(clicked()), this, SLOT(storeInputValues())); // Connect the "next" button to store input values
 }
@@ -49,4 +50,49 @@ void registration_window::storeInputValues() {
     qDebug() << "Password: " << password;
     qDebug() << "Role: " << role;
     qDebug() << "Username: " << username;
+
+
+
+
+
+    // Check for missing fields
+    QString error = "";
+
+    if (firstName.isEmpty()) {
+        error += "First Name is missing. ";
+    }
+
+    if (lastName.isEmpty()) {
+        error += "Last Name is missing. ";
+    }
+
+    if (password.isEmpty()) {
+        error += "Password is missing. ";
+    }
+
+    if (role.isEmpty()) {
+        error += "Role is missing. ";
+    }
+
+    if (username.isEmpty()) {
+        error += "Username is missing. ";
+    }
+
+    // Print the captured values to the console for testing
+    qDebug() << "First Name: " << firstName;
+    qDebug() << "Last Name: " << lastName;
+    qDebug() << "Password: " << password;
+    qDebug() << "Role: " << role;
+    qDebug() << "Username: " << username;
+
+    // Display the error message in the error text object
+    ui->display_error->setText(error);
+
+    // Check if there are missing fields, and if not, proceed to the next step
+    if (!error.isEmpty()) {
+        ui->display_error->setText(error);
+        ui->display_error->setVisible(true); // Show the error message
+    } else {
+        ui->display_error->setVisible(false); // Hide the error message if there are no missing fields
+    }
 }
