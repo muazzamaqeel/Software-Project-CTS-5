@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTextBrowser" name="textBrowser_5">
+   <widget class="QTextBrowser" name="display_password">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -34,7 +34,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Password&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="textBrowser_4">
+   <widget class="QTextBrowser" name="display_registration">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -54,7 +54,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:22pt; font-weight:700;&quot;&gt;Registration&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="textBrowser_7">
+   <widget class="QTextBrowser" name="display_role">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -74,7 +74,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Role&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="textBrowser_3">
+   <widget class="QTextBrowser" name="display_lastname">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -94,7 +94,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Last Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="textBrowser_8">
+   <widget class="QTextBrowser" name="display_firstname">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -114,7 +114,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;First Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="textBrowser_6">
+   <widget class="QTextBrowser" name="display_username">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -134,7 +134,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Username&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="input_firstname">
     <property name="geometry">
      <rect>
       <x>180</x>
@@ -147,7 +147,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string/>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="input_lastname">
     <property name="geometry">
      <rect>
       <x>180</x>
@@ -157,7 +157,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
+   <widget class="QLineEdit" name="input_username">
     <property name="geometry">
      <rect>
       <x>180</x>
@@ -167,7 +167,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_4">
+   <widget class="QLineEdit" name="input_password">
     <property name="geometry">
      <rect>
       <x>180</x>
@@ -177,7 +177,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_5">
+   <widget class="QLineEdit" name="input_role">
     <property name="geometry">
      <rect>
       <x>180</x>
@@ -194,7 +194,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
