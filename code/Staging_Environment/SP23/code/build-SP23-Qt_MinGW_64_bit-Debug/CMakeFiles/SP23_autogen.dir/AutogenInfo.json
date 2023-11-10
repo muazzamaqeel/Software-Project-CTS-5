@@ -248,7 +248,8 @@
 		"C:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/cmake/Qt6Widgets/Qt6QWindowsVistaStylePluginTargets.cmake",
 		"C:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/cmake/Qt6Widgets/Qt6QWindowsVistaStylePluginTargets-relwithdebinfo.cmake",
 		"C:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/cmake/Qt6Widgets/Qt6QWindowsVistaStylePluginAdditionalTargetInfo.cmake",
-		"C:/programming/QT_InstallationFiles/Tools/CMake_64/share/cmake-3.24/Modules/GNUInstallDirs.cmake"
+		"C:/programming/QT_InstallationFiles/Tools/CMake_64/share/cmake-3.24/Modules/GNUInstallDirs.cmake",
+		"C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/assets/resources.qrc"
 	],
 	"CMAKE_SOURCE_DIR" : "C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23",
 	"DEP_FILE" : "C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Qt_MinGW_64_bit-Debug/SP23_autogen/deps",

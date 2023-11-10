@@ -42,7 +42,9 @@ public:
     {
         if (Backlog->objectName().isEmpty())
             Backlog->setObjectName("Backlog");
-        Backlog->resize(800, 600);
+        Backlog->resize(1280, 720);
+        Backlog->setMinimumSize(QSize(1280, 720));
+        Backlog->setMaximumSize(QSize(1280, 720));
         centralwidget = new QWidget(Backlog);
         centralwidget->setObjectName("centralwidget");
         pushButton_2 = new QPushButton(centralwidget);
@@ -100,7 +102,7 @@ public:
         textBrowser_3->raise();
         menubar = new QMenuBar(Backlog);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 22));
+        menubar->setGeometry(QRect(0, 0, 1280, 21));
         Backlog->setMenuBar(menubar);
         statusbar = new QStatusBar(Backlog);
         statusbar->setObjectName("statusbar");

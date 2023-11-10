@@ -48,7 +48,9 @@ public:
     {
         if (Sprints->objectName().isEmpty())
             Sprints->setObjectName("Sprints");
-        Sprints->resize(800, 600);
+        Sprints->resize(1280, 720);
+        Sprints->setMinimumSize(QSize(1280, 720));
+        Sprints->setMaximumSize(QSize(1280, 720));
         centralwidget = new QWidget(Sprints);
         centralwidget->setObjectName("centralwidget");
         timeEdit = new QTimeEdit(centralwidget);
@@ -115,7 +117,7 @@ public:
         Sprints->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Sprints);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 21));
+        menubar->setGeometry(QRect(0, 0, 1280, 21));
         Sprints->setMenuBar(menubar);
         statusbar = new QStatusBar(Sprints);
         statusbar->setObjectName("statusbar");
