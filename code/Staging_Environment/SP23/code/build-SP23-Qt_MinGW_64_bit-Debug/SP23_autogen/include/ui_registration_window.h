@@ -46,7 +46,9 @@ public:
     {
         if (registration_window->objectName().isEmpty())
             registration_window->setObjectName("registration_window");
-        registration_window->resize(800, 600);
+        registration_window->resize(1280, 720);
+        registration_window->setMinimumSize(QSize(1280, 720));
+        registration_window->setMaximumSize(QSize(1280, 720));
         centralwidget = new QWidget(registration_window);
         centralwidget->setObjectName("centralwidget");
         display_password = new QTextBrowser(centralwidget);
@@ -84,7 +86,7 @@ public:
         input_role->setGeometry(QRect(180, 370, 211, 41));
         back = new QPushButton(centralwidget);
         back->setObjectName("back");
-        back->setGeometry(QRect(670, 20, 121, 41));
+        back->setGeometry(QRect(140, 500, 121, 41));
         next = new QPushButton(centralwidget);
         next->setObjectName("next");
         next->setGeometry(QRect(270, 500, 121, 41));
@@ -94,7 +96,7 @@ public:
         registration_window->setCentralWidget(centralwidget);
         menubar = new QMenuBar(registration_window);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 21));
+        menubar->setGeometry(QRect(0, 0, 1280, 21));
         registration_window->setMenuBar(menubar);
         statusbar = new QStatusBar(registration_window);
         statusbar->setObjectName("statusbar");

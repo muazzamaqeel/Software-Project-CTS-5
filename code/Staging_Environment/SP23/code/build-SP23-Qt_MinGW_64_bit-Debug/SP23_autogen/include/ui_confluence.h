@@ -46,7 +46,9 @@ public:
     {
         if (Confluence->objectName().isEmpty())
             Confluence->setObjectName("Confluence");
-        Confluence->resize(800, 600);
+        Confluence->resize(1280, 720);
+        Confluence->setMinimumSize(QSize(1280, 720));
+        Confluence->setMaximumSize(QSize(1280, 720));
         centralwidget = new QWidget(Confluence);
         centralwidget->setObjectName("centralwidget");
         textBrowser = new QTextBrowser(centralwidget);
@@ -106,7 +108,7 @@ public:
         Confluence->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Confluence);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 21));
+        menubar->setGeometry(QRect(0, 0, 1280, 21));
         Confluence->setMenuBar(menubar);
         statusbar = new QStatusBar(Confluence);
         statusbar->setObjectName("statusbar");

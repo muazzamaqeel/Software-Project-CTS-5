@@ -1,5 +1,6 @@
 SP23_autogen/timestamp: \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/CMakeLists.txt \
+  C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/assets/resources.qrc \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/backlog.cpp \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/backlog.h \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/calendar.cpp \
