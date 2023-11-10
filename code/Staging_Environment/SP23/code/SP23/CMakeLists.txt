@@ -30,6 +30,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         calendar.h calendar.cpp calendar.ui
         sprints.h sprints.cpp sprints.ui
         confluence.h confluence.cpp confluence.ui
+        parentboard.ui parentboard.cpp parentboard.h
 
     )
 # Define target properties for Android with Qt 6 as:
