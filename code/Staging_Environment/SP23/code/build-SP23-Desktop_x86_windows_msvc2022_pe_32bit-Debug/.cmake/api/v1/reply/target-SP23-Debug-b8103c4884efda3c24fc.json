@@ -75,13 +75,13 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 70,
+				"line" : 74,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 53,
+				"line" : 57,
 				"parent" : 0
 			},
 			{
@@ -374,18 +374,21 @@
 				15,
 				18,
 				21,
-				24
+				24,
+				27,
+				31,
+				44
 			]
 		}
 	],
 	"dependencies" : 
 	[
 		{
-			"backtrace" : 0,
-			"id" : "SP23_autogen::@6890427a1f51a3e7e1df"
+			"id" : "SP23_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		},
 		{
-			"id" : "SP23_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+			"backtrace" : 0,
+			"id" : "SP23_autogen::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "SP23::@6890427a1f51a3e7e1df",
@@ -504,7 +507,10 @@
 				15,
 				18,
 				21,
-				24
+				24,
+				27,
+				31,
+				44
 			]
 		},
 		{
@@ -519,14 +525,18 @@
 				17,
 				20,
 				23,
-				26,
-				27,
 				28,
-				29,
 				30,
-				31,
-				32,
-				33
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42
 			]
 		},
 		{
@@ -541,14 +551,18 @@
 				19,
 				22,
 				25,
-				34
+				26,
+				29,
+				32,
+				43
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				35
+				45,
+				46
 			]
 		}
 	],
@@ -696,6 +710,43 @@
 			"sourceGroupIndex" : 2
 		},
 		{
+			"backtrace" : 4,
+			"path" : "parentboard.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "parentboard.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "parentboard.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "assets/resources.qrc",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"path" : "projectcreation.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "projectcreation.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "projectcreation.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
 			"backtrace" : 0,
 			"isGenerated" : true,
 			"path" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/SP23_autogen/include/ui_mainwindow.h",
@@ -746,13 +797,38 @@
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
+			"path" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/SP23_autogen/include/ui_parentboard.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/SP23_autogen/include/ui_projectcreation.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
 			"path" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/SP23_autogen/timestamp",
 			"sourceGroupIndex" : 2
 		},
 		{
 			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/SP23_autogen/GBFAFXFCVO/qrc_resources.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
 			"isGenerated" : true,
 			"path" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/SP23_autogen/timestamp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/SP23_autogen/GBFAFXFCVO/qrc_resources.cpp.rule",
 			"sourceGroupIndex" : 3
 		}
 	],

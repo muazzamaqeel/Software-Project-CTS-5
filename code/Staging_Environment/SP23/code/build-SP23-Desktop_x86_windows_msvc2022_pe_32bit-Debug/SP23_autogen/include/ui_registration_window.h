@@ -14,6 +14,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QWidget>
@@ -24,17 +25,20 @@ class Ui_registration_window
 {
 public:
     QWidget *centralwidget;
-    QTextBrowser *textBrowser_5;
-    QTextBrowser *textBrowser_4;
-    QTextBrowser *textBrowser_7;
-    QTextBrowser *textBrowser_3;
-    QTextBrowser *textBrowser_8;
-    QTextBrowser *textBrowser_6;
-    QLineEdit *lineEdit;
-    QLineEdit *lineEdit_2;
-    QLineEdit *lineEdit_3;
-    QLineEdit *lineEdit_4;
-    QLineEdit *lineEdit_5;
+    QTextBrowser *display_password;
+    QTextBrowser *display_registration;
+    QTextBrowser *display_role;
+    QTextBrowser *display_lastname;
+    QTextBrowser *display_firstname;
+    QTextBrowser *display_username;
+    QLineEdit *input_firstname;
+    QLineEdit *input_lastname;
+    QLineEdit *input_username;
+    QLineEdit *input_password;
+    QLineEdit *input_role;
+    QPushButton *back;
+    QPushButton *next;
+    QTextBrowser *display_error;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -42,46 +46,57 @@ public:
     {
         if (registration_window->objectName().isEmpty())
             registration_window->setObjectName("registration_window");
-        registration_window->resize(800, 600);
+        registration_window->resize(1280, 720);
+        registration_window->setMinimumSize(QSize(1280, 720));
+        registration_window->setMaximumSize(QSize(1280, 720));
         centralwidget = new QWidget(registration_window);
         centralwidget->setObjectName("centralwidget");
-        textBrowser_5 = new QTextBrowser(centralwidget);
-        textBrowser_5->setObjectName("textBrowser_5");
-        textBrowser_5->setGeometry(QRect(60, 320, 101, 41));
-        textBrowser_4 = new QTextBrowser(centralwidget);
-        textBrowser_4->setObjectName("textBrowser_4");
-        textBrowser_4->setGeometry(QRect(60, 100, 181, 51));
-        textBrowser_7 = new QTextBrowser(centralwidget);
-        textBrowser_7->setObjectName("textBrowser_7");
-        textBrowser_7->setGeometry(QRect(60, 370, 101, 41));
-        textBrowser_3 = new QTextBrowser(centralwidget);
-        textBrowser_3->setObjectName("textBrowser_3");
-        textBrowser_3->setGeometry(QRect(60, 220, 101, 41));
-        textBrowser_8 = new QTextBrowser(centralwidget);
-        textBrowser_8->setObjectName("textBrowser_8");
-        textBrowser_8->setGeometry(QRect(60, 170, 101, 41));
-        textBrowser_6 = new QTextBrowser(centralwidget);
-        textBrowser_6->setObjectName("textBrowser_6");
-        textBrowser_6->setGeometry(QRect(60, 270, 101, 41));
-        lineEdit = new QLineEdit(centralwidget);
-        lineEdit->setObjectName("lineEdit");
-        lineEdit->setGeometry(QRect(180, 170, 211, 41));
-        lineEdit_2 = new QLineEdit(centralwidget);
-        lineEdit_2->setObjectName("lineEdit_2");
-        lineEdit_2->setGeometry(QRect(180, 220, 211, 41));
-        lineEdit_3 = new QLineEdit(centralwidget);
-        lineEdit_3->setObjectName("lineEdit_3");
-        lineEdit_3->setGeometry(QRect(180, 270, 211, 41));
-        lineEdit_4 = new QLineEdit(centralwidget);
-        lineEdit_4->setObjectName("lineEdit_4");
-        lineEdit_4->setGeometry(QRect(180, 320, 211, 41));
-        lineEdit_5 = new QLineEdit(centralwidget);
-        lineEdit_5->setObjectName("lineEdit_5");
-        lineEdit_5->setGeometry(QRect(180, 370, 211, 41));
+        display_password = new QTextBrowser(centralwidget);
+        display_password->setObjectName("display_password");
+        display_password->setGeometry(QRect(60, 320, 101, 41));
+        display_registration = new QTextBrowser(centralwidget);
+        display_registration->setObjectName("display_registration");
+        display_registration->setGeometry(QRect(60, 100, 191, 51));
+        display_role = new QTextBrowser(centralwidget);
+        display_role->setObjectName("display_role");
+        display_role->setGeometry(QRect(60, 370, 101, 41));
+        display_lastname = new QTextBrowser(centralwidget);
+        display_lastname->setObjectName("display_lastname");
+        display_lastname->setGeometry(QRect(60, 220, 101, 41));
+        display_firstname = new QTextBrowser(centralwidget);
+        display_firstname->setObjectName("display_firstname");
+        display_firstname->setGeometry(QRect(60, 170, 101, 41));
+        display_username = new QTextBrowser(centralwidget);
+        display_username->setObjectName("display_username");
+        display_username->setGeometry(QRect(60, 270, 101, 41));
+        input_firstname = new QLineEdit(centralwidget);
+        input_firstname->setObjectName("input_firstname");
+        input_firstname->setGeometry(QRect(180, 170, 211, 41));
+        input_lastname = new QLineEdit(centralwidget);
+        input_lastname->setObjectName("input_lastname");
+        input_lastname->setGeometry(QRect(180, 220, 211, 41));
+        input_username = new QLineEdit(centralwidget);
+        input_username->setObjectName("input_username");
+        input_username->setGeometry(QRect(180, 270, 211, 41));
+        input_password = new QLineEdit(centralwidget);
+        input_password->setObjectName("input_password");
+        input_password->setGeometry(QRect(180, 320, 211, 41));
+        input_role = new QLineEdit(centralwidget);
+        input_role->setObjectName("input_role");
+        input_role->setGeometry(QRect(180, 370, 211, 41));
+        back = new QPushButton(centralwidget);
+        back->setObjectName("back");
+        back->setGeometry(QRect(140, 500, 121, 41));
+        next = new QPushButton(centralwidget);
+        next->setObjectName("next");
+        next->setGeometry(QRect(270, 500, 121, 41));
+        display_error = new QTextBrowser(centralwidget);
+        display_error->setObjectName("display_error");
+        display_error->setGeometry(QRect(60, 420, 331, 51));
         registration_window->setCentralWidget(centralwidget);
         menubar = new QMenuBar(registration_window);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 22));
+        menubar->setGeometry(QRect(0, 0, 1280, 21));
         registration_window->setMenuBar(menubar);
         statusbar = new QStatusBar(registration_window);
         statusbar->setObjectName("statusbar");
@@ -95,7 +110,7 @@ public:
     void retranslateUi(QMainWindow *registration_window)
     {
         registration_window->setWindowTitle(QCoreApplication::translate("registration_window", "MainWindow", nullptr));
-        textBrowser_5->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        display_password->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "hr { height: 1px; border-width: 0; }\n"
@@ -103,7 +118,7 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">Password</span></p></body></html>", nullptr));
-        textBrowser_4->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        display_registration->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "hr { height: 1px; border-width: 0; }\n"
@@ -111,7 +126,7 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:22pt; font-weight:700;\">Registration</span></p></body></html>", nullptr));
-        textBrowser_7->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        display_role->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "hr { height: 1px; border-width: 0; }\n"
@@ -119,7 +134,7 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">Role</span></p></body></html>", nullptr));
-        textBrowser_3->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        display_lastname->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "hr { height: 1px; border-width: 0; }\n"
@@ -127,7 +142,7 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">Last Name</span></p></body></html>", nullptr));
-        textBrowser_8->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        display_firstname->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "hr { height: 1px; border-width: 0; }\n"
@@ -135,7 +150,7 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">First Name</span></p></body></html>", nullptr));
-        textBrowser_6->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        display_username->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "hr { height: 1px; border-width: 0; }\n"
@@ -143,7 +158,18 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">Username</span></p></body></html>", nullptr));
-        lineEdit->setText(QString());
+        input_firstname->setText(QString());
+        back->setText(QCoreApplication::translate("registration_window", "Back", nullptr));
+        next->setText(QCoreApplication::translate("registration_window", "Next", nullptr));
+        display_error->setHtml(QCoreApplication::translate("registration_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">    </span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p></body></html>", nullptr));
     } // retranslateUi
 
 };

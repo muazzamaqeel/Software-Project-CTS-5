@@ -36,6 +36,8 @@ public:
     QTextBrowser *textBrowser_3;
     QLineEdit *lineEdit;
     QLineEdit *lineEdit_2;
+    QPushButton *parentboardButton;
+    QPushButton *backlog_test;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -43,8 +45,9 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1024, 600);
-        MainWindow->setMinimumSize(QSize(1024, 600));
+        MainWindow->resize(1280, 720);
+        MainWindow->setMinimumSize(QSize(1280, 720));
+        MainWindow->setMaximumSize(QSize(1280, 720));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         bg_main = new QLabel(centralwidget);
@@ -80,10 +83,16 @@ public:
         lineEdit_2 = new QLineEdit(centralwidget);
         lineEdit_2->setObjectName("lineEdit_2");
         lineEdit_2->setGeometry(QRect(190, 270, 181, 31));
+        parentboardButton = new QPushButton(centralwidget);
+        parentboardButton->setObjectName("parentboardButton");
+        parentboardButton->setGeometry(QRect(210, 350, 111, 41));
+        backlog_test = new QPushButton(centralwidget);
+        backlog_test->setObjectName("backlog_test");
+        backlog_test->setGeometry(QRect(210, 400, 111, 41));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1024, 22));
+        menubar->setGeometry(QRect(0, 0, 1280, 22));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
@@ -129,6 +138,8 @@ public:
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Password:</p></body></html>", nullptr));
         lineEdit->setText(QCoreApplication::translate("MainWindow", "Replace this text", nullptr));
         lineEdit_2->setText(QCoreApplication::translate("MainWindow", "Replace this text", nullptr));
+        parentboardButton->setText(QCoreApplication::translate("MainWindow", "Parentboard", nullptr));
+        backlog_test->setText(QCoreApplication::translate("MainWindow", "Backlog Test", nullptr));
     } // retranslateUi
 
 };

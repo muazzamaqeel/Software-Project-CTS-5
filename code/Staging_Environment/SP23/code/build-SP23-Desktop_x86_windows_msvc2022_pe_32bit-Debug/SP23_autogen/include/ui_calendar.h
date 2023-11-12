@@ -36,7 +36,8 @@ public:
     {
         if (Calendar->objectName().isEmpty())
             Calendar->setObjectName("Calendar");
-        Calendar->resize(800, 600);
+        Calendar->resize(1280, 720);
+        Calendar->setMinimumSize(QSize(1280, 720));
         centralwidget = new QWidget(Calendar);
         centralwidget->setObjectName("centralwidget");
         textBrowser_2 = new QTextBrowser(centralwidget);
@@ -54,7 +55,7 @@ public:
         Calendar->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Calendar);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 21));
+        menubar->setGeometry(QRect(0, 0, 1280, 21));
         Calendar->setMenuBar(menubar);
         statusbar = new QStatusBar(Calendar);
         statusbar->setObjectName("statusbar");

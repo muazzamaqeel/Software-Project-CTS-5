@@ -29,8 +29,12 @@ public slots:
 public slots:
     void openParentBoard();
 
+public slots:
+    void openBacklogtest();
+
 private slots:
     void openSettings();
+
 
 };
 #endif // MAINWINDOW_H

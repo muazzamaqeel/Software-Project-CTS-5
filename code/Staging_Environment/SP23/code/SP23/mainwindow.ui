@@ -200,6 +200,19 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Parentboard</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="backlog_test">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>400</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Backlog Test</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -207,7 +220,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

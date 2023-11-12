@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-335ff8d5d545610e180c.json",
+					"jsonFile" : "directory-.-Debug-2580de67b805c3f7d997.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -44,7 +44,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "SP23::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-SP23-Debug-4e83cc5e177bdadce74e.json",
+					"jsonFile" : "target-SP23-Debug-b8103c4884efda3c24fc.json",
 					"name" : "SP23",
 					"projectIndex" : 0
 				},

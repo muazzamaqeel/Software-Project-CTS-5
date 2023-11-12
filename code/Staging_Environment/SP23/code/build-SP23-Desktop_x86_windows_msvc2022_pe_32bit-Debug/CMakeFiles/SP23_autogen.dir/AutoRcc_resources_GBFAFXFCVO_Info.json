@@ -1,0 +1,22 @@
+{
+	"BUILD_DIR" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/SP23_autogen",
+	"CMAKE_BINARY_DIR" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/SP23",
+	"CMAKE_SOURCE_DIR" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/SP23",
+	"INCLUDE_DIR" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/SP23_autogen/include",
+	"INPUTS" : 
+	[
+		"C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/SP23/assets/Logo.svg"
+	],
+	"LOCK_FILE" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/CMakeFiles/SP23_autogen.dir/AutoRcc_resources_GBFAFXFCVO_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "resources" ],
+	"OUTPUT_CHECKSUM" : "GBFAFXFCVO",
+	"OUTPUT_NAME" : "qrc_resources.cpp",
+	"RCC_EXECUTABLE" : "C:/Qt/6.6.0/mingw_64/./bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Desktop_x86_windows_msvc2022_pe_32bit-Debug/CMakeFiles/SP23_autogen.dir/AutoRcc_resources_GBFAFXFCVO_Used.txt",
+	"SOURCE" : "C:/prog/SoftwareProjectRepo/softwareproject/code/Staging_Environment/SP23/code/SP23/assets/resources.qrc",
+	"VERBOSITY" : 0
+}
