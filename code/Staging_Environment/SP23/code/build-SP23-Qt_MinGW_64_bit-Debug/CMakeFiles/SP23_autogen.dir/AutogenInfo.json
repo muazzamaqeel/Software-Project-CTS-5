@@ -287,6 +287,12 @@
 			null
 		],
 		[
+			"C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/projectcreation.h",
+			"MU",
+			"EWIEGA46WW/moc_projectcreation.cpp",
+			null
+		],
+		[
 			"C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/registration_window.h",
 			"MU",
 			"EWIEGA46WW/moc_registration_window.cpp",
@@ -407,6 +413,11 @@
 		],
 		[
 			"C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/parentboard.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/projectcreation.cpp",
 			"MU",
 			null
 		],

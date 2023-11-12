@@ -27,10 +27,10 @@ public slots:
 
 //temporary - Cosmin
 public slots:
-    void openParentBoard();
+    void openProjectcreationTest();
 
 public slots:
-    void openBacklogtest();
+    void openParentBoard();
 
 
 

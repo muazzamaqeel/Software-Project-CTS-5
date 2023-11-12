@@ -213,7 +213,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Backlog Test</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="backlog_test_2">
+   <widget class="QPushButton" name="ProjectCreationTesButton">
     <property name="geometry">
      <rect>
       <x>210</x>
@@ -233,7 +233,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

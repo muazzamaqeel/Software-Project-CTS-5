@@ -4,6 +4,7 @@
 #include "registration_window.h"
 #include "settings.h"
 #include "backlog.h"
+#include "projectcreation.h"
 
 
 //temporary - Cosmin
@@ -31,17 +32,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     // temporary
     connect(ui->parentboardButton, SIGNAL(clicked()), this, SLOT(openParentBoard()));
-    connect(ui->backlog_test, SIGNAL(clicked()), this, SLOT(openBacklogtest()));
+    connect(ui->ProjectCreationTesButton, SIGNAL(clicked()), this, SLOT(openProjectcreationTest()));
 
 
 
 
 }
 
-void MainWindow::openBacklogtest(){
+void MainWindow::openProjectcreationTest(){
     close();
-    Backlog* Backlog_window = new Backlog;
-    Backlog_window->showMaximized();
+    ProjectCreation* Project_Creation= new ProjectCreation;
+    Project_Creation->showMaximized();
 
 }
 

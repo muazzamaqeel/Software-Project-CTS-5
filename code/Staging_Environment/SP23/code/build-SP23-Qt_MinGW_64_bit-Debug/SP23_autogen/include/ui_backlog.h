@@ -12,12 +12,10 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTableView>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QWidget>
@@ -30,10 +28,8 @@ public:
     QWidget *centralwidget;
     QPushButton *pushButton_2;
     QPushButton *pushButton;
-    QTableView *tableView_9;
     QTableWidget *tableWidget;
     QTextBrowser *textBrowser_2;
-    QLineEdit *lineEdit;
     QTextBrowser *textBrowser_3;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -49,13 +45,10 @@ public:
         centralwidget->setObjectName("centralwidget");
         pushButton_2 = new QPushButton(centralwidget);
         pushButton_2->setObjectName("pushButton_2");
-        pushButton_2->setGeometry(QRect(590, 30, 141, 51));
+        pushButton_2->setGeometry(QRect(600, 30, 141, 51));
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(590, 110, 141, 51));
-        tableView_9 = new QTableView(centralwidget);
-        tableView_9->setObjectName("tableView_9");
-        tableView_9->setGeometry(QRect(50, 190, 691, 41));
+        pushButton->setGeometry(QRect(600, 110, 141, 51));
         tableWidget = new QTableWidget(centralwidget);
         if (tableWidget->rowCount() < 10)
             tableWidget->setRowCount(10);
@@ -80,29 +73,19 @@ public:
         QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
         tableWidget->setVerticalHeaderItem(9, __qtablewidgetitem9);
         tableWidget->setObjectName("tableWidget");
-        tableWidget->setGeometry(QRect(60, 370, 671, 171));
+        tableWidget->setGeometry(QRect(70, 210, 671, 311));
         textBrowser_2 = new QTextBrowser(centralwidget);
         textBrowser_2->setObjectName("textBrowser_2");
         textBrowser_2->setGeometry(QRect(240, 120, 301, 61));
         textBrowser_2->setAutoFillBackground(false);
         textBrowser_2->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0%)"));
-        lineEdit = new QLineEdit(centralwidget);
-        lineEdit->setObjectName("lineEdit");
-        lineEdit->setGeometry(QRect(60, 200, 211, 22));
         textBrowser_3 = new QTextBrowser(centralwidget);
         textBrowser_3->setObjectName("textBrowser_3");
-        textBrowser_3->setGeometry(QRect(50, 40, 91, 41));
+        textBrowser_3->setGeometry(QRect(60, 30, 91, 51));
         Backlog->setCentralWidget(centralwidget);
-        tableView_9->raise();
-        pushButton_2->raise();
-        pushButton->raise();
-        tableWidget->raise();
-        textBrowser_2->raise();
-        lineEdit->raise();
-        textBrowser_3->raise();
         menubar = new QMenuBar(Backlog);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1280, 21));
+        menubar->setGeometry(QRect(0, 0, 1280, 22));
         Backlog->setMenuBar(menubar);
         statusbar = new QStatusBar(Backlog);
         statusbar->setObjectName("statusbar");
@@ -146,7 +129,6 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:24pt; font-weight:700; color:#000000;\">Product Backlog</span></p></body></html>", nullptr));
-        lineEdit->setText(QCoreApplication::translate("Backlog", "Issue Title 1 - can be a short sentence", nullptr));
         textBrowser_3->setHtml(QCoreApplication::translate("Backlog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"

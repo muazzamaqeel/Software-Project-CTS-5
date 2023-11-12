@@ -12,6 +12,8 @@ SP23_autogen/timestamp: \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/mainwindow.h \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/parentboard.cpp \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/parentboard.h \
+  C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/projectcreation.cpp \
+  C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/projectcreation.h \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/registration_window.cpp \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/registration_window.h \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/settings.cpp \
@@ -541,6 +543,7 @@ SP23_autogen/timestamp: \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/confluence.ui \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/mainwindow.ui \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/parentboard.ui \
+  C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/projectcreation.ui \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/registration_window.ui \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/settings.ui \
   C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/sprints.ui \
