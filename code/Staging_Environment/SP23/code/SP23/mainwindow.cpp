@@ -5,6 +5,7 @@
 #include "settings.h"
 #include "backlog.h"
 
+
 //temporary - Cosmin
 #include "parentboard.h"
 
@@ -34,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
+
 }
 
 void MainWindow::openBacklogtest(){
@@ -42,6 +44,8 @@ void MainWindow::openBacklogtest(){
     Backlog_window->showMaximized();
 
 }
+
+
 
 // Function that opens the registration_window
 void MainWindow::openRegistrationWindow()

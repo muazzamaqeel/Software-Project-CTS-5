@@ -38,6 +38,7 @@ public:
     QLineEdit *lineEdit_2;
     QPushButton *parentboardButton;
     QPushButton *backlog_test;
+    QPushButton *backlog_test_2;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -52,7 +53,7 @@ public:
         centralwidget->setObjectName("centralwidget");
         bg_main = new QLabel(centralwidget);
         bg_main->setObjectName("bg_main");
-        bg_main->setGeometry(QRect(-520, -880, 2621, 1921));
+        bg_main->setGeometry(QRect(10, -130, 2621, 1921));
         bg_main->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255, 0%)"));
         textBrowser_2 = new QTextBrowser(centralwidget);
         textBrowser_2->setObjectName("textBrowser_2");
@@ -89,6 +90,9 @@ public:
         backlog_test = new QPushButton(centralwidget);
         backlog_test->setObjectName("backlog_test");
         backlog_test->setGeometry(QRect(210, 400, 111, 41));
+        backlog_test_2 = new QPushButton(centralwidget);
+        backlog_test_2->setObjectName("backlog_test_2");
+        backlog_test_2->setGeometry(QRect(210, 450, 111, 41));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -140,6 +144,7 @@ public:
         lineEdit_2->setText(QCoreApplication::translate("MainWindow", "Replace this text", nullptr));
         parentboardButton->setText(QCoreApplication::translate("MainWindow", "Parentboard", nullptr));
         backlog_test->setText(QCoreApplication::translate("MainWindow", "Backlog Test", nullptr));
+        backlog_test_2->setText(QCoreApplication::translate("MainWindow", "Project Creation Test", nullptr));
     } // retranslateUi
 
 };

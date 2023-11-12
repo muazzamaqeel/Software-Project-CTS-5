@@ -29,8 +29,8 @@
    <widget class="QLabel" name="bg_main">
     <property name="geometry">
      <rect>
-      <x>-520</x>
-      <y>-880</y>
+      <x>10</x>
+      <y>-130</y>
       <width>2621</width>
       <height>1921</height>
      </rect>
@@ -211,6 +211,19 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </property>
     <property name="text">
      <string>Backlog Test</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="backlog_test_2">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>450</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Project Creation Test</string>
     </property>
    </widget>
   </widget>
