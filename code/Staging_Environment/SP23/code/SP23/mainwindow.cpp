@@ -4,6 +4,9 @@
 #include "registration_window.h"
 #include "settings.h"
 
+//temporary - Cosmin
+#include "parentboard.h"
+
 // Constructor of MainWindow Class
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -24,7 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(closeApp()));
 
-
+    // temporary
+    connect(ui->parentboardButton, SIGNAL(clicked()), this, SLOT(openParentBoard()));
 
 
 
@@ -64,7 +68,18 @@ void Settings::goBackToMainWindow()
     mainWindow->showMaximized(); // Show the main window
 }
 
+//temporary - Cosmin
+void MainWindow::openParentBoard()
+{
+    // qDebug() << "Parentboard button clicked.";
 
+    // To close the MainWindow screen when the registration window is opened
+    close();
+
+    // Create an instance of the parentboard window
+    parentboard* parentBoard = new parentboard;
+    parentBoard->showMaximized();
+}
 
 // Destructor to avoid memory leak problems
 MainWindow::~MainWindow()
