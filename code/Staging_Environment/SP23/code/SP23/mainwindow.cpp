@@ -3,6 +3,9 @@
 #include <QPixmap>
 #include "registration_window.h"
 #include "settings.h"
+#include "backlog.h"
+#include "projectcreation.h"
+
 
 //temporary - Cosmin
 #include "parentboard.h"
@@ -19,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->bg_main->setPixmap(pix);
 
 
-
+    //Buttons on the mainwindow
     // Using the connect function to call the openRegistrationWindow() function
     connect(ui->registerbutton_main, SIGNAL(clicked()), this, SLOT(openRegistrationWindow()));
 
@@ -29,10 +32,21 @@ MainWindow::MainWindow(QWidget *parent)
 
     // temporary
     connect(ui->parentboardButton, SIGNAL(clicked()), this, SLOT(openParentBoard()));
+    connect(ui->ProjectCreationTesButton, SIGNAL(clicked()), this, SLOT(openProjectcreationTest()));
+
 
 
 
 }
+
+void MainWindow::openProjectcreationTest(){
+    close();
+    ProjectCreation* Project_Creation= new ProjectCreation;
+    Project_Creation->showMaximized();
+
+}
+
+
 
 // Function that opens the registration_window
 void MainWindow::openRegistrationWindow()

@@ -29,7 +29,7 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>590</x>
+      <x>600</x>
       <y>30</y>
       <width>141</width>
       <height>51</height>
@@ -42,7 +42,7 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>590</x>
+      <x>600</x>
       <y>110</y>
       <width>141</width>
       <height>51</height>
@@ -52,23 +52,13 @@
      <string>Create Issue</string>
     </property>
    </widget>
-   <widget class="QTableView" name="tableView_9">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>190</y>
-      <width>691</width>
-      <height>41</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>370</y>
+      <x>70</x>
+      <y>210</y>
       <width>671</width>
-      <height>171</height>
+      <height>311</height>
      </rect>
     </property>
     <row>
@@ -148,26 +138,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:24pt; font-weight:700; color:#000000;&quot;&gt;Product Backlog&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>200</y>
-      <width>211</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Issue Title 1 - can be a short sentence</string>
-    </property>
-   </widget>
    <widget class="QTextBrowser" name="textBrowser_3">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>40</y>
+      <x>60</x>
+      <y>30</y>
       <width>91</width>
-      <height>41</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="html">
@@ -182,13 +159,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt;&quot;&gt;Logo&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <zorder>tableView_9</zorder>
-   <zorder>pushButton_2</zorder>
-   <zorder>pushButton</zorder>
-   <zorder>tableWidget</zorder>
-   <zorder>textBrowser_2</zorder>
-   <zorder>lineEdit</zorder>
-   <zorder>textBrowser_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -196,7 +166,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

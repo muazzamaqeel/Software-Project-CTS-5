@@ -32,6 +32,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         confluence.h confluence.cpp confluence.ui
         parentboard.ui parentboard.cpp parentboard.h
         assets/resources.qrc
+        projectcreation.h projectcreation.cpp projectcreation.ui
+        backlog.cpp backlog.h backlog.ui
 
     )
 # Define target properties for Android with Qt 6 as:

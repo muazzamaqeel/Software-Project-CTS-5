@@ -137,6 +137,14 @@ build CMakeFiles/SP23.dir/parentboard.cpp.obj: CXX_COMPILER__SP23_Debug C$:/prog
   OBJECT_DIR = CMakeFiles\SP23.dir
   OBJECT_FILE_DIR = CMakeFiles\SP23.dir
 
+build CMakeFiles/SP23.dir/projectcreation.cpp.obj: CXX_COMPILER__SP23_Debug C$:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/SP23/projectcreation.cpp || cmake_object_order_depends_target_SP23
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\SP23.dir\projectcreation.cpp.obj.d
+  FLAGS = -g -std=gnu++17
+  INCLUDES = -IC:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Qt_MinGW_64_bit-Debug/SP23_autogen/include -isystem C:/programming/QT_InstallationFiles/6.6.0/mingw_64/include/QtCore -isystem C:/programming/QT_InstallationFiles/6.6.0/mingw_64/include -isystem C:/programming/QT_InstallationFiles/6.6.0/mingw_64/mkspecs/win32-g++ -isystem C:/programming/QT_InstallationFiles/6.6.0/mingw_64/include/QtWidgets -isystem C:/programming/QT_InstallationFiles/6.6.0/mingw_64/include/QtGui
+  OBJECT_DIR = CMakeFiles\SP23.dir
+  OBJECT_FILE_DIR = CMakeFiles\SP23.dir
+
 build CMakeFiles/SP23.dir/SP23_autogen/GBFAFXFCVO/qrc_resources.cpp.obj: CXX_COMPILER__SP23_Debug C$:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/SP23/code/build-SP23-Qt_MinGW_64_bit-Debug/SP23_autogen/GBFAFXFCVO/qrc_resources.cpp || cmake_object_order_depends_target_SP23
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\SP23.dir\SP23_autogen\GBFAFXFCVO\qrc_resources.cpp.obj.d
@@ -153,7 +161,7 @@ build CMakeFiles/SP23.dir/SP23_autogen/GBFAFXFCVO/qrc_resources.cpp.obj: CXX_COM
 #############################################
 # Link the executable SP23.exe
 
-build SP23.exe: CXX_EXECUTABLE_LINKER__SP23_Debug CMakeFiles/SP23.dir/SP23_autogen/mocs_compilation.cpp.obj CMakeFiles/SP23.dir/main.cpp.obj CMakeFiles/SP23.dir/mainwindow.cpp.obj CMakeFiles/SP23.dir/registration_window.cpp.obj CMakeFiles/SP23.dir/settings.cpp.obj CMakeFiles/SP23.dir/backlog.cpp.obj CMakeFiles/SP23.dir/taskboard.cpp.obj CMakeFiles/SP23.dir/calendar.cpp.obj CMakeFiles/SP23.dir/sprints.cpp.obj CMakeFiles/SP23.dir/confluence.cpp.obj CMakeFiles/SP23.dir/parentboard.cpp.obj CMakeFiles/SP23.dir/SP23_autogen/GBFAFXFCVO/qrc_resources.cpp.obj | C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Widgets.a C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Gui.a C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Core.a C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6EntryPoint.a || SP23_autogen SP23_autogen_timestamp_deps
+build SP23.exe: CXX_EXECUTABLE_LINKER__SP23_Debug CMakeFiles/SP23.dir/SP23_autogen/mocs_compilation.cpp.obj CMakeFiles/SP23.dir/main.cpp.obj CMakeFiles/SP23.dir/mainwindow.cpp.obj CMakeFiles/SP23.dir/registration_window.cpp.obj CMakeFiles/SP23.dir/settings.cpp.obj CMakeFiles/SP23.dir/backlog.cpp.obj CMakeFiles/SP23.dir/taskboard.cpp.obj CMakeFiles/SP23.dir/calendar.cpp.obj CMakeFiles/SP23.dir/sprints.cpp.obj CMakeFiles/SP23.dir/confluence.cpp.obj CMakeFiles/SP23.dir/parentboard.cpp.obj CMakeFiles/SP23.dir/projectcreation.cpp.obj CMakeFiles/SP23.dir/SP23_autogen/GBFAFXFCVO/qrc_resources.cpp.obj | C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Widgets.a C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Gui.a C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Core.a C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6EntryPoint.a || SP23_autogen SP23_autogen_timestamp_deps
   FLAGS = -g
   LINK_FLAGS = -mwindows
   LINK_LIBRARIES = C:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Widgets.a  C:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Gui.a  C:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -lmingw32  C:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6EntryPoint.a  -lshell32  -ld3d11  -ldxgi  -ldxguid  -ld3d12  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
@@ -240,7 +248,7 @@ build SP23_autogen_timestamp_deps: phony CMakeFiles/SP23_autogen_timestamp_deps
 #############################################
 # Utility command for SP23_autogen
 
-build SP23_autogen: phony CMakeFiles/SP23_autogen SP23_autogen/include/ui_mainwindow.h SP23_autogen/include/ui_registration_window.h SP23_autogen/include/ui_settings.h SP23_autogen/include/ui_backlog.h SP23_autogen/include/ui_taskboard.h SP23_autogen/include/ui_calendar.h SP23_autogen/include/ui_sprints.h SP23_autogen/include/ui_confluence.h SP23_autogen/include/ui_parentboard.h SP23_autogen/timestamp SP23_autogen/mocs_compilation.cpp SP23_autogen_timestamp_deps
+build SP23_autogen: phony CMakeFiles/SP23_autogen SP23_autogen/include/ui_mainwindow.h SP23_autogen/include/ui_registration_window.h SP23_autogen/include/ui_settings.h SP23_autogen/include/ui_backlog.h SP23_autogen/include/ui_taskboard.h SP23_autogen/include/ui_calendar.h SP23_autogen/include/ui_sprints.h SP23_autogen/include/ui_confluence.h SP23_autogen/include/ui_parentboard.h SP23_autogen/include/ui_projectcreation.h SP23_autogen/timestamp SP23_autogen/mocs_compilation.cpp SP23_autogen_timestamp_deps
 
 
 #############################################
@@ -265,13 +273,13 @@ build SP23_autogen/GBFAFXFCVO/qrc_resources.cpp | ${cmake_ninja_workdir}SP23_aut
 #############################################
 # Phony custom command for CMakeFiles\SP23_autogen_timestamp_deps
 
-build CMakeFiles/SP23_autogen_timestamp_deps | ${cmake_ninja_workdir}CMakeFiles/SP23_autogen_timestamp_deps: phony C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Core.a C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/./bin/uic.exe C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/./bin/moc.exe C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Widgets.a
+build CMakeFiles/SP23_autogen_timestamp_deps | ${cmake_ninja_workdir}CMakeFiles/SP23_autogen_timestamp_deps: phony C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/./bin/uic.exe C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/./bin/moc.exe C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Widgets.a C$:/programming/QT_InstallationFiles/6.6.0/mingw_64/lib/libQt6Core.a
 
 
 #############################################
 # Phony custom command for CMakeFiles\SP23_autogen
 
-build CMakeFiles/SP23_autogen SP23_autogen/include/ui_mainwindow.h SP23_autogen/include/ui_registration_window.h SP23_autogen/include/ui_settings.h SP23_autogen/include/ui_backlog.h SP23_autogen/include/ui_taskboard.h SP23_autogen/include/ui_calendar.h SP23_autogen/include/ui_sprints.h SP23_autogen/include/ui_confluence.h SP23_autogen/include/ui_parentboard.h | ${cmake_ninja_workdir}CMakeFiles/SP23_autogen ${cmake_ninja_workdir}SP23_autogen/include/ui_mainwindow.h ${cmake_ninja_workdir}SP23_autogen/include/ui_registration_window.h ${cmake_ninja_workdir}SP23_autogen/include/ui_settings.h ${cmake_ninja_workdir}SP23_autogen/include/ui_backlog.h ${cmake_ninja_workdir}SP23_autogen/include/ui_taskboard.h ${cmake_ninja_workdir}SP23_autogen/include/ui_calendar.h ${cmake_ninja_workdir}SP23_autogen/include/ui_sprints.h ${cmake_ninja_workdir}SP23_autogen/include/ui_confluence.h ${cmake_ninja_workdir}SP23_autogen/include/ui_parentboard.h: phony SP23_autogen/timestamp || SP23_autogen_timestamp_deps
+build CMakeFiles/SP23_autogen SP23_autogen/include/ui_mainwindow.h SP23_autogen/include/ui_registration_window.h SP23_autogen/include/ui_settings.h SP23_autogen/include/ui_backlog.h SP23_autogen/include/ui_taskboard.h SP23_autogen/include/ui_calendar.h SP23_autogen/include/ui_sprints.h SP23_autogen/include/ui_confluence.h SP23_autogen/include/ui_parentboard.h SP23_autogen/include/ui_projectcreation.h | ${cmake_ninja_workdir}CMakeFiles/SP23_autogen ${cmake_ninja_workdir}SP23_autogen/include/ui_mainwindow.h ${cmake_ninja_workdir}SP23_autogen/include/ui_registration_window.h ${cmake_ninja_workdir}SP23_autogen/include/ui_settings.h ${cmake_ninja_workdir}SP23_autogen/include/ui_backlog.h ${cmake_ninja_workdir}SP23_autogen/include/ui_taskboard.h ${cmake_ninja_workdir}SP23_autogen/include/ui_calendar.h ${cmake_ninja_workdir}SP23_autogen/include/ui_sprints.h ${cmake_ninja_workdir}SP23_autogen/include/ui_confluence.h ${cmake_ninja_workdir}SP23_autogen/include/ui_parentboard.h ${cmake_ninja_workdir}SP23_autogen/include/ui_projectcreation.h: phony SP23_autogen/timestamp || SP23_autogen_timestamp_deps
 
 # =============================================================================
 # Target aliases.
