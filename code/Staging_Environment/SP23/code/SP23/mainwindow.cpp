@@ -3,7 +3,6 @@
 #include <QPixmap>
 #include "registration_window.h"
 #include "settings.h"
-#include "backlog.h"
 #include "projectcreation.h"
 
 
@@ -32,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // temporary
     connect(ui->parentboardButton, SIGNAL(clicked()), this, SLOT(openParentBoard()));
+
+    //temporary Aida's test
     connect(ui->ProjectCreationTesButton, SIGNAL(clicked()), this, SLOT(openProjectcreationTest()));
 
 
