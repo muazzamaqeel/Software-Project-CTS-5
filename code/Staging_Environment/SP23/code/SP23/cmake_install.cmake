@@ -1,4 +1,4 @@
-# Install script for directory: C:/programming/QT/softwareproject/team/Ruth/SP23/code/SP23
+# Install script for directory: C:/Users/Citlalin Reyes Soto/Documents/GitHub/softwareproject/code/Staging_Environment/SP23/code/SP23
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,7 +38,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "C:/programming/QT/softwareproject/team/Ruth/SP23/code/SP23/SP23.exe")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "C:/Users/Citlalin Reyes Soto/Documents/GitHub/softwareproject/code/Staging_Environment/SP23/code/SP23/SP23.exe")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/SP23.exe" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/SP23.exe")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -55,5 +55,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/programming/QT/softwareproject/team/Ruth/SP23/code/SP23/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Citlalin Reyes Soto/Documents/GitHub/softwareproject/code/Staging_Environment/SP23/code/SP23/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
