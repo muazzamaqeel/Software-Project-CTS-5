@@ -3,6 +3,8 @@
 #include "EWIEGA46WW/moc_calendar.cpp"
 #include "EWIEGA46WW/moc_confluence.cpp"
 #include "EWIEGA46WW/moc_mainwindow.cpp"
+#include "EWIEGA46WW/moc_parentboard.cpp"
+#include "EWIEGA46WW/moc_projectcreation.cpp"
 #include "EWIEGA46WW/moc_registration_window.cpp"
 #include "EWIEGA46WW/moc_settings.cpp"
 #include "EWIEGA46WW/moc_sprints.cpp"

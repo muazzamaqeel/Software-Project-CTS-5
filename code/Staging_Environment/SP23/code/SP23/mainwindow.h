@@ -19,10 +19,14 @@ private:
     Ui::MainWindow *ui;
 
 public slots:
+    void openIssueWindow();
+
+public slots:
     void openRegistrationWindow();
 
 public slots:
     void closeApp();
+
 
 
 //temporary - Cosmin
@@ -31,6 +35,7 @@ public slots:
 
 public slots:
     void openParentBoard();
+
 
 
 
