@@ -1,5 +1,5 @@
-C:/programming/QT/softwareproject/team/Ruth/SP23/code/SP23/SP23_autogen/EWIEGA46WW/moc_confluence.cpp: C:/programming/QT/softwareproject/team/Ruth/SP23/code/SP23/confluence.h \
-  C:/programming/QT/softwareproject/team/Ruth/SP23/code/SP23/SP23_autogen/moc_predefs.h \
+C:/Users/Citlalin\ Reyes\ Soto/Documents/GitHub/softwareproject/code/Staging_Environment/SP23/code/SP23/SP23_autogen/EWIEGA46WW/moc_confluence.cpp: C:/Users/Citlalin\ Reyes\ Soto/Documents/GitHub/softwareproject/code/Staging_Environment/SP23/code/SP23/confluence.h \
+  C:/Users/Citlalin\ Reyes\ Soto/Documents/GitHub/softwareproject/code/Staging_Environment/SP23/code/SP23/SP23_autogen/moc_predefs.h \
   C:/Qt/6.6.0/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.6.0/mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.6.0/mingw_64/include/QtCore/q20type_traits.h \

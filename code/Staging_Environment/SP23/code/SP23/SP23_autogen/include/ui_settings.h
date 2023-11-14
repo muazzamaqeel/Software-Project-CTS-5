@@ -38,7 +38,9 @@ public:
     {
         if (Settings->objectName().isEmpty())
             Settings->setObjectName("Settings");
-        Settings->resize(800, 600);
+        Settings->resize(1280, 720);
+        Settings->setMinimumSize(QSize(1280, 720));
+        Settings->setMaximumSize(QSize(1280, 720));
         centralwidget = new QWidget(Settings);
         centralwidget->setObjectName("centralwidget");
         label = new QLabel(centralwidget);
@@ -84,7 +86,7 @@ public:
         Settings->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Settings);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 21));
+        menubar->setGeometry(QRect(0, 0, 1280, 21));
         Settings->setMenuBar(menubar);
         statusbar = new QStatusBar(Settings);
         statusbar->setObjectName("statusbar");

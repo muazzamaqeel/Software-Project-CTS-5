@@ -21,21 +21,24 @@ QT_BEGIN_NAMESPACE
 class Ui_TaskBoard
 {
 public:
-    QMenuBar *menubar;
     QWidget *centralwidget;
+    QMenuBar *menubar;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *TaskBoard)
     {
         if (TaskBoard->objectName().isEmpty())
             TaskBoard->setObjectName("TaskBoard");
-        TaskBoard->resize(800, 600);
-        menubar = new QMenuBar(TaskBoard);
-        menubar->setObjectName("menubar");
-        TaskBoard->setMenuBar(menubar);
+        TaskBoard->resize(1280, 720);
+        TaskBoard->setMinimumSize(QSize(1280, 720));
+        TaskBoard->setMaximumSize(QSize(1280, 720));
         centralwidget = new QWidget(TaskBoard);
         centralwidget->setObjectName("centralwidget");
         TaskBoard->setCentralWidget(centralwidget);
+        menubar = new QMenuBar(TaskBoard);
+        menubar->setObjectName("menubar");
+        menubar->setGeometry(QRect(0, 0, 1280, 21));
+        TaskBoard->setMenuBar(menubar);
         statusbar = new QStatusBar(TaskBoard);
         statusbar->setObjectName("statusbar");
         TaskBoard->setStatusBar(statusbar);
