@@ -3,6 +3,11 @@
 #include <QPixmap>
 #include "registration_window.h"
 #include "settings.h"
+#include "projectcreation.h"
+
+
+//temporary - Cosmin
+#include "parentboard.h"
 
 // Constructor of MainWindow Class
 MainWindow::MainWindow(QWidget *parent)
@@ -16,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->bg_main->setPixmap(pix);
 
 
-
+    //Buttons on the mainwindow
     // Using the connect function to call the openRegistrationWindow() function
     connect(ui->registerbutton_main, SIGNAL(clicked()), this, SLOT(openRegistrationWindow()));
 
@@ -24,11 +29,25 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(closeApp()));
 
+    // temporary
+    connect(ui->parentboardButton, SIGNAL(clicked()), this, SLOT(openParentBoard()));
+
+    //temporary Aida's test
+    connect(ui->ProjectCreationTesButton, SIGNAL(clicked()), this, SLOT(openProjectcreationTest()));
 
 
 
 
 }
+
+void MainWindow::openProjectcreationTest(){
+    close();
+    ProjectCreation* Project_Creation= new ProjectCreation;
+    Project_Creation->showMaximized();
+
+}
+
+
 
 // Function that opens the registration_window
 void MainWindow::openRegistrationWindow()
@@ -64,7 +83,18 @@ void Settings::goBackToMainWindow()
     mainWindow->showMaximized(); // Show the main window
 }
 
+//temporary - Cosmin
+void MainWindow::openParentBoard()
+{
+    // qDebug() << "Parentboard button clicked.";
 
+    // To close the MainWindow screen when the registration window is opened
+    close();
+
+    // Create an instance of the parentboard window
+    parentboard* parentBoard = new parentboard;
+    parentBoard->showMaximized();
+}
 
 // Destructor to avoid memory leak problems
 MainWindow::~MainWindow()
