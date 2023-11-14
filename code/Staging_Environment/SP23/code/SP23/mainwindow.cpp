@@ -3,11 +3,15 @@
 #include <QPixmap>
 #include "registration_window.h"
 #include "settings.h"
+
+#include "issuecreation.h"
+=======
 #include "projectcreation.h"
 
 
 //temporary - Cosmin
 #include "parentboard.h"
+
 
 // Constructor of MainWindow Class
 MainWindow::MainWindow(QWidget *parent)
@@ -25,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Using the connect function to call the openRegistrationWindow() function
     connect(ui->registerbutton_main, SIGNAL(clicked()), this, SLOT(openRegistrationWindow()));
 
+    connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(openIssueWindow()));
+
     connect(ui->settingsbutton_main, SIGNAL(clicked()), this, SLOT(openSettings()));
 
     connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(closeApp()));
@@ -40,12 +46,21 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 
+
+void MainWindow::openIssueWindow()
+{
+    close();
+    IssueCreation* issueWindow = new IssueCreation;
+    issueWindow -> showMaximized();
+}
+=======
 void MainWindow::openProjectcreationTest(){
     close();
     ProjectCreation* Project_Creation= new ProjectCreation;
     Project_Creation->showMaximized();
 
 }
+
 
 
 
