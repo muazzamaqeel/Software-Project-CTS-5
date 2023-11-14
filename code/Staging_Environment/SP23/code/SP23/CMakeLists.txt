@@ -9,8 +9,10 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql)  # Add Sql here
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql)  # Add Sql here
+
+
 
 set(PROJECT_SOURCES
         main.cpp
@@ -30,26 +32,16 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         calendar.h calendar.cpp calendar.ui
         sprints.h sprints.cpp sprints.ui
         confluence.h confluence.cpp confluence.ui
-
-        issuecreation.h issuecreation.cpp issuecreation.ui
         parentboard.ui parentboard.cpp parentboard.h
         assets/resources.qrc
         projectcreation.h projectcreation.cpp projectcreation.ui
         backlog.cpp backlog.h backlog.ui
-
-
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET SP23 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
         add_library(SP23 SHARED
             ${PROJECT_SOURCES}
         )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(SP23
             ${PROJECT_SOURCES}
@@ -57,7 +49,8 @@ else()
     endif()
 endif()
 
-target_link_libraries(SP23 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(SP23 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql)  # Add Sql here
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

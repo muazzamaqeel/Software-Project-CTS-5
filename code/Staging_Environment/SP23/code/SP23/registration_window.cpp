@@ -3,6 +3,12 @@
 #include <QPixmap>
 #include "mainwindow.h"
 #include <QDebug> // Include this for debugging output
+#include <QtSql/QSqlDatabase>
+#include <QDebug>
+#include <iostream>
+#include <QtSql/QSqlError> // Add this line to include QSqlError
+
+
 
 // Constructor for the registration window
 registration_window::registration_window(QWidget *parent) :
@@ -55,6 +61,7 @@ void registration_window::storeInputValues() {
 
 
 
+
     // Check for missing fields
     QString error = "";
 
@@ -95,4 +102,8 @@ void registration_window::storeInputValues() {
     } else {
         ui->display_error->setVisible(false); // Hide the error message if there are no missing fields
     }
+
+
+
+
 }
