@@ -27,8 +27,21 @@ public slots:
 public slots:
     void closeApp();
 
+
+
+//temporary - Cosmin
+public slots:
+    void openProjectcreationTest();
+
+public slots:
+    void openParentBoard();
+
+
+
+
 private slots:
     void openSettings();
+
 
 };
 #endif // MAINWINDOW_H
