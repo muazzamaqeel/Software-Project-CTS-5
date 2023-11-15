@@ -64,28 +64,29 @@ void registration_window::storeInputValues() {
 
     // Check for missing fields
     QString error = "";
-
     if (firstName.isEmpty()) {
-        error += "First Name is missing. ";
+        error += "<font color='red'>First Name is missing. </font>\n";
     }
 
     if (lastName.isEmpty()) {
-        error += "Last Name is missing. ";
+        error += "<font color='red'>Last Name is missing. </font>\n";
     }
 
     if (password.isEmpty()) {
-        error += "Password is missing. ";
+        error += "<font color='red'>Password is missing. </font>\n";
     }
 
     if (role.isEmpty()) {
-        error += "Role is missing. ";
+        error += "<font color='red'>Role is missing. </font>\n";
     }
 
     if (username.isEmpty()) {
-        error += "Username is missing. ";
+        error += "<font color='red'>Username is missing. </font>\n";
     }
 
-    // Print the captured values to the console for testing
+
+
+    //Test
     qDebug() << "First Name: " << firstName;
     qDebug() << "Last Name: " << lastName;
     qDebug() << "Password: " << password;
