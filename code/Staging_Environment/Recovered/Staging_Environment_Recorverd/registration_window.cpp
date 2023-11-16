@@ -3,12 +3,12 @@
 #include "databasemanager.h"
 #include <QPixmap>
 #include "mainwindow.h"
-#include <QDebug> // Include this for debugging output
+#include <QDebug>
 #include <QtSql/QSqlDatabase>
 #include <QDebug>
 #include <iostream>
-#include <QtSql/QSqlError> // Add this line to include QSqlError
-#include <QtSql/QSqlDriver> // Add this line to include QSqlError
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlDriver>
 #include <QtSql/QSqlQuery>
 
 
@@ -46,23 +46,13 @@ void registration_window::FromRegToMainWindow()
 
 // Function to store user input values and display them for testing
 void registration_window::storeInputValues() {
+
     // Capture user input from various fields
     firstName = ui->input_firstname->text();
     lastName = ui->input_lastname->text();
     password = ui->input_password->text();
     role = ui->input_role->text();
     username = ui->input_username->text();
-
-    // Print the captured values to the console for testing
-    qDebug() << "First Name: " << firstName;
-    qDebug() << "Last Name: " << lastName;
-    qDebug() << "Password: " << password;
-    qDebug() << "Role: " << role;
-    qDebug() << "Username: " << username;
-
-
-
-
 
     QString error = "";
 
@@ -92,40 +82,42 @@ void registration_window::storeInputValues() {
         }
 
 
+        qDebug() << "First Name: " << firstName;
+        qDebug() << "Last Name: " << lastName;
+        qDebug() << "Password: " << password;
+        qDebug() << "Role: " << role;
+        qDebug() << "Username: " << username;
+
+        // Display the error message in the error text object
+        ui->display_error->setText(error);
+
+        // Check if there are missing fields, and if not, proceed to the next step
+        if (!error.isEmpty()) {
+            ui->display_error->setText(error);
+            ui->display_error->setVisible(true); // Show the error message
+        } else {
+            ui->display_error->setVisible(false); // Hide the error message if there are no missing fields
+        }
+
+
     } else {
         QString dbHostName = "aws-dbtest.cjqugotdygrg.eu-central-1.rds.amazonaws.com";
         QString dbName = "scrummy";
         QString dbUserName = "admin";
         QString dbPassword = "sofproj23";
 
-        DatabaseManager dbobj(dbHostName, dbName, dbUserName, dbPassword);
-        QSqlDatabase database = dbobj.getDatabase();
+        DatabaseManager database(dbHostName, dbName, dbUserName, dbPassword);
+        QSqlDatabase dbobj = database.getDatabase();
 
-        if (database.isOpen()) {
+        if (dbobj.isOpen()) {
             qDebug() << "Database is conencted in the Registration class!";
+            dbobj.close();
 
         }else{
             qDebug() << "Database is not conencted in the Registration class!";
         }
     }
-    /*
-    QSqlQuery query;
-    query.prepare("INSERT INTO User (firstName, lastName, password, role, username) "
-                  "VALUES (:firstName, :lastName, :password, :role, :username)");
-    query.bindValue(":firstName", firstName);
-    query.bindValue(":lastName", lastName);
-    query.bindValue(":password", password);
-    query.bindValue(":role", role);
-    query.bindValue(":username", username);
 
-    if (query.exec()) {
-        qDebug() << "Data inserted successfully into User table!";
-    } else {
-        qDebug() << "Failed to insert data into User table. Error:" << query.lastError().text();
-    }
-
-
-    */
 
 
 
