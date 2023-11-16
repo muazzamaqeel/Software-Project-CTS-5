@@ -19,3 +19,10 @@ DatabaseManager::DatabaseManager(const QString& hostName, const QString& dbName,
 QSqlDatabase DatabaseManager::getDatabase() const {
     return db;
 }
+
+DatabaseManager::~DatabaseManager(){
+    if (db.isOpen()) {
+        db.close();
+        qDebug() << "Database connection closed.";
+    }
+}
