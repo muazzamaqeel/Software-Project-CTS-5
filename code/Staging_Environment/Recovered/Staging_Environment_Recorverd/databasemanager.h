@@ -13,6 +13,8 @@ public:
 
     DatabaseManager(const QString& hostName, const QString& dbName, const QString& userName, const QString& password);
     QSqlDatabase getDatabase() const;
+
+    ~DatabaseManager();
 };
 
 #endif // DATABASEMANAGER_H
