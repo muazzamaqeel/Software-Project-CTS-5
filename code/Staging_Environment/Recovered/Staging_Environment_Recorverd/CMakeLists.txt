@@ -33,6 +33,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         parentboard.ui parentboard.cpp parentboard.h
         projectcreation.h projectcreation.cpp projectcreation.ui
         backlog.cpp backlog.h backlog.ui issuecreation.h issuecreation.cpp issuecreation.ui
+        databasemanager.h databasemanager.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Staging_Environment_Recorverd APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
