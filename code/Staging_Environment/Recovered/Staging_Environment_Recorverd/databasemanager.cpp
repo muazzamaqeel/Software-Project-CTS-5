@@ -1,6 +1,6 @@
 #include "databasemanager.h"
 #include <QDebug>
-#include <QtSql/QSqlError> // Add this line to include QSqlError
+#include <QtSql/QSqlError>
 
 DatabaseManager::DatabaseManager(const QString& hostName, const QString& dbName, const QString& userName, const QString& password) {
     db = QSqlDatabase::addDatabase("QMYSQL");
@@ -11,7 +11,6 @@ DatabaseManager::DatabaseManager(const QString& hostName, const QString& dbName,
 
     if (!db.open()) {
         qDebug() << "Failed to open database connection:" << db.lastError().text();
-        // Handle error appropriately
     } else {
         qDebug() << "Connected to the database!";
     }
