@@ -1,5 +1,6 @@
 #include "registration_window.h"
 #include "ui_registration_window.h"
+#include "databasemanager.h"
 #include <QPixmap>
 #include "mainwindow.h"
 #include <QDebug> // Include this for debugging output
@@ -7,6 +8,8 @@
 #include <QDebug>
 #include <iostream>
 #include <QtSql/QSqlError> // Add this line to include QSqlError
+#include <QtSql/QSqlDriver> // Add this line to include QSqlError
+#include <QtSql/QSqlQuery>
 
 
 
@@ -61,49 +64,68 @@ void registration_window::storeInputValues() {
 
 
 
-
-    // Check for missing fields
     QString error = "";
-    if (firstName.isEmpty()) {
-        error += "<font color='red'>First Name is missing. </font>\n";
-    }
 
-    if (lastName.isEmpty()) {
-        error += "<font color='red'>Last Name is missing. </font>\n";
-    }
-
-    if (password.isEmpty()) {
-        error += "<font color='red'>Password is missing. </font>\n";
-    }
-
-    if (role.isEmpty()) {
-        error += "<font color='red'>Role is missing. </font>\n";
-    }
-
-    if (username.isEmpty()) {
-        error += "<font color='red'>Username is missing. </font>\n";
-    }
+    if(firstName.isEmpty() || lastName.isEmpty()|| password.isEmpty() || role.isEmpty() || username.isEmpty()){
 
 
+        // Check for missing fields
 
-    //Test
-    qDebug() << "First Name: " << firstName;
-    qDebug() << "Last Name: " << lastName;
-    qDebug() << "Password: " << password;
-    qDebug() << "Role: " << role;
-    qDebug() << "Username: " << username;
+        if (firstName.isEmpty()) {
+            error += "<font color='red'>First Name is missing. </font>\n";
+        }
 
-    // Display the error message in the error text object
-    ui->display_error->setText(error);
+        if (lastName.isEmpty()) {
+            error += "<font color='red'>Last Name is missing. </font>\n";
+        }
 
-    // Check if there are missing fields, and if not, proceed to the next step
-    if (!error.isEmpty()) {
-        ui->display_error->setText(error);
-        ui->display_error->setVisible(true); // Show the error message
+        if (password.isEmpty()) {
+            error += "<font color='red'>Password is missing. </font>\n";
+        }
+
+        if (role.isEmpty()) {
+            error += "<font color='red'>Role is missing. </font>\n";
+        }
+
+        if (username.isEmpty()) {
+            error += "<font color='red'>Username is missing. </font>\n";
+        }
+
+
     } else {
-        ui->display_error->setVisible(false); // Hide the error message if there are no missing fields
+        QString dbHostName = "aws-dbtest.cjqugotdygrg.eu-central-1.rds.amazonaws.com";
+        QString dbName = "scrummy";
+        QString dbUserName = "admin";
+        QString dbPassword = "sofproj23";
+
+        DatabaseManager dbobj(dbHostName, dbName, dbUserName, dbPassword);
+        QSqlDatabase database = dbobj.getDatabase();
+
+        if (database.isOpen()) {
+            qDebug() << "Database is conencted in the Registration class!";
+
+        }else{
+            qDebug() << "Database is not conencted in the Registration class!";
+        }
+    }
+    /*
+    QSqlQuery query;
+    query.prepare("INSERT INTO User (firstName, lastName, password, role, username) "
+                  "VALUES (:firstName, :lastName, :password, :role, :username)");
+    query.bindValue(":firstName", firstName);
+    query.bindValue(":lastName", lastName);
+    query.bindValue(":password", password);
+    query.bindValue(":role", role);
+    query.bindValue(":username", username);
+
+    if (query.exec()) {
+        qDebug() << "Data inserted successfully into User table!";
+    } else {
+        qDebug() << "Failed to insert data into User table. Error:" << query.lastError().text();
     }
 
+
+    */
 
 
 
