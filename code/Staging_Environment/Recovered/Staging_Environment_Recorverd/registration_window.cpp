@@ -86,10 +86,10 @@ void registration_window::storeInputValues() {
         QSqlDatabase dbobj = database.getDatabase();
 
         if (dbobj.isOpen()) {
-            qDebug() << "Database is connected in the Registration class!";
+            qDebug() << "Connection Established - Registration class!";
             dbobj.close(); // Close the database connection
         } else {
-            qDebug() << "Database is not connected in the Registration class!";
+            qDebug() << "Connection Not Established - Registration class!";
         }
     }
 }
