@@ -10,9 +10,9 @@ DatabaseManager::DatabaseManager() {
     db.setPassword("sofproj23");
 
     if (!db.open()) {
-        qDebug() << "Failed to open database connection:" << db.lastError().text();
+        qDebug() << "Connection Not Established - Database Class:" << db.lastError().text();
     } else {
-        qDebug() << "Connected to the database!";
+        qDebug() << "Connection Established - Database Class!";
     }
 }
 QSqlDatabase DatabaseManager::getDatabase() const {
