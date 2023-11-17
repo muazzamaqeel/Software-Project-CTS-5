@@ -11,7 +11,7 @@ private:
 
 public:
 
-    DatabaseManager(const QString& hostName, const QString& dbName, const QString& userName, const QString& password);
+    DatabaseManager();
     QSqlDatabase getDatabase() const;
 
     ~DatabaseManager();
