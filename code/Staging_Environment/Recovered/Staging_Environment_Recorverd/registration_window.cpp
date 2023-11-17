@@ -81,14 +81,8 @@ void registration_window::storeInputValues() {
         // Hide the error message if there are no missing fields
         ui->display_error->setVisible(false);
 
-        // Database connection parameters
-        QString dbHostName = "aws-dbtest.cjqugotdygrg.eu-central-1.rds.amazonaws.com";
-        QString dbName = "scrummy";
-        QString dbUserName = "admin";
-        QString dbPassword = "sofproj23";
-
         // Create a DatabaseManager object and attempt to establish a database connection
-        DatabaseManager database(dbHostName, dbName, dbUserName, dbPassword);
+        DatabaseManager database;
         QSqlDatabase dbobj = database.getDatabase();
 
         if (dbobj.isOpen()) {

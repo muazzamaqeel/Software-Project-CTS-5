@@ -2,12 +2,12 @@
 #include <QDebug>
 #include <QtSql/QSqlError>
 
-DatabaseManager::DatabaseManager(const QString& hostName, const QString& dbName, const QString& userName, const QString& password) {
+DatabaseManager::DatabaseManager() {
     db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName(hostName);
-    db.setDatabaseName(dbName);
-    db.setUserName(userName);
-    db.setPassword(password);
+    db.setHostName("aws-dbtest.cjqugotdygrg.eu-central-1.rds.amazonaws.com");
+    db.setDatabaseName("scrummy");
+    db.setUserName("admin");
+    db.setPassword("sofproj23");
 
     if (!db.open()) {
         qDebug() << "Failed to open database connection:" << db.lastError().text();
