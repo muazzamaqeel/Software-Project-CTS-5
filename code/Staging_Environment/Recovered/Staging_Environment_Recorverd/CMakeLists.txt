@@ -9,8 +9,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql)  # Add Sql here
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql)  # Add Sql here
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql Test)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql Test)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -34,18 +34,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         projectcreation.h projectcreation.cpp projectcreation.ui
         backlog.cpp backlog.h backlog.ui issuecreation.h issuecreation.cpp issuecreation.ui
         databasemanager.h databasemanager.cpp
+        qtunittest.h qtunittest.cpp
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET Staging_Environment_Recorverd APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
         add_library(Staging_Environment_Recorverd SHARED
             ${PROJECT_SOURCES}
         )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(Staging_Environment_Recorverd
             ${PROJECT_SOURCES}
@@ -53,11 +48,8 @@ else()
     endif()
 endif()
 
-target_link_libraries(Staging_Environment_Recorverd PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql)  # Add Sql here
+target_link_libraries(Staging_Environment_Recorverd PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::Test)
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.Staging_Environment_Recorverd)
 endif()

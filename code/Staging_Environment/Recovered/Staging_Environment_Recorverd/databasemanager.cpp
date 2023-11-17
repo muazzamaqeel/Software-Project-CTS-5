@@ -22,6 +22,6 @@ QSqlDatabase DatabaseManager::getDatabase() const {
 DatabaseManager::~DatabaseManager(){
     if (db.isOpen()) {
         db.close();
-        qDebug() << "Database connection closed.";
+        qDebug() << "Database connection closed - Database Class.";
     }
 }

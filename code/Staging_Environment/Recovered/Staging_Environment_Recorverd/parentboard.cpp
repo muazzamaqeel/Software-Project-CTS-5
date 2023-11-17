@@ -37,6 +37,12 @@ void parentboard::on_backlogButton_clicked()
 void parentboard::on_sprintsButton_clicked()
 {
         ui->stackedWidget->setCurrentIndex(2);
+
+
+
+
+
+
 }
 
 void parentboard::on_confluenceButton_clicked()
