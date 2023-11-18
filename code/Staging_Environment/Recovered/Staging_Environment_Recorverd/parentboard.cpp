@@ -15,13 +15,8 @@ parentboard::parentboard(QWidget *parent) :
 
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
 
-    QPixmap pix("../softwareproject/code/Staging_Environment/Recovered/Staging_Environment_Recorverd/assets/Logo.svg");
-    if (pix.isNull()) {
-        qDebug() << "Failed to load Logo.svg";
-    } else {
-        qDebug() << "Loaded Logo.svg successfully";
-        ui->logo->setPixmap(pix);
-    }
+    QPixmap pix(":assets/Logo.svg");
+    ui->logo->setPixmap(pix);
 
 
 
