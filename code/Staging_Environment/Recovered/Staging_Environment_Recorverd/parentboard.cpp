@@ -3,6 +3,9 @@
 
 #include "mainwindow.h"
 #include "sprints.h"
+#include <QCoreApplication>
+#include <QDir>
+#include <QFileInfo>
 
 parentboard::parentboard(QWidget *parent) :
     QWidget(parent),
@@ -10,20 +13,31 @@ parentboard::parentboard(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow())); // Connect the "exit" button to go back
-    //connect(ui->settingsButton, SIGNAL(clicked()), this, SLOT(openSettings()));
+    connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
 
-    //loading logo
-    QPixmap pix(":/Logo.svg");
-    ui->logo->setPixmap(pix);
+    QPixmap pix("../softwareproject/code/Staging_Environment/Recovered/Staging_Environment_Recorverd/assets/Logo.svg");
+    if (pix.isNull()) {
+        qDebug() << "Failed to load Logo.svg";
+    } else {
+        qDebug() << "Loaded Logo.svg successfully";
+        ui->logo->setPixmap(pix);
+    }
+
+
 
 }
 
-    parentboard::~parentboard()
-    {
-        delete ui;
-    }
-    
+parentboard::~parentboard()
+{
+    delete ui;
+}
+
+// Rest of your functions remain unchanged...
+
+// Rest of your functions remain unchanged...
+
+
+
     void parentboard::on_taskboardButton_clicked()
     {
         ui->stackedWidget->setCurrentIndex(0);
