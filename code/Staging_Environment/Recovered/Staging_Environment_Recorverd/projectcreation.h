@@ -17,6 +17,11 @@ public:
 
 private:
     Ui::ProjectCreation *ui;
+
+
+
 };
+
+
 
 #endif // PROJECTCREATION_H

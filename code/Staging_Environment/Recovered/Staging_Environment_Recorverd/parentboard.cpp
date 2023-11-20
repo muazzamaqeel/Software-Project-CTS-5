@@ -1,11 +1,13 @@
 #include "parentboard.h"
 #include "ui_parentboard.h"
-
 #include "mainwindow.h"
-#include "sprints.h"
 #include <QCoreApplication>
 #include <QDir>
 #include <QFileInfo>
+#include <QInputDialog>
+#include <QStandardItemModel>
+#include <QDebug> // Include qDebug for debugging
+#include <QTableView>
 
 parentboard::parentboard(QWidget *parent) :
     QWidget(parent),
@@ -13,13 +15,15 @@ parentboard::parentboard(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    taskModel = new QStandardItemModel(this);
+    taskModel->setColumnCount(2);
+
+    // Set the table widget model to the taskModel
+    ui->sprint_table->setColumnCount(2);
+    ui->sprint_table->setHorizontalHeaderLabels({"Task Name", "Description"}); // Set column headers
+
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
-
-    QPixmap pix(":assets/Logo.svg");
-    ui->logo->setPixmap(pix);
-
-
-
+    connect(ui->create_task_button, SIGNAL(clicked()), this, SLOT(on_createtask_sprint_clicked()));
 }
 
 parentboard::~parentboard()
@@ -42,7 +46,7 @@ parentboard::~parentboard()
     {
         ui->stackedWidget->setCurrentIndex(1);
     }
-    
+
     void parentboard::on_sprintsButton_clicked()
     {
             ui->stackedWidget->setCurrentIndex(2);
@@ -50,18 +54,32 @@ parentboard::~parentboard()
         // Example code to add 5 new rows to the table widget
         const int numOfRowsToAdd = 3; // Change this number as per your requirement
 
-            QTableWidget* tableWidget = ui->pb_backlog_userstories; // Assuming pb_backlog_tableWidget is the name of your table widget
-
-        int currentRowCount = tableWidget->rowCount();
-        for (int i = 0; i < numOfRowsToAdd; ++i) {
-            tableWidget->insertRow(currentRowCount + i);
-            // You can populate the cells with data here if needed
-            // Example: tableWidget->setItem(currentRowCount + i, columnNumber, new QTableWidgetItem("Data"));
-        }
-
-
-    
     }
+
+    void parentboard::on_createtask_sprint_clicked() {
+        qDebug() << "Create task sprint button clicked.";
+
+        QString taskName = QInputDialog::getText(this, "Enter Task Name", "Task Name:");
+        QString taskDescription = QInputDialog::getText(this, "Enter Task Description", "Task Description:");
+
+        addTask(taskName, taskDescription);
+
+        qDebug() << "Task Name: " << taskName;
+        qDebug() << "Task Description: " << taskDescription;
+    }
+
+
+    void parentboard::addTask(const QString& taskName, const QString& description) {
+        int row = ui->sprint_table->rowCount(); // Get the current row count
+        ui->sprint_table->insertRow(row); // Insert a new row at the end
+
+        QTableWidgetItem *nameItem = new QTableWidgetItem(taskName);
+        QTableWidgetItem *descriptionItem = new QTableWidgetItem(description);
+
+        ui->sprint_table->setItem(row, 0, nameItem); // Set task name in the first column
+        ui->sprint_table->setItem(row, 1, descriptionItem); // Set description in the second column
+    }
+
 
 
 
@@ -73,11 +91,10 @@ void parentboard::on_confluenceButton_clicked()
 
 
 
-void parentboard::goBackToMainWindow()
-{
-        close(); // Hide the ParentBoard window
-        MainWindow* mainWindow = new MainWindow; // Create a new instance of the main window
-        mainWindow->showMaximized(); // Show the main window
+void parentboard::goBackToMainWindow() {
+        close();
+        MainWindow* mainWindow = new MainWindow;
+        mainWindow->showMaximized();
 }
 
 

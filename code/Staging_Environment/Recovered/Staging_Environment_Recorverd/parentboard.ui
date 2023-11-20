@@ -108,7 +108,7 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <widget class="QLabel" name="selectorT">
@@ -920,7 +920,7 @@ color: rgb(255, 255, 255);
       </property>
      </item>
     </widget>
-    <widget class="QPushButton" name="createtask_sprint">
+    <widget class="QPushButton" name="create_task_button">
      <property name="geometry">
       <rect>
        <x>870</x>
@@ -1037,6 +1037,16 @@ color: rgb(0, 0, 0);
       <string/>
      </property>
     </widget>
+    <widget class="QTableWidget" name="sprint_table">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>130</y>
+       <width>691</width>
+       <height>441</height>
+      </rect>
+     </property>
+    </widget>
     <zorder>toplabelB_2</zorder>
     <zorder>selectorB_2</zorder>
     <zorder>selectorS</zorder>
@@ -1045,8 +1055,9 @@ color: rgb(0, 0, 0);
     <zorder>sprint_top_down</zorder>
     <zorder>create_sprint_button</zorder>
     <zorder>edit_sprint_button</zorder>
-    <zorder>createtask_sprint</zorder>
+    <zorder>create_task_button</zorder>
     <zorder>textBrowser</zorder>
+    <zorder>sprint_table</zorder>
    </widget>
    <widget class="QWidget" name="confluencePage">
     <widget class="QLabel" name="selectorC">
