@@ -47,41 +47,24 @@ parentboard::~parentboard()
     {
             ui->stackedWidget->setCurrentIndex(2);
 
+        // Example code to add 5 new rows to the table widget
+        const int numOfRowsToAdd = 3; // Change this number as per your requirement
+
+            QTableWidget* tableWidget = ui->pb_backlog_userstories; // Assuming pb_backlog_tableWidget is the name of your table widget
+
+        int currentRowCount = tableWidget->rowCount();
+        for (int i = 0; i < numOfRowsToAdd; ++i) {
+            tableWidget->insertRow(currentRowCount + i);
+            // You can populate the cells with data here if needed
+            // Example: tableWidget->setItem(currentRowCount + i, columnNumber, new QTableWidgetItem("Data"));
+        }
 
 
-
-        ///Muazzam
-        ///In order to open a window on top of another window
-        // Sprints *sprintsWindow = new Sprints(this); // Assuming Sprint is a QDialog or QWidget
-        // Set the sprint window as a modal to block interaction with parentboard window
-        // sprintsWindow->setWindowModality(Qt::WindowModal);
-        // Show the sprint window
-        //sprintsWindow->show();
     
     }
 
 
 
-    ///Cosmin
-
-    // Settings button might not make it to the other windows besides MainWindow
-    //void parentboard::openSettings()
-    //{
-
-    //        close();
-    //        Settings* settingWindow = new Settings;
-    //        settingWindow -> showMaximized();
-
-    //}
-
-    //void parentboard::goBackToParentBoard()
-    //{
-    //        hide(); // Hide the settings window
-    //        parentboard* parentBoard = new parentboard;
-    //        parentBoard->showMaximized();
-    //}
-
-    //to be replaced with the Projects window
 
 void parentboard::on_confluenceButton_clicked()
 {
@@ -98,7 +81,34 @@ void parentboard::goBackToMainWindow()
 }
 
 
+///Muazzam
+///In order to open a window on top of another window
+// Sprints *sprintsWindow = new Sprints(this); // Assuming Sprint is a QDialog or QWidget
+// Set the sprint window as a modal to block interaction with parentboard window
+// sprintsWindow->setWindowModality(Qt::WindowModal);
+// Show the sprint window
+//sprintsWindow->show();
 
+///Cosmin
+
+// Settings button might not make it to the other windows besides MainWindow
+//void parentboard::openSettings()
+//{
+
+//        close();
+//        Settings* settingWindow = new Settings;
+//        settingWindow -> showMaximized();
+
+//}
+
+//void parentboard::goBackToParentBoard()
+//{
+//        hide(); // Hide the settings window
+//        parentboard* parentBoard = new parentboard;
+//        parentBoard->showMaximized();
+//}
+
+//to be replaced with the Projects window
 
 
 
