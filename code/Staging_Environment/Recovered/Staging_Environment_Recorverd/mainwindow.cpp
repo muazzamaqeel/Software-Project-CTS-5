@@ -19,7 +19,6 @@ MainWindow::MainWindow(QWidget *parent)
     QPixmap pix("C:/programming/softwareproject/softwareproject/code/Production_Environment/SP23/assets/mainwindow/1.jpg");
     ui->bg_main->setPixmap(pix);
 
-
     //Buttons on the mainwindow
     // Using the connect function to call the openRegistrationWindow() function
     connect(ui->registerbutton_main, SIGNAL(clicked()), this, SLOT(openRegistrationWindow()));
@@ -36,11 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     //temporary Aida's test
     connect(ui->ProjectCreationTesButton, SIGNAL(clicked()), this, SLOT(openProjectcreationTest()));
 
-
-
-
 }
-
 
 void MainWindow::openIssueWindow()
 {
@@ -48,6 +43,7 @@ void MainWindow::openIssueWindow()
     IssueCreation* issueWindow = new IssueCreation;
     issueWindow -> showMaximized();
 }
+
 void MainWindow::openProjectcreationTest(){
     close();
     ProjectCreation* Project_Creation= new ProjectCreation;
@@ -55,29 +51,28 @@ void MainWindow::openProjectcreationTest(){
 
 }
 
-
-
-
 // Function that opens the registration_window
 void MainWindow::openRegistrationWindow()
 {
     // qDebug() << "Register button clicked.";
 
     // To close the MainWindow screen when the registration window is opened
-    close();
+    hide();
 
     // Create an instance of the registration window
     registration_window* registrationWindow = new registration_window;
     registrationWindow->showMaximized();
+    ui->~MainWindow();
 }
 
 // Function that opens the settings_windows
 void MainWindow::openSettings()
 {
 
-    close();
+    hide();
     Settings* settingWindow = new Settings;
     settingWindow -> showMaximized();
+    ui->~MainWindow();
 
 }
 void MainWindow::closeApp()
@@ -85,6 +80,7 @@ void MainWindow::closeApp()
     QApplication::quit(); // This will close the application.
 }
 
+// Why is this defined here ? - Wesley
 void Settings::goBackToMainWindow()
 {
     hide(); // Hide the settings window
@@ -98,11 +94,12 @@ void MainWindow::openParentBoard()
     // qDebug() << "Parentboard button clicked.";
 
     // To close the MainWindow screen when the registration window is opened
-    close();
+    hide();
 
     // Create an instance of the parentboard window
     parentboard* parentBoard = new parentboard;
     parentBoard->showMaximized();
+    ui->~MainWindow();
 }
 
 // Destructor to avoid memory leak problems
