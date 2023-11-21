@@ -23,8 +23,12 @@ private slots:
     void on_sprintsButton_clicked();
     void on_confluenceButton_clicked();
     void on_createtask_sprint_clicked();
+    void on_createuserstories_backlog_clicked();
+    void on_createissues_clicked();
     void goBackToMainWindow();
     void addTask(const QString& taskName, const QString& description); // Renamed slot
+    void addBacklog(const QString& taskName, const QString& description); // Renamed slot
+    void addIssues(const QString& taskName, const QString& description);
 
 private:
     Ui::parentboard *ui;
