@@ -28,3 +28,8 @@ int main(int argc, char *argv[]) {
     //QTest::qExec(&testObject, argc, argv);
     return app.exec();
 }
+
+
+
+
+//Test
