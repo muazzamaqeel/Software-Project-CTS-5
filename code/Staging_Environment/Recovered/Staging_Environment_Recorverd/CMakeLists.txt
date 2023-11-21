@@ -35,6 +35,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         backlog.cpp backlog.h backlog.ui issuecreation.h issuecreation.cpp issuecreation.ui
         databasemanager.h databasemanager.cpp
         qtunittest.h qtunittest.cpp
+        adminstrator.h adminstrator.cpp adminstrator.ui
     )
 else()
     if(ANDROID)
