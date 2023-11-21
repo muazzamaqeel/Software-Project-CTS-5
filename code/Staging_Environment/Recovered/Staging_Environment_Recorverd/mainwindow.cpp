@@ -1,11 +1,13 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QPixmap>
+#include "adminstrator.h"
 #include "projectcreation.h"
 #include "registration_window.h"
 #include "settings.h"
 #include "issuecreation.h"
 #include "parentboard.h"
+#include "adminstrator.h"
 
 
 // Constructor of MainWindow Class
@@ -32,8 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
     // temporary
     connect(ui->parentboardButton, SIGNAL(clicked()), this, SLOT(openParentBoard()));
 
-    //temporary Aida's test
-    connect(ui->ProjectCreationTesButton, SIGNAL(clicked()), this, SLOT(openProjectcreationTest()));
+    //temporary
+    connect(ui->adminButton, SIGNAL(clicked()), this, SLOT(adminLogin()));
 
 }
 
@@ -44,10 +46,12 @@ void MainWindow::openIssueWindow()
     issueWindow -> showMaximized();
 }
 
-void MainWindow::openProjectcreationTest(){
-    close();
-    ProjectCreation* Project_Creation= new ProjectCreation;
-    Project_Creation->showMaximized();
+// testing button
+void MainWindow::adminLogin()
+{
+    hide();
+    adminstrator* adminLogin = new adminstrator;
+    adminLogin->showMaximized();
 
 }
 
