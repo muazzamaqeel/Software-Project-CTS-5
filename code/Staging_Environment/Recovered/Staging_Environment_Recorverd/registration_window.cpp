@@ -44,18 +44,37 @@ void registration_window::FromRegToMainWindow()
 
 // Function to store user input values and display them for testing
 void registration_window::storeInputValues() {
+    QString selectedOption = ui->comboBox_role->currentText(); // Get the text of the selected item
 
     // Capture user input from various fields
     firstName = ui->input_firstname->text();
     lastName = ui->input_lastname->text();
     password = ui->input_password->text();
-    role = ui->input_role->text();
+    email = ui->input_email->text();
     username = ui->input_username->text();
+
+    int roleid = -1;
+
+    if (selectedOption == "Product Owner") {
+        roleid =2;
+
+    } else if (selectedOption == "Scrum Master") {
+
+        roleid =1;
+    } else if (selectedOption == "Team") {
+
+        roleid =3;
+    }else{
+        qDebug() << "Error with the combobox";
+    }
+
+    qDebug() << "Role ID: " << roleid;
+
 
     QString error = "";
 
     // Check for missing fields
-    if(firstName.isEmpty() || lastName.isEmpty()|| password.isEmpty() || role.isEmpty() || username.isEmpty()){
+    if(firstName.isEmpty() || lastName.isEmpty()|| password.isEmpty() || email.isEmpty() || username.isEmpty()){
         if (firstName.isEmpty()) {
             error += "<font color='red'>First Name is missing. </font>\n";
         }
@@ -65,7 +84,7 @@ void registration_window::storeInputValues() {
         if (password.isEmpty()) {
             error += "<font color='red'>Password is missing. </font>\n";
         }
-        if (role.isEmpty()) {
+        if (email.isEmpty()) {
             error += "<font color='red'>Role is missing. </font>\n";
         }
         if (username.isEmpty()) {
@@ -87,6 +106,35 @@ void registration_window::storeInputValues() {
 
         if (dbobj.isOpen()) {
             qDebug() << "Connection Established - Registration class!";
+
+            // Prepare the SQL query to insert data into the User table
+            QSqlQuery query(dbobj);
+
+            // Construct the SQL command
+            QString insertQuery = "INSERT INTO User (firstname, lastname, password, email, username, Role_idRole) "
+                                  "VALUES (:firstname, :lastname, :password, :email, :username, :roleid)";
+
+            // Prepare the query with the command
+            query.prepare(insertQuery);
+
+            // Bind values to the query placeholders
+            query.bindValue(":firstname", firstName);
+            query.bindValue(":lastname", lastName);
+            query.bindValue(":password", password);
+            query.bindValue(":email", email);
+            query.bindValue(":username", username);
+            query.bindValue(":email", email);
+            query.bindValue(":roleid", roleid);
+
+
+
+            // Execute the query
+            if (query.exec()) {
+                qDebug() << "Data inserted into User table successfully!";
+            } else {
+                qDebug() << "Failed to insert data into User table:" << query.lastError().text();
+            }
+
             dbobj.close(); // Close the database connection
         } else {
             qDebug() << "Connection Not Established - Registration class!";
