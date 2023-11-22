@@ -54,10 +54,10 @@ LaunchScreen::LaunchScreen(QWidget *parent) :
         // Replace MainWindow with the name of your main window class
         //qDebug() << "LaunchScreen: Animation finished. Opening MainWindow.";
         MainWindow *mainWindow = new MainWindow;
+        hide();
         mainWindow->show();
 
-        // Close the launch screen
-        close();
+        ui->~LaunchScreen();
     });
 
     //qDebug() << "Animation signal connected.";

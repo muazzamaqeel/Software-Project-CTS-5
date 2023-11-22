@@ -37,9 +37,11 @@ void registration_window::closeApp()
 // Function to switch from the registration window to the main window
 void registration_window::FromRegToMainWindow()
 {
-    hide(); // Hide the registration window
+
     MainWindow* mainWindow = new MainWindow; // Create a new instance of the main window
+    hide(); // Hide the registration window
     mainWindow->showMaximized(); // Show the main window
+    ui->~registration_window();
 }
 
 // Function to store user input values and display them for testing

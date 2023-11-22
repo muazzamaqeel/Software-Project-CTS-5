@@ -27,8 +27,10 @@ private slots:
     void on_createissues_clicked();
     void goBackToMainWindow();
     void addTask(const QString& taskName, const QString& description); // Renamed slot
-    void addBacklog(const QString& taskName, const QString& description); // Renamed slot
-    void addIssues(const QString& taskName, const QString& description);
+    // Add priority parameter to addBacklog and addIssues functions
+    void addBacklog(const QString& taskName, const QString& description, int priority);
+    void addIssues(const QString& taskName, const QString& description, int priority);
+
 
 private:
     Ui::parentboard *ui;
