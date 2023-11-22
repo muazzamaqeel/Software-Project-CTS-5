@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QPixmap>
-#include "adminstrator.h"
-#include "projectcreation.h"
 #include "registration_window.h"
 #include "settings.h"
 #include "issuecreation.h"
@@ -31,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(closeApp()));
 
-    // temporary
+    //temporary
     connect(ui->parentboardButton, SIGNAL(clicked()), this, SLOT(openParentBoard()));
 
     //temporary
@@ -44,15 +42,6 @@ void MainWindow::openIssueWindow()
     close();
     IssueCreation* issueWindow = new IssueCreation;
     issueWindow -> showMaximized();
-}
-
-// testing button
-void MainWindow::adminLogin()
-{
-    hide();
-    adminstrator* adminLogin = new adminstrator;
-    adminLogin->showMaximized();
-
 }
 
 // Function that opens the registration_window
@@ -97,12 +86,26 @@ void MainWindow::openParentBoard()
 {
     // qDebug() << "Parentboard button clicked.";
 
-    // To close the MainWindow screen when the registration window is opened
+    // To close the MainWindow screen when the parentboard window is opened
     hide();
 
     // Create an instance of the parentboard window
     parentboard* parentBoard = new parentboard;
     parentBoard->showMaximized();
+    ui->~MainWindow();
+}
+
+// temporary - Cosmin
+void MainWindow::adminLogin()
+{
+    // qDebug() << "Administrator button clicked.";
+
+    // To close the MainWindow screen when the admininstrator window is opened
+    hide();
+
+    // Create an instance of the parentboard window
+    adminstrator* adminLogin = new adminstrator;
+    adminLogin->showMaximized();
     ui->~MainWindow();
 }
 
