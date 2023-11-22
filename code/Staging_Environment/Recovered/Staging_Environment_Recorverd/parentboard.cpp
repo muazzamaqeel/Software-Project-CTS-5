@@ -23,12 +23,12 @@ parentboard::parentboard(QWidget *parent) :
     ui->sprint_table->setHorizontalHeaderLabels({"Task Name", "Description"}); // Set column headers
 
     // Set table for Userstories
-    ui->user_stories->setColumnCount(2);
-    ui->user_stories->setHorizontalHeaderLabels({"Userstory", "Description"}); // Set column headers
+    ui->user_stories->setColumnCount(3); // Add a new column for priority
+    ui->user_stories->setHorizontalHeaderLabels({"Userstory", "Description", "Priority"}); // Set column headers
 
-    // Set table for Userstories
-    ui->issues->setColumnCount(2);
-    ui->issues->setHorizontalHeaderLabels({"Issue", "Description"}); // Set column headers
+    // Set table for Issues
+    ui->issues->setColumnCount(3); // Add a new column for priority
+    ui->issues->setHorizontalHeaderLabels({"Issue", "Description", "Priority"}); // Set column headers
 
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
     connect(ui->create_task_button, SIGNAL(clicked()), this, SLOT(on_createtask_sprint_clicked()));
@@ -95,51 +95,68 @@ parentboard::~parentboard()
 
 
     void parentboard::on_createuserstories_backlog_clicked() {
-        qDebug() << "Create task sprint button clicked.";
+        qDebug() << "Create user story button clicked.";
 
         QString taskName = QInputDialog::getText(this, "Enter Userstory", "Userstory:");
         QString taskDescription = QInputDialog::getText(this, "Enter Userstory", "Userstory Description:");
+        bool ok;
+        int priority = QInputDialog::getInt(this, "Enter Priority", "Priority:", 1, 1, 3, 1, &ok);
 
-        addBacklog(taskName, taskDescription);
-
-        qDebug() << "Userstory: " << taskName;
-        qDebug() << "Userstory Description: " << taskDescription;
+        if (ok) {
+            addBacklog(taskName, taskDescription, priority);
+            qDebug() << "Userstory: " << taskName;
+            qDebug() << "Userstory Description: " << taskDescription;
+            qDebug() << "Priority: " << priority;
+        }
     }
 
 
-    void parentboard::addBacklog(const QString& taskName, const QString& description) {
+    void parentboard::addBacklog(const QString& taskName, const QString& description, int priority) {
         int row = ui->user_stories->rowCount(); // Get the current row count
         ui->user_stories->insertRow(row); // Insert a new row at the end
 
         QTableWidgetItem *nameItem = new QTableWidgetItem(taskName);
         QTableWidgetItem *descriptionItem = new QTableWidgetItem(description);
 
-        ui->user_stories->setItem(row, 0, nameItem); // Set task name in the first column
-        ui->user_stories->setItem(row, 1, descriptionItem); // Set description in the second column
+        // Set task name and description in the first and second columns
+        ui->user_stories->setItem(row, 0, nameItem);
+        ui->user_stories->setItem(row, 1, descriptionItem);
+
+        // Set priority in the third column
+        QTableWidgetItem *priorityItem = new QTableWidgetItem(QString::number(priority));
+        ui->user_stories->setItem(row, 2, priorityItem);
     }
 
     void parentboard::on_createissues_clicked() {
-        qDebug() << "Create task sprint button clicked.";
+        qDebug() << "Create issue button clicked.";
 
         QString taskName = QInputDialog::getText(this, "Enter Issue", "Issue:");
         QString taskDescription = QInputDialog::getText(this, "Enter Issue Description", "Issue Description:");
+        bool ok;
+        int priority = QInputDialog::getInt(this, "Enter Priority", "Priority:", 1, 1, 3, 1, &ok);
 
-        addIssues(taskName, taskDescription);
-
-        qDebug() << "Issue: " << taskName;
-        qDebug() << "Issue Description: " << taskDescription;
+        if (ok) {
+            addIssues(taskName, taskDescription, priority);
+            qDebug() << "Issue: " << taskName;
+            qDebug() << "Issue Description: " << taskDescription;
+            qDebug() << "Priority: " << priority;
+        }
     }
 
-
-    void parentboard::addIssues(const QString& taskName, const QString& description) {
+    void parentboard::addIssues(const QString& taskName, const QString& description, int priority) {
         int row = ui->issues->rowCount(); // Get the current row count
         ui->issues->insertRow(row); // Insert a new row at the end
 
         QTableWidgetItem *nameItem = new QTableWidgetItem(taskName);
         QTableWidgetItem *descriptionItem = new QTableWidgetItem(description);
 
-        ui->issues->setItem(row, 0, nameItem); // Set task name in the first column
-        ui->issues->setItem(row, 1, descriptionItem); // Set description in the second column
+        // Set task name and description in the first and second columns
+        ui->issues->setItem(row, 0, nameItem);
+        ui->issues->setItem(row, 1, descriptionItem);
+
+        // Set priority in the third column
+        QTableWidgetItem *priorityItem = new QTableWidgetItem(QString::number(priority));
+        ui->issues->setItem(row, 2, priorityItem);
     }
 
 void parentboard::on_confluenceButton_clicked()
