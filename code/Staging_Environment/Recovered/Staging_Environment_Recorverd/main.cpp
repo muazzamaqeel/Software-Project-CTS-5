@@ -8,7 +8,7 @@
 #include <iostream>
 #include <QtSql/QSqlError>
 #include <QtTest/QTest>
-#include "qtunittest.h"
+//#include "qtunittest.h"
 // Remove this line if it's causing issues or make sure the moc file is generated correctly
 //#include "testqstring.moc"
 

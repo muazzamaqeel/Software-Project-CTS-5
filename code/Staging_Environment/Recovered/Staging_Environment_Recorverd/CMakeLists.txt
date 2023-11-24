@@ -37,6 +37,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         qtunittest.h qtunittest.cpp
         adminstrator.h adminstrator.cpp adminstrator.ui
         launchscreen.h launchscreen.cpp launchscreen.ui
+        projectsadmin.h projectsadmin.cpp projectsadmin.ui
     )
 else()
     if(ANDROID)

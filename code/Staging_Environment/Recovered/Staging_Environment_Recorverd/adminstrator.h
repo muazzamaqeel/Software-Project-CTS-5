@@ -15,6 +15,10 @@ public:
     explicit adminstrator(QWidget *parent = nullptr);
     ~adminstrator();
 
+public slots:
+    void previousWindow();
+    void projectSelection();
+
 private:
     Ui::adminstrator *ui;
 };
