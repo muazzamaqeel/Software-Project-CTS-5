@@ -38,6 +38,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         adminstrator.h adminstrator.cpp adminstrator.ui
         launchscreen.h launchscreen.cpp launchscreen.ui
         projectsadmin.h projectsadmin.cpp projectsadmin.ui
+        pb_confluence_implemenation.h pb_confluence_implemenation.cpp
+        pb_productbacklog_implementation.h pb_productbacklog_implementation.cpp
+        pb_sprint_implemenation.h pb_sprint_implemenation.cpp
     )
 else()
     if(ANDROID)

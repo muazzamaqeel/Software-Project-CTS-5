@@ -1,4 +1,6 @@
 #include "parentboard.h"
+#include "pb_productbacklog_implementation.h"
+#include "pb_sprint_implemenation.h"
 #include "ui_parentboard.h"
 #include "mainwindow.h"
 #include <QCoreApplication>
@@ -6,8 +8,11 @@
 #include <QFileInfo>
 #include <QInputDialog>
 #include <QStandardItemModel>
-#include <QDebug> // Include qDebug for debugging
+#include <QDebug>
 #include <QTableView>
+#include "pb_confluence_implemenation.h"
+#include "pb_productbacklog_implementation.h"
+
 
 parentboard::parentboard(QWidget *parent) :
     QWidget(parent),
@@ -17,190 +22,95 @@ parentboard::parentboard(QWidget *parent) :
 
     taskModel = new QStandardItemModel(this);
     taskModel->setColumnCount(2);
-
-    // Set the table widget model to the taskModel
     ui->sprint_table->setColumnCount(2);
     ui->sprint_table->setHorizontalHeaderLabels({"Task Name", "Description"}); // Set column headers
-
-    // Set table for Userstories
     ui->user_stories->setColumnCount(3); // Add a new column for priority
     ui->user_stories->setHorizontalHeaderLabels({"Userstory", "Description", "Priority"}); // Set column headers
-
-    // Set table for Issues
     ui->issues->setColumnCount(3); // Add a new column for priority
     ui->issues->setHorizontalHeaderLabels({"Issue", "Description", "Priority"}); // Set column headers
 
+    parentboard *obj = this; // Create an instance of parentboard
+    pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);  //Accessing the pb_productbacklog_implementation class
+    pb_sprint_implemenation *pbSprintBObj = new pb_sprint_implemenation(obj); //Accessing the pb_sprint_implementation class
+
+    //New Connections with the other cpp file methods:
+    connect(ui->button_userstory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createuserstories_backlog_clicked);
+    connect(ui->buttton_issue, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createissues_clicked);
+    connect(ui->create_task_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
+
+    //Old Way
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
-    connect(ui->create_task_button, SIGNAL(clicked()), this, SLOT(on_createtask_sprint_clicked()));
-    connect(ui->button_userstory, SIGNAL(clicked()), this, SLOT(on_createuserstories_backlog_clicked()));
-    connect(ui->buttton_issue, SIGNAL(clicked()), this, SLOT(on_createissues_clicked()));
+    connect(ui->button_userstory, SIGNAL(clicked()), this, SLOT(test()));
+    connect(ui->confluence_backbutton, SIGNAL(clicked()), this, SLOT(confluence_class()));
 
 }
-
+//------------------------------------------------------------------------------------------------------------------------------------------------
 parentboard::~parentboard()
 {
     delete ui;
 }
 
-// Rest of your functions remain unchanged...
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//Top Bar Button's Functions
+//------------------------------------------------------------------------------------------------------------------------------------------------
 
-// Rest of your functions remain unchanged...
-
-
-
-    void parentboard::on_taskboardButton_clicked()
-    {
-        ui->stackedWidget->setCurrentIndex(0);
-        const int numOfRowsToAdd = 3; // Change this number as per your requirement
-    }
-    
-   void parentboard::on_backlogButton_clicked()
-    {
-      ui->stackedWidget->setCurrentIndex(1);
-       const int numOfRowsToAdd = 3; // Change this number as per your requirement
-    }
-
-    void parentboard::on_sprintsButton_clicked()
-    {
-            ui->stackedWidget->setCurrentIndex(2);
-
-        // Example code to add 5 new rows to the table widget
-        const int numOfRowsToAdd = 3; // Change this number as per your requirement
-
-    }
-
-    void parentboard::on_createtask_sprint_clicked() {
-        qDebug() << "Create task sprint button clicked.";
-
-        QString taskName = QInputDialog::getText(this, "Enter Task Name", "Task Name:");
-        QString taskDescription = QInputDialog::getText(this, "Enter Task Description", "Task Description:");
-
-        addTask(taskName, taskDescription);
-
-        qDebug() << "Task Name: " << taskName;
-        qDebug() << "Task Description: " << taskDescription;
-    }
-
-
-    void parentboard::addTask(const QString& taskName, const QString& description) {
-        int row = ui->sprint_table->rowCount(); // Get the current row count
-        ui->sprint_table->insertRow(row); // Insert a new row at the end
-
-        QTableWidgetItem *nameItem = new QTableWidgetItem(taskName);
-        QTableWidgetItem *descriptionItem = new QTableWidgetItem(description);
-
-        ui->sprint_table->setItem(row, 0, nameItem); // Set task name in the first column
-        ui->sprint_table->setItem(row, 1, descriptionItem); // Set description in the second column
-    }
-
-
-    void parentboard::on_createuserstories_backlog_clicked() {
-        qDebug() << "Create user story button clicked.";
-
-        QString taskName = QInputDialog::getText(this, "Enter Userstory", "Userstory:");
-        QString taskDescription = QInputDialog::getText(this, "Enter Userstory", "Userstory Description:");
-        bool ok;
-        int priority = QInputDialog::getInt(this, "Enter Priority", "Priority:", 1, 1, 3, 1, &ok);
-
-        if (ok) {
-            addBacklog(taskName, taskDescription, priority);
-            qDebug() << "Userstory: " << taskName;
-            qDebug() << "Userstory Description: " << taskDescription;
-            qDebug() << "Priority: " << priority;
-        }
-    }
-
-
-    void parentboard::addBacklog(const QString& taskName, const QString& description, int priority) {
-        int row = ui->user_stories->rowCount(); // Get the current row count
-        ui->user_stories->insertRow(row); // Insert a new row at the end
-
-        QTableWidgetItem *nameItem = new QTableWidgetItem(taskName);
-        QTableWidgetItem *descriptionItem = new QTableWidgetItem(description);
-
-        // Set task name and description in the first and second columns
-        ui->user_stories->setItem(row, 0, nameItem);
-        ui->user_stories->setItem(row, 1, descriptionItem);
-
-        // Set priority in the third column
-        QTableWidgetItem *priorityItem = new QTableWidgetItem(QString::number(priority));
-        ui->user_stories->setItem(row, 2, priorityItem);
-    }
-
-    void parentboard::on_createissues_clicked() {
-        qDebug() << "Create issue button clicked.";
-
-        QString taskName = QInputDialog::getText(this, "Enter Issue", "Issue:");
-        QString taskDescription = QInputDialog::getText(this, "Enter Issue Description", "Issue Description:");
-        bool ok;
-        int priority = QInputDialog::getInt(this, "Enter Priority", "Priority:", 1, 1, 3, 1, &ok);
-
-        if (ok) {
-            addIssues(taskName, taskDescription, priority);
-            qDebug() << "Issue: " << taskName;
-            qDebug() << "Issue Description: " << taskDescription;
-            qDebug() << "Priority: " << priority;
-        }
-    }
-
-    void parentboard::addIssues(const QString& taskName, const QString& description, int priority) {
-        int row = ui->issues->rowCount(); // Get the current row count
-        ui->issues->insertRow(row); // Insert a new row at the end
-
-        QTableWidgetItem *nameItem = new QTableWidgetItem(taskName);
-        QTableWidgetItem *descriptionItem = new QTableWidgetItem(description);
-
-        // Set task name and description in the first and second columns
-        ui->issues->setItem(row, 0, nameItem);
-        ui->issues->setItem(row, 1, descriptionItem);
-
-        // Set priority in the third column
-        QTableWidgetItem *priorityItem = new QTableWidgetItem(QString::number(priority));
-        ui->issues->setItem(row, 2, priorityItem);
-    }
-
+void parentboard::on_taskboardButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+    const int numOfRowsToAdd = 3;
+}
+void parentboard::on_backlogButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+    const int numOfRowsToAdd = 3;
+}
+void parentboard::on_sprintsButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+    const int numOfRowsToAdd = 3;
+}
 void parentboard::on_confluenceButton_clicked()
 {
-        ui->stackedWidget->setCurrentIndex(3);
+    ui->stackedWidget->setCurrentIndex(3);
 }
-
-
-
+void parentboard::confluence_class(){
+    PB_Confluence_Implemenation confluence_class_obj;
+    confluence_class_obj.backbutton();
+}
 void parentboard::goBackToMainWindow() {
-        close();
-        MainWindow* mainWindow = new MainWindow;
-        mainWindow->showMaximized();
+    close();
+    MainWindow* mainWindow = new MainWindow;
+    mainWindow->showMaximized();
+}
+//------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//Public Access to the Objects of the parentboard.ui components for the other classes
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//Blacklog
+QTableWidget* parentboard::getUserStoriesTableView() {
+    return ui->user_stories;
+}
+QTableWidget* parentboard::getIssuesTableView() {
+    return ui->issues;
 }
 
-
-///Muazzam
-///In order to open a window on top of another window
-// Sprints *sprintsWindow = new Sprints(this); // Assuming Sprint is a QDialog or QWidget
-// Set the sprint window as a modal to block interaction with parentboard window
-// sprintsWindow->setWindowModality(Qt::WindowModal);
-// Show the sprint window
-//sprintsWindow->show();
-
-///Cosmin
-
-// Settings button might not make it to the other windows besides MainWindow
-//void parentboard::openSettings()
-//{
-
-//        close();
-//        Settings* settingWindow = new Settings;
-//        settingWindow -> showMaximized();
-
-//}
-
-//void parentboard::goBackToParentBoard()
-//{
-//        hide(); // Hide the settings window
-//        parentboard* parentBoard = new parentboard;
-//        parentBoard->showMaximized();
-//}
-
-//to be replaced with the Projects window
+//Sprint
+QTableWidget* parentboard::getSprintTableView() {
+    return ui->sprint_table;
+}
+//Confluence
+QWidget* parentboard::getSomeWidget() {
+    return ui->confluence_backbutton;
+}
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

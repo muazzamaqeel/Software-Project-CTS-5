@@ -16,22 +16,17 @@ class parentboard : public QWidget
 public:
     explicit parentboard(QWidget *parent = nullptr);
     ~parentboard();
-
+    QWidget* getSomeWidget(); // Declare the function
+    QTableWidget* getUserStoriesTableView();
+    QTableWidget* getIssuesTableView();
+    QTableWidget* getSprintTableView();
 private slots:
     void on_taskboardButton_clicked();
     void on_backlogButton_clicked();
     void on_sprintsButton_clicked();
     void on_confluenceButton_clicked();
-    void on_createtask_sprint_clicked();
-    void on_createuserstories_backlog_clicked();
-    void on_createissues_clicked();
     void goBackToMainWindow();
-    void addTask(const QString& taskName, const QString& description); // Renamed slot
-    // Add priority parameter to addBacklog and addIssues functions
-    void addBacklog(const QString& taskName, const QString& description, int priority);
-    void addIssues(const QString& taskName, const QString& description, int priority);
-
-
+    void confluence_class();
 private:
     Ui::parentboard *ui;
     QStandardItemModel *taskModel;
