@@ -10,6 +10,13 @@
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlDriver>
 #include <QtSql/QSqlQuery>
+#include <openssl/ssl.h>
+#include <openssl/crypto.h>
+#include <iomanip>
+#include <openssl/evp.h>
+#include <sstream>
+#include <iomanip>
+#include "hash_utils.h"
 
 // Constructor for the registration window
 registration_window::registration_window(QWidget *parent) :
@@ -43,6 +50,8 @@ void registration_window::FromRegToMainWindow()
     mainWindow->showMaximized(); // Show the main window
     ui->~registration_window();
 }
+
+
 
 // Function to store user input values and display them for testing
 void registration_window::storeInputValues() {
@@ -122,7 +131,12 @@ void registration_window::storeInputValues() {
             // Bind values to the query placeholders
             query.bindValue(":firstname", firstName);
             query.bindValue(":lastname", lastName);
-            query.bindValue(":password", password);
+
+            hash_utils hasobj;
+
+            hash_utils hasher;
+            std::string hashedPassword = hasher.sha256(password.toStdString());
+            query.bindValue(":password", QString::fromStdString(hashedPassword));
             query.bindValue(":email", email);
             query.bindValue(":username", username);
             query.bindValue(":email", email);

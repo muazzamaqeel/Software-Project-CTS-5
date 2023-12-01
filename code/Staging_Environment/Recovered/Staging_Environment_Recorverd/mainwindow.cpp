@@ -1,11 +1,21 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QPixmap>
+#include "databasemanager.h"
+#include "qsqlerror.h"
+#include "qsqlquery.h"
 #include "registration_window.h"
 #include "settings.h"
 #include "issuecreation.h"
 #include "parentboard.h"
 #include "adminstrator.h"
+#include <openssl/ssl.h>
+#include <openssl/crypto.h>
+#include <iomanip>
+#include <openssl/evp.h>
+#include <sstream>
+#include <iomanip>
+#include "hash_utils.h"
 
 
 // Constructor of MainWindow Class
@@ -23,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Using the connect function to call the openRegistrationWindow() function
     connect(ui->registerbutton_main, SIGNAL(clicked()), this, SLOT(openRegistrationWindow()));
 
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(openIssueWindow()));
+    connect(ui->signIn_Button, SIGNAL(clicked()), this, SLOT(userEncryptedLogin()));
 
     connect(ui->settingsbutton_main, SIGNAL(clicked()), this, SLOT(openSettings()));
 
@@ -107,6 +117,50 @@ void MainWindow::adminLogin()
     adminstrator* adminLogin = new adminstrator;
     adminLogin->showMaximized();
     ui->~MainWindow();
+}
+
+
+
+void MainWindow::userEncryptedLogin(){
+
+    QString inputUsername = ui->input_username->text();
+    QString inputPassword = ui->input_password->text();
+
+    // Hash the input password
+    hash_utils hasobj;
+
+    std::string hashedInputPassword = hasobj.sha256(inputPassword.toStdString());
+
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
+
+    if (dbobj.isOpen()) {
+        qDebug() << "Connection Established - Login class!";
+        QSqlQuery query(dbobj);
+        query.prepare("SELECT password FROM User WHERE username = :username");
+        query.bindValue(":username", inputUsername);
+
+        if (query.exec()) {
+            if (query.next()) {
+                QString storedHash = query.value(0).toString();
+                qDebug() << "Input Hash: " << QString::fromStdString(hashedInputPassword);
+                qDebug() << "Stored Hash: " << storedHash;
+
+                if (QString::fromStdString(hashedInputPassword) == storedHash) {
+                    qDebug() << "Password is correct.";
+                } else {
+                    qDebug() << "Password is incorrect.";
+                }
+
+            }
+        } else {
+            qDebug() << "Failed to retrieve user data:" << query.lastError().text();
+        }
+        dbobj.close();
+    } else {
+        qDebug() << "Connection Not Established - Login class!";
+    }
+
 }
 
 // Destructor to avoid memory leak problems

@@ -17,9 +17,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QString password;
+    QString username;
 
 public slots:
     void openIssueWindow();
+    void userEncryptedLogin();
 
 public slots:
     void openRegistrationWindow();
