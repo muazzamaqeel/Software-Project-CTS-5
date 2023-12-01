@@ -11,18 +11,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql Test)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql Test)
+find_package(OpenSSL REQUIRED) # Find OpenSSL package
+
+
+
+set(OPENSSL_ROOT_DIR "${PROJECT_SOURCE_DIR}/lib/openssl-master")
+
 
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-)
-
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(Staging_Environment_Recorverd
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
         registration_window.h registration_window.cpp registration_window.ui
         settings.h settings.cpp settings.ui
         backlog.h backlog.cpp backlog.ui
@@ -42,6 +42,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         pb_productbacklog_implementation.h pb_productbacklog_implementation.cpp
         pb_sprint_implemenation.h pb_sprint_implemenation.cpp
         pb_taskboard_implemenation.h pb_taskboard_implemenation.cpp
+)
+
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(Staging_Environment_Recorverd
+        MANUAL_FINALIZATION
+        ${PROJECT_SOURCES}
+        hash_utils.h hash_utils.cpp
     )
 else()
     if(ANDROID)
@@ -56,6 +63,19 @@ else()
 endif()
 
 target_link_libraries(Staging_Environment_Recorverd PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::Test)
+target_link_libraries(Staging_Environment_Recorverd PRIVATE OpenSSL::SSL OpenSSL::Crypto) # Link OpenSSL libraries
+target_link_libraries(Staging_Environment_Recorverd PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Sql
+    Qt${QT_VERSION_MAJOR}::Test
+    OpenSSL::SSL
+    OpenSSL::Crypto
+    ws2_32
+    crypt32
+    bcrypt
+)
+
+
 
 if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.Staging_Environment_Recorverd)

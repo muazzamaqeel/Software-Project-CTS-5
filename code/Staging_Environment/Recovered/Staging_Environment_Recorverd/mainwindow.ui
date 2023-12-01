@@ -115,7 +115,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Register</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="signIn_Button">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -161,7 +161,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Password:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="input_username">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -174,7 +174,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Replace this text</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="input_password">
     <property name="geometry">
      <rect>
       <x>190</x>
