@@ -13,34 +13,35 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql Test)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql Test)
 find_package(OpenSSL REQUIRED) # Find OpenSSL package
 
-# Set OpenSSL root directory
-set(OPENSSL_ROOT_DIR "C:/programming/SoftwareProject/softwareproject/code/Staging_Environment/Recovered/Staging_Environment_Recorverd/lib/openssl-master")
+
+
+set(OPENSSL_ROOT_DIR "${PROJECT_SOURCE_DIR}/lib/openssl-master")
+
 
 set(PROJECT_SOURCES
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
-    registration_window.h registration_window.cpp registration_window.ui
-    settings.h settings.cpp settings.ui
-    backlog.h backlog.cpp backlog.ui
-    taskboard.h taskboard.cpp taskboard.ui
-    calendar.h calendar.cpp calendar.ui
-    sprints.h sprints.cpp sprints.ui
-    confluence.h confluence.cpp confluence.ui
-    parentboard.ui parentboard.cpp parentboard.h
-    projectcreation.h projectcreation.cpp projectcreation.ui
-    backlog.cpp backlog.h backlog.ui issuecreation.h issuecreation.cpp issuecreation.ui
-    databasemanager.h databasemanager.cpp
-    qtunittest.h qtunittest.cpp
-    adminstrator.h adminstrator.cpp adminstrator.ui
-    launchscreen.h launchscreen.cpp launchscreen.ui
-    projectsadmin.h projectsadmin.cpp projectsadmin.ui
-    pb_confluence_implemenation.h pb_confluence_implemenation.cpp
-    pb_productbacklog_implementation.h pb_productbacklog_implementation.cpp
-    pb_sprint_implemenation.h pb_sprint_implemenation.cpp
-    pb_taskboard_implemenation.h pb_taskboard_implemenation.cpp
-    hash_utils.h hash_utils.cpp
+        main.cpp
+        mainwindow.cpp
+        mainwindow.h
+        mainwindow.ui
+        registration_window.h registration_window.cpp registration_window.ui
+        settings.h settings.cpp settings.ui
+        backlog.h backlog.cpp backlog.ui
+        taskboard.h taskboard.cpp taskboard.ui
+        calendar.h calendar.cpp calendar.ui
+        sprints.h sprints.cpp sprints.ui
+        confluence.h confluence.cpp confluence.ui
+        parentboard.ui parentboard.cpp parentboard.h
+        projectcreation.h projectcreation.cpp projectcreation.ui
+        backlog.cpp backlog.h backlog.ui issuecreation.h issuecreation.cpp issuecreation.ui
+        databasemanager.h databasemanager.cpp
+        qtunittest.h qtunittest.cpp
+        adminstrator.h adminstrator.cpp adminstrator.ui
+        launchscreen.h launchscreen.cpp launchscreen.ui
+        projectsadmin.h projectsadmin.cpp projectsadmin.ui
+        pb_confluence_implemenation.h pb_confluence_implemenation.cpp
+        pb_productbacklog_implementation.h pb_productbacklog_implementation.cpp
+        pb_sprint_implemenation.h pb_sprint_implemenation.cpp
+        pb_taskboard_implemenation.h pb_taskboard_implemenation.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -73,6 +74,8 @@ target_link_libraries(Staging_Environment_Recorverd PRIVATE
     crypt32
     bcrypt
 )
+
+
 
 if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.Staging_Environment_Recorverd)
