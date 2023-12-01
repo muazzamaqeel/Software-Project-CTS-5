@@ -13,6 +13,11 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql Test)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql Test)
 find_package(OpenSSL REQUIRED) # Find OpenSSL package
 
+
+
+set(OPENSSL_ROOT_DIR "${PROJECT_SOURCE_DIR}/lib/openssl-master")
+
+
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
