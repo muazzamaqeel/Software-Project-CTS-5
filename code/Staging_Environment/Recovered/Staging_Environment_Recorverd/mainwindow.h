@@ -23,6 +23,9 @@ public slots:
 
 public slots:
     void openRegistrationWindow();
+public slots:
+    void openProjectsAdmin();
+
 
 public slots:
     void closeApp();

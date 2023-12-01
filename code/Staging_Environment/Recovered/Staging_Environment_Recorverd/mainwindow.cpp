@@ -6,6 +6,7 @@
 #include "issuecreation.h"
 #include "parentboard.h"
 #include "adminstrator.h"
+#include "projectsadmin.h"
 
 
 // Constructor of MainWindow Class
@@ -34,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //temporary
     connect(ui->adminButton, SIGNAL(clicked()), this, SLOT(adminLogin()));
+    connect(ui->ProjectAdmin, SIGNAL(clicked()), this, SLOT(openProjectsAdmin()));
 
 }
 
@@ -68,6 +70,13 @@ void MainWindow::openSettings()
     ui->~MainWindow();
 
 }
+void MainWindow::openProjectsAdmin()
+{
+    hide(); // Hide the MainWindow
+    ProjectsAdmin* projectsAdmin = new ProjectsAdmin;
+    projectsAdmin->showMaximized(); // Show the ProjectsAdmin window
+}
+
 void MainWindow::closeApp()
 {
     QApplication::quit(); // This will close the application.

@@ -3,6 +3,9 @@
 
 #include <QWidget>
 
+#include <QStandardItemModel>
+#include <QTableWidget> // Include QTableWidget header
+
 namespace Ui {
 class ProjectsAdmin;
 }
@@ -17,9 +20,13 @@ public:
 public slots:
     void openMainWindowfromAdmin();
     void openProjectCreation();
+    void openProjectCreation1();
+    void deleteProject();
+    void addProject(const QString& taskName, const QString& description);
 
 private:
     Ui::ProjectsAdmin *ui;
 };
 
 #endif // PROJECTSADMIN_H
+
