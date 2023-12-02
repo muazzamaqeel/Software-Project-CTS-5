@@ -36,7 +36,9 @@ parentboard::parentboard(QWidget *parent) :
     //New Connections with the other cpp file methods:
     connect(ui->button_userstory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createuserstories_backlog_clicked);
     connect(ui->buttton_issue, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createissues_clicked);
-    connect(ui->create_task_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
+    connect(ui->sprint_createtask_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
+    connect(ui->sprint_create_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_create_sprint_clicked);
+    connect(ui->edit_sprint_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_editsprint_sprint_clicked);
 
     //Old Way
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
@@ -104,6 +106,12 @@ QTableWidget* parentboard::getIssuesTableView() {
 //Sprint
 QTableWidget* parentboard::getSprintTableView() {
     return ui->sprint_table;
+}
+QComboBox* parentboard::getSprint_Top_Down(){
+    return ui->sprint_top_down;
+}
+QTextBrowser* parentboard::getSprintDate(){
+    return ui->sprint_date;
 }
 //Confluence
 QWidget* parentboard::getSomeWidget() {

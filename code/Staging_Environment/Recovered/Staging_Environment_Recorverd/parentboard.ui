@@ -743,7 +743,7 @@ color: rgb(255, 255, 255);
       <string>Edit Sprint</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="create_sprint_button">
+    <widget class="QPushButton" name="sprint_create_button">
      <property name="geometry">
       <rect>
        <x>1110</x>
@@ -820,7 +820,7 @@ color: rgb(255, 255, 255);
       </property>
      </item>
     </widget>
-    <widget class="QPushButton" name="create_task_button">
+    <widget class="QPushButton" name="sprint_createtask_button">
      <property name="geometry">
       <rect>
        <x>870</x>
@@ -855,7 +855,7 @@ color: rgb(255, 255, 255);
       <string>Create Task</string>
      </property>
     </widget>
-    <widget class="QTextBrowser" name="textBrowser">
+    <widget class="QTextBrowser" name="sprint_date">
      <property name="geometry">
       <rect>
        <x>280</x>
@@ -953,10 +953,10 @@ color: rgb(0, 0, 0);
     <zorder>selectorbarS</zorder>
     <zorder>sprint_listView</zorder>
     <zorder>sprint_top_down</zorder>
-    <zorder>create_sprint_button</zorder>
+    <zorder>sprint_create_button</zorder>
     <zorder>edit_sprint_button</zorder>
-    <zorder>create_task_button</zorder>
-    <zorder>textBrowser</zorder>
+    <zorder>sprint_createtask_button</zorder>
+    <zorder>sprint_date</zorder>
     <zorder>sprint_table</zorder>
    </widget>
    <widget class="QWidget" name="confluencePage">
