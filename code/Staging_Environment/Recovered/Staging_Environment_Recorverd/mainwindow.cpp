@@ -9,13 +9,9 @@
 #include "issuecreation.h"
 #include "parentboard.h"
 #include "adminstrator.h"
-#include <openssl/ssl.h>
-#include <openssl/crypto.h>
-#include <iomanip>
-#include <openssl/evp.h>
-#include <sstream>
-#include <iomanip>
-#include "hash_utils.h"
+#include <QCryptographicHash>
+
+
 
 
 // Constructor of MainWindow Class
@@ -121,21 +117,20 @@ void MainWindow::adminLogin()
 
 
 
-void MainWindow::userEncryptedLogin(){
-
+void MainWindow::userEncryptedLogin()
+{
     QString inputUsername = ui->input_username->text();
     QString inputPassword = ui->input_password->text();
 
-    // Hash the input password
-    hash_utils hasobj;
+    // Hash the input password using SHA-256
+    QByteArray passwordData = inputPassword.toUtf8();
+    QByteArray hashedInputPassword = QCryptographicHash::hash(passwordData, QCryptographicHash::Sha256).toHex();
 
-    std::string hashedInputPassword = hasobj.sha256(inputPassword.toStdString());
-
+    // Database operations to verify hashed passwords
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
 
     if (dbobj.isOpen()) {
-        qDebug() << "Connection Established - Login class!";
         QSqlQuery query(dbobj);
         query.prepare("SELECT password FROM User WHERE username = :username");
         query.bindValue(":username", inputUsername);
@@ -143,15 +138,14 @@ void MainWindow::userEncryptedLogin(){
         if (query.exec()) {
             if (query.next()) {
                 QString storedHash = query.value(0).toString();
-                qDebug() << "Input Hash: " << QString::fromStdString(hashedInputPassword);
+                qDebug() << "Input Hash: " << hashedInputPassword;
                 qDebug() << "Stored Hash: " << storedHash;
 
-                if (QString::fromStdString(hashedInputPassword) == storedHash) {
+                if (hashedInputPassword == storedHash.toUtf8()) {
                     qDebug() << "Password is correct.";
                 } else {
                     qDebug() << "Password is incorrect.";
                 }
-
             }
         } else {
             qDebug() << "Failed to retrieve user data:" << query.lastError().text();
@@ -160,8 +154,8 @@ void MainWindow::userEncryptedLogin(){
     } else {
         qDebug() << "Connection Not Established - Login class!";
     }
-
 }
+
 
 // Destructor to avoid memory leak problems
 MainWindow::~MainWindow()
