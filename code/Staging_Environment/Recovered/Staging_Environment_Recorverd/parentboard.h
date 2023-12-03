@@ -1,5 +1,8 @@
 #ifndef PARENTBOARD_H
 #define PARENTBOARD_H
+#include "qcombobox.h"
+#include "qpushbutton.h"
+#include "qtextbrowser.h"
 #include <QWidget>
 #include <QStandardItemModel>
 #include <QTableWidget> // Include QTableWidget header
@@ -18,7 +21,10 @@ public:
     QWidget* getSomeWidget(); // Declare the function
     QTableWidget* getUserStoriesTableView();
     QTableWidget* getIssuesTableView();
+    QComboBox* getSprint_Top_Down();
+    QPushButton* on_create_sprint_clicked();
     QTableWidget* getSprintTableView();
+    QTextBrowser *getSprintDate();
 private slots:
     void on_taskboardButton_clicked();
     void on_teamButton_clicked();
