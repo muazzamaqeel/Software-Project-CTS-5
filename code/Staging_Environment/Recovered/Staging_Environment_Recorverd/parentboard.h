@@ -1,6 +1,5 @@
 #ifndef PARENTBOARD_H
 #define PARENTBOARD_H
-
 #include <QWidget>
 #include <QStandardItemModel>
 #include <QTableWidget> // Include QTableWidget header
@@ -22,6 +21,7 @@ public:
     QTableWidget* getSprintTableView();
 private slots:
     void on_taskboardButton_clicked();
+    void on_teamButton_clicked();
     void on_backlogButton_clicked();
     void on_sprintsButton_clicked();
     void on_confluenceButton_clicked();

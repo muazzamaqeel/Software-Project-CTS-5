@@ -64,24 +64,29 @@ void parentboard::on_backlogButton_clicked()
     ui->stackedWidget->setCurrentIndex(1);
     const int numOfRowsToAdd = 3;
 }
+void parentboard::on_teamButton_clicked(){
+    ui->stackedWidget->setCurrentIndex(2);
+}
 void parentboard::on_sprintsButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(3);
     const int numOfRowsToAdd = 3;
 }
 void parentboard::on_confluenceButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(3);
+    ui->stackedWidget->setCurrentIndex(4);
 }
 void parentboard::confluence_class(){
     PB_Confluence_Implemenation confluence_class_obj;
     confluence_class_obj.backbutton();
 }
 void parentboard::goBackToMainWindow() {
-    close();
-    MainWindow* mainWindow = new MainWindow;
-    mainWindow->showMaximized();
+    MainWindow* mainWindow = new MainWindow; // Create a new instance of the main window
+    hide(); // Hide the registration window
+    mainWindow->showMaximized(); // Show the main window
+    ui->~parentboard();
 }
+
 //------------------------------------------------------------------------------------------------------------------------------------------------
 
 
