@@ -45,9 +45,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::openIssueWindow()
 {
-    close();
-    IssueCreation* issueWindow = new IssueCreation;
-    issueWindow -> showMaximized();
+    hide();
+
+    // Create an instance of the registration window
+    IssueCreation* openIssueWindow = new IssueCreation;
+    openIssueWindow->showMaximized();
+    ui->~MainWindow();
 }
 
 // Function that opens the registration_window

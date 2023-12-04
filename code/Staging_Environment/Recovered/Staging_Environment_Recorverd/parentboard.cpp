@@ -12,6 +12,7 @@
 #include <QTableView>
 #include "pb_confluence_implemenation.h"
 #include "pb_productbacklog_implementation.h"
+#include "pb_team_implemenation.h"
 
 
 parentboard::parentboard(QWidget *parent) :
@@ -30,10 +31,12 @@ parentboard::parentboard(QWidget *parent) :
     ui->issues->setHorizontalHeaderLabels({"Issue", "Description", "Priority"}); // Set column headers
 
     parentboard *obj = this; // Create an instance of parentboard
+    pb_team_implemenation *teamPagePtr = new pb_team_implemenation(obj);
     pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);  //Accessing the pb_productbacklog_implementation class
     pb_sprint_implemenation *pbSprintBObj = new pb_sprint_implemenation(obj); //Accessing the pb_sprint_implementation class
 
     //New Connections with the other cpp file methods:
+    connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
     connect(ui->button_userstory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createuserstories_backlog_clicked);
     connect(ui->buttton_issue, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createissues_clicked);
     connect(ui->sprint_createtask_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
@@ -60,6 +63,9 @@ void parentboard::on_taskboardButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
     const int numOfRowsToAdd = 3;
+}
+void parentboard::on_Issue_selected(){
+
 }
 void parentboard::on_backlogButton_clicked()
 {
@@ -117,6 +123,9 @@ QComboBox* parentboard::getSprint_Top_Down(){
 }
 QTextBrowser* parentboard::getSprintDate(){
     return ui->sprint_date;
+}
+QLineEdit* parentboard::getFirstNameField(){
+    return ui->input_firstname;
 }
 //Confluence
 QWidget* parentboard::getSomeWidget() {

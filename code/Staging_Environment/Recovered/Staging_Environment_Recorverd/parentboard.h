@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <QStandardItemModel>
 #include <QTableWidget> // Include QTableWidget header
+#include <QLineEdit>
 
 namespace Ui {
 class parentboard;
@@ -25,8 +26,10 @@ public:
     QPushButton* on_create_sprint_clicked();
     QTableWidget* getSprintTableView();
     QTextBrowser *getSprintDate();
+    QLineEdit *getFirstNameField();
 private slots:
     void on_taskboardButton_clicked();
+    void on_Issue_selected();
     void on_teamButton_clicked();
     void on_backlogButton_clicked();
     void on_sprintsButton_clicked();

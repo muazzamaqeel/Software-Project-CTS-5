@@ -43,6 +43,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Staging_Environment_Recovered
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        pb_team_implementation.cpp
+        pb_team_implemenation.h
+        databasefetcher.h
 
     )
 elseif(ANDROID)
