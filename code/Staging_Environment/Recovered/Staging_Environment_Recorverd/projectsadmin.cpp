@@ -80,17 +80,17 @@ void ProjectsAdmin::addProject(const QString& taskName, const QString& descripti
                       "VALUES (:ProjectName, :Description, :Adminstrate_idAdmin)");
         query.bindValue(":ProjectName", taskName);
         query.bindValue(":Description", description);
-        query.bindValue(":Adminstrate_idAdmin", Adminstrate_idAdmin); // using hashed password
+        query.bindValue(":Adminstrate_idAdmin", Adminstrate_idAdmin);
 
 
         if (query.exec()) {
-            qDebug() << "Data inserted into User table successfully!";
+            qDebug() << "Data inserted into Project table successfully!";
         } else {
-            qDebug() << "Failed to insert data into User table:" << query.lastError().text();
+            qDebug() << "Failed to insert data into Project table:" << query.lastError().text();
         }
         dbobj.close();
     } else {
-        qDebug() << "Connection Not Established - Registration class!";
+        qDebug() << "Connection Not Established - ProjectAdmin class!";
 
     }
 
