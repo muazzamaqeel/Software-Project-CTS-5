@@ -12,6 +12,8 @@
 #include <QtSql/QSqlDriver>
 #include <QtSql/QSqlQuery>
 #include <QCryptographicHash> // Include this header for hashing
+#include "projectcreation.h"
+
 
 adminstrator::adminstrator(QWidget *parent) :
     QMainWindow(parent),
@@ -112,8 +114,12 @@ void adminstrator::checkCredentials() {
         // Execute the query
         if (query.exec()) {
             if (query.next()) {
+                hide();
                 qDebug() << "Login Successful!";
                 // Perform actions for successful login, such as opening a new window or granting access
+                ProjectsAdmin *projectadmi_obj = new ProjectsAdmin;
+                projectadmi_obj->showMaximized();
+                ui->~adminstrator();
             } else {
                 qDebug() << "Invalid username or password.";
                 // Display an error message indicating invalid credentials
