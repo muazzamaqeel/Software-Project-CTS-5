@@ -29,8 +29,8 @@ int main(int argc, char *argv[]) {
     LaunchScreen launchScreen;
     launchScreen.show();
 
-    MainWindow w;
-    w.showMaximized();
+    //MainWindow w;
+   //w.showMaximized();
 //------------------------------------------------------------------------------
 
 
@@ -52,10 +52,9 @@ int main(int argc, char *argv[]) {
     } else {
         qDebug() << "Backup creation failed!";
     }
-
-
 //------------------------------------------------------------------------------
 */
+
   return app.exec();
 }
 
