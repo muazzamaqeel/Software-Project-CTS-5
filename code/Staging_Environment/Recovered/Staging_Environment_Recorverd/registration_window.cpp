@@ -99,6 +99,7 @@ void registration_window::storeInputValues() {
 
         DatabaseManager database;
         QSqlDatabase dbobj = database.getDatabase();
+
         if (dbobj.isOpen()) {
             QSqlQuery query(dbobj);
             query.prepare("INSERT INTO User (firstname, lastname, password, email, username, Role_idRole) "
