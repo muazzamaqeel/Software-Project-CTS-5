@@ -10,6 +10,8 @@
 #include <QtSql/QSqlError>
 #include <QtTest/QTest>
 #include "qtunittest.h"
+#include "databasemanager.h"
+
 // Remove this line if it's causing issues or make sure the moc file is generated correctly
 
 //#include "testqstring.moc"
@@ -19,20 +21,41 @@
 
 int main(int argc, char *argv[]) {
 
+
+//Application-------------------------------------------------------------------
     QApplication app(argc, argv);
+
+    // Launch Screen window
+    LaunchScreen launchScreen;
+    launchScreen.show();
+
     MainWindow w;
     w.showMaximized();
-    //LaunchScreen launchScreen;
-    //launchScreen.show();
-    // Test Object
+//------------------------------------------------------------------------------
 
 
+
+//Test--------------------------------------------------------------------------
     //QTUnitTest testObj;
     //return QTest::qExec(&testObj, argc, argv);
-
-    return app.exec();
-
+//------------------------------------------------------------------------------
 
 
+/*
+//Database-Backup---------------------------------------------------------------
+
+    DatabaseManager databaseManager;
+    QString backupFilePath = "C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/Recovered/database_backup_files/backup_file.sql";
+
+    if (databaseManager.createBackup(backupFilePath)) {
+        qDebug() << "Backup created successfully!";
+    } else {
+        qDebug() << "Backup creation failed!";
+    }
+
+
+//------------------------------------------------------------------------------
+*/
+  return app.exec();
 }
 
