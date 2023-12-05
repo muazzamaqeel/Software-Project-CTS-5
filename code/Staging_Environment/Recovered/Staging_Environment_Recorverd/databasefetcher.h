@@ -5,5 +5,4 @@
 
 static class DatabaseFetcher
 {
-}
 };

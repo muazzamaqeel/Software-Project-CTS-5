@@ -165,3 +165,15 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+QLineEdit* MainWindow::getInput_Username(){
+    return ui->input_username;
+}
+
+
+QLineEdit* MainWindow::getInput_Password(){
+    return ui->input_password;
+}
+
+//Getter Functions to make the .ui components public
+

@@ -7,6 +7,9 @@ class QTUnitTest:public QObject
 public:
     QTUnitTest();
     Q_OBJECT;
+private slots:
+    void DatabaseCheck();
+    void MainWindowTest();
 
 };
 
