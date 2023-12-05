@@ -20,24 +20,18 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     // For Background
     QPixmap pix("C:/programming/softwareproject/softwareproject/code/Production_Environment/SP23/assets/mainwindow/1.jpg");
     ui->bg_main->setPixmap(pix);
-
     //Buttons on the mainwindow
     // Using the connect function to call the openRegistrationWindow() function
     connect(ui->registerbutton_main, SIGNAL(clicked()), this, SLOT(openRegistrationWindow()));
-
     connect(ui->signIn_Button, SIGNAL(clicked()), this, SLOT(userEncryptedLogin()));
-
     connect(ui->settingsbutton_main, SIGNAL(clicked()), this, SLOT(openSettings()));
-
     connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(closeApp()));
 
     //temporary
     connect(ui->parentboardButton, SIGNAL(clicked()), this, SLOT(openParentBoard()));
-
     //temporary
     connect(ui->adminButton, SIGNAL(clicked()), this, SLOT(adminLogin()));
 
@@ -46,8 +40,6 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::openIssueWindow()
 {
     hide();
-
-    // Create an instance of the registration window
     IssueCreation* openIssueWindow = new IssueCreation;
     openIssueWindow->showMaximized();
     ui->~MainWindow();
@@ -70,12 +62,10 @@ void MainWindow::openRegistrationWindow()
 // Function that opens the settings_windows
 void MainWindow::openSettings()
 {
-
     hide();
     Settings* settingWindow = new Settings;
     settingWindow -> showMaximized();
     ui->~MainWindow();
-
 }
 void MainWindow::closeApp()
 {
@@ -94,21 +84,17 @@ void Settings::goBackToMainWindow()
 void MainWindow::openParentBoard()
 {
     // qDebug() << "Parentboard button clicked.";
-
     // To close the MainWindow screen when the parentboard window is opened
     hide();
-
     // Create an instance of the parentboard window
     parentboard* parentBoard = new parentboard;
     parentBoard->showMaximized();
     ui->~MainWindow();
 }
-
 // temporary - Cosmin
 void MainWindow::adminLogin()
 {
     // qDebug() << "Administrator button clicked.";
-
     // To close the MainWindow screen when the admininstrator window is opened
     hide();
 
@@ -165,15 +151,12 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
 QLineEdit* MainWindow::getInput_Username(){
     return ui->input_username;
 }
 
-
 QLineEdit* MainWindow::getInput_Password(){
     return ui->input_password;
 }
-
 //Getter Functions to make the .ui components public
 

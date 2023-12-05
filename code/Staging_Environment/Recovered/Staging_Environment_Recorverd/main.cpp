@@ -22,13 +22,13 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     MainWindow w;
     w.showMaximized();
-    LaunchScreen launchScreen;
-    launchScreen.show();
+    //LaunchScreen launchScreen;
+    //launchScreen.show();
     // Test Object
 
 
-    QTUnitTest testObj;
-    return QTest::qExec(&testObj, argc, argv);
+    //QTUnitTest testObj;
+    //return QTest::qExec(&testObj, argc, argv);
 
     return app.exec();
 
