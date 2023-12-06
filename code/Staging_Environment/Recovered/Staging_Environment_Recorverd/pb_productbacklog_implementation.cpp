@@ -25,7 +25,6 @@ void pb_productbacklog_implementation::RetrieveAndDisplayBacklog() {
     UserStoryPBretrieval(); // Retrieves user stories and adds them to the table
 }
 
-
 void pb_productbacklog_implementation::clearUserStoriesTable() {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->clearContents();
@@ -215,11 +214,6 @@ void pb_productbacklog_implementation::addTasks_backlog(const QString& type_pb ,
             qDebug() << "Connection Not Established - pb_productbacklog_implmentation!";
 
         }
-
-
-
-
-
 
         int IssuerowCount = userStoriesTable->rowCount(); // Get current row count
         userStoriesTable->insertRow(IssuerowCount); // Insert a new row at the end
