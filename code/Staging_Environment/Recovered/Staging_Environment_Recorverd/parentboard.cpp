@@ -21,27 +21,34 @@ parentboard::parentboard(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
     taskModel = new QStandardItemModel(this);
     taskModel->setColumnCount(2);
     ui->sprint_table->setColumnCount(2);
     ui->sprint_table->setHorizontalHeaderLabels({"Task Name", "Description"}); // Set column headers
     ui->user_stories->setColumnCount(3); // Add a new column for priority
     ui->user_stories->setHorizontalHeaderLabels({"Userstory", "Description", "Priority"}); // Set column headers
-    ui->issues->setColumnCount(3); // Add a new column for priority
-    ui->issues->setHorizontalHeaderLabels({"Issue", "Description", "Priority"}); // Set column headers
+//    ui->issues->setColumnCount(3); // Add a new column for priority
+//    ui->issues->setHorizontalHeaderLabels({"Issue", "Description", "Priority"}); // Set column headers
 
     parentboard *obj = this; // Create an instance of parentboard
     pb_team_implemenation *teamPagePtr = new pb_team_implemenation(obj);
     pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);  //Accessing the pb_productbacklog_implementation class
     pb_sprint_implemenation *pbSprintBObj = new pb_sprint_implemenation(obj); //Accessing the pb_sprint_implementation class
 
-    //New Connections with the other cpp file methods:
-    connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
+//  ParentBoard Implementation Calls
     connect(ui->button_userstory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createuserstories_backlog_clicked);
     connect(ui->buttton_issue, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createissues_clicked);
+    connect(ui->backlogButton, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::RetrieveAndDisplayBacklog);
+
+
+
     connect(ui->sprint_createtask_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
     connect(ui->sprint_create_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_create_sprint_clicked);
     connect(ui->edit_sprint_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_editsprint_sprint_clicked);
+
+
+    connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
 
     //Old Way
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
@@ -109,9 +116,6 @@ void parentboard::goBackToMainWindow() {
 //Blacklog
 QTableWidget* parentboard::getUserStoriesTableView() {
     return ui->user_stories;
-}
-QTableWidget* parentboard::getIssuesTableView() {
-    return ui->issues;
 }
 
 //Sprint

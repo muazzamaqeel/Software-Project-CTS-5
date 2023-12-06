@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <QStandardItemModel>
 #include <QTableWidget> // Include QTableWidget header
+#include "databasemanager.h"
 #include "parentboard.h"
 
 
@@ -13,11 +14,18 @@ public:
 
     QStandardItemModel *model; // Declare the model pointer
     pb_productbacklog_implementation(parentboard* parentBoardInstance);
-    void addBacklog(const QString& taskName, const QString& description, int priority);
-    void addIssues(const QString& taskName, const QString& description, int priority);
+    void addBacklog(const QString& type, const QString& taskName, const QString& description, int priority);
+    void addTasks_backlog(const QString& type_pb ,const QString& taskName, const QString& description, int priority);
+
+
+
 public slots:
     void on_createissues_clicked();
     void on_createuserstories_backlog_clicked();
+    void UserStoryPBretrieval();
+    void TaskPBretrieval();
+    void clearUserStoriesTable();
+    void RetrieveAndDisplayBacklog();
 private:
     parentboard* parentBoard;
 
