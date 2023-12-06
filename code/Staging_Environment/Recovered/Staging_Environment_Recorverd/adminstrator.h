@@ -4,6 +4,8 @@
 #include "qlineedit.h"
 #include "qtextedit.h"
 #include <QMainWindow>
+#include <QWidget>
+#include <QTableWidget>
 
 namespace Ui {
 class adminstrator;
@@ -15,6 +17,7 @@ class adminstrator : public QMainWindow
 
 public:
     explicit adminstrator(QWidget *parent = nullptr);
+
     ~adminstrator();
 
 

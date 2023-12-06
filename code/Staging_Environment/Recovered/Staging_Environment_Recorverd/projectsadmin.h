@@ -2,7 +2,7 @@
 #define PROJECTSADMIN_H
 
 #include <QWidget>
-
+#include "adminstrator.h"
 #include <QStandardItemModel>
 #include <QTableWidget> // Include QTableWidget header
 
@@ -24,6 +24,10 @@ public slots:
     void deleteProject();
     void addProject(const QString& taskName, const QString& description);
     void deleteProjectFromDatabase(const QString& projectName);
+    void ProjectRetrieval();
+    void RetrieveAndDisplayProjectBacklog();
+    void clearProjectTable();
+    void addProjectToDatabase(const QString& taskName, const QString& description);
 
 private:
     Ui::ProjectsAdmin *ui;

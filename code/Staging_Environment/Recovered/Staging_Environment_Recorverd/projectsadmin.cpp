@@ -36,8 +36,10 @@ ProjectsAdmin::ProjectsAdmin(QWidget *parent) :
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(openMainWindowfromAdmin()));
     connect(ui->createProjectButton, SIGNAL(clicked()), this, SLOT(openProjectCreation1()));
     connect(ui->delete_project, SIGNAL(clicked()), this, SLOT(deleteProject()));
-
+    RetrieveAndDisplayProjectBacklog();
 }
+
+
 
 void ProjectsAdmin::openMainWindowfromAdmin()
 {
@@ -59,40 +61,64 @@ void ProjectsAdmin::openProjectCreation1() {
     QString taskName = QInputDialog::getText(this, "Enter Task Name", "Task Name:");
     QString taskDescription = QInputDialog::getText(this, "Enter Task Description", "Task Description:");
 
-    addProject(taskName, taskDescription);
-
+    addProjectToDatabase(taskName, taskDescription);
+    RetrieveAndDisplayProjectBacklog();
     qDebug() << "Task Name: " << taskName;
     qDebug() << "Task Description: " << taskDescription;
 }
 
+void ProjectsAdmin::RetrieveAndDisplayProjectBacklog() {
+    clearProjectTable(); // Clears the table before adding new entries
+    ProjectRetrieval(); // Retrieves tasks and adds them to the table
+}
 
-void ProjectsAdmin::addProject(const QString& taskName, const QString& description) {
 
-    //SQL Statements to add the project in the project table
-    int Adminstrate_idAdmin = 1;
+void ProjectsAdmin::clearProjectTable() {
+    ui->project_table ->clearContents();
+    ui->project_table->setRowCount(0);
+}
 
+
+void ProjectsAdmin:: ProjectRetrieval(){
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
 
     if (dbobj.isOpen()) {
         QSqlQuery query(dbobj);
-        query.prepare("INSERT INTO Project (ProjectName, Description, Adminstrate_idAdmin) "
-                      "VALUES (:ProjectName, :Description, :Adminstrate_idAdmin)");
-        query.bindValue(":ProjectName", taskName);
-        query.bindValue(":Description", description);
-        query.bindValue(":Adminstrate_idAdmin", Adminstrate_idAdmin);
-
+        query.prepare("SELECT ProjectName, Description FROM scrummy.Project");
 
         if (query.exec()) {
-            qDebug() << "Data inserted into Project table successfully!";
+            qDebug() << "Project Retrieved Successfully!";
+
+            while (query.next()) {
+                // Retrieve each value from the query result
+                QString taskName = query.value(0).toString();
+                QString description = query.value(1).toString();
+
+
+    qDebug() << "Task Name:" << taskName << ", Description:" << description;
+
+                // Now use the addBacklog function to add each retrieved row to the table
+                addProject( taskName, description);
+            }
         } else {
-            qDebug() << "Failed to insert data into Project table:" << query.lastError().text();
+            qDebug() << "Failed to retrieve data: " << query.lastError().text();
         }
         dbobj.close();
     } else {
-        qDebug() << "Connection Not Established - ProjectAdmin class!";
-
+        qDebug() << "Connection Not Established - pb_productbacklog_implementation class! - Task";
     }
+}
+
+void ProjectsAdmin::addProject(const QString& taskName, const QString& description) {
+
+
+
+    // Adjust the column widths to take up the available space
+    QHeaderView* header = ui->project_table->horizontalHeader();
+    header->setSectionResizeMode(QHeaderView::Stretch);
+    //SQL Statements to add the project in the project table
+
 
 
 
@@ -119,6 +145,31 @@ void ProjectsAdmin::deleteProject() {
         deleteProjectFromDatabase(projectName);
 
         ui->project_table->removeRow(row);
+    }
+}
+void ProjectsAdmin::addProjectToDatabase(const QString& taskName, const QString& description) {
+    int Adminstrate_idAdmin = 1;  // You might want to modify this based on your requirements
+
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
+
+    if (dbobj.isOpen()) {
+        QSqlQuery query(dbobj);
+        query.prepare("INSERT INTO Project (ProjectName, Description, Adminstrate_idAdmin) "
+                      "VALUES (:ProjectName, :Description, :Adminstrate_idAdmin)");
+        query.bindValue(":ProjectName", taskName);
+        query.bindValue(":Description", description);
+        query.bindValue(":Adminstrate_idAdmin", Adminstrate_idAdmin);
+
+        if (query.exec()) {
+            qDebug() << "Data inserted into Project table successfully!";
+        } else {
+            qDebug() << "Failed to insert data into Project table:" << query.lastError().text();
+        }
+
+        dbobj.close();
+    } else {
+        qDebug() << "Connection Not Established - ProjectAdmin class!";
     }
 }
 

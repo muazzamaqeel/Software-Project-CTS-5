@@ -13,6 +13,13 @@
 #include <QtSql/QSqlQuery>
 #include <QCryptographicHash> // Include this header for hashing
 #include "projectcreation.h"
+#include <QCoreApplication>
+#include <QDir>
+#include <QFileInfo>
+#include <QInputDialog>
+#include <QStandardItemModel>
+#include <QDebug>
+#include <QTableView>
 
 
 adminstrator::adminstrator(QWidget *parent) :
@@ -135,6 +142,9 @@ void adminstrator::checkCredentials() {
         // Handle connection error
     }
 }
+
+
+
 
 
 
