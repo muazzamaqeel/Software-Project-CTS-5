@@ -2,6 +2,8 @@
 #include "databasemanager.h"
 #include <QtTest/QTest>
 #include "mainwindow.h"
+//#include "adminstrator.h"
+
 
 
 QTUnitTest::QTUnitTest(){}
@@ -25,3 +27,10 @@ void QTUnitTest::MainWindowTest() {
     InputPassword->setText("aida");
     mainWindow.userEncryptedLogin();
 }
+
+
+//Implementation of the Tests of the Adminstrator.cpp
+void QTUnitTest::AdminstratorTest(){
+
+}
+
