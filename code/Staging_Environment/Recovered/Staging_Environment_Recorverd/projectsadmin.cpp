@@ -67,6 +67,11 @@ void ProjectsAdmin::openProjectCreation1() {
     qDebug() << "Task Description: " << taskDescription;
 }
 
+
+
+
+
+//--------------------------------------------------------------------------------------------------------------
 void ProjectsAdmin::RetrieveAndDisplayProjectBacklog() {
     clearProjectTable(); // Clears the table before adding new entries
     ProjectRetrieval(); // Retrieves tasks and adds them to the table
@@ -109,18 +114,19 @@ void ProjectsAdmin:: ProjectRetrieval(){
         qDebug() << "Connection Not Established - pb_productbacklog_implementation class! - Task";
     }
 }
+//-----------------------------------------------------------------------------------------------------------
+
+
+
+
+
 
 void ProjectsAdmin::addProject(const QString& taskName, const QString& description) {
-
-
 
     // Adjust the column widths to take up the available space
     QHeaderView* header = ui->project_table->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
     //SQL Statements to add the project in the project table
-
-
-
 
     int row = ui->project_table->rowCount(); // Get the current row count
     ui->project_table->insertRow(row); // Insert a new row at the end
@@ -147,6 +153,13 @@ void ProjectsAdmin::deleteProject() {
         ui->project_table->removeRow(row);
     }
 }
+
+
+
+
+
+
+//--------------------------------------------------------------------------------------------------------
 void ProjectsAdmin::addProjectToDatabase(const QString& taskName, const QString& description) {
     int Adminstrate_idAdmin = 1;  // You might want to modify this based on your requirements
 
