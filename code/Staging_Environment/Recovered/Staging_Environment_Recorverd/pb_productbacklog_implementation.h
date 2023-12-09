@@ -40,7 +40,8 @@ public:
     QStandardItemModel *model; // Declare the model pointer
     pb_productbacklog_implementation(parentboard* parentBoardInstance);
     void addBacklog(const QString& type, const QString& taskName, const QString& description, int priority);
-    void addTasks_backlog(const QString& type_pb ,const QString& taskName, const QString& description, int priority);
+    void addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, const QString& assignee);
+    void on_createissue_clicked();
 
     // Function for retrieving User Stories from the database
     void UserStoryPBretrieval();
@@ -49,20 +50,20 @@ public:
     void UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID);
 
     // Function for handling changes to table items
-    void onUserStoryTableItemChanged(QTableWidgetItem* item);
 
     // Function for updating User Stories in the database
     void updateUserStoryInDatabase(int storyID, const QString& title, const QString& description, const QString& status, int priority, int assignee);
 
 
 public slots:
-    void on_createissues_clicked();
+    void onUserStoryTableItemChanged(QTableWidgetItem* item);
     void on_createuserstories_backlog_clicked();
+    void addUserStoryToBacklog(const QString& title, const QString& description, const QString& status, int priority, const QString& assignee);
+    void on_createUserStory_clicked();
     void TaskPBretrieval();
     void clearUserStoriesTable();
     void RetrieveAndDisplayBacklog();
     void SendTasksToSprints();
-    void on_userStoriesItemChanged(QTableWidgetItem* item);
     void Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, int assignee, int priority, int taskID);
     void onTableItemChanged(QTableWidgetItem* item);
     void updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, int assignee, int priority);

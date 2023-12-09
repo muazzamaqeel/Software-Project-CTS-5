@@ -17,8 +17,6 @@
 pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* parentBoardInstance) {
     // Initialize any necessary variables or connections
     parentBoard = parentBoardInstance;
-    QMap<int, TaskInfo> taskMap; // Container to store task information
-    QMap<int, UserStoryDetails> storyMap; // Assuming UserStoryDetails is a struct or class you've defined
 
 }
 void pb_productbacklog_implementation::clearUserStoriesTable() {
@@ -436,138 +434,165 @@ void pb_productbacklog_implementation::addBacklog(const QString& type_pb,const Q
 //Creation of Tasks
 //------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------
-void pb_productbacklog_implementation::on_createissues_clicked(){
+void pb_productbacklog_implementation::on_createissue_clicked() {
     qDebug() << "Create issue button clicked.";
 
-    QString type_pb = "Task";
-    QString taskName = QInputDialog::getText(nullptr, "Enter Issue", "Issue:");
-    QString taskDescription = QInputDialog::getText(nullptr, "Enter Issue Description", "Issue Description:");
-    bool ok;
-    int priority = QInputDialog::getInt(nullptr, "Enter Priority", "Priority:", 1, 1, 3, 1);
+    QString taskTitle = QInputDialog::getText(nullptr, "Enter Title", "Title:");
+    QString taskDescription = QInputDialog::getText(nullptr, "Enter Description", "Description:");
+    QStringList statuses = {"To Do", "In Progress", "Done"};
+    QString taskStatus = QInputDialog::getItem(nullptr, "Select Status", "Status:", statuses, 0, false);
+    int taskPriority = QInputDialog::getInt(nullptr, "Enter Priority", "Priority:", 1, 1, 5, 1);
+    QString taskAssignee = QInputDialog::getText(nullptr, "Enter Assignee", "Assignee:");
 
-
-    addTasks_backlog(type_pb, taskName, taskDescription, priority);
-    qDebug() << "Task: " << taskName;
-    qDebug() << "Task Description: " << taskDescription;
-    qDebug() << "Priority: " << priority;
-
+    addTaskToBacklog(taskTitle, taskDescription, taskStatus, taskPriority, taskAssignee);
 }
-void pb_productbacklog_implementation::addTasks_backlog(const QString& type_pb ,const QString& taskName, const QString& description, int priority) {
 
-    //QTableWidget* IssuesTable = parentBoard->getIssuesTableView();
+void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, const QString& assignee) {
     QTableWidget* table = parentBoard->getUserStoriesTableView();
-    table->setColumnCount(4); // Ensure there are four columns in the table
-    table->setHorizontalHeaderLabels({"Type", "User Story", "Description", "Priority"});
-
-    DatabaseManager database;
-    QSqlDatabase dbobj = database.getDatabase();
-
-    if (table) {
-        if (dbobj.isOpen()) {
-            QSqlQuery query(dbobj);
-            query.prepare("INSERT INTO scrummy.TaskPB(Title, Description, Priority, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject)"
-                          "VALUES (:taskName, :description, :priority, 1, 1)");
-
-            query.bindValue(":taskName", taskName);
-            query.bindValue(":description", description);
-            query.bindValue(":priority", priority);
-
-
-
-            if (query.exec()) {
-                qDebug() << "Data inserted into TaskPB table successfully!";
-            } else {
-                qDebug() << "Failed to insert data into TaskPB table:" << query.lastError().text();
-            }
-            dbobj.close();
-        } else {
-            qDebug() << "Connection Not Established - pb_productbacklog_implmentation!";
-
-        }
-
-        int IssuerowCount = table->rowCount(); // Get current row count
-        table->insertRow(IssuerowCount); // Insert a new row at the end
-
-        QTableWidgetItem* type = new QTableWidgetItem(type_pb);
-        QTableWidgetItem* issueTaskName = new QTableWidgetItem(taskName);
-        QTableWidgetItem* issueDescription = new QTableWidgetItem(description);
-        QTableWidgetItem* issuePriority = new QTableWidgetItem(QString::number(priority));
-
-        //Making is non editable
-        type->setFlags(type->flags() & ~Qt::ItemIsEditable);
-
-        table->setItem(IssuerowCount, 0, type); // Insert type in column 0
-        table->setItem(IssuerowCount, 1, issueTaskName); // Insert taskName in column 0
-        table->setItem(IssuerowCount, 2, issueDescription); // Insert description in column 1
-        table->setItem(IssuerowCount, 3, issuePriority); // Insert priority in column 2
-
-
-    } else {
+    if (!table) {
         qDebug() << "Table view not found or accessible.";
+        return;
     }
-}
 
-//------------------------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void pb_productbacklog_implementation::on_userStoriesItemChanged(QTableWidgetItem* item) {
-    if (!item) return;
-
-    int row = item->row();
-    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
-    if (!userStoriesTable || row >= userStoriesTable->rowCount()) return;
-
-    QString idUserStoryPB = userStoriesTable->item(row, 0)->data(Qt::UserRole).toString(); // Retrieve hidden id
-    QString title = userStoriesTable->item(row, 0)->text();
-    QString description = userStoriesTable->item(row, 1)->text();
-    int priority = userStoriesTable->item(row, 2)->text().toInt();
+    table->setColumnCount(5);
+    table->setHorizontalHeaderLabels({"Title", "Description", "Status", "Priority", "Assignee"});
 
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
-
-    if (dbobj.isOpen()) {
-        QSqlQuery query(dbobj);
-        query.prepare("UPDATE scrummy.UserStoryPB SET Title = :title, Description = :description, Priority = :priority WHERE idUserStoryPB = :idUserStoryPB");
-        query.bindValue(":idUserStoryPB", idUserStoryPB);
-        query.bindValue(":title", title);
-        query.bindValue(":description", description);
-        query.bindValue(":priority", priority);
-
-        if (query.exec()) {
-            qDebug() << "UserStoryPB table updated successfully for ID: " << idUserStoryPB;
-        } else {
-            qDebug() << "Failed to update UserStoryPB table:" << query.lastError().text();
-        }
-        dbobj.close();
-    } else {
-        qDebug() << "Connection Not Established - pb_productbacklog_implementation class - ! - Update UserStoryPB";
+    if (!dbobj.isOpen()) {
+        qDebug() << "Connection Not Established - pb_productbacklog_implmentation!";
+        return;
     }
+
+    QSqlQuery query(dbobj);
+    query.prepare("INSERT INTO scrummy.TaskPB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject)"
+                  "VALUES (:title, :description, :status, :priority, :assignee, 1, 1)");
+    query.bindValue(":title", title);
+    query.bindValue(":description", description);
+    query.bindValue(":status", status);
+    query.bindValue(":priority", priority);
+    query.bindValue(":assignee", assignee);
+
+    if (!query.exec()) {
+        qDebug() << "Failed to insert data into TaskPB table:" << query.lastError().text();
+        dbobj.close();
+        return;
+    }
+    qDebug() << "Data inserted into TaskPB table successfully!";
+    dbobj.close();
+
+    int rowCount = table->rowCount();
+    table->insertRow(rowCount);
+
+    QTableWidgetItem* itemTitle = new QTableWidgetItem(title);
+    QTableWidgetItem* itemDescription = new QTableWidgetItem(description);
+    QTableWidgetItem* itemStatus = new QTableWidgetItem(status);
+    QTableWidgetItem* itemPriority = new QTableWidgetItem(QString::number(priority));
+    QTableWidgetItem* itemAssignee = new QTableWidgetItem(assignee);
+
+    itemTitle->setFlags(itemTitle->flags() & ~Qt::ItemIsEditable);
+
+    table->setItem(rowCount, 0, itemTitle);
+    table->setItem(rowCount, 1, itemDescription);
+    table->setItem(rowCount, 2, itemStatus);
+    table->setItem(rowCount, 3, itemPriority);
+    table->setItem(rowCount, 4, itemAssignee);
 }
 
+
+//------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------
+//Creation of UserStories
+//------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------
+
+
+void pb_productbacklog_implementation::on_createUserStory_clicked() {
+    qDebug() << "Create User Story button clicked.";
+
+    QString title = QInputDialog::getText(nullptr, "Enter Title", "Title:");
+    QString description = QInputDialog::getText(nullptr, "Enter Description", "Description:");
+    QStringList statuses = {"To Do", "In Progress", "Done"};
+    QString status = QInputDialog::getItem(nullptr, "Select Status", "Status:", statuses, 0, false);
+    int priority = QInputDialog::getInt(nullptr, "Enter Priority", "Priority:", 1, 1, 5, 1);
+    QString assignee = QInputDialog::getText(nullptr, "Enter Assignee", "Assignee:");
+
+    addUserStoryToBacklog(title, description, status, priority, assignee);
+}
+
+void pb_productbacklog_implementation::addUserStoryToBacklog(const QString& title, const QString& description, const QString& status, int priority, const QString& assignee) {
+    QTableWidget* table = parentBoard->getUserStoriesTableView();
+    if (!table) {
+        qDebug() << "Table view not found or accessible.";
+        return;
+    }
+
+    table->setColumnCount(6);
+    table->setHorizontalHeaderLabels({"ID", "Title", "Description", "Status", "Priority", "Assignee"});
+
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
+    if (!dbobj.isOpen()) {
+        qDebug() << "Connection Not Established - pb_productbacklog_implmentation!";
+        return;
+    }
+
+    QSqlQuery query(dbobj);
+    query.prepare("INSERT INTO scrummy.UserStoryPB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject)"
+                  "VALUES (:title, :description, :status, :priority, :assignee, 1, 1)");
+    query.bindValue(":title", title);
+    query.bindValue(":description", description);
+    query.bindValue(":status", status);
+    query.bindValue(":priority", priority);
+    query.bindValue(":assignee", assignee);
+
+    if (!query.exec()) {
+        qDebug() << "Failed to insert data into UserStoryPB table:" << query.lastError().text();
+        dbobj.close();
+        return;
+    }
+    qDebug() << "Data inserted into UserStoryPB table successfully!";
+    dbobj.close();
+
+    int rowCount = table->rowCount();
+    table->insertRow(rowCount);
+
+    QTableWidgetItem* itemID = new QTableWidgetItem(query.lastInsertId().toString()); // Assuming auto-increment ID
+    QTableWidgetItem* itemTitle = new QTableWidgetItem(title);
+    QTableWidgetItem* itemDescription = new QTableWidgetItem(description);
+    QTableWidgetItem* itemStatus = new QTableWidgetItem(status);
+    QTableWidgetItem* itemPriority = new QTableWidgetItem(QString::number(priority));
+    QTableWidgetItem* itemAssignee = new QTableWidgetItem(assignee);
+
+    itemID->setFlags(itemID->flags() & ~Qt::ItemIsEditable);
+
+    table->setItem(rowCount, 0, itemID);
+    table->setItem(rowCount, 1, itemTitle);
+    table->setItem(rowCount, 2, itemDescription);
+    table->setItem(rowCount, 3, itemStatus);
+    table->setItem(rowCount, 4, itemPriority);
+    table->setItem(rowCount, 5, itemAssignee);
+}
 
 
 
