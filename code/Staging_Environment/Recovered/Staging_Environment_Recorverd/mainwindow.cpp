@@ -10,6 +10,9 @@
 #include "parentboard.h"
 #include "adminstrator.h"
 #include <QCryptographicHash>
+#include "parentboard.h"
+#include "pb_productbacklog_implementation.h"
+
 
 
 
@@ -29,7 +32,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->signIn_Button, SIGNAL(clicked()), this, SLOT(userEncryptedLogin()));
     connect(ui->settingsbutton_main, SIGNAL(clicked()), this, SLOT(openSettings()));
     connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(closeApp()));
-
     //temporary
     connect(ui->parentboardButton, SIGNAL(clicked()), this, SLOT(openParentBoard()));
     //temporary

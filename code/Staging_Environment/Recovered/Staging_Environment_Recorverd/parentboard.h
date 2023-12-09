@@ -27,6 +27,8 @@ public:
     QTableWidget* getSprintTableView();
     QTextBrowser *getSprintDate();
     QLineEdit *getFirstNameField();
+    QComboBox* getSprintComboBox();
+
 private slots:
     void on_taskboardButton_clicked();
     void on_Issue_selected();

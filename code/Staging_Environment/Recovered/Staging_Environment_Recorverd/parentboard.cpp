@@ -1,4 +1,4 @@
-#include "parentboard.h"
+﻿#include "parentboard.h"
 #include "pb_productbacklog_implementation.h"
 #include "pb_sprint_implemenation.h"
 #include "ui_parentboard.h"
@@ -41,6 +41,8 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->buttton_issue, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createissues_clicked);
     connect(ui->backlogButton, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::RetrieveAndDisplayBacklog);
 
+    connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onTableItemChanged);
+    connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onUserStoryTableItemChanged);
 
 
     connect(ui->sprint_createtask_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
@@ -104,12 +106,6 @@ void parentboard::goBackToMainWindow() {
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-
-
-
-
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //Public Access to the Objects of the parentboard.ui components for the other classes
 //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -134,6 +130,10 @@ QLineEdit* parentboard::getFirstNameField(){
 //Confluence
 QWidget* parentboard::getSomeWidget() {
     return ui->confluence_backbutton;
+}
+
+QComboBox* parentboard::getSprintComboBox(){
+    return ui->backlog_sprint_dropdown;
 }
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------

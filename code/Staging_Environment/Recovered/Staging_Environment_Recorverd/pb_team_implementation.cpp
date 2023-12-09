@@ -24,7 +24,7 @@ QString pb_team_implemenation::GetUserFirstName(int UserId)
     try{
         databaseInstance.isOpen();
         }
-    catch(_exception e){
+    catch(std::exception e){
         qDebug() << "Connection Not Established - Login class!";
         return "";
     }
@@ -33,7 +33,7 @@ QString pb_team_implemenation::GetUserFirstName(int UserId)
     try{
         query.exec();
     }
-    catch(_exception e){
+    catch(std::exception e){
         qDebug() << "Failed to retrieve user data:" << query.lastError().text();
         return "";
     }
