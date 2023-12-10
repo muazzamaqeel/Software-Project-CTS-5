@@ -194,10 +194,7 @@ void pb_productbacklog_implementation::onButtonIssueClicked() {
     QString assignee = QInputDialog::getText(nullptr, "Enter Assignee", "Assignee:");
 
     addTaskToBacklog(title, description, status, priority, assignee);
-
-
 }
-
 void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee) {
     QTableWidget* table = parentBoard->getUserStoriesTableView(); // Assuming there's a method to get the task table view
     if (!table) {
@@ -259,34 +256,32 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //------------------------------------------------------------------------------------------------------------------------------
 //FULL IMPLEMENTATION OF CREATION OF TASK AND EDIT FUCNTIONALITY    -----    END
 //------------------------------------------------------------------------------------------------------------------------------
 
 
+
+
+
+
+
+
+
+
+
+
 //------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
 
 
 //------------------------------------------------------------------------------------------------------------------------------

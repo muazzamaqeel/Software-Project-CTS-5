@@ -27,24 +27,11 @@ private:
 public slots:
     void openIssueWindow();
     void userEncryptedLogin();
-
-public slots:
     void openRegistrationWindow();
-
-public slots:
+    void TeamMember_ProjectsWin();
     void closeApp();
-
-
-
-//temporary - Cosmin
-public slots:
     void adminLogin();
-
-public slots:
     void openParentBoard();
-
-
-
 
 private slots:
     void openSettings();

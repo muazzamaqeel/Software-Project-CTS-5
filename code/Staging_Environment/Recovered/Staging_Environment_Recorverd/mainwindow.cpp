@@ -12,6 +12,7 @@
 #include <QCryptographicHash>
 #include "parentboard.h"
 #include "pb_productbacklog_implementation.h"
+#include "teammember_projectswindow.h"
 
 
 
@@ -106,6 +107,18 @@ void MainWindow::adminLogin()
     ui->~MainWindow();
 }
 
+void MainWindow::TeamMember_ProjectsWin()
+{
+    // qDebug() << "Administrator button clicked.";
+    // To close the MainWindow screen when the admininstrator window is opened
+    hide();
+
+    TeamMember_ProjectsWindow* TeamMemberobj = new TeamMember_ProjectsWindow;
+    TeamMemberobj->showMaximized();
+    ui->~MainWindow();
+
+}
+
 
 
 void MainWindow::userEncryptedLogin()
@@ -134,6 +147,7 @@ void MainWindow::userEncryptedLogin()
 
                 if (hashedInputPassword == storedHash.toUtf8()) {
                     qDebug() << "Password is correct.";
+                    TeamMember_ProjectsWin();
                 } else {
                     qDebug() << "Password is incorrect.";
                 }
