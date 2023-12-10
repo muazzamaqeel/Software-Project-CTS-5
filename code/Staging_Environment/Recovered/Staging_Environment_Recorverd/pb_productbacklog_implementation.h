@@ -1,13 +1,15 @@
 #ifndef PB_PRODUCTBACKLOG_IMPLEMENTATION_H
 #define PB_PRODUCTBACKLOG_IMPLEMENTATION_H
+
 #include <QWidget>
 #include <QStandardItemModel>
-#include <QTableWidget> // Include QTableWidget header
+#include <QTableWidget>
 #include "databasemanager.h"
 #include "parentboard.h"
 #include <QSqlRelationalTableModel>
 #include <QMap>
 
+// Struct for holding Task information
 struct TaskInfo {
     QString title;
     QString description;
@@ -19,6 +21,7 @@ struct TaskInfo {
     int taskID;
 };
 
+// Struct for holding User Story details
 struct UserStoryDetails {
     QString title;
     QString description;
@@ -28,36 +31,29 @@ struct UserStoryDetails {
     int storyID;
 };
 
-
-class pb_productbacklog_implementation: public QObject
-{
+// Class for implementing Product Backlog functionality
+class pb_productbacklog_implementation: public QObject {
     Q_OBJECT
-    QSqlRelationalTableModel *model_a;
+    QSqlRelationalTableModel *model_a; // Model for SQL relational data
 
 public:
-    QMap<int, TaskInfo> taskMap; // Now a member variable
+    QMap<int, TaskInfo> taskMap; // Map for storing TaskInfo objects
+    QStandardItemModel *model; // Standard item model for data
+    DatabaseManager database;
 
-    QStandardItemModel *model; // Declare the model pointer
+    // Constructor
     pb_productbacklog_implementation(parentboard* parentBoardInstance);
-    void addBacklog(const QString& type, const QString& taskName, const QString& description, int priority);
-    void addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, const QString& assignee);
-    void on_createissue_clicked();
 
-    // Function for retrieving User Stories from the database
+    // Methods for managing tasks and user stories in the backlog
     void UserStoryPBretrieval();
-
-    // Function for adding User Stories to the table
     void UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID);
-
-    // Function for handling changes to table items
-
-    // Function for updating User Stories in the database
     void updateUserStoryInDatabase(int storyID, const QString& title, const QString& description, const QString& status, int priority, int assignee);
-
+    void addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee);
+    void onButtonIssueClicked();
 
 public slots:
+    // Slot functions for handling UI events and data updates
     void onUserStoryTableItemChanged(QTableWidgetItem* item);
-    void on_createuserstories_backlog_clicked();
     void addUserStoryToBacklog(const QString& title, const QString& description, const QString& status, int priority, const QString& assignee);
     void on_createUserStory_clicked();
     void TaskPBretrieval();
@@ -69,9 +65,17 @@ public slots:
     void updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, int assignee, int priority);
 
 private:
-    parentboard* parentBoard;
-    QMap<int, UserStoryDetails> storyMap; // Assuming UserStoryDetails is a struct or class you've defined
+    parentboard* parentBoard; // Reference to the parent board
+    QMap<int, UserStoryDetails> storyMap; // Map for storing UserStoryDetails objects
 
+    // Function to set up the table for the first time
+    void setupTable(QTableWidget* table);
+
+    // Function to insert task into the database
+    bool insertTaskIntoDatabase(const QString& title, const QString& description, const QString& status, int priority, const QString& assignee, QSqlDatabase& dbobj);
+
+    // Function to add a row to the table
+    void addRowToTable(QTableWidget* table, const QString& title, const QString& description, const QString& status, int priority, const QString& assignee);
 
 };
 
