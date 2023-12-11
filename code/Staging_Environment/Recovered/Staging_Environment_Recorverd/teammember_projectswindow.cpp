@@ -1,10 +1,11 @@
 #include "teammember_projectswindow.h"
 #include "ui_teammember_projectswindow.h"
-#include "mainwindow.h"
 #include "databasemanager.h"
 #include <QDebug>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QDialog>
+#include "parentboard.h"
 
 TeamMember_ProjectsWindow::TeamMember_ProjectsWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -22,6 +23,9 @@ TeamMember_ProjectsWindow::TeamMember_ProjectsWindow(QWidget *parent) :
     QHeaderView *header = ui->tm_project_table->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
     RetrieveAndDisplayUser_Project();
+
+    connect(ui->tm_project_table, SIGNAL(itemClicked(QTableWidgetItem*)),
+            this, SLOT(onProjectNameClicked(QTableWidgetItem*)));
 }
 
 
@@ -71,4 +75,16 @@ void TeamMember_ProjectsWindow::addProject(const QString& taskName, const QStrin
 
     ui->tm_project_table->setItem(row, 0, nameItem);
     ui->tm_project_table->setItem(row, 1, descriptionItem);
+}
+
+
+void TeamMember_ProjectsWindow::onProjectNameClicked(QTableWidgetItem *item) {
+    if (item && item->column() == 0) { // Check if the clicked item is in the 'Project Name' column
+        hide();
+
+        parentboard* parentboardobj = new parentboard;
+        parentboardobj->showMaximized();
+
+        ui->~TeamMember_ProjectsWindow();
+    }
 }

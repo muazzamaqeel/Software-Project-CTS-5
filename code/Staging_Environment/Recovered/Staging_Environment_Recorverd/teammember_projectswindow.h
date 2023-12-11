@@ -20,6 +20,7 @@ public slots:
     void Clear_User_Project();
     void ProjectRetrieval();
     void addProject(const QString& taskName, const QString& description);
+    void onProjectNameClicked(QTableWidgetItem *item);
 
 private:
     Ui::TeamMember_ProjectsWindow *ui;
