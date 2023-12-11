@@ -13,6 +13,7 @@
 #include "parentboard.h"
 #include "pb_productbacklog_implementation.h"
 #include "teammember_projectswindow.h"
+#include "teammember_projectswindow.h"
 
 
 
@@ -38,7 +39,15 @@ MainWindow::MainWindow(QWidget *parent)
     //temporary
     connect(ui->adminButton, SIGNAL(clicked()), this, SLOT(adminLogin()));
 
+    connect(ui->signIn_Button, SIGNAL(clicked()), this, SLOT(onSignInButtonClicked()));
+
 }
+
+void MainWindow::onSignInButtonClicked() {
+    TeamMember_ProjectsWindow* TeamMember_ProjectsWindowObj = new  TeamMember_ProjectsWindow; // Add this line
+    TeamMember_ProjectsWindowObj->~TeamMember_ProjectsWindow();
+}
+
 
 void MainWindow::openIssueWindow()
 {

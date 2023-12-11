@@ -16,6 +16,12 @@
     <height>720</height>
    </size>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>1280</width>
+    <height>720</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -99,7 +105,7 @@ color: rgb(255, 255, 255);
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="exitButton">
+   <widget class="QPushButton" name="BackButton">
     <property name="geometry">
      <rect>
       <x>1190</x>
@@ -131,12 +137,23 @@ color: rgb(255, 255, 255);
 }</string>
     </property>
     <property name="text">
-     <string>Exit</string>
+     <string>Back</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tm_project_table">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>150</y>
+      <width>1221</width>
+      <height>511</height>
+     </rect>
     </property>
    </widget>
    <zorder>logo</zorder>
-   <zorder>exitButton</zorder>
+   <zorder>BackButton</zorder>
    <zorder>toplabel</zorder>
+   <zorder>tm_project_table</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -144,7 +161,7 @@ color: rgb(255, 255, 255);
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

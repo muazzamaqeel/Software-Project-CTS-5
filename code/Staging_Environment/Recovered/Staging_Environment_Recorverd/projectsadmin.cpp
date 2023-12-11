@@ -73,6 +73,8 @@ void ProjectsAdmin::openProjectCreation1() {
 
 //--------------------------------------------------------------------------------------------------------------
 void ProjectsAdmin::RetrieveAndDisplayProjectBacklog() {
+    qDebug() << "Entered the Project-Admin class";
+
     clearProjectTable(); // Clears the table before adding new entries
     ProjectRetrieval(); // Retrieves tasks and adds them to the table
 }

@@ -19,6 +19,7 @@ public:
     QLineEdit* getInput_Password();
 
 
+
 private:
     Ui::MainWindow *ui;
     QString password;
@@ -32,6 +33,7 @@ public slots:
     void closeApp();
     void adminLogin();
     void openParentBoard();
+    void onSignInButtonClicked();
 
 private slots:
     void openSettings();
