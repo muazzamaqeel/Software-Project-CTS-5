@@ -33,7 +33,7 @@ void pb_productbacklog_implementation::RetrieveAndDisplayBacklog() {
 
     if (userStoriesTable) {
         userStoriesTable->blockSignals(true); // Block signals
-
+        Hide_CreateSection();
         clearUserStoriesTable(); // Clears the table before adding new entries
         TaskPBretrieval(); // Retrieves tasks and adds them to the table
         UserStoryPBretrieval();
