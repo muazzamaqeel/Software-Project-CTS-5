@@ -4,6 +4,8 @@
 #include <QStandardItemModel>
 #include <QTableWidget> // Include QTableWidget header
 #include "parentboard.h"
+#include "qdatetimeedit.h"
+#include "qgroupbox.h"
 
 
 
@@ -19,8 +21,17 @@ public:
     void addTask(const QString& taskName, const QString& description);
     void on_editsprint_sprint_clicked();
     void editSprint(const QString& oldSprintName, const QString& newSprintName);
+    void RetrieveAndDisplayTask();
+    void clearTaskTable();
+    void TaskSBretrieval();
+    void RetrieveAndDisplaySprints();
+    void clearSprintTable();
+    void SprintRetrieval();
 private:
     parentboard* parentBoard;
+    QGroupBox* sprintGroupBox;
+
+
 
 };
 

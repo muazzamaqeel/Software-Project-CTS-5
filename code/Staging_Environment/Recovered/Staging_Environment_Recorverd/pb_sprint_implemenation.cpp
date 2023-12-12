@@ -6,12 +6,66 @@
 #include <QStandardItemModel>
 #include <QDebug> // Include qDebug for debugging
 #include <QTableView>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include "qboxlayout.h"
+#include "qheaderview.h"
+#include "qsqlerror.h"
+#include "qsqlquery.h"
+#include "databasemanager.h"
+
 
 pb_sprint_implemenation::pb_sprint_implemenation(parentboard* parentBoardInstance)
 {
     parentBoard = parentBoardInstance;
+
+    // Initialize the sprintGroupBox member variable
+    sprintGroupBox = parentBoard->getSprintGroupBox();  // Assuming you have a function to get the QGroupBox pointer
+    sprintGroupBox->setVisible(false);  // Set the initial visibility to false
+
+
+}
+void pb_sprint_implemenation::RetrieveAndDisplayTask() {
+    clearTaskTable(); // Clears the table before adding new entries
+    TaskSBretrieval(); // Retrieves tasks and adds them to the table
+
 }
 
+void pb_sprint_implemenation::clearTaskTable() {
+    QTableWidget* sprint_table = parentBoard->getSprintTableView();
+    sprint_table->clearContents();
+    sprint_table->setRowCount(0);
+}
+
+void pb_sprint_implemenation::TaskSBretrieval() {
+
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
+
+    if (dbobj.isOpen()) {
+        QSqlQuery query(dbobj);
+        query.prepare("SELECT Title, Description FROM scrummy.TaskSB");
+
+        if (query.exec()) {
+            qDebug() << "Tasks Retrieved Successfully!";
+
+            while (query.next()) {
+                // Retrieve each value from the query result
+                QString taskName = query.value(0).toString();
+                QString description = query.value(1).toString();
+
+
+                // Now use the addBacklog function to add each retrieved row to the table
+                addTask( taskName, description); // Assuming type is "Task"
+            }
+        } else {
+            qDebug() << "Failed to retrieve data: " << query.lastError().text();
+        }
+        dbobj.close();
+    } else {
+        qDebug() << "Connection Not Established - pb_productbacklog_implementation class! - Task";
+    }
+}
 
 //Create-Sprint-Task-------------------------------------------------------------------------------
 void pb_sprint_implemenation::on_createtask_sprint_clicked() {
@@ -22,10 +76,18 @@ void pb_sprint_implemenation::on_createtask_sprint_clicked() {
     addTask(taskName, taskDescription);
     qDebug() << "Task Name: " << taskName;
     qDebug() << "Task Description: " << taskDescription;
+
+
 }
 
 void pb_sprint_implemenation::addTask(const QString& taskName, const QString& description) {
     QTableWidget* sprint_table = parentBoard->getSprintTableView();
+
+    // Adjust the column widths to take up the available space
+    QHeaderView* header = sprint_table->horizontalHeader();
+    header->setSectionResizeMode(QHeaderView::Stretch);
+
+
     if (sprint_table) {
         int IssuerowCount = sprint_table->rowCount(); // Get current row count
         sprint_table->insertRow(IssuerowCount); // Insert a new row at the end
@@ -40,10 +102,14 @@ void pb_sprint_implemenation::addTask(const QString& taskName, const QString& de
 
 //Create-Sprint--------------------------------------------------------------------------------------
 void pb_sprint_implemenation::on_create_sprint_clicked() {
+
     qDebug() << "Create sprint button clicked.";
-    QString sprintName = QInputDialog::getText(nullptr, "Enter Sprint Name", "Sprint Name:");
-    addSprintName(sprintName);
-    qDebug() << "Sprint Name: " << sprintName;
+
+
+    sprintGroupBox->setVisible(true);
+   // QString sprintName = QInputDialog::getText(nullptr, "Enter Sprint Name", "Sprint Name:");
+
+
 
 }
 void pb_sprint_implemenation::addSprintName (const QString& sprintName) {
@@ -97,6 +163,11 @@ void pb_sprint_implemenation::editSprint(const QString& oldSprintName, const QSt
     if (index != -1) {
         sprint_top_down->setItemText(index, newSprintName);
     }
+
+    //---------------------------------------------------------------------
+
+
+
 
 
 }

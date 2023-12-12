@@ -46,6 +46,7 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->sprint_createtask_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
     connect(ui->sprint_create_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_create_sprint_clicked);
     connect(ui->edit_sprint_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_editsprint_sprint_clicked);
+    connect(ui->sprintsButton,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::RetrieveAndDisplayTask);
 
 
     connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
@@ -131,10 +132,14 @@ QTextBrowser* parentboard::getSprintDate(){
 QLineEdit* parentboard::getFirstNameField(){
     return ui->input_firstname;
 }
+QGroupBox* parentboard::getSprintGroupBox() const {
+    return ui->sprintGroupBox;  // Replace "yourGroupBoxName" with the actual name of your group box
+}
 //Confluence
 QWidget* parentboard::getSomeWidget() {
     return ui->confluence_backbutton;
 }
+
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------
 

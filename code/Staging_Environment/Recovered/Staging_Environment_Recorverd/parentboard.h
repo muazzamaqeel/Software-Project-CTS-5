@@ -1,6 +1,7 @@
 #ifndef PARENTBOARD_H
 #define PARENTBOARD_H
 #include "qcombobox.h"
+#include "qgroupbox.h"
 #include "qpushbutton.h"
 #include "qtextbrowser.h"
 #include <QWidget>
@@ -27,6 +28,7 @@ public:
     QTableWidget* getSprintTableView();
     QTextBrowser *getSprintDate();
     QLineEdit *getFirstNameField();
+    QGroupBox* getSprintGroupBox() const;
 private slots:
     void on_taskboardButton_clicked();
     void on_Issue_selected();
