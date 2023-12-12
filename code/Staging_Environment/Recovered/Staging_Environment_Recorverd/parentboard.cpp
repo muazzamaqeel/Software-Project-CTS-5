@@ -1,4 +1,4 @@
-#include "parentboard.h"
+﻿#include "parentboard.h"
 #include "pb_productbacklog_implementation.h"
 #include "pb_sprint_implemenation.h"
 #include "ui_parentboard.h"
@@ -13,6 +13,8 @@
 #include "pb_confluence_implemenation.h"
 #include "pb_productbacklog_implementation.h"
 #include "pb_team_implemenation.h"
+
+parentboard* parentboard::instance = nullptr;
 
 
 parentboard::parentboard(QWidget *parent) :
@@ -33,15 +35,20 @@ parentboard::parentboard(QWidget *parent) :
 
     parentboard *obj = this; // Create an instance of parentboard
     pb_team_implemenation *teamPagePtr = new pb_team_implemenation(obj);
-    pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);  //Accessing the pb_productbacklog_implementation class
+    pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);
+    //Accessing the pb_productbacklog_implementation class
     pb_sprint_implemenation *pbSprintBObj = new pb_sprint_implemenation(obj); //Accessing the pb_sprint_implementation class
 
-//  ParentBoard Implementation Calls
-    connect(ui->button_userstory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createuserstories_backlog_clicked);
-    connect(ui->buttton_issue, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createissues_clicked);
+//  pb_productbacklog Implementation Calls
+    connect(ui->button_userstory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createUserStory_clicked);
+    connect(ui->buttton_issue, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::onButtonIssueClicked);
     connect(ui->backlogButton, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::RetrieveAndDisplayBacklog);
+    connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onTableItemChanged);
+    connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onUserStoryTableItemChanged);
 
 
+
+//  pb_sprint Implementation Calls
 
     connect(ui->sprint_createtask_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
     connect(ui->sprint_create_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_create_sprint_clicked);
@@ -49,6 +56,8 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->sprintsButton,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::RetrieveAndDisplayTask);
 
 
+
+//  pb_team Implementation Calls
     connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
 
     //Old Way
@@ -103,13 +112,16 @@ void parentboard::goBackToMainWindow() {
     ui->~parentboard();
 }
 
+int parentboard::setProjectId(int id) {
+    currentProjectId = id;
+    qDebug() << "ProjectID in ParentBoard: " << currentProjectId;
+    return currentProjectId;
+}
+
+int parentboard::getProjectId() const {
+    return currentProjectId;
+}
 //------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //Public Access to the Objects of the parentboard.ui components for the other classes
@@ -140,6 +152,12 @@ QWidget* parentboard::getSomeWidget() {
     return ui->confluence_backbutton;
 }
 
+<<<<<<< HEAD
+=======
+QComboBox* parentboard::getSprintComboBox(){
+    return ui->backlog_sprint_dropdown;
+}
+>>>>>>> fc34c73359d00154838c4ebbf0bef54ebfe2dbdf
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -10,8 +10,10 @@
 #include "parentboard.h"
 #include "adminstrator.h"
 #include <QCryptographicHash>
-
-
+#include "parentboard.h"
+#include "pb_productbacklog_implementation.h"
+#include "teammember_projectswindow.h"
+#include "teammember_projectswindow.h"
 
 
 // Constructor of MainWindow Class
@@ -29,13 +31,20 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->signIn_Button, SIGNAL(clicked()), this, SLOT(userEncryptedLogin()));
     connect(ui->settingsbutton_main, SIGNAL(clicked()), this, SLOT(openSettings()));
     connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(closeApp()));
-
     //temporary
     connect(ui->parentboardButton, SIGNAL(clicked()), this, SLOT(openParentBoard()));
     //temporary
     connect(ui->adminButton, SIGNAL(clicked()), this, SLOT(adminLogin()));
 
+    connect(ui->signIn_Button, SIGNAL(clicked()), this, SLOT(onSignInButtonClicked()));
+
 }
+
+void MainWindow::onSignInButtonClicked() {
+    TeamMember_ProjectsWindow* TeamMember_ProjectsWindowObj = new  TeamMember_ProjectsWindow; // Add this line
+    TeamMember_ProjectsWindowObj->~TeamMember_ProjectsWindow();
+}
+
 
 void MainWindow::openIssueWindow()
 {
@@ -104,6 +113,18 @@ void MainWindow::adminLogin()
     ui->~MainWindow();
 }
 
+void MainWindow::TeamMember_ProjectsWin()
+{
+    // qDebug() << "Administrator button clicked.";
+    // To close the MainWindow screen when the admininstrator window is opened
+    hide();
+
+    TeamMember_ProjectsWindow* TeamMemberobj = new TeamMember_ProjectsWindow;
+    TeamMemberobj->showMaximized();
+    ui->~MainWindow();
+
+}
+
 
 
 void MainWindow::userEncryptedLogin()
@@ -132,6 +153,8 @@ void MainWindow::userEncryptedLogin()
 
                 if (hashedInputPassword == storedHash.toUtf8()) {
                     qDebug() << "Password is correct.";
+                    this->deleteLater();
+                    TeamMember_ProjectsWin();
                 } else {
                     qDebug() << "Password is incorrect.";
                 }

@@ -28,7 +28,22 @@ public:
     QTableWidget* getSprintTableView();
     QTextBrowser *getSprintDate();
     QLineEdit *getFirstNameField();
+<<<<<<< HEAD
     QGroupBox* getSprintGroupBox() const;
+=======
+    QComboBox* getSprintComboBox();
+
+
+    static parentboard* getInstance(QWidget *parent = nullptr) {
+        if (instance == nullptr) {
+            instance = new parentboard(parent);
+        }
+        return instance;
+    }
+
+    int setProjectId(int id);
+    int getProjectId() const;
+>>>>>>> fc34c73359d00154838c4ebbf0bef54ebfe2dbdf
 private slots:
     void on_taskboardButton_clicked();
     void on_Issue_selected();
@@ -41,6 +56,9 @@ private slots:
 private:
     Ui::parentboard *ui;
     QStandardItemModel *taskModel;
+    int currentProjectId;
+    static parentboard* instance;  // Static instance
+
 };
 
 #endif // PARENTBOARD_H

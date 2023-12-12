@@ -19,6 +19,7 @@ public:
     QLineEdit* getInput_Password();
 
 
+
 private:
     Ui::MainWindow *ui;
     QString password;
@@ -27,24 +28,12 @@ private:
 public slots:
     void openIssueWindow();
     void userEncryptedLogin();
-
-public slots:
     void openRegistrationWindow();
-
-public slots:
+    void TeamMember_ProjectsWin();
     void closeApp();
-
-
-
-//temporary - Cosmin
-public slots:
     void adminLogin();
-
-public slots:
     void openParentBoard();
-
-
-
+    void onSignInButtonClicked();
 
 private slots:
     void openSettings();

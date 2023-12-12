@@ -1,16 +1,17 @@
 #include "launchscreen.h"
 #include "mainwindow.h"
+#include "qtunittest.h"
+#include "databasemanager.h"
+#include <iostream>
 //#include "registration_window.h"
 #include <QApplication>
 #include <QPixmap>
 #include <QDebug>
 #include <QtSql/QSqlDatabase>
 #include <QDebug>
-#include <iostream>
 #include <QtSql/QSqlError>
 #include <QtTest/QTest>
-#include "qtunittest.h"
-#include "databasemanager.h"
+
 
 // Remove this line if it's causing issues or make sure the moc file is generated correctly
 
