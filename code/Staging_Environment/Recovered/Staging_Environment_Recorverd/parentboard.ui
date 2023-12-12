@@ -108,11 +108,8 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-<<<<<<< HEAD
     <number>3</number>
-=======
     <number>4</number>
->>>>>>> fc34c73359d00154838c4ebbf0bef54ebfe2dbdf
    </property>
    <widget class="QWidget" name="taskboardPage">
     <widget class="QLabel" name="selectorT">

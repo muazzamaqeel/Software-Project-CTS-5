@@ -28,9 +28,8 @@ public:
     QTableWidget* getSprintTableView();
     QTextBrowser *getSprintDate();
     QLineEdit *getFirstNameField();
-<<<<<<< HEAD
+
     QGroupBox* getSprintGroupBox() const;
-=======
     QComboBox* getSprintComboBox();
 
 
@@ -43,7 +42,6 @@ public:
 
     int setProjectId(int id);
     int getProjectId() const;
->>>>>>> fc34c73359d00154838c4ebbf0bef54ebfe2dbdf
 private slots:
     void on_taskboardButton_clicked();
     void on_Issue_selected();
