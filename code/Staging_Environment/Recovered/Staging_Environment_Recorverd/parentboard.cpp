@@ -14,6 +14,8 @@
 #include "pb_productbacklog_implementation.h"
 #include "pb_team_implemenation.h"
 
+parentboard* parentboard::instance = nullptr;
+
 
 parentboard::parentboard(QWidget *parent) :
     QWidget(parent),
@@ -33,7 +35,8 @@ parentboard::parentboard(QWidget *parent) :
 
     parentboard *obj = this; // Create an instance of parentboard
     pb_team_implemenation *teamPagePtr = new pb_team_implemenation(obj);
-    pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);  //Accessing the pb_productbacklog_implementation class
+    pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);
+    //Accessing the pb_productbacklog_implementation class
     pb_sprint_implemenation *pbSprintBObj = new pb_sprint_implemenation(obj); //Accessing the pb_sprint_implementation class
 
 //  pb_productbacklog Implementation Calls
@@ -108,6 +111,15 @@ void parentboard::goBackToMainWindow() {
     ui->~parentboard();
 }
 
+int parentboard::setProjectId(int id) {
+    currentProjectId = id;
+    qDebug() << "ProjectID in ParentBoard: " << currentProjectId;
+    return currentProjectId;
+}
+
+int parentboard::getProjectId() const {
+    return currentProjectId;
+}
 //------------------------------------------------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------------------------------------------------------------------------

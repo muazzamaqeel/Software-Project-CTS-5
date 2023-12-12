@@ -19,7 +19,7 @@ public slots:
     void RetrieveAndDisplayUser_Project();
     void Clear_User_Project();
     void ProjectRetrieval();
-    void addProject(const QString& taskName, const QString& description);
+    void addProject(const QString& projectName, const QString& description, int idProject);
     void onProjectNameClicked(QTableWidgetItem *item);
 
 private:

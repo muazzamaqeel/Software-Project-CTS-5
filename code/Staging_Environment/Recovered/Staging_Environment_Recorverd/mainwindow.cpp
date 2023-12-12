@@ -16,9 +16,6 @@
 #include "teammember_projectswindow.h"
 
 
-
-
-
 // Constructor of MainWindow Class
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -156,6 +153,7 @@ void MainWindow::userEncryptedLogin()
 
                 if (hashedInputPassword == storedHash.toUtf8()) {
                     qDebug() << "Password is correct.";
+                    this->deleteLater();
                     TeamMember_ProjectsWin();
                 } else {
                     qDebug() << "Password is incorrect.";

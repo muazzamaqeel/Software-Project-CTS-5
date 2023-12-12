@@ -53,9 +53,13 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
 
+    int PassedProjectID = parentBoard->getProjectId();
+    qDebug() << "Project ID in Product Backlog: " << PassedProjectID;
+
     if (dbobj.isOpen()) {
         QSqlQuery query(dbobj);
-        query.prepare("SELECT idTaskPB, Title, Description, Status, Assignee, Priority, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject FROM scrummy.TaskPB");
+        query.prepare("SELECT idTaskPB, Title, Description, Status, Assignee, Priority, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject FROM scrummy.TaskPB WHERE ProductBacklog_Project_idProject = 2");
+        query.bindValue(":projectID", PassedProjectID); // Bind the project ID to the query
 
         if (query.exec()) {
             qDebug() << "Tasks Retrieved Successfully!";
@@ -74,7 +78,6 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
                 // Store additional information in taskMap
                 taskMap[taskID] = {title, description, status, assignee, priority, taskID};
             }
-
         } else {
             qDebug() << "Failed to retrieve data: " << query.lastError().text();
         }
@@ -83,6 +86,7 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
         qDebug() << "Connection Not Established - pb_productbacklog_implementation class! - Task";
     }
 }
+
 void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, int assignee, int priority, int taskID) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(7); // Include an additional column for Task ID
@@ -216,7 +220,7 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
 
     QSqlQuery query(dbobj);
     query.prepare("INSERT INTO scrummy.TaskPB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject)"
-                  "VALUES (:title, :description, :status, :priority, :assignee, 1, 1)");
+                  "VALUES (:title, :description, :status, :priority, :assignee, 2, 2)");
     query.bindValue(":title", title);
     query.bindValue(":description", description);
     query.bindValue(":status", status);
@@ -516,14 +520,6 @@ void pb_productbacklog_implementation::addUserStoryToBacklog(const QString& titl
 //------------------------------------------------------------------------------------------------------------------------------
 //FULL IMPLEMENTATION OF CREATION OF USER-STORIES AND EDIT FUCNTIONALITY    -----    END
 //------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
 
 
 

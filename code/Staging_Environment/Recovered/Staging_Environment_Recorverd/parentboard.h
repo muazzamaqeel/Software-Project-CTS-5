@@ -29,6 +29,16 @@ public:
     QLineEdit *getFirstNameField();
     QComboBox* getSprintComboBox();
 
+
+    static parentboard* getInstance(QWidget *parent = nullptr) {
+        if (instance == nullptr) {
+            instance = new parentboard(parent);
+        }
+        return instance;
+    }
+
+    int setProjectId(int id);
+    int getProjectId() const;
 private slots:
     void on_taskboardButton_clicked();
     void on_Issue_selected();
@@ -41,6 +51,9 @@ private slots:
 private:
     Ui::parentboard *ui;
     QStandardItemModel *taskModel;
+    int currentProjectId;
+    static parentboard* instance;  // Static instance
+
 };
 
 #endif // PARENTBOARD_H

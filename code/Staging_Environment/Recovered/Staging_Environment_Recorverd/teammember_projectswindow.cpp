@@ -49,13 +49,15 @@ void TeamMember_ProjectsWindow::ProjectRetrieval() {
 
     if (dbobj.isOpen()) {
         QSqlQuery query(dbobj);
-        query.prepare("SELECT ProjectName, Description FROM scrummy.Project");
+        // Adjust the query to include the idProject column
+        query.prepare("SELECT idProject, ProjectName, Description FROM scrummy.Project");
 
         if (query.exec()) {
             while (query.next()) {
-                QString taskName = query.value(0).toString();
-                QString description = query.value(1).toString();
-                addProject(taskName, description);
+                int idProject = query.value(0).toInt(); // idProject is now the first column
+                QString projectName = query.value(1).toString();
+                QString description = query.value(2).toString();
+                addProject(projectName, description, idProject);
             }
         } else {
             qDebug() << "Failed to retrieve data:" << query.lastError().text();
@@ -66,11 +68,13 @@ void TeamMember_ProjectsWindow::ProjectRetrieval() {
     }
 }
 
-void TeamMember_ProjectsWindow::addProject(const QString& taskName, const QString& description) {
+void TeamMember_ProjectsWindow::addProject(const QString& projectName, const QString& description, int idProject) {
     int row = ui->tm_project_table->rowCount();
     ui->tm_project_table->insertRow(row);
 
-    QTableWidgetItem *nameItem = new QTableWidgetItem(taskName);
+    QTableWidgetItem *nameItem = new QTableWidgetItem(projectName);
+    nameItem->setData(Qt::UserRole, QVariant(idProject)); // Store the idProject
+
     QTableWidgetItem *descriptionItem = new QTableWidgetItem(description);
 
     ui->tm_project_table->setItem(row, 0, nameItem);
@@ -78,13 +82,13 @@ void TeamMember_ProjectsWindow::addProject(const QString& taskName, const QStrin
 }
 
 
+
 void TeamMember_ProjectsWindow::onProjectNameClicked(QTableWidgetItem *item) {
-    if (item && item->column() == 0) { // Check if the clicked item is in the 'Project Name' column
-        hide();
-
-        parentboard* parentboardobj = new parentboard;
-        parentboardobj->showMaximized();
-
-        ui->~TeamMember_ProjectsWindow();
+    if (item && item->column() == 0) {
+        int idProject = item->data(Qt::UserRole).toInt();
+        this->deleteLater();
+        parentboard* parentboardwindow = parentboard::getInstance();
+        parentboardwindow->setProjectId(idProject);
+        parentboardwindow->showMaximized();
     }
 }
