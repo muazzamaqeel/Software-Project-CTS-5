@@ -50,6 +50,10 @@ public:
     void updateUserStoryInDatabase(int storyID, const QString& title, const QString& description, const QString& status, int priority, int assignee);
     void addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee);
     void onButtonIssueClicked();
+    void Hide_CreateSection();
+    void Show_CreateSection();
+    void Show_CreateSection_UserStory();
+    void Show_CreateSection_Tasks();
 
 public slots:
     // Slot functions for handling UI events and data updates

@@ -30,7 +30,24 @@ public:
     QLineEdit *getFirstNameField();
 
     QGroupBox* getSprintGroupBox() const;
-    QComboBox* getSprintComboBox();
+    //QComboBox* getSprintComboBox();
+
+
+    QPushButton* getButton_Create();
+    QTextBrowser* getCreate_Assignee();
+    QTextBrowser* getCreate_Description();
+    QTextBrowser* getCreate_Header();
+    QTextBrowser* getCreate_Priority();
+    QTextBrowser* getCreate_Status();
+    QTextBrowser* getCreate_Title();
+
+    QTextEdit* getInputAssignee();
+    QTextEdit* getInputDescription();
+    QTextEdit* getInputPriority();
+    QTextEdit* getInputStatus();
+    QTextEdit* getInputTitle();
+    QPushButton* getButton_CreateTask();
+    QPushButton* getButton_CreateUserStory();
 
 
     static parentboard* getInstance(QWidget *parent = nullptr) {

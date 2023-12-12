@@ -33,23 +33,32 @@ parentboard::parentboard(QWidget *parent) :
 //    ui->issues->setColumnCount(3); // Add a new column for priority
 //    ui->issues->setHorizontalHeaderLabels({"Issue", "Description", "Priority"}); // Set column headers
 
+
+//  pb_productbacklog Implementation Calls
     parentboard *obj = this; // Create an instance of parentboard
     pb_team_implemenation *teamPagePtr = new pb_team_implemenation(obj);
     pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);
-    //Accessing the pb_productbacklog_implementation class
-    pb_sprint_implemenation *pbSprintBObj = new pb_sprint_implemenation(obj); //Accessing the pb_sprint_implementation class
-
-//  pb_productbacklog Implementation Calls
-    connect(ui->button_userstory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createUserStory_clicked);
-    connect(ui->buttton_issue, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::onButtonIssueClicked);
+    pbProductBacklogObj->Hide_CreateSection();
     connect(ui->backlogButton, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::RetrieveAndDisplayBacklog);
+
+    connect(ui->button_userstory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::Show_CreateSection);
+    connect(ui->buttton_issue, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::Show_CreateSection);
+
+    connect(ui->button_userstory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::Show_CreateSection_UserStory);
+    connect(ui->buttton_issue, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::Show_CreateSection_Tasks);
+
+    //CREATE USERSTORY AND TASKS
+    connect(ui->Button_CreateTask, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::onButtonIssueClicked);
+    connect(ui->Button_CreateUserStory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createUserStory_clicked);
+
+
     connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onTableItemChanged);
     connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onUserStoryTableItemChanged);
 
 
 
 //  pb_sprint Implementation Calls
-
+    pb_sprint_implemenation *pbSprintBObj = new pb_sprint_implemenation(obj); //Accessing the pb_sprint_implementation class
     connect(ui->sprint_createtask_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
     connect(ui->sprint_create_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_create_sprint_clicked);
     connect(ui->edit_sprint_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_editsprint_sprint_clicked);
@@ -130,6 +139,52 @@ int parentboard::getProjectId() const {
 QTableWidget* parentboard::getUserStoriesTableView() {
     return ui->user_stories;
 }
+//
+QPushButton* parentboard::getButton_CreateUserStory(){
+    return ui->Button_CreateUserStory;
+}
+QPushButton* parentboard::getButton_CreateTask(){
+    return ui->Button_CreateTask;
+}
+QTextBrowser* parentboard::getCreate_Assignee(){
+    return ui->CreateAssignee;
+}
+QTextBrowser* parentboard::getCreate_Description(){
+    return ui->CreateDescription;
+}
+QTextBrowser* parentboard::getCreate_Header(){
+    return ui->CreateHeader;
+}
+QTextBrowser* parentboard::getCreate_Priority(){
+    return ui->CreatePriority;
+}
+QTextBrowser* parentboard::getCreate_Status(){
+    return ui->CreateStatus;
+}
+QTextBrowser* parentboard::getCreate_Title(){
+    return ui->CreateTitle;
+}
+QTextEdit* parentboard::getInputAssignee(){
+    return ui->InputAssignee;
+}
+QTextEdit* parentboard::getInputDescription(){
+    return ui->InputDescription;
+}
+QTextEdit* parentboard::getInputPriority(){
+    return ui->InputPriority;
+}
+QTextEdit* parentboard::getInputStatus(){
+    return ui->InputStatus;
+}
+QTextEdit* parentboard::getInputTitle(){
+    return ui->InputTitle;
+}
+
+
+
+
+
+
 
 //Sprint
 QTableWidget* parentboard::getSprintTableView() {
@@ -152,9 +207,14 @@ QWidget* parentboard::getSomeWidget() {
     return ui->confluence_backbutton;
 }
 
-QComboBox* parentboard::getSprintComboBox(){
-    return ui->backlog_sprint_dropdown;
-}
+
+
+
+
+
+
+
+
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------

@@ -13,6 +13,7 @@
 
 #include <QMap>
 #include <QVariant>
+#include <QMessageBox>
 
 pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* parentBoardInstance) {
     // Initialize any necessary variables or connections
@@ -24,8 +25,8 @@ void pb_productbacklog_implementation::clearUserStoriesTable() {
     userStoriesTable->clearContents();
     userStoriesTable->setRowCount(0);
 
-    QComboBox* SprintBox = parentBoard->getSprintComboBox();
-    SprintBox->clear();
+    //QComboBox* SprintBox = parentBoard->getSprintComboBox();
+    //SprintBox->clear();
 }
 void pb_productbacklog_implementation::RetrieveAndDisplayBacklog() {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
@@ -41,6 +42,70 @@ void pb_productbacklog_implementation::RetrieveAndDisplayBacklog() {
     }
 }
 
+
+void pb_productbacklog_implementation::Hide_CreateSection(){
+
+    /*
+    QPushButton* buttonCreate = parentBoard->getButton_Create();
+    QTextBrowser* createAssignee = parentBoard->getCreate_Assignee();
+    QTextBrowser* createDescription = parentBoard->getCreate_Description();
+    QTextBrowser* createHeader = parentBoard->getCreate_Header();
+    QTextBrowser* createPriority = parentBoard->getCreate_Priority();
+    QTextBrowser* createStatus = parentBoard->getCreate_Status();
+    QTextBrowser* createTitle = parentBoard->getCreate_Title();
+
+    QTextEdit* inputAssignee = parentBoard->getInputAssignee();
+    QTextEdit* inputDescription = parentBoard->getInputDescription();
+    QTextEdit* inputPriority = parentBoard->getInputPriority();
+    QTextEdit* inputStatus = parentBoard->getInputStatus();
+    QTextEdit* inputTitle = parentBoard->getInputTitle();
+*/
+    parentBoard->getCreate_Assignee()->setVisible(false);
+    parentBoard->getCreate_Description()->setVisible(false);
+    parentBoard->getCreate_Header()->setVisible(false);
+    parentBoard->getCreate_Priority()->setVisible(false);
+    parentBoard->getCreate_Status()->setVisible(false);
+    parentBoard->getCreate_Title()->setVisible(false);
+
+    parentBoard->getInputAssignee()->setVisible(false);
+    parentBoard->getInputDescription()->setVisible(false);
+    parentBoard->getInputPriority()->setVisible(false);
+    parentBoard->getInputStatus()->setVisible(false);
+    parentBoard->getInputTitle()->setVisible(false);
+    parentBoard->getButton_CreateUserStory()->setVisible(false);
+    parentBoard->getButton_CreateTask()->setVisible(false);
+}
+
+
+
+void pb_productbacklog_implementation::Show_CreateSection(){
+    parentBoard->getCreate_Assignee()->setVisible(true);
+    parentBoard->getCreate_Description()->setVisible(true);
+    parentBoard->getCreate_Header()->setVisible(true);
+    parentBoard->getCreate_Priority()->setVisible(true);
+    parentBoard->getCreate_Status()->setVisible(true);
+    parentBoard->getCreate_Title()->setVisible(true);
+    parentBoard->getInputAssignee()->setVisible(true);
+    parentBoard->getInputDescription()->setVisible(true);
+    parentBoard->getInputPriority()->setVisible(true);
+    parentBoard->getInputStatus()->setVisible(true);
+    parentBoard->getInputTitle()->setVisible(true);
+
+}
+
+void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
+
+
+    parentBoard->getButton_CreateUserStory()->setVisible(true);
+    parentBoard->getButton_CreateTask()->setVisible(false);
+}
+
+void pb_productbacklog_implementation::Show_CreateSection_Tasks(){
+
+    parentBoard->getButton_CreateUserStory()->setVisible(false);
+    parentBoard->getButton_CreateTask()->setVisible(true);
+
+}
 
 
 
@@ -91,6 +156,8 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(7); // Include an additional column for Task ID
     userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority"});
+    userStoriesTable->setColumnHidden(0, true);
+    userStoriesTable->setColumnHidden(6, true);
 
     QHeaderView* header = userStoriesTable->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
@@ -190,14 +257,36 @@ void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QS
 
 void pb_productbacklog_implementation::onButtonIssueClicked() {
 
-    QString title = QInputDialog::getText(nullptr, "Enter Title", "Title:");
-    QString description = QInputDialog::getText(nullptr, "Enter Description", "Description:");
-    QStringList statuses = {"To Do", "In Progress", "Done"};
-    QString status = QInputDialog::getItem(nullptr, "Select Status", "Status:", statuses, 0, false);
-    int priority = QInputDialog::getInt(nullptr, "Enter Priority", "Priority:", 1, 1, 5, 1);
-    QString assignee = QInputDialog::getText(nullptr, "Enter Assignee", "Assignee:");
+    QTextEdit* inputAssignee = parentBoard->getInputAssignee();
+    QTextEdit* inputDescription = parentBoard->getInputDescription();
+    QTextEdit* inputPriority = parentBoard->getInputPriority();
+    QTextEdit* inputStatus = parentBoard->getInputStatus();
+    QTextEdit* inputTitle = parentBoard->getInputTitle();
 
-    addTaskToBacklog(title, description, status, priority, assignee);
+    QString title = inputTitle->toPlainText();
+    QString assignee = inputAssignee->toPlainText();
+    QString description = inputDescription->toPlainText();
+    QString priorityText = inputPriority->toPlainText();
+    int priority = priorityText.toInt();
+    QString status = inputStatus->toPlainText();
+
+    if (title.isEmpty() || assignee.isEmpty() || description.isEmpty() || priorityText.isEmpty() || status.isEmpty()) {
+        // One or more fields are empty
+        QMessageBox::warning(nullptr, "Missing Values", "Please fill in all fields.");
+    } else {
+        addTaskToBacklog(title, description, status, priority, assignee);
+    }
+
+
+
+
+    //QString title = QInputDialog::getText(nullptr, "Enter Title", "Title:");
+    //QString description = QInputDialog::getText(nullptr, "Enter Description", "Description:");
+    //QStringList statuses = {"To Do", "In Progress", "Done"};
+    //QString status = QInputDialog::getItem(nullptr, "Select Status", "Status:", statuses, 0, false);
+    //int priority = QInputDialog::getInt(nullptr, "Enter Priority", "Priority:", 1, 1, 5, 1);
+    //QString assignee = QInputDialog::getText(nullptr, "Enter Assignee", "Assignee:");
+
 }
 void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee) {
     QTableWidget* table = parentBoard->getUserStoriesTableView(); // Assuming there's a method to get the task table view
@@ -335,7 +424,8 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(7);
     userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Priority", "Assignee"});
-
+    userStoriesTable->setColumnHidden(0, true);
+    userStoriesTable->setColumnHidden(6, true);
     QHeaderView* header = userStoriesTable->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
 
@@ -450,14 +540,35 @@ void pb_productbacklog_implementation::onUserStoryTableItemChanged(QTableWidgetI
 void pb_productbacklog_implementation::on_createUserStory_clicked() {
     qDebug() << "Create User Story button clicked.";
 
+
+    QTextEdit* inputAssignee = parentBoard->getInputAssignee();
+    QTextEdit* inputDescription = parentBoard->getInputDescription();
+    QTextEdit* inputPriority = parentBoard->getInputPriority();
+    QTextEdit* inputStatus = parentBoard->getInputStatus();
+    QTextEdit* inputTitle = parentBoard->getInputTitle();
+
+    QString title = inputTitle->toPlainText();
+    QString assignee = inputAssignee->toPlainText();
+    QString description = inputDescription->toPlainText();
+    QString priorityText = inputPriority->toPlainText();
+    int priority = priorityText.toInt();
+    QString status = inputStatus->toPlainText();
+
+    if (title.isEmpty() || assignee.isEmpty() || description.isEmpty() || priorityText.isEmpty() || status.isEmpty()) {
+        // One or more fields are empty
+        QMessageBox::warning(nullptr, "Missing Values", "Please fill in all fields.");
+    } else {
+        addUserStoryToBacklog(title, description, status, priority, assignee);
+    }
+
+    /*
     QString title = QInputDialog::getText(nullptr, "Enter Title", "Title:");
     QString description = QInputDialog::getText(nullptr, "Enter Description", "Description:");
     QStringList statuses = {"To Do", "In Progress", "Done"};
     QString status = QInputDialog::getItem(nullptr, "Select Status", "Status:", statuses, 0, false);
     int priority = QInputDialog::getInt(nullptr, "Enter Priority", "Priority:", 1, 1, 5, 1);
     QString assignee = QInputDialog::getText(nullptr, "Enter Assignee", "Assignee:");
-
-    addUserStoryToBacklog(title, description, status, priority, assignee);
+    */
 }
 
 void pb_productbacklog_implementation::addUserStoryToBacklog(const QString& title, const QString& description, const QString& status, int priority, const QString& assignee) {
@@ -580,7 +691,6 @@ void pb_productbacklog_implementation::SendTasksToSprints() {
     qDebug() << "SendTasksToSprints called";
 
 
-    QComboBox* SprintBox = parentBoard->getSprintComboBox();
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
 
@@ -594,7 +704,6 @@ void pb_productbacklog_implementation::SendTasksToSprints() {
 
             while (query.next()) {
                 QString sprintTitle = query.value(0).toString(); // Assuming Title is in the first column of the result
-                SprintBox->addItem(sprintTitle);
             }
 
         } else {
