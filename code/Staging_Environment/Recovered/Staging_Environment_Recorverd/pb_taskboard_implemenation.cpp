@@ -80,64 +80,62 @@ void pb_taskboard_implemenation::generateUserTaskTree()
     qDebug() << "Project ID in Taskboard: " << PassedProjectID;
     qDebug() << "Selected Sprint ID: " << selectedSprintId;
 
-    if (db.isOpen()) {
-        qDebug() << "Connection Established - Taskboard class!";
+    QMap<QString, QTreeWidgetItem*> userItemMap;
 
-        QSqlQuery query(db);
-        query.prepare("SELECT User.Username, TaskSB.Title, TaskSB.Priority, TaskSB.Status   FROM User "
-                      "INNER JOIN TaskSB ON User.idUser = TaskSB.Assignee "
-                      "WHERE SprintBacklog_Sprint_Project_idProject = 1 "
-                      "AND SprintBacklog_Sprint_idSprint = :sprintId");
-        query.bindValue(":projectId", PassedProjectID);
-        query.bindValue(":sprintId", selectedSprintId);
+    {
+        DatabaseManager database;
+        QSqlDatabase db = database.getDatabase();
 
-        if (query.exec()) {
-            while (query.next()) {
-                QString userName = query.value(0).toString();
-                QString taskTitle = query.value(1).toString();
-                QString taskPriority = query.value(2).toString();
-                QString taskStatus = query.value(3).toString();
-                qDebug() << "userName: " << userName;
-                qDebug() << "taskTitle: " << taskTitle;
-                qDebug() << "taskPriority: " << taskPriority;
-                qDebug() << "taskStatus: " << taskStatus;
+        if (db.isOpen()) {
+            qDebug() << "Connection Established - Taskboard class!";
 
+            QSqlQuery query(db);
+            query.prepare("SELECT User.Username, TaskSB.Title, TaskSB.Priority, TaskSB.Status FROM User "
+                          "INNER JOIN TaskSB ON User.idUser = TaskSB.Assignee "
+                          "WHERE SprintBacklog_Sprint_Project_idProject = 1 "
+                          "AND SprintBacklog_Sprint_idSprint = :sprintId");
+            query.bindValue(":projectId", PassedProjectID);
+            query.bindValue(":sprintId", selectedSprintId);
 
-                // Find or create userItem in the QTreeWidget
-                QTreeWidgetItem* treeUserItem = nullptr;
+            if (query.exec()) {
+                while (query.next()) {
+                    QString userName = query.value(0).toString();
+                    QString taskTitle = query.value(1).toString();
+                    QString taskPriority = query.value(2).toString();
+                    QString taskStatus = query.value(3).toString();
+                    qDebug() << "userName: " << userName;
+                    qDebug() << "taskTitle: " << taskTitle;
+                    qDebug() << "taskPriority: " << taskPriority;
+                    qDebug() << "taskStatus: " << taskStatus;
 
-                // Check if the userItem already exists
-                for (int i = 0; i < parentBoard->getTaskTreeWidget()->topLevelItemCount(); ++i) {
-                    QTreeWidgetItem* treeItem = parentBoard->getTaskTreeWidget()->topLevelItem(i);
-                    if (treeItem->text(0) == userName) {
-                        treeUserItem = treeItem;
-                        break;
+                    // Find or create treeUserItem in the QTreeWidget
+                    QTreeWidgetItem* treeUserItem = userItemMap.value(userName);
+
+                    if (!treeUserItem) {
+                        treeUserItem = new QTreeWidgetItem(parentBoard->getTaskTreeWidget());
+                        treeUserItem->setText(0, userName);
+                        userItemMap.insert(userName, treeUserItem);
                     }
+
+                    // Add task for the current user
+                    QTreeWidgetItem* treeTaskItem = new QTreeWidgetItem(treeUserItem);
+                    treeTaskItem->setText(1, taskTitle);
+                    treeTaskItem->setText(2, taskPriority);
+                    treeTaskItem->setText(3, taskStatus);
+
+                    qDebug() << "User and task data fetched successfully!";
                 }
-
-                // If userItem doesn't exist, create a new one
-                if (!treeUserItem) {
-                    treeUserItem = new QTreeWidgetItem(parentBoard->getTaskTreeWidget());
-                    treeUserItem->setText(0, userName);
-                }
-
-                // Add task for the current user
-                QTreeWidgetItem* treeTaskItem = new QTreeWidgetItem(treeUserItem);
-                treeTaskItem->setText(1, taskTitle);
-                treeTaskItem->setText(2, taskPriority);
-                treeTaskItem->setText(3, taskStatus);
-
-                qDebug() << "User and task data fetched successfully!";
+            } else {
+                qDebug() << "Failed to fetch user and task data:" << query.lastError().text();
             }
-        } else {
-            qDebug() << "Failed to fetch user and task data:" << query.lastError().text();
-        }
 
-        db.close();
-    } else {
-        qDebug() << "Connection Not Established - Taskboard class!";
+            db.close();
+        } else {
+            qDebug() << "Connection Not Established - Taskboard class!";
+        }
     }
 }
+
 
 
 void pb_taskboard_implemenation::updateLabels(int index)
