@@ -1,5 +1,7 @@
 #ifndef PARENTBOARD_H
 #define PARENTBOARD_H
+#include "QtWidgets/qboxlayout.h"
+#include "QTreeWidget"
 #include "qcombobox.h"
 #include "qgroupbox.h"
 #include "qpushbutton.h"
@@ -59,6 +61,14 @@ public:
 
     int setProjectId(int id);
     int getProjectId() const;
+
+    // Taskboard
+    QComboBox* getSprintDropdown() const;
+    QVBoxLayout* getScrollAreaLayout() const;
+    QTextEdit* getTaskboardTextEdit() const;
+    QTreeWidget* getTaskTreeWidget() const;
+
+
 private slots:
     void on_taskboardButton_clicked();
     void on_Issue_selected();
@@ -73,6 +83,11 @@ private:
     QStandardItemModel *taskModel;
     int currentProjectId;
     static parentboard* instance;  // Static instance
+
+    // Taskboard
+    QVBoxLayout *scrollAreaLayout;
+    QTextEdit* taskboardTextEdit;
+    QTreeWidget* userTaskTreeWidget;
 
 };
 

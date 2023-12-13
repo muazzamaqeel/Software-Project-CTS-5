@@ -13,13 +13,15 @@
 #include "pb_confluence_implemenation.h"
 #include "pb_productbacklog_implementation.h"
 #include "pb_team_implemenation.h"
+#include "pb_taskboard_implemenation.h"
 
 parentboard* parentboard::instance = nullptr;
 
 
 parentboard::parentboard(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::parentboard)
+    ui(new Ui::parentboard),
+    scrollAreaLayout(new QVBoxLayout(this))
 {
     ui->setupUi(this);
 
@@ -74,6 +76,8 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->button_userstory, SIGNAL(clicked()), this, SLOT(test()));
     connect(ui->confluence_backbutton, SIGNAL(clicked()), this, SLOT(confluence_class()));
 
+    // Taskboard
+    pb_taskboard_implemenation *pbTaskboardBObj = new pb_taskboard_implemenation(obj);
 }
 //------------------------------------------------------------------------------------------------------------------------------------------------
 parentboard::~parentboard()
@@ -209,6 +213,22 @@ QWidget* parentboard::getSomeWidget() {
 
 
 
+
+// Taskboard
+QComboBox* parentboard::getSprintDropdown() const
+{
+    return ui->sprintDropdownT;
+}
+QVBoxLayout* parentboard::getScrollAreaLayout() const
+{
+    return scrollAreaLayout;
+}
+QTextEdit* parentboard::getTaskboardTextEdit() const {
+    return taskboardTextEdit;
+}
+QTreeWidget* parentboard::getTaskTreeWidget() const {
+    return ui->userTaskTreeWidget;
+}
 
 
 
