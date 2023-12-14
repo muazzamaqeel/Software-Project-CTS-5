@@ -17,7 +17,9 @@ public:
     ~MainWindow();
     QLineEdit* getInput_Username();
     QLineEdit* getInput_Password();
-
+    QString inputUsername;
+    QString Pass_inputUsername;
+    QString PassUsername();
 
 
 private:
@@ -34,7 +36,7 @@ public slots:
     void adminLogin();
     void openParentBoard();
     void onSignInButtonClicked();
-
+    void setPassUsername(const QString& username);
 private slots:
     void openSettings();
 
