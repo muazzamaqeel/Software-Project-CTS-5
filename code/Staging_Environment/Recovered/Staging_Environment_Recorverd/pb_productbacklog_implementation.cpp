@@ -123,8 +123,8 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
 
     if (dbobj.isOpen()) {
         QSqlQuery query(dbobj);
-        query.prepare("SELECT idTaskPB, Title, Description, Status, Assignee, Priority, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject FROM scrummy.TaskPB WHERE ProductBacklog_Project_idProject = 2");
-        query.bindValue(":projectID", PassedProjectID); // Bind the project ID to the query
+        query.prepare("SELECT idTaskPB, Title, Description, Status, Assignee, Priority, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject FROM scrummy.TaskPB WHERE ProductBacklog_Project_idProject = :projectID");
+        query.bindValue(":projectID", PassedProjectID);
 
         if (query.exec()) {
             qDebug() << "Tasks Retrieved Successfully!";
@@ -387,9 +387,12 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
 
+    int PassedProjectID = parentBoard->getProjectId();
+
     if (dbobj.isOpen()) {
         QSqlQuery query(dbobj);
-        query.prepare("SELECT idUserStoryPB, Title, Description, Status, Priority, Assignee FROM scrummy.UserStoryPB");
+        query.prepare("SELECT idUserStoryPB, Title, Description, Status, Priority, Assignee FROM scrummy.UserStoryPB WHERE ProductBacklog_Project_idProject = :projectID");
+        query.bindValue(":projectID", PassedProjectID);
 
         if (query.exec()) {
             qDebug() << "User Stories Retrieved Successfully!";
