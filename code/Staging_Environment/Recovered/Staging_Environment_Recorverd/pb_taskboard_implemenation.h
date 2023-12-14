@@ -22,12 +22,17 @@ private:
     void fetchSprintData();
     void generateUserTaskTree();
     int getSelectedSprintId() const;
+    void fetchSprintDates();
 
     QStandardItemModel *model;
     parentboard* parentBoard;
-    QVBoxLayout* scrollAreaLayout;  // New member variable
+    QVBoxLayout* scrollAreaLayout;
+    QStringList formattedDates;
 
     int selectedSprintId;
+
+    QString startDate;
+    QString endDate;
 };
 
 #endif // PB_TASKBOARD_IMPLEMENATION_H

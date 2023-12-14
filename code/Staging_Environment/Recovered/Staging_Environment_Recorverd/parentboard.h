@@ -10,6 +10,7 @@
 #include <QStandardItemModel>
 #include <QTableWidget> // Include QTableWidget header
 #include <QLineEdit>
+#include <QLabel>
 
 namespace Ui {
 class parentboard;
@@ -67,6 +68,7 @@ public:
     QVBoxLayout* getScrollAreaLayout() const;
     QTextEdit* getTaskboardTextEdit() const;
     QTreeWidget* getTaskTreeWidget() const;
+    void updateSprintDateLabel(const QString& newText);
 
 
 private slots:

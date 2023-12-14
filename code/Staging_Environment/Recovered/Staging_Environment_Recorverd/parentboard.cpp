@@ -229,7 +229,10 @@ QTextEdit* parentboard::getTaskboardTextEdit() const {
 QTreeWidget* parentboard::getTaskTreeWidget() const {
     return ui->userTaskTreeWidget;
 }
-
+void parentboard::updateSprintDateLabel(const QString& newText)
+{
+    ui->labelDateT->setText(newText);
+}
 
 
 

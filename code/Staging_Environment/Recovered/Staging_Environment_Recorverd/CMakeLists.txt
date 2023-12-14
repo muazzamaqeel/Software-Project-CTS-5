@@ -47,6 +47,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         pb_team_implemenation.h
         databasefetcher.h
         teammember_projectswindow.h teammember_projectswindow.cpp teammember_projectswindow.ui
+        assets/resources.qrc
 
     )
 elseif(ANDROID)
