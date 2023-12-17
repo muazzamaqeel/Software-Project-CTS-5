@@ -25,7 +25,6 @@ parentboard::parentboard(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
     taskModel = new QStandardItemModel(this);
     taskModel->setColumnCount(2);
     ui->sprint_table->setColumnCount(2);
@@ -139,7 +138,7 @@ int parentboard::getProjectId() const {
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //Public Access to the Objects of the parentboard.ui components for the other classes
 //------------------------------------------------------------------------------------------------------------------------------------------------
-//Blacklog
+//----------------------------------------------------Blacklog----------------------------------------------------
 QTableWidget* parentboard::getUserStoriesTableView() {
     return ui->user_stories;
 }
@@ -184,13 +183,21 @@ QTextEdit* parentboard::getInputTitle(){
     return ui->InputTitle;
 }
 
+QComboBox* parentboard::get_BL_SprintDropDown(){
+    return ui->BL_SprintDropDown;
+
+}
+
+QTextBrowser* parentboard::get_SelecteSprint(){
+    return ui->SelecteSprint;
+
+}
 
 
 
 
 
-
-//Sprint
+//------------------------------------------------------Sprint--------------------------------------------------------
 QTableWidget* parentboard::getSprintTableView() {
     return ui->sprint_table;
 }
@@ -214,7 +221,7 @@ QWidget* parentboard::getSomeWidget() {
 
 
 
-// Taskboard
+// ----------------------------------------------------Taskboard----------------------------------------------------
 QComboBox* parentboard::getSprintDropdown() const
 {
     return ui->sprintDropdownT;

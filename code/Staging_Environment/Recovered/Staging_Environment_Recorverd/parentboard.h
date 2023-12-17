@@ -53,6 +53,9 @@ public:
     QPushButton* getButton_CreateUserStory();
 
 
+    QComboBox* get_BL_SprintDropDown();
+    QTextBrowser* get_SelecteSprint();
+
     static parentboard* getInstance(QWidget *parent = nullptr) {
         if (instance == nullptr) {
             instance = new parentboard(parent);
