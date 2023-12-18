@@ -21,6 +21,7 @@ class parentboard : public QWidget
     Q_OBJECT
 
 public:
+    bool isTeamTableActive;
     explicit parentboard(QWidget *parent = nullptr);
     ~parentboard();
     QWidget* getSomeWidget(); // Declare the function
@@ -29,6 +30,7 @@ public:
     QComboBox* getSprint_Top_Down();
     QPushButton* on_create_sprint_clicked();
     QTableWidget* getSprintTableView();
+    QTableWidget* getTeamTableView();
     QTextBrowser *getSprintDate();
     QLineEdit *getFirstNameField();
 
@@ -83,6 +85,7 @@ private slots:
     void goBackToMainWindow();
     void confluence_class();
 private:
+
     Ui::parentboard *ui;
     QStandardItemModel *taskModel;
     int currentProjectId;

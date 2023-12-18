@@ -24,9 +24,12 @@ parentboard::parentboard(QWidget *parent) :
     scrollAreaLayout(new QVBoxLayout(this))
 {
     ui->setupUi(this);
+    isTeamTableActive = false;
 
     taskModel = new QStandardItemModel(this);
     taskModel->setColumnCount(2);
+    ui->teamTable->setColumnCount(3);
+    ui->teamTable->setHorizontalHeaderLabels({"First name", "Email", "Role"});
     ui->sprint_table->setColumnCount(2);
     ui->sprint_table->setHorizontalHeaderLabels({"Task Name", "Description"}); // Set column headers
     ui->user_stories->setColumnCount(3); // Add a new column for priority
@@ -69,6 +72,7 @@ parentboard::parentboard(QWidget *parent) :
 
 //  pb_team Implementation Calls
     connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
+    connect(ui->teamButton, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::UserRetrieval);
 
     //Old Way
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
@@ -182,6 +186,11 @@ QTextEdit* parentboard::getInputStatus(){
 QTextEdit* parentboard::getInputTitle(){
     return ui->InputTitle;
 }
+
+QTableWidget* parentboard::getTeamTableView(){
+    return ui->teamTable;
+}
+
 
 QComboBox* parentboard::get_BL_SprintDropDown(){
     return ui->BL_SprintDropDown;

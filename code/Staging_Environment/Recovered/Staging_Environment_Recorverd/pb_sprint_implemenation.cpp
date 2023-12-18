@@ -54,7 +54,6 @@ void pb_sprint_implemenation::TaskSBretrieval() {
                 QString taskName = query.value(0).toString();
                 QString description = query.value(1).toString();
 
-
                 // Now use the addBacklog function to add each retrieved row to the table
                 addTask( taskName, description); // Assuming type is "Task"
             }
