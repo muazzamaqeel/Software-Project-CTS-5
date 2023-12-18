@@ -15,7 +15,10 @@ public:
     pb_team_implemenation(parentboard* parentBoardInstance);
     QString GetUserFirstName(int UserId);
 public slots:
+    void on_teamTab_opened();
     void on_createuser_clicked();
+    void UserRetrieval();
+    void AddRowUser(const QString& firstNameInput, const QString& emailInput, const QString& roleInput);
 private:
         parentboard* parentBoard;
 };

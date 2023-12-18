@@ -1,6 +1,7 @@
 #include "pb_team_implemenation.h"
 #include <QCoreApplication>
 #include "databasemanager.h"
+#include "qheaderview.h"
 #include "qsqlerror.h"
 #include "qsqlquery.h"
 #include <QDebug>
@@ -12,6 +13,70 @@ pb_team_implemenation::pb_team_implemenation(parentboard* parentBoardInstance)
 void pb_team_implemenation::on_createuser_clicked(){
     QLineEdit* firstNameField = parentBoard->getFirstNameField();
     firstNameField->setText(GetUserFirstName(28));
+}
+
+void pb_team_implemenation::UserRetrieval(){
+    if(parentBoard->isTeamTableActive==true){
+        return;
+    }
+    parentBoard->isTeamTableActive = true;
+    DatabaseManager database;
+    QSqlDatabase databaseInstance = database.getDatabase();
+    QSqlQuery query(databaseInstance);
+
+    int queryString = parentBoard->getProjectId();
+
+    if(databaseInstance.isOpen()){
+        query.prepare("SELECT User.FirstName, User.Email, User.Role_idRole"
+                        "FROM Project"
+                        "INNER JOIN Project_has_User ON Project.idProject = Project_has_User.Project_idProject"
+                        "INNER JOIN User ON Project_has_User.User_idUser = User.idUser "
+                        "WHERE Project_has_User.Project_idProject = :validUsername");
+        query.bindValue(":validUsername", queryString);
+
+        query.exec();
+        while(query.next()){
+            QString firstName = query.value(0).toString();
+            QString email = query.value(1).toString();
+            QString role = query.value(2).toString();
+            AddRowUser(firstName, email, role);
+        }
+    } else{
+        qDebug() << "Failed to retrieve data: " << query.lastError().text();
+    }
+}
+void pb_team_implemenation::AddRowUser(const QString& firstNameInput, const QString& emailInput, const QString& roleInput){
+    QTableWidget* teamTable = parentBoard->getTeamTableView();
+    QHeaderView* header = teamTable->horizontalHeader();
+    header->setSectionResizeMode(QHeaderView::Stretch);
+    if(teamTable){
+        int rowSize = teamTable->rowCount();
+        teamTable->insertRow(rowSize);
+        QTableWidgetItem* firstName = new QTableWidgetItem(firstNameInput);
+        QTableWidgetItem* email = new QTableWidgetItem(emailInput);
+        QTableWidgetItem* role = new QTableWidgetItem(roleInput);
+
+        email->setFlags(email->flags() & ~Qt::ItemIsEditable);
+        role->setFlags(role->flags() & ~Qt::ItemIsEditable);
+
+        teamTable->setItem(rowSize, 0, firstName);
+        teamTable->setItem(rowSize, 1, email);
+        teamTable->setItem(rowSize, 2, role);
+    }
+
+}
+void pb_team_implemenation::on_teamTab_opened(){
+    QTableWidget* teamTable = parentBoard->getTeamTableView();
+    teamTable->setColumnCount(3);
+    teamTable->setHorizontalHeaderLabels({"First Name", "E-Mail", "Role"});
+
+    QHeaderView* header = teamTable->horizontalHeader();
+    header->setSectionResizeMode(QHeaderView::Stretch);
+
+    int rowSize = teamTable->rowCount();
+    teamTable->insertRow(rowSize);
+
+    //QTableWidgetItem* userFirstName = new QTableWidgetItem()
 }
 QString pb_team_implemenation::GetUserFirstName(int UserId)
 {
