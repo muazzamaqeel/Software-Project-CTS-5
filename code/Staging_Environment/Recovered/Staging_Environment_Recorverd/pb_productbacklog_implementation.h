@@ -54,6 +54,7 @@ public:
     void Show_CreateSection();
     void Show_CreateSection_UserStory();
     void Show_CreateSection_Tasks();
+    void BL_fetechSprints();
 
 public slots:
     // Slot functions for handling UI events and data updates

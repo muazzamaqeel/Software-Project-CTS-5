@@ -13,17 +13,18 @@
 #include "pb_confluence_implemenation.h"
 #include "pb_productbacklog_implementation.h"
 #include "pb_team_implemenation.h"
+#include "pb_taskboard_implemenation.h"
 
 parentboard* parentboard::instance = nullptr;
 
 
 parentboard::parentboard(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::parentboard)
+    ui(new Ui::parentboard),
+    scrollAreaLayout(new QVBoxLayout(this))
 {
     ui->setupUi(this);
     isTeamTableActive = false;
-
 
     taskModel = new QStandardItemModel(this);
     taskModel->setColumnCount(2);
@@ -78,6 +79,8 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->button_userstory, SIGNAL(clicked()), this, SLOT(test()));
     connect(ui->confluence_backbutton, SIGNAL(clicked()), this, SLOT(confluence_class()));
 
+    // Taskboard
+    pb_taskboard_implemenation *pbTaskboardBObj = new pb_taskboard_implemenation(obj);
 }
 //------------------------------------------------------------------------------------------------------------------------------------------------
 parentboard::~parentboard()
@@ -139,7 +142,7 @@ int parentboard::getProjectId() const {
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //Public Access to the Objects of the parentboard.ui components for the other classes
 //------------------------------------------------------------------------------------------------------------------------------------------------
-//Blacklog
+//----------------------------------------------------Blacklog----------------------------------------------------
 QTableWidget* parentboard::getUserStoriesTableView() {
     return ui->user_stories;
 }
@@ -188,7 +191,20 @@ QTableWidget* parentboard::getTeamTableView(){
     return ui->teamTable;
 }
 
-//Sprint
+
+QComboBox* parentboard::get_BL_SprintDropDown(){
+    return ui->BL_SprintDropDown;
+
+}
+
+QTextBrowser* parentboard::get_SelecteSprint(){
+    return ui->SelecteSprint;
+
+}
+
+
+
+//------------------------------------------------------Sprint--------------------------------------------------------
 QTableWidget* parentboard::getSprintTableView() {
     return ui->sprint_table;
 }
@@ -210,6 +226,27 @@ QWidget* parentboard::getSomeWidget() {
 }
 
 
+
+
+// ----------------------------------------------------Taskboard----------------------------------------------------
+QComboBox* parentboard::getSprintDropdown() const
+{
+    return ui->sprintDropdownT;
+}
+QVBoxLayout* parentboard::getScrollAreaLayout() const
+{
+    return scrollAreaLayout;
+}
+QTextEdit* parentboard::getTaskboardTextEdit() const {
+    return taskboardTextEdit;
+}
+QTreeWidget* parentboard::getTaskTreeWidget() const {
+    return ui->userTaskTreeWidget;
+}
+void parentboard::updateSprintDateLabel(const QString& newText)
+{
+    ui->labelDateT->setText(newText);
+}
 
 
 

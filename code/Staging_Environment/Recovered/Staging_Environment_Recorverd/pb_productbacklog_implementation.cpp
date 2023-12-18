@@ -11,6 +11,9 @@
 #include "qsqlerror.h"
 #include "qsqlquery.h"
 
+//Fetch the Sprints from the Sprint table
+#include <QFont>
+#include <QString>
 #include <QMap>
 #include <QVariant>
 #include <QMessageBox>
@@ -22,9 +25,12 @@ pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* 
 }
 void pb_productbacklog_implementation::clearUserStoriesTable() {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    QComboBox* SprintComboBox = parentBoard->get_BL_SprintDropDown();
+
+
     userStoriesTable->clearContents();
     userStoriesTable->setRowCount(0);
-
+    SprintComboBox->clear();
     //QComboBox* SprintBox = parentBoard->getSprintComboBox();
     //SprintBox->clear();
 }
@@ -37,6 +43,7 @@ void pb_productbacklog_implementation::RetrieveAndDisplayBacklog() {
         clearUserStoriesTable(); // Clears the table before adding new entries
         TaskPBretrieval(); // Retrieves tasks and adds them to the table
         UserStoryPBretrieval();
+        BL_fetechSprints();
        // SendTasksToSprints();
         userStoriesTable->blockSignals(false); // Unblock signals
     }
@@ -74,6 +81,10 @@ void pb_productbacklog_implementation::Hide_CreateSection(){
     parentBoard->getInputTitle()->setVisible(false);
     parentBoard->getButton_CreateUserStory()->setVisible(false);
     parentBoard->getButton_CreateTask()->setVisible(false);
+
+    parentBoard->get_BL_SprintDropDown()->setVisible(false);
+    parentBoard->get_SelecteSprint()->setVisible(false);
+
 }
 
 
@@ -90,6 +101,9 @@ void pb_productbacklog_implementation::Show_CreateSection(){
     parentBoard->getInputPriority()->setVisible(true);
     parentBoard->getInputStatus()->setVisible(true);
     parentBoard->getInputTitle()->setVisible(true);
+    parentBoard->get_BL_SprintDropDown()->setVisible(true);
+    parentBoard->get_SelecteSprint()->setVisible(true);
+
 
 }
 
@@ -98,12 +112,25 @@ void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
 
     parentBoard->getButton_CreateUserStory()->setVisible(true);
     parentBoard->getButton_CreateTask()->setVisible(false);
+
+    parentBoard->get_BL_SprintDropDown()->setVisible(false);
+    parentBoard->get_SelecteSprint()->setVisible(false);
+
+    QTextBrowser* Create_Header = parentBoard->getCreate_Header();
+    Create_Header->setAlignment(Qt::AlignCenter);  // Align text to center
+    Create_Header->setHtml("<html><head/><body><p style='font-size:12pt; text-align:center;'>Create User Stories</p></body></html>");
+
 }
 
 void pb_productbacklog_implementation::Show_CreateSection_Tasks(){
 
     parentBoard->getButton_CreateUserStory()->setVisible(false);
     parentBoard->getButton_CreateTask()->setVisible(true);
+    parentBoard->get_BL_SprintDropDown()->setVisible(true);
+    parentBoard->get_SelecteSprint()->setVisible(true);
+    QTextBrowser* Create_Header = parentBoard->getCreate_Header();
+    Create_Header->setAlignment(Qt::AlignCenter);  // Align text to center
+    Create_Header->setHtml("<html><head/><body><p style='font-size:12pt; text-align:center;'>Create User Tasks</p></body></html>");
 
 }
 
@@ -123,8 +150,8 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
 
     if (dbobj.isOpen()) {
         QSqlQuery query(dbobj);
-        query.prepare("SELECT idTaskPB, Title, Description, Status, Assignee, Priority, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject FROM scrummy.TaskPB WHERE ProductBacklog_Project_idProject = 2");
-        query.bindValue(":projectID", PassedProjectID); // Bind the project ID to the query
+        query.prepare("SELECT idTaskPB, Title, Description, Status, Assignee, Priority, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject FROM scrummy.TaskPB WHERE ProductBacklog_Project_idProject = :projectID");
+        query.bindValue(":projectID", PassedProjectID);
 
         if (query.exec()) {
             qDebug() << "Tasks Retrieved Successfully!";
@@ -387,9 +414,12 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
 
+    int PassedProjectID = parentBoard->getProjectId();
+
     if (dbobj.isOpen()) {
         QSqlQuery query(dbobj);
-        query.prepare("SELECT idUserStoryPB, Title, Description, Status, Priority, Assignee FROM scrummy.UserStoryPB");
+        query.prepare("SELECT idUserStoryPB, Title, Description, Status, Priority, Assignee FROM scrummy.UserStoryPB WHERE ProductBacklog_Project_idProject = :projectID");
+        query.bindValue(":projectID", PassedProjectID);
 
         if (query.exec()) {
             qDebug() << "User Stories Retrieved Successfully!";
@@ -640,25 +670,56 @@ void pb_productbacklog_implementation::addUserStoryToBacklog(const QString& titl
 
 
 
+//------------------------------------------------------------------------------------------------------------------------------
+//Fetch Spirits according to the project you are logged in with
+//------------------------------------------------------------------------------------------------------------------------------
 
 
 
+void pb_productbacklog_implementation::BL_fetechSprints() {
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
 
+    if (!dbobj.isOpen()) {
+        qDebug() << "Database is not open!";
+        return;
+    }
 
+    QComboBox* SprintComboBox = parentBoard->get_BL_SprintDropDown();
+    int PassedProjectID = parentBoard->getProjectId();
+    qDebug() << "Project ID in Product Backlog: " << PassedProjectID;
 
+    // Set font size for the combo box
+    QFont comboBoxFont;
+    comboBoxFont.setPointSize(12); // Set the desired font size
+    SprintComboBox->setFont(comboBoxFont);
 
+    // Clear existing items
+    SprintComboBox->clear();
 
+    QSqlQuery query(dbobj);
+    query.prepare("SELECT Title FROM Sprint WHERE Project_idProject = :projectID");
+    query.bindValue(":projectID", PassedProjectID);
 
+    if (!query.exec()) {
+        qDebug() << "Query failed: " << query.lastError();
+        return;
+    }
 
+    if (query.size() == 0) {
+        qDebug() << "No sprints found for Project ID: " << PassedProjectID;
+        // Optionally, you can add a placeholder item or message in the ComboBox.
+        SprintComboBox->addItem("No Sprints Available");
+        return;
+    }
 
+    while (query.next()) {
+        QString title = query.value(0).toString(); // Fetch the title
 
-
-
-
-
-
-
-
+        qDebug() << "Data fetched from the Sprint table!";
+        SprintComboBox->addItem(title); // Add title to the combo box
+    }
+}
 
 
 

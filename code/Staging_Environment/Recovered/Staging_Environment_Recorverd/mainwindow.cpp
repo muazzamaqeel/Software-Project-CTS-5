@@ -113,23 +113,26 @@ void MainWindow::adminLogin()
     ui->~MainWindow();
 }
 
-void MainWindow::TeamMember_ProjectsWin()
-{
+void MainWindow::TeamMember_ProjectsWin() {
     // qDebug() << "Administrator button clicked.";
-    // To close the MainWindow screen when the admininstrator window is opened
+    // To close the MainWindow screen when the administrator window is opened
     hide();
 
     TeamMember_ProjectsWindow* TeamMemberobj = new TeamMember_ProjectsWindow;
+    TeamMemberobj->setUsername(Pass_inputUsername); // Set the username before using the object
+    TeamMemberobj->ProjectRetrieval(); // Call the retrieval function to use the username
     TeamMemberobj->showMaximized();
-    ui->~MainWindow();
 
+    ui->~MainWindow(); // Consider using delete ui; instead of directly calling the destructor
 }
+
 
 
 
 void MainWindow::userEncryptedLogin()
 {
-    QString inputUsername = ui->input_username->text();
+    inputUsername = ui->input_username->text();
+
     QString inputPassword = ui->input_password->text();
 
     // Hash the input password using SHA-256
@@ -153,7 +156,9 @@ void MainWindow::userEncryptedLogin()
 
                 if (hashedInputPassword == storedHash.toUtf8()) {
                     qDebug() << "Password is correct.";
+                    Pass_inputUsername = inputUsername; // Store the username
                     this->deleteLater();
+                    Pass_inputUsername = inputUsername; // Store the username
                     TeamMember_ProjectsWin();
                 } else {
                     qDebug() << "Password is incorrect.";
@@ -181,5 +186,16 @@ QLineEdit* MainWindow::getInput_Username(){
 QLineEdit* MainWindow::getInput_Password(){
     return ui->input_password;
 }
+
+
+QString MainWindow::PassUsername(){
+    return inputUsername;
+}
+
+void MainWindow::setPassUsername(const QString& username) {
+    Pass_inputUsername = username; // Should be using the passed 'username', not 'inputUsername'
+}
+
+
 //Getter Functions to make the .ui components public
 
