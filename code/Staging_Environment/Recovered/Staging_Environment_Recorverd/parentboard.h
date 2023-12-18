@@ -11,6 +11,7 @@
 #include <QTableWidget> // Include QTableWidget header
 #include <QLineEdit>
 #include <QLabel>
+#include <QDateEdit>
 
 namespace Ui {
 class parentboard;
@@ -56,6 +57,12 @@ public:
 
     QComboBox* get_BL_SprintDropDown();
     QTextBrowser* get_SelecteSprint();
+
+    QLineEdit* get_Input_SprintName();
+    QDateEdit* get_Input_StartDate();
+    QDateEdit* get_Input_EndDate();
+    QPushButton* get_Button_CreateSprint();
+
 
     static parentboard* getInstance(QWidget *parent = nullptr) {
         if (instance == nullptr) {

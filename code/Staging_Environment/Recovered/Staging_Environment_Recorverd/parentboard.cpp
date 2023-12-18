@@ -40,8 +40,12 @@ parentboard::parentboard(QWidget *parent) :
 
 //  pb_productbacklog Implementation Calls
     parentboard *obj = this; // Create an instance of parentboard
+
+
     pb_team_implemenation *teamPagePtr = new pb_team_implemenation(obj);
     pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);
+    pb_sprint_implemenation *pbSprintObj = new pb_sprint_implemenation(obj);
+
     pbProductBacklogObj->Hide_CreateSection();
     connect(ui->backlogButton, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::RetrieveAndDisplayBacklog);
 
@@ -54,10 +58,13 @@ parentboard::parentboard(QWidget *parent) :
     //CREATE USERSTORY AND TASKS
     connect(ui->Button_CreateTask, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::onButtonIssueClicked);
     connect(ui->Button_CreateUserStory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createUserStory_clicked);
+    connect(ui->Button_CreateSprint, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createUserStory_clicked);
 
 
     connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onTableItemChanged);
-    connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onUserStoryTableItemChanged);
+
+    //Create Task
+    connect(ui->Button_CreateSprint, &QPushButton::clicked, pbSprintObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
 
 
 
@@ -146,7 +153,6 @@ int parentboard::getProjectId() const {
 QTableWidget* parentboard::getUserStoriesTableView() {
     return ui->user_stories;
 }
-//
 QPushButton* parentboard::getButton_CreateUserStory(){
     return ui->Button_CreateUserStory;
 }
@@ -186,22 +192,17 @@ QTextEdit* parentboard::getInputStatus(){
 QTextEdit* parentboard::getInputTitle(){
     return ui->InputTitle;
 }
-
 QTableWidget* parentboard::getTeamTableView(){
     return ui->teamTable;
 }
-
 
 QComboBox* parentboard::get_BL_SprintDropDown(){
     return ui->BL_SprintDropDown;
 
 }
-
 QTextBrowser* parentboard::get_SelecteSprint(){
     return ui->SelecteSprint;
-
 }
-
 
 
 //------------------------------------------------------Sprint--------------------------------------------------------
@@ -220,6 +221,25 @@ QLineEdit* parentboard::getFirstNameField(){
 QGroupBox* parentboard::getSprintGroupBox() const {
     return ui->sprintGroupBox;  // Replace "yourGroupBoxName" with the actual name of your group box
 }
+
+QLineEdit* parentboard::get_Input_SprintName(){
+    return ui->Input_SprintName;
+}
+QDateEdit* parentboard::get_Input_StartDate(){
+    return ui->Input_StartDate;
+}
+QDateEdit* parentboard::get_Input_EndDate(){
+    return ui->Input_EndDate;
+}
+QPushButton* parentboard::get_Button_CreateSprint(){
+    return ui->Button_CreateSprint;
+}
+
+
+
+
+
+
 //Confluence
 QWidget* parentboard::getSomeWidget() {
     return ui->confluence_backbutton;

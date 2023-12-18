@@ -69,15 +69,30 @@ void pb_sprint_implemenation::TaskSBretrieval() {
 //Create-Sprint-Task-------------------------------------------------------------------------------
 void pb_sprint_implemenation::on_createtask_sprint_clicked() {
     qDebug() << "Create task sprint button clicked.";
+    QLineEdit* Input_SprintName = parentBoard->get_Input_SprintName();
+    QDateEdit* Input_StartDate = parentBoard->get_Input_StartDate();
+    QDateEdit* Input_EndDate = parentBoard->get_Input_EndDate();
+    int PassedProjectID = parentBoard->getProjectId();
 
-    QString taskName = QInputDialog::getText(nullptr, "Enter Task Name", "Task Name:");
-    QString taskDescription = QInputDialog::getText(nullptr, "Enter Task Description", "Task Description:");
-    addTask(taskName, taskDescription);
-    qDebug() << "Task Name: " << taskName;
-    qDebug() << "Task Description: " << taskDescription;
-
-
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
+    if (!dbobj.isOpen()) {
+        qDebug() << "Connection Not Established - pb_productbacklog_implmentation!";
+        return;
+    }
+    QSqlQuery query(dbobj);
+    query.prepare("INSERT INTO Sprint(Title, StartDate, EndDate, Project_idProject) "
+                  "VALUES (:title, :StartDate, :EndDate, :Project_idProject)");
+    query.bindValue(":title", Input_SprintName->text());
+    query.bindValue(":StartDate", Input_StartDate->date());
+    query.bindValue(":EndDate", Input_EndDate->date());
+    query.bindValue(":Project_idProject", PassedProjectID);
+    if (!query.exec()) {
+        qDebug() << "Error executing query: " << query.lastError().text();
+        return;
+    }
 }
+
 
 void pb_sprint_implemenation::addTask(const QString& taskName, const QString& description) {
     QTableWidget* sprint_table = parentBoard->getSprintTableView();
@@ -101,22 +116,15 @@ void pb_sprint_implemenation::addTask(const QString& taskName, const QString& de
 
 //Create-Sprint--------------------------------------------------------------------------------------
 void pb_sprint_implemenation::on_create_sprint_clicked() {
-
     qDebug() << "Create sprint button clicked.";
-
-
     sprintGroupBox->setVisible(true);
-   // QString sprintName = QInputDialog::getText(nullptr, "Enter Sprint Name", "Sprint Name:");
-
-
-
 }
+
+
 void pb_sprint_implemenation::addSprintName (const QString& sprintName) {
     QComboBox* sprint_table_combobox = parentBoard->getSprint_Top_Down();
     sprint_table_combobox->addItem(sprintName);
 }
-
-
 
 //edit-Sprint--------------------------------------------------------------------------------------
 void pb_sprint_implemenation::on_editsprint_sprint_clicked() {
@@ -164,9 +172,4 @@ void pb_sprint_implemenation::editSprint(const QString& oldSprintName, const QSt
     }
 
     //---------------------------------------------------------------------
-
-
-
-
-
 }
