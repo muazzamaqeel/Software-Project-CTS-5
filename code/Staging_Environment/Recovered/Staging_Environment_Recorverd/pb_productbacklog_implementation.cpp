@@ -104,6 +104,7 @@ void pb_productbacklog_implementation::Show_CreateSection(){
     parentBoard->get_BL_SprintDropDown()->setVisible(true);
     parentBoard->get_SelecteSprint()->setVisible(true);
 
+
 }
 
 void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
@@ -114,6 +115,11 @@ void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
 
     parentBoard->get_BL_SprintDropDown()->setVisible(false);
     parentBoard->get_SelecteSprint()->setVisible(false);
+
+    QTextBrowser* Create_Header = parentBoard->getCreate_Header();
+    Create_Header->setAlignment(Qt::AlignCenter);  // Align text to center
+    Create_Header->setHtml("<html><head/><body><p style='font-size:12pt; text-align:center;'>Create User Stories</p></body></html>");
+
 }
 
 void pb_productbacklog_implementation::Show_CreateSection_Tasks(){
@@ -122,6 +128,10 @@ void pb_productbacklog_implementation::Show_CreateSection_Tasks(){
     parentBoard->getButton_CreateTask()->setVisible(true);
     parentBoard->get_BL_SprintDropDown()->setVisible(true);
     parentBoard->get_SelecteSprint()->setVisible(true);
+    QTextBrowser* Create_Header = parentBoard->getCreate_Header();
+    Create_Header->setAlignment(Qt::AlignCenter);  // Align text to center
+    Create_Header->setHtml("<html><head/><body><p style='font-size:12pt; text-align:center;'>Create User Tasks</p></body></html>");
+
 }
 
 

@@ -52,7 +52,6 @@ public:
     QPushButton* getButton_CreateTask();
     QPushButton* getButton_CreateUserStory();
 
-
     QComboBox* get_BL_SprintDropDown();
     QTextBrowser* get_SelecteSprint();
 

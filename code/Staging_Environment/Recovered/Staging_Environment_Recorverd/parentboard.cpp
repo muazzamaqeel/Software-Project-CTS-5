@@ -195,8 +195,6 @@ QTextBrowser* parentboard::get_SelecteSprint(){
 
 
 
-
-
 //------------------------------------------------------Sprint--------------------------------------------------------
 QTableWidget* parentboard::getSprintTableView() {
     return ui->sprint_table;
@@ -240,6 +238,8 @@ void parentboard::updateSprintDateLabel(const QString& newText)
 {
     ui->labelDateT->setText(newText);
 }
+
+
 
 
 

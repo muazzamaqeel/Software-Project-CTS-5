@@ -842,7 +842,7 @@ color: rgb(255, 255, 255);
 }</string>
         </property>
         <property name="text">
-         <string>UserStory</string>
+         <string>Create</string>
         </property>
        </widget>
        <widget class="QTextEdit" name="InputTitle">
@@ -967,7 +967,7 @@ color: rgb(255, 255, 255);
 }</string>
         </property>
         <property name="text">
-         <string>Task</string>
+         <string>Create</string>
         </property>
        </widget>
        <widget class="QTextBrowser" name="SelecteSprint">
