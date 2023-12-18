@@ -44,7 +44,7 @@ public:
     QTextBrowser* getCreate_Status();
     QTextBrowser* getCreate_Title();
 
-    QTextEdit* getInputAssignee();
+    QComboBox* getInputAssignee();
     QTextEdit* getInputDescription();
     QTextEdit* getInputPriority();
     QTextEdit* getInputStatus();

@@ -284,24 +284,24 @@ void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QS
 
 void pb_productbacklog_implementation::onButtonIssueClicked() {
 
-    QTextEdit* inputAssignee = parentBoard->getInputAssignee();
+    //QComboBox* inputAssignee = parentBoard->getInputAssignee();
     QTextEdit* inputDescription = parentBoard->getInputDescription();
     QTextEdit* inputPriority = parentBoard->getInputPriority();
     QTextEdit* inputStatus = parentBoard->getInputStatus();
     QTextEdit* inputTitle = parentBoard->getInputTitle();
 
     QString title = inputTitle->toPlainText();
-    QString assignee = inputAssignee->toPlainText();
+    //QString assignee = inputAssignee->toPlainText();
     QString description = inputDescription->toPlainText();
     QString priorityText = inputPriority->toPlainText();
     int priority = priorityText.toInt();
     QString status = inputStatus->toPlainText();
 
-    if (title.isEmpty() || assignee.isEmpty() || description.isEmpty() || priorityText.isEmpty() || status.isEmpty()) {
+    if (title.isEmpty() || description.isEmpty() || priorityText.isEmpty() || status.isEmpty()) {
         // One or more fields are empty
         QMessageBox::warning(nullptr, "Missing Values", "Please fill in all fields.");
     } else {
-        addTaskToBacklog(title, description, status, priority, assignee);
+        addTaskToBacklog(title, description, status, priority, "assignee");
     }
 
 
@@ -571,24 +571,24 @@ void pb_productbacklog_implementation::on_createUserStory_clicked() {
     qDebug() << "Create User Story button clicked.";
 
 
-    QTextEdit* inputAssignee = parentBoard->getInputAssignee();
+    //QTextEdit* inputAssignee = parentBoard->getInputAssignee();
     QTextEdit* inputDescription = parentBoard->getInputDescription();
     QTextEdit* inputPriority = parentBoard->getInputPriority();
     QTextEdit* inputStatus = parentBoard->getInputStatus();
     QTextEdit* inputTitle = parentBoard->getInputTitle();
 
     QString title = inputTitle->toPlainText();
-    QString assignee = inputAssignee->toPlainText();
+   // QString assignee = inputAssignee->toPlainText();
     QString description = inputDescription->toPlainText();
     QString priorityText = inputPriority->toPlainText();
     int priority = priorityText.toInt();
     QString status = inputStatus->toPlainText();
 
-    if (title.isEmpty() || assignee.isEmpty() || description.isEmpty() || priorityText.isEmpty() || status.isEmpty()) {
+    if (title.isEmpty() || description.isEmpty() || priorityText.isEmpty() || status.isEmpty()) {
         // One or more fields are empty
         QMessageBox::warning(nullptr, "Missing Values", "Please fill in all fields.");
     } else {
-        addUserStoryToBacklog(title, description, status, priority, assignee);
+        addUserStoryToBacklog(title, description, status, priority, "assignee");
     }
 
     /*
@@ -719,6 +719,46 @@ void pb_productbacklog_implementation::BL_fetechSprints() {
         qDebug() << "Data fetched from the Sprint table!";
         SprintComboBox->addItem(title); // Add title to the combo box
     }
+
+
+    //------------------------------------Assignee----------------------------------------------
+
+
+    QComboBox* InputAssignee = parentBoard->getInputAssignee();
+
+    comboBoxFont.setPointSize(12); // Set the desired font size
+    InputAssignee->setFont(comboBoxFont);
+
+    // Clear existing items
+    InputAssignee->clear();
+    DatabaseManager database1;
+    QSqlDatabase dbobj1 = database1.getDatabase();
+
+    QSqlQuery query1(dbobj1);
+    query.prepare("SELECT Title FROM Sprint WHERE Project_idProject = :projectID");
+    query.bindValue(":projectID", PassedProjectID);
+
+    if (!query.exec()) {
+        qDebug() << "Query failed: " << query.lastError();
+        return;
+    }
+
+    if (query.size() == 0) {
+        qDebug() << "No sprints found for Project ID: " << PassedProjectID;
+        // Optionally, you can add a placeholder item or message in the ComboBox.
+        InputAssignee->addItem("No Sprints Available");
+        return;
+    }
+
+
+    while (query.next()) {
+        QString title = query.value(0).toString(); // Fetch the title
+
+        qDebug() << "Data fetched from the Sprint table!";
+        InputAssignee->addItem(title); // Add title to the combo box
+    }
+
+
 }
 
 

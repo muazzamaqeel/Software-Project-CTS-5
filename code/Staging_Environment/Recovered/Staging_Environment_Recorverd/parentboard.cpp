@@ -167,7 +167,7 @@ QTextBrowser* parentboard::getCreate_Status(){
 QTextBrowser* parentboard::getCreate_Title(){
     return ui->CreateTitle;
 }
-QTextEdit* parentboard::getInputAssignee(){
+QComboBox* parentboard::getInputAssignee(){
     return ui->InputAssignee;
 }
 QTextEdit* parentboard::getInputDescription(){
