@@ -48,7 +48,7 @@ public:
     void UserStoryPBretrieval();
     void UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID);
     void updateUserStoryInDatabase(int storyID, const QString& title, const QString& description, const QString& status, int priority, int assignee);
-    void addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee);
+    void addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee, QString SelectedSprint);
     void onButtonIssueClicked();
     void Hide_CreateSection();
     void Show_CreateSection();

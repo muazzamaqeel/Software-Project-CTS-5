@@ -10,6 +10,7 @@
 #include "qheaderview.h"
 #include "qsqlerror.h"
 #include "qsqlquery.h"
+#include <QRegularExpression>
 
 //Fetch the Sprints from the Sprint table
 #include <QFont>
@@ -283,40 +284,39 @@ void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QS
 
 
 void pb_productbacklog_implementation::onButtonIssueClicked() {
-
     //QComboBox* inputAssignee = parentBoard->getInputAssignee();
     QTextEdit* inputDescription = parentBoard->getInputDescription();
     QTextEdit* inputPriority = parentBoard->getInputPriority();
     QTextEdit* inputStatus = parentBoard->getInputStatus();
     QTextEdit* inputTitle = parentBoard->getInputTitle();
-
     QString title = inputTitle->toPlainText();
-    //QString assignee = inputAssignee->toPlainText();
     QString description = inputDescription->toPlainText();
     QString priorityText = inputPriority->toPlainText();
     int priority = priorityText.toInt();
     QString status = inputStatus->toPlainText();
-
+    QComboBox* SprintDropDown = parentBoard->get_BL_SprintDropDown();
+    QComboBox* InputAssignee = parentBoard->getInputAssignee();
+    // To get the currently selected text from the combo boxes
+    QString Pass_sprint = SprintDropDown->currentText();
+    QString assignee = InputAssignee->currentText();
     if (title.isEmpty() || description.isEmpty() || priorityText.isEmpty() || status.isEmpty()) {
         // One or more fields are empty
         QMessageBox::warning(nullptr, "Missing Values", "Please fill in all fields.");
     } else {
-        addTaskToBacklog(title, description, status, priority, "assignee");
+        addTaskToBacklog(title, description, status, priority, assignee, Pass_sprint);
     }
-
-
-
-
-    //QString title = QInputDialog::getText(nullptr, "Enter Title", "Title:");
-    //QString description = QInputDialog::getText(nullptr, "Enter Description", "Description:");
-    //QStringList statuses = {"To Do", "In Progress", "Done"};
-    //QString status = QInputDialog::getItem(nullptr, "Select Status", "Status:", statuses, 0, false);
-    //int priority = QInputDialog::getInt(nullptr, "Enter Priority", "Priority:", 1, 1, 5, 1);
-    //QString assignee = QInputDialog::getText(nullptr, "Enter Assignee", "Assignee:");
-
 }
-void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee) {
+
+
+
+
+
+void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee, QString SelectedSprint) {
     QTableWidget* table = parentBoard->getUserStoriesTableView(); // Assuming there's a method to get the task table view
+    int PassedProjectID = parentBoard->getProjectId();
+
+    qDebug() << "Project ID in TASKPB - TASKSB: " << PassedProjectID;
+    //Getting the assignee value from the database
     if (!table) {
         qDebug() << "Task table view not found or accessible.";
         return;
@@ -335,13 +335,17 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
     }
 
     QSqlQuery query(dbobj);
-    query.prepare("INSERT INTO scrummy.TaskPB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject)"
-                  "VALUES (:title, :description, :status, :priority, :assignee, 2, 2)");
+    query.prepare("INSERT INTO scrummy.TaskPB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject) "
+                  "VALUES (:title, :description, :status, :priority, :assignee, :productBacklogId, :projectId)");
     query.bindValue(":title", title);
     query.bindValue(":description", description);
     query.bindValue(":status", status);
     query.bindValue(":priority", priority);
     query.bindValue(":assignee", assignee);
+    query.bindValue(":productBacklogId", 1);  // Assuming 2 is the correct value
+    query.bindValue(":projectId", PassedProjectID);
+
+
 
     if (!query.exec()) {
         qDebug() << "Failed to insert data into TaskPB table:" << query.lastError().text();
@@ -350,6 +354,31 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
     }
     qDebug() << "Data inserted into TaskPB table successfully!";
     dbobj.close();
+
+
+    //Copy Of the Task in the Sprint Table
+    /*
+    QSqlQuery query1(dbobj);
+    query1.prepare("INSERT INTO scrummy.TaskSB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject)"
+                  "VALUES (:title, :description, :status, :priority, :assignee, 2, 2)");
+    query1.bindValue(":title", title);
+    query1.bindValue(":description", description);
+    query1.bindValue(":status", status);
+    query1.bindValue(":priority", priority);
+    query1.bindValue(":assignee", assignee);
+
+    if (!query1.exec()) {
+        qDebug() << "Failed to insert data into TaskSB table:" << query1.lastError().text();
+        dbobj.close();
+        return;
+    }
+    qDebug() << "Data inserted into TaskPB table successfully!";
+    dbobj.close();
+    */
+
+
+
+
 
     int rowCount = table->rowCount();
     table->insertRow(rowCount);
@@ -671,7 +700,7 @@ void pb_productbacklog_implementation::addUserStoryToBacklog(const QString& titl
 
 
 //------------------------------------------------------------------------------------------------------------------------------
-//Fetch Spirits according to the project you are logged in with
+//Fetch Spirits and Username - According to the project you are logged in with
 //------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -686,80 +715,65 @@ void pb_productbacklog_implementation::BL_fetechSprints() {
     }
 
     QComboBox* SprintComboBox = parentBoard->get_BL_SprintDropDown();
+    QComboBox* InputAssignee = parentBoard->getInputAssignee();
     int PassedProjectID = parentBoard->getProjectId();
     qDebug() << "Project ID in Product Backlog: " << PassedProjectID;
 
-    // Set font size for the combo box
+    // Set font size for the combo boxes
     QFont comboBoxFont;
-    comboBoxFont.setPointSize(12); // Set the desired font size
+    comboBoxFont.setPointSize(12);
     SprintComboBox->setFont(comboBoxFont);
+    InputAssignee->setFont(comboBoxFont);
 
-    // Clear existing items
+    // Clear existing items in both combo boxes
     SprintComboBox->clear();
+    InputAssignee->clear();
 
+    // Fetch Sprints
     QSqlQuery query(dbobj);
     query.prepare("SELECT Title FROM Sprint WHERE Project_idProject = :projectID");
     query.bindValue(":projectID", PassedProjectID);
 
     if (!query.exec()) {
-        qDebug() << "Query failed: " << query.lastError();
+        qDebug() << "Sprint query failed: " << query.lastError();
         return;
     }
 
     if (query.size() == 0) {
         qDebug() << "No sprints found for Project ID: " << PassedProjectID;
-        // Optionally, you can add a placeholder item or message in the ComboBox.
         SprintComboBox->addItem("No Sprints Available");
+    } else {
+        while (query.next()) {
+            QString title = query.value(0).toString();
+            SprintComboBox->addItem(title);
+        }
+    }
+
+    // Fetch Assignees
+    QSqlQuery query1(dbobj);
+    query1.prepare("SELECT User.Username "
+                   "FROM Project "
+                   "INNER JOIN Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
+                   "INNER JOIN User ON Project_has_User.User_idUser = User.idUser "
+                   "WHERE Project_has_User.Project_idProject = :projectID");
+    query1.bindValue(":projectID", PassedProjectID);
+
+    if (!query1.exec()) {
+        qDebug() << "Assignee query failed: " << query1.lastError();
         return;
     }
 
-    while (query.next()) {
-        QString title = query.value(0).toString(); // Fetch the title
-
-        qDebug() << "Data fetched from the Sprint table!";
-        SprintComboBox->addItem(title); // Add title to the combo box
+    if (query1.size() == 0) {
+        qDebug() << "No assignees found for Project ID: " << PassedProjectID;
+        InputAssignee->addItem("No Assignees Available");
+    } else {
+        while (query1.next()) {
+            QString username = query1.value(0).toString();
+            InputAssignee->addItem(username);
+        }
     }
-
-
-    //------------------------------------Assignee----------------------------------------------
-
-
-    QComboBox* InputAssignee = parentBoard->getInputAssignee();
-
-    comboBoxFont.setPointSize(12); // Set the desired font size
-    InputAssignee->setFont(comboBoxFont);
-
-    // Clear existing items
-    InputAssignee->clear();
-    DatabaseManager database1;
-    QSqlDatabase dbobj1 = database1.getDatabase();
-
-    QSqlQuery query1(dbobj1);
-    query.prepare("SELECT Title FROM Sprint WHERE Project_idProject = :projectID");
-    query.bindValue(":projectID", PassedProjectID);
-
-    if (!query.exec()) {
-        qDebug() << "Query failed: " << query.lastError();
-        return;
-    }
-
-    if (query.size() == 0) {
-        qDebug() << "No sprints found for Project ID: " << PassedProjectID;
-        // Optionally, you can add a placeholder item or message in the ComboBox.
-        InputAssignee->addItem("No Sprints Available");
-        return;
-    }
-
-
-    while (query.next()) {
-        QString title = query.value(0).toString(); // Fetch the title
-
-        qDebug() << "Data fetched from the Sprint table!";
-        InputAssignee->addItem(title); // Add title to the combo box
-    }
-
-
 }
+
 
 
 

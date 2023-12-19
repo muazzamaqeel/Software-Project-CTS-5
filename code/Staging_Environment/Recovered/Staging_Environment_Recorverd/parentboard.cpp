@@ -58,13 +58,9 @@ parentboard::parentboard(QWidget *parent) :
     //CREATE USERSTORY AND TASKS
     connect(ui->Button_CreateTask, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::onButtonIssueClicked);
     connect(ui->Button_CreateUserStory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createUserStory_clicked);
-    connect(ui->Button_CreateSprint, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createUserStory_clicked);
-
-
+    //connect(ui->CreateSprint_SprintTab, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createUserStory_clicked);
     connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onTableItemChanged);
 
-    //Create Task
-    connect(ui->Button_CreateSprint, &QPushButton::clicked, pbSprintObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
 
 
 
@@ -74,6 +70,8 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->sprint_create_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_create_sprint_clicked);
     connect(ui->edit_sprint_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_editsprint_sprint_clicked);
     connect(ui->sprintsButton,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::RetrieveAndDisplayTask);
+    //Create Task
+    connect(ui->CreateSprint_SprintTab, &QPushButton::clicked, pbSprintObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
 
 
 
@@ -232,7 +230,7 @@ QDateEdit* parentboard::get_Input_EndDate(){
     return ui->Input_EndDate;
 }
 QPushButton* parentboard::get_Button_CreateSprint(){
-    return ui->Button_CreateSprint;
+    return ui->CreateSprint_SprintTab;
 }
 
 

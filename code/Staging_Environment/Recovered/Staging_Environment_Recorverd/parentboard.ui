@@ -254,7 +254,7 @@ color: rgb(255, 255, 255);
      </property>
      <property name="minimumSize">
       <size>
-       <width>104</width>
+       <width>128</width>
        <height>40</height>
       </size>
      </property>
@@ -1850,7 +1850,7 @@ color: rgb(0, 0, 0);
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="Button_CreateSprint">
+     <widget class="QPushButton" name="CreateSprint_SprintTab">
       <property name="geometry">
        <rect>
         <x>250</x>
