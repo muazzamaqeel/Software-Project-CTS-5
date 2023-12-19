@@ -15,8 +15,8 @@ void pb_team_implemenation::on_createuser_clicked(){
     firstNameField->setText(GetUserFirstName(28));
 }
 
-void pb_team_implemenation::UserRetrieval(){
-    if(parentBoard->isTeamTableActive==true){
+void pb_team_implemenation::UserRetrieval() {
+    if (parentBoard->isTeamTableActive) {
         return;
     }
     parentBoard->isTeamTableActive = true;
@@ -26,38 +26,33 @@ void pb_team_implemenation::UserRetrieval(){
 
     int projectID = parentBoard->getProjectId();
 
-    if(databaseInstance.isOpen()){
-        query.prepare("SELECT FirstName, Email, Role_idRole FROM User"
-                        "INNER JOIN Project_has_User ON User.idUser = Project_has_User.User_idUser"
-                        "INNER JOIN Project ON Project.idProject = Project_has_User.Project_idProject"
-                        "WHERE Project_has_User.Project_idProject = :projectID");
+    if (databaseInstance.isOpen()) {
+        query.prepare("SELECT FirstName, Email, Role_idRole FROM User "
+                      "INNER JOIN Project_has_User ON User.idUser = Project_has_User.User_idUser "
+                      "INNER JOIN Project ON Project.idProject = Project_has_User.Project_idProject "
+                      "WHERE Project_has_User.Project_idProject = :projectID");
         query.bindValue(":projectID", projectID);
         qDebug() << "Query prepared";
-        try{
-            query.exec();
-        }
-        catch(std::exception e){
-            qDebug() << e.what();
-            return;
-        }
-        try{
-            while(query.next()){
-                QString firstName = query.value(0).toString();
-                QString email = query.value(1).toString();
-                QString role = query.value(2).toString();
-                AddRowUser(firstName, email, role);
-                qDebug() << "Trying value fetch";
-            }
-        }
-        catch(std::exception e){
-            qDebug() << e.what();
+
+        if (!query.exec()) {
+            qDebug() << "Query execution error: " << query.lastError().text();
             return;
         }
 
-    } else{
-        qDebug() << "Failed to retrieve data: " << query.lastError().text();
+        while (query.next()) {
+            QString firstName = query.value(0).toString();
+            QString email = query.value(1).toString();
+            QString role = query.value(2).toString();
+            AddRowUser(firstName, email, role);
+            qDebug() << "Row fetched: " << firstName << ", " << email << ", " << role;
+        }
+    } else {
+        qDebug() << "Failed to open database: " << databaseInstance.lastError().text();
     }
+
+    parentBoard->isTeamTableActive = false; // Reset the flag at the end of the method
 }
+
 void pb_team_implemenation::AddRowUser(const QString& firstNameInput, const QString& emailInput, const QString& roleInput){
     QTableWidget* teamTable = parentBoard->getTeamTableView();
     QHeaderView* header = teamTable->horizontalHeader();
