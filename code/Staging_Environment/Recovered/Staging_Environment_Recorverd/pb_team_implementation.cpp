@@ -24,23 +24,36 @@ void pb_team_implemenation::UserRetrieval(){
     QSqlDatabase databaseInstance = database.getDatabase();
     QSqlQuery query(databaseInstance);
 
-    int queryString = parentBoard->getProjectId();
+    int projectID = parentBoard->getProjectId();
 
     if(databaseInstance.isOpen()){
-        query.prepare("SELECT User.FirstName, User.Email, User.Role_idRole"
-                        "FROM Project"
-                        "INNER JOIN Project_has_User ON Project.idProject = Project_has_User.Project_idProject"
-                        "INNER JOIN User ON Project_has_User.User_idUser = User.idUser "
-                        "WHERE Project_has_User.Project_idProject = :validUsername");
-        query.bindValue(":validUsername", queryString);
-
-        query.exec();
-        while(query.next()){
-            QString firstName = query.value(0).toString();
-            QString email = query.value(1).toString();
-            QString role = query.value(2).toString();
-            AddRowUser(firstName, email, role);
+        query.prepare("SELECT FirstName, Email, Role_idRole FROM User"
+                        "INNER JOIN Project_has_User ON User.idUser = Project_has_User.User_idUser"
+                        "INNER JOIN Project ON Project.idProject = Project_has_User.Project_idProject"
+                        "WHERE Project_has_User.Project_idProject = :projectID");
+        query.bindValue(":projectID", projectID);
+        qDebug() << "Query prepared";
+        try{
+            query.exec();
         }
+        catch(std::exception e){
+            qDebug() << e.what();
+            return;
+        }
+        try{
+            while(query.next()){
+                QString firstName = query.value(0).toString();
+                QString email = query.value(1).toString();
+                QString role = query.value(2).toString();
+                AddRowUser(firstName, email, role);
+                qDebug() << "Trying value fetch";
+            }
+        }
+        catch(std::exception e){
+            qDebug() << e.what();
+            return;
+        }
+
     } else{
         qDebug() << "Failed to retrieve data: " << query.lastError().text();
     }
