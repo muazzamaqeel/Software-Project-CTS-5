@@ -221,6 +221,9 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
         qDebug() << "Table view not found or accessible.";
     }
 }
+
+
+//EDIT FUNCTIONALITY
 void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item) {
     if (!item) {
         qDebug() << "Item is null";
@@ -571,14 +574,12 @@ void pb_productbacklog_implementation::onUserStoryTableItemChanged(QTableWidgetI
         QString status = userStoriesTable->item(row, 4)->text();
         int priority = userStoriesTable->item(row, 5)->text().toInt();
         int assignee = userStoriesTable->item(row, 6)->text().toInt();
-        /*
         qDebug() << "Updating User Story: ID:" << storyID
                  << " Title:" << title
                  << " Description:" << description
                  << " Status:" << status
                  << " Priority:" << priority
                  << " Assignee:" << assignee;
-        */
         updateUserStoryInDatabase(storyID, title, description, status, priority, assignee);
     } else {
         qDebug() << "User story ID not found in storyMap. ID:" << storyID;
