@@ -18,7 +18,7 @@ public:
     void on_createtask_sprint_clicked();
     void on_create_sprint_clicked();
     void addSprintName(const QString& sprintName);
-    void addTask(const QString& taskName, const QString& description);
+    void addSprint(const QString& StartDate, const QString& EndDate,const QString& Title);
     void on_editsprint_sprint_clicked();
     void editSprint(const QString& oldSprintName, const QString& newSprintName);
     void RetrieveAndDisplayTask();
@@ -27,6 +27,8 @@ public:
     void RetrieveAndDisplaySprints();
     void clearSprintTable();
     void SprintRetrieval();
+    void deleteProject();
+     void onDeleteButtonClicked();
 private:
     parentboard* parentBoard;
     QGroupBox* sprintGroupBox;

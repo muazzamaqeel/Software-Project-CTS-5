@@ -44,18 +44,20 @@ void pb_sprint_implemenation::TaskSBretrieval() {
 
     if (dbobj.isOpen()) {
         QSqlQuery query(dbobj);
-        query.prepare("SELECT Title, Description FROM scrummy.TaskSB");
+        query.prepare("SELECT StartDate, EndDate,Title from Sprint");
 
         if (query.exec()) {
-            qDebug() << "Tasks Retrieved Successfully!";
+            qDebug() << "Sprint Retrieved Successfully!";
 
             while (query.next()) {
                 // Retrieve each value from the query result
-                QString taskName = query.value(0).toString();
-                QString description = query.value(1).toString();
+                QString StartDate = query.value(0).toString();
+                QString EndDate = query.value(1).toString();
+                QString Title = query.value(2).toString();
+
 
                 // Now use the addBacklog function to add each retrieved row to the table
-                addTask( taskName, description); // Assuming type is "Task"
+                addSprint( StartDate, EndDate,Title); // Assuming type is "Task"
             }
         } else {
             qDebug() << "Failed to retrieve data: " << query.lastError().text();
@@ -94,7 +96,7 @@ void pb_sprint_implemenation::on_createtask_sprint_clicked() {
 }
 
 
-void pb_sprint_implemenation::addTask(const QString& taskName, const QString& description) {
+void pb_sprint_implemenation::addSprint(const QString& StartDate, const QString& EndDate,const QString& Title) {
     QTableWidget* sprint_table = parentBoard->getSprintTableView();
 
     // Adjust the column widths to take up the available space
@@ -105,14 +107,64 @@ void pb_sprint_implemenation::addTask(const QString& taskName, const QString& de
     if (sprint_table) {
         int IssuerowCount = sprint_table->rowCount(); // Get current row count
         sprint_table->insertRow(IssuerowCount); // Insert a new row at the end
-        QTableWidgetItem* SprintnameItem = new QTableWidgetItem(taskName);
-        QTableWidgetItem* SprintdescriptionItem = new QTableWidgetItem(description);
-        sprint_table->setItem(IssuerowCount, 0, SprintnameItem); // Insert taskName in column 0
-        sprint_table->setItem(IssuerowCount, 1, SprintdescriptionItem); // Insert description in column 1
+        QTableWidgetItem* SprintstartdateItem = new QTableWidgetItem(StartDate);
+        QTableWidgetItem* SprintenddateItem = new QTableWidgetItem(EndDate);
+        QTableWidgetItem* SprinttitleItem = new QTableWidgetItem(Title);
+
+        sprint_table->setItem(IssuerowCount, 0, SprintstartdateItem); // Insert taskName in column 0
+        sprint_table->setItem(IssuerowCount, 1, SprintenddateItem); // Insert description in column 1
+        sprint_table->setItem(IssuerowCount, 2, SprinttitleItem); // Insert description in column 2
+
     } else {
         qDebug() << "Table view not found or accessible.";
     }
 }
+
+void pb_sprint_implemenation::onDeleteButtonClicked() {
+    deleteProject();
+}
+
+
+void pb_sprint_implemenation::deleteProject() {
+    QTableWidget* sprint_table = parentBoard->getSprintTableView();
+    QItemSelectionModel* selectionModel = sprint_table->selectionModel();
+    QModelIndexList selectedRows = selectionModel->selectedRows();
+
+    if (selectedRows.isEmpty()) {
+        qDebug() << "No rows selected for deletion.";
+        return;
+    }
+
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
+    if (!dbobj.isOpen()) {
+        qDebug() << "Connection Not Established - pb_productbacklog_implmentation!";
+        return;
+    }
+
+    QSqlQuery query(dbobj);
+    dbobj.transaction();  // Start a transaction to ensure atomicity
+
+    for (const QModelIndex& selectedRow : selectedRows) {
+        int row = selectedRow.row();
+        int idSprint = sprint_table->item(row, 0)->text().toInt();  // Assuming the first column contains Sprint ID
+
+        // SQL Statement to delete the sprint from the database
+        query.prepare("DELETE FROM Sprint WHERE idSprint = :idSprint");
+        query.bindValue(":idSprint", idSprint);
+
+        if (!query.exec()) {
+            qDebug() << "Error executing delete query: " << query.lastError().text();
+            dbobj.rollback();  // Rollback the transaction on error
+            return;
+        }
+
+        sprint_table->removeRow(row);
+    }
+
+    dbobj.commit();  // Commit the transaction if everything is successful
+}
+
 
 //Create-Sprint--------------------------------------------------------------------------------------
 void pb_sprint_implemenation::on_create_sprint_clicked() {

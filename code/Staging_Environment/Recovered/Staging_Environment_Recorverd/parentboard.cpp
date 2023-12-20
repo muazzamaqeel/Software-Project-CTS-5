@@ -30,8 +30,8 @@ parentboard::parentboard(QWidget *parent) :
     taskModel->setColumnCount(2);
     ui->teamTable->setColumnCount(3);
     ui->teamTable->setHorizontalHeaderLabels({"First name", "Email", "Role"});
-    ui->sprint_table->setColumnCount(2);
-    ui->sprint_table->setHorizontalHeaderLabels({"Task Name", "Description"}); // Set column headers
+    ui->sprint_table->setColumnCount(3);
+    ui->sprint_table->setHorizontalHeaderLabels({"StartDate", "EndDate","Title"}); // Set column headers
     ui->user_stories->setColumnCount(3); // Add a new column for priority
     ui->user_stories->setHorizontalHeaderLabels({"Userstory", "Description", "Priority"}); // Set column headers
 //    ui->issues->setColumnCount(3); // Add a new column for priority
@@ -70,7 +70,9 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->sprintsButton,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::RetrieveAndDisplayTask);
     //Create Task
     connect(ui->CreateSprint_SprintTab, &QPushButton::clicked, pbSprintObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
-
+    connect(ui->delete_button,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::onDeleteButtonClicked);
+    // Connect the delete button click signal to the onDeleteButtonClicked() slot
+   // connect(ui->delete_button, SIGNAL(clicked()), this, SLOT(onDeleteButtonClicked()));
 
 
 //  pb_team Implementation Calls

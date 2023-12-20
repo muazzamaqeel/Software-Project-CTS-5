@@ -108,7 +108,7 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -254,7 +254,7 @@ color: rgb(255, 255, 255);
      </property>
      <property name="minimumSize">
       <size>
-       <width>128</width>
+       <width>104</width>
        <height>40</height>
       </size>
      </property>
@@ -1863,6 +1863,136 @@ color: rgb(0, 0, 0);
        <string>Create</string>
       </property>
      </widget>
+     <widget class="QGroupBox" name="Sprint_View_Box">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>340</y>
+        <width>61</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Sprint View</string>
+      </property>
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>49</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Title</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineTitle">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>40</y>
+         <width>113</width>
+         <height>24</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>49</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>StartDate:</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineStartDate">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>80</y>
+         <width>113</width>
+         <height>24</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_4">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>120</y>
+         <width>49</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>EndDate</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEndDate">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>120</y>
+         <width>113</width>
+         <height>24</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>160</y>
+         <width>49</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Tasks:</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="delete_button">
+     <property name="geometry">
+      <rect>
+       <x>740</x>
+       <y>20</y>
+       <width>110</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>110</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>110</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+font: 13pt &quot;Arial&quot;;
+background-color: rgb(100, 100, 100);
+color: rgb(255, 255, 255);
+}</string>
+     </property>
+     <property name="text">
+      <string>Delete</string>
+     </property>
     </widget>
     <zorder>toplabelB_2</zorder>
     <zorder>selectorB_2</zorder>
@@ -1876,6 +2006,7 @@ color: rgb(0, 0, 0);
     <zorder>sprint_date</zorder>
     <zorder>sprint_table</zorder>
     <zorder>sprintGroupBox</zorder>
+    <zorder>delete_button</zorder>
    </widget>
    <widget class="QWidget" name="confluencePage">
     <widget class="QLabel" name="selectorC">
