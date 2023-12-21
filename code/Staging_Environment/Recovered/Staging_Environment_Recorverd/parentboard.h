@@ -62,7 +62,7 @@ public:
     QDateEdit* get_Input_StartDate();
     QDateEdit* get_Input_EndDate();
     QPushButton* get_Button_CreateSprint();
-
+    QGroupBox* getCreationBox();
 
     static parentboard* getInstance(QWidget *parent = nullptr) {
         if (instance == nullptr) {

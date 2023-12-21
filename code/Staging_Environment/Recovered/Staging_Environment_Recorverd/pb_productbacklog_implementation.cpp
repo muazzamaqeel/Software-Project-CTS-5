@@ -22,6 +22,10 @@
 pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* parentBoardInstance) {
     // Initialize any necessary variables or connections
     parentBoard = parentBoardInstance;
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    userStoriesTable->setGeometry(20, 55, 1250, 500);
+        parentBoard->getCreationBox()->setVisible(false);
+
 
 }
 void pb_productbacklog_implementation::clearUserStoriesTable() {
@@ -36,7 +40,11 @@ void pb_productbacklog_implementation::clearUserStoriesTable() {
     //SprintBox->clear();
 }
 void pb_productbacklog_implementation::RetrieveAndDisplayBacklog() {
+
+    qDebug() <<"RetrieveAndDisplayBacklog Called";
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    userStoriesTable->setGeometry(20, 55, 1250, 500);
+    parentBoard->getCreationBox()->setVisible(false);
 
     if (userStoriesTable) {
         userStoriesTable->blockSignals(true); // Block signals
@@ -91,6 +99,7 @@ void pb_productbacklog_implementation::Hide_CreateSection(){
 
 
 void pb_productbacklog_implementation::Show_CreateSection(){
+    parentBoard->getCreationBox()->setVisible(true);
     parentBoard->getCreate_Assignee()->setVisible(true);
     parentBoard->getCreate_Description()->setVisible(true);
     parentBoard->getCreate_Header()->setVisible(true);
@@ -110,7 +119,10 @@ void pb_productbacklog_implementation::Show_CreateSection(){
 
 void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
 
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    userStoriesTable->setGeometry(20, 55, 750, 500);
 
+    parentBoard->getCreationBox()->setVisible(true);
     parentBoard->getButton_CreateUserStory()->setVisible(true);
     parentBoard->getButton_CreateTask()->setVisible(false);
 
@@ -125,6 +137,9 @@ void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
 
 void pb_productbacklog_implementation::Show_CreateSection_Tasks(){
 
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    userStoriesTable->setGeometry(20, 55, 750, 500);
+    parentBoard->getCreationBox()->setVisible(true);
     parentBoard->getButton_CreateUserStory()->setVisible(false);
     parentBoard->getButton_CreateTask()->setVisible(true);
     parentBoard->get_BL_SprintDropDown()->setVisible(true);
@@ -379,8 +394,6 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
 
 
    //-----------------START-----------------------------Copy Of the Task in the Sprint Table
-
-
 
 
 

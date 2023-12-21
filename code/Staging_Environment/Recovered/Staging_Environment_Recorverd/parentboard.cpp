@@ -32,21 +32,24 @@ parentboard::parentboard(QWidget *parent) :
     ui->teamTable->setHorizontalHeaderLabels({"First name", "Email", "Role"});
     ui->sprint_table->setColumnCount(3);
     ui->sprint_table->setHorizontalHeaderLabels({"StartDate", "EndDate","Title"}); // Set column headers
-    ui->user_stories->setColumnCount(3); // Add a new column for priority
-    ui->user_stories->setHorizontalHeaderLabels({"Userstory", "Description", "Priority"}); // Set column headers
-//    ui->issues->setColumnCount(3); // Add a new column for priority
-//    ui->issues->setHorizontalHeaderLabels({"Issue", "Description", "Priority"}); // Set column headers
 
 
-//  pb_productbacklog Implementation Calls
+
+
+    //ui->user_stories->setColumnCount(3); // Add a new column for priority
+    //ui->user_stories->setHorizontalHeaderLabels({"Userstory", "Description", "Priority"}); // Set column headers
+    //ui->issues->setColumnCount(3); // Add a new column for priority
+    //ui->issues->setHorizontalHeaderLabels({"Issue", "Description", "Priority"}); // Set column headers
+
+
+//  pb_productbacklog Implementation Calls ---Start
     parentboard *obj = this; // Create an instance of parentboard
-
-
     pb_team_implemenation *teamPagePtr = new pb_team_implemenation(obj);
     pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);
     pb_sprint_implemenation *pbSprintObj = new pb_sprint_implemenation(obj);
-
+    pbProductBacklogObj->RetrieveAndDisplayBacklog();
     pbProductBacklogObj->Hide_CreateSection();
+
     connect(ui->backlogButton, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::RetrieveAndDisplayBacklog);
     connect(ui->button_userstory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::Show_CreateSection);
     connect(ui->buttton_issue, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::Show_CreateSection);
@@ -58,6 +61,7 @@ parentboard::parentboard(QWidget *parent) :
     //connect(ui->CreateSprint_SprintTab, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createUserStory_clicked);
     connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onTableItemChanged);
     connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onUserStoryTableItemChanged);
+//  pb_productbacklog Implementation Calls ---End
 
 
 
@@ -200,6 +204,10 @@ QComboBox* parentboard::get_BL_SprintDropDown(){
 }
 QTextBrowser* parentboard::get_SelecteSprint(){
     return ui->SelecteSprint;
+}
+QGroupBox* parentboard::getCreationBox(){
+    return ui->CreationBox;
+
 }
 
 
