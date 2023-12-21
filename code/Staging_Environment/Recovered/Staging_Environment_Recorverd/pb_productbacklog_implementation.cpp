@@ -337,6 +337,27 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
         return;
     }
 
+
+
+    //-----------------Taking the Correct ProductBacklog ID--------------------
+    QSqlQuery querySelect(dbobj);
+    querySelect.prepare("SELECT PB.idProductBacklog "
+                        "FROM Project AS P "
+                        "INNER JOIN ProductBacklog AS PB ON P.idProject = PB.Project_idProject "
+                        "WHERE P.idProject = :projectId");
+    querySelect.bindValue(":projectId", PassedProjectID);
+
+    int productBacklogId = 0;
+    if (querySelect.exec()) {
+        if (querySelect.next()) {
+            productBacklogId = querySelect.value(0).toInt();
+        }
+    } else {
+        qDebug() << "Failed to retrieve ProductBacklog ID:" << querySelect.lastError().text();
+        return;
+    }
+
+
     QSqlQuery query(dbobj);
     query.prepare("INSERT INTO scrummy.TaskPB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject) "
                   "VALUES (:title, :description, :status, :priority, :assignee, :productBacklogId, :projectId)");
@@ -345,39 +366,62 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
     query.bindValue(":status", status);
     query.bindValue(":priority", priority);
     query.bindValue(":assignee", assignee);
-    query.bindValue(":productBacklogId", 1);  // Assuming 2 is the correct value
+    query.bindValue(":productBacklogId", productBacklogId);  // Assuming 2 is the correct value
     query.bindValue(":projectId", PassedProjectID);
-
-
-
     if (!query.exec()) {
         qDebug() << "Failed to insert data into TaskPB table:" << query.lastError().text();
         dbobj.close();
         return;
     }
     qDebug() << "Data inserted into TaskPB table successfully!";
-    dbobj.close();
 
 
-    //Copy Of the Task in the Sprint Table
-    /*
+
+
+   //-----------------START-----------------------------Copy Of the Task in the Sprint Table
+
+
+
+
+
+    QSqlQuery queryUser(dbobj);
+    queryUser.prepare("SELECT idUser FROM User WHERE Username = :username");
+    queryUser.bindValue(":username", assignee);
+
+    int assigneeId = 0;
+    if (queryUser.exec()) {
+        if (queryUser.next()) {
+            assigneeId = queryUser.value(0).toInt(); // Assuming the first column is the user ID
+        }
+    } else {
+        qDebug() << "Failed to retrieve user ID:" << queryUser.lastError().text();
+        return;
+    }
+
+
+
+
     QSqlQuery query1(dbobj);
-    query1.prepare("INSERT INTO scrummy.TaskSB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject)"
-                  "VALUES (:title, :description, :status, :priority, :assignee, 2, 2)");
+    query1.prepare("INSERT INTO scrummy.TaskSB(Title, Description, Status, Priority, Assignee, SprintBacklog_idSprintBacklog, SprintBacklog_Sprint_idSprint, SprintBacklog_Sprint_Project_idProject) "
+                   "VALUES (:title, :description, :status, :priority, :assignee, :sprintBacklogId, :sprintId, :projectId)");
     query1.bindValue(":title", title);
     query1.bindValue(":description", description);
     query1.bindValue(":status", status);
     query1.bindValue(":priority", priority);
-    query1.bindValue(":assignee", assignee);
+    query1.bindValue(":assignee", assigneeId); // Assuming 'assignee' is a variable holding the assignee's ID
+    query1.bindValue(":sprintBacklogId", 1); // Assuming this is a constant or should be obtained dynamically
+    query1.bindValue(":sprintId", SelectedSprint); // Assuming SelectedSprint is a variable holding the sprint ID
+    query1.bindValue(":projectId", PassedProjectID); // Assuming PassedProjectID is a variable holding the project ID
 
     if (!query1.exec()) {
         qDebug() << "Failed to insert data into TaskSB table:" << query1.lastError().text();
         dbobj.close();
         return;
     }
-    qDebug() << "Data inserted into TaskPB table successfully!";
+    qDebug() << "Data inserted into TaskSB table successfully!";
     dbobj.close();
-    */
+
+    //-----------------END-----------------------------Copy Of the Task in the Sprint Table
 
 
 

@@ -163,12 +163,16 @@ void ProjectsAdmin::deleteProject() {
 
 //--------------------------------------------------------------------------------------------------------
 void ProjectsAdmin::addProjectToDatabase(const QString& taskName, const QString& description) {
-    int Adminstrate_idAdmin = 1;  // You might want to modify this based on your requirements
+    int Adminstrate_idAdmin = 1;  // Modify this based on your requirements
 
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
 
     if (dbobj.isOpen()) {
+        // Start a transaction
+        dbobj.transaction();
+
+        // Insert into Project table
         QSqlQuery query(dbobj);
         query.prepare("INSERT INTO Project (ProjectName, Description, Adminstrate_idAdmin) "
                       "VALUES (:ProjectName, :Description, :Adminstrate_idAdmin)");
@@ -176,17 +180,36 @@ void ProjectsAdmin::addProjectToDatabase(const QString& taskName, const QString&
         query.bindValue(":Description", description);
         query.bindValue(":Adminstrate_idAdmin", Adminstrate_idAdmin);
 
-        if (query.exec()) {
-            qDebug() << "Data inserted into Project table successfully!";
-        } else {
+        if (!query.exec()) {
             qDebug() << "Failed to insert data into Project table:" << query.lastError().text();
+            dbobj.rollback(); // Rollback transaction on failure
+            return;
         }
 
-        dbobj.close();
+        // Get the last inserted id
+        int lastId = query.lastInsertId().toInt();
+
+        // Insert into ProductBacklog table
+        query.prepare("INSERT INTO ProductBacklog (idProductBacklog, Name, Project_idProject) "
+                      "VALUES (:idProductBacklog, :Name, :Project_idProject)");
+        query.bindValue(":idProductBacklog", lastId);
+        query.bindValue(":Name", taskName);
+        query.bindValue(":Project_idProject", lastId);
+
+        if (!query.exec()) {
+            qDebug() << "Failed to insert data into ProductBacklog table:" << query.lastError().text();
+            dbobj.rollback(); // Rollback transaction on failure
+            return;
+        }
+
+        // Commit the transaction
+        dbobj.commit();
+        qDebug() << "Data inserted into Project and ProductBacklog tables successfully!";
     } else {
         qDebug() << "Connection Not Established - ProjectAdmin class!";
     }
 }
+
 
 void ProjectsAdmin::deleteProjectFromDatabase(const QString& projectName) {
     // SQL Statement to delete a project from the database

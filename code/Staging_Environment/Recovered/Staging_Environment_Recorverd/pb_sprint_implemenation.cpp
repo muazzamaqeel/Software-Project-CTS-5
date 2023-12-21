@@ -78,10 +78,16 @@ void pb_sprint_implemenation::on_createtask_sprint_clicked() {
 
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
+
     if (!dbobj.isOpen()) {
-        qDebug() << "Connection Not Established - pb_productbacklog_implmentation!";
+        qDebug() << "Connection Not Established - pb_productbacklog_implementation!";
         return;
     }
+
+    // Start a transaction
+    dbobj.transaction();
+
+    // Insert into Sprint table
     QSqlQuery query(dbobj);
     query.prepare("INSERT INTO Sprint(Title, StartDate, EndDate, Project_idProject) "
                   "VALUES (:title, :StartDate, :EndDate, :Project_idProject)");
@@ -89,10 +95,35 @@ void pb_sprint_implemenation::on_createtask_sprint_clicked() {
     query.bindValue(":StartDate", Input_StartDate->date());
     query.bindValue(":EndDate", Input_EndDate->date());
     query.bindValue(":Project_idProject", PassedProjectID);
+
     if (!query.exec()) {
         qDebug() << "Error executing query: " << query.lastError().text();
+        dbobj.rollback(); // Rollback transaction on failure
         return;
     }
+
+    // Get the last inserted id for Sprint
+    int lastSprintId = query.lastInsertId().toInt();
+
+    // Insert into SprintBacklog table
+    query.prepare("INSERT INTO SprintBacklog (idSprintBacklog, Priority, Status, Sprint_idSprint, Sprint_Project_idProject) "
+                  "VALUES (:idSprintBacklog, :Priority, :Status, :Sprint_idSprint, :Sprint_Project_idProject)");
+    query.bindValue(":idSprintBacklog", lastSprintId);
+    query.bindValue(":Priority", "N/A");
+    query.bindValue(":Status", Input_SprintName->text());
+    query.bindValue(":Sprint_idSprint", lastSprintId);
+    query.bindValue(":Sprint_Project_idProject", PassedProjectID);
+
+    if (!query.exec()) {
+        qDebug() << "Failed to insert data into SprintBacklog table:" << query.lastError().text();
+        dbobj.rollback(); // Rollback transaction on failure
+        return;
+    }
+
+    // Commit the transaction
+    dbobj.commit();
+    qDebug() << "Data inserted into Sprint and SprintBacklog tables successfully!";
+
 }
 
 
