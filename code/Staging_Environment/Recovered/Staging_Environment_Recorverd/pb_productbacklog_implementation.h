@@ -68,7 +68,8 @@ public slots:
     void Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, int assignee, int priority, int taskID);
     void onTableItemChanged(QTableWidgetItem* item);
     void updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, int assignee, int priority);
-
+    void onStatusChanged(int taskID, const QString& status);
+    void onUserStoryStatusChanged(int storyID, const QString& newStatus);
 private:
     parentboard* parentBoard; // Reference to the parent board
     QMap<int, UserStoryDetails> storyMap; // Map for storing UserStoryDetails objects

@@ -200,7 +200,6 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
     userStoriesTable->setColumnCount(7); // Include an additional column for Task ID
     userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority"});
     userStoriesTable->setColumnHidden(0, true);
-    userStoriesTable->setColumnHidden(6, true);
 
     QHeaderView* header = userStoriesTable->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
@@ -211,31 +210,70 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
 
         QTableWidgetItem* itemTaskID = new QTableWidgetItem();
         itemTaskID->setData(Qt::UserRole, QVariant(taskID));
-        itemTaskID->setText(QString::number(taskID)); // Set the text for the item
+        itemTaskID->setText(QString::number(taskID));
         userStoriesTable->setItem(rowCount, 0, itemTaskID);
-
 
         QTableWidgetItem* type = new QTableWidgetItem(type_pb);
         QTableWidgetItem* itemTaskName = new QTableWidgetItem(taskName);
         QTableWidgetItem* itemDescription = new QTableWidgetItem(description);
-        QTableWidgetItem* itemStatus = new QTableWidgetItem(status);
         QTableWidgetItem* itemAssignee = new QTableWidgetItem(QString::number(assignee));
         QTableWidgetItem* itemPriority = new QTableWidgetItem(QString::number(priority));
 
         type->setFlags(type->flags() & ~Qt::ItemIsEditable);
-        itemTaskID->setFlags(itemTaskID->flags() & ~Qt::ItemIsEditable); // Make the Task ID column non-editable
+        itemTaskID->setFlags(itemTaskID->flags() & ~Qt::ItemIsEditable);
 
-        userStoriesTable->setItem(rowCount, 0, itemTaskID); // Task ID
         userStoriesTable->setItem(rowCount, 1, type);
         userStoriesTable->setItem(rowCount, 2, itemTaskName);
         userStoriesTable->setItem(rowCount, 3, itemDescription);
-        userStoriesTable->setItem(rowCount, 4, itemStatus);
+
+        QComboBox* statusComboBox = new QComboBox();
+        statusComboBox->addItems({"ToDo", "InProgress", "Blocked", "Done"});
+        statusComboBox->setCurrentText(status);
+        statusComboBox->setProperty("row", rowCount); // Set the property for the row
+        userStoriesTable->setCellWidget(rowCount, 4, statusComboBox);
+
+        // Connect the QComboBox currentIndexChanged signal using a lambda function
+        connect(statusComboBox, &QComboBox::currentTextChanged,
+                [this, taskID, statusComboBox]() {  // Capture the statusComboBox pointer
+                    QString status = statusComboBox->currentText();
+                    onStatusChanged(taskID, status);
+                });
+
         userStoriesTable->setItem(rowCount, 5, itemAssignee);
         userStoriesTable->setItem(rowCount, 6, itemPriority);
     } else {
         qDebug() << "Table view not found or accessible.";
     }
 }
+
+
+
+
+void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString& status) {
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    if (!userStoriesTable) return;
+
+    // Find the row for the taskID. This assumes taskID is unique.
+    int row = -1;
+    for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
+        if (userStoriesTable->item(i, 0)->data(Qt::UserRole).toInt() == taskID) {
+            row = i;
+            break;
+        }
+    }
+    if (row == -1) return; // Task ID not found
+
+    QString title = userStoriesTable->item(row, 2)->text();
+    QString description = userStoriesTable->item(row, 3)->text();
+    int assignee = userStoriesTable->item(row, 5)->text().toInt();
+    int priority = userStoriesTable->item(row, 6)->text().toInt();
+
+    if (taskMap.contains(taskID)) {
+        updateTaskInDatabase(taskID, title, description, status, assignee, priority);
+    }
+}
+
+
 
 
 //EDIT FUNCTIONALITY
@@ -246,31 +284,44 @@ void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item
     }
 
     int row = item->row();
+    int column = item->column();
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+
     if (!userStoriesTable) {
         qDebug() << "User stories table not found";
         return;
     }
 
-    // Retrieve the task ID from the first column
+    // Debugging information
+    qDebug() << "Changed item at row:" << row << "column:" << column << "Value:" << item->text();
+
     int taskID = userStoriesTable->item(row, 0)->data(Qt::UserRole).toInt();
     qDebug() << "Task ID to update:" << taskID;
 
     if (taskMap.contains(taskID)) {
-        // Retrieve the current values from all columns of the row
-
         QString title = userStoriesTable->item(row, 2)->text();
         QString description = userStoriesTable->item(row, 3)->text();
-        QString status = userStoriesTable->item(row, 4)->text();
+        QString status;
+        QWidget* widget = userStoriesTable->cellWidget(row, 4);
+        if (widget) {
+            QComboBox* comboBox = qobject_cast<QComboBox*>(widget);
+            if (comboBox) {
+                status = comboBox->currentText();
+            }
+        }
         int assignee = userStoriesTable->item(row, 5)->text().toInt();
         int priority = userStoriesTable->item(row, 6)->text().toInt();
 
-        // Call the update function with all values
-        updateTaskInDatabase(taskID, title, description, status, assignee, priority);
-    } else {
-        qDebug() << "Task ID not found in taskMap";
+        if (!status.isEmpty()) {
+            updateTaskInDatabase(taskID, title, description, status, assignee, priority);
+        } else {
+            qDebug() << "Status is empty for Task ID:" << taskID;
+        }
     }
 }
+
+
+
 void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, int assignee, int priority) {
     if (!QSqlDatabase::database().isOpen()) {
         qDebug() << "Database is not open";
@@ -292,6 +343,7 @@ void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QS
         qDebug() << "Update successful for task ID:" << taskID;
     }
 }
+
 
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -544,7 +596,7 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
     userStoriesTable->setColumnCount(7);
     userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Priority", "Assignee"});
     userStoriesTable->setColumnHidden(0, true);
-    userStoriesTable->setColumnHidden(6, true);
+    //userStoriesTable->setColumnHidden(6, true);
     QHeaderView* header = userStoriesTable->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
 
@@ -559,7 +611,7 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
         QTableWidgetItem* type = new QTableWidgetItem(type_pb);
         QTableWidgetItem* itemStoryName = new QTableWidgetItem(storyName);
         QTableWidgetItem* itemDescription = new QTableWidgetItem(description);
-        QTableWidgetItem* itemStatus = new QTableWidgetItem(status);
+        //QTableWidgetItem* itemStatus = new QTableWidgetItem(status);
         QTableWidgetItem* itemPriority = new QTableWidgetItem(QString::number(priority));
         QTableWidgetItem* itemAssignee = new QTableWidgetItem(QString::number(assignee));
 
@@ -569,7 +621,20 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
         userStoriesTable->setItem(rowCount, 1, type);
         userStoriesTable->setItem(rowCount, 2, itemStoryName);
         userStoriesTable->setItem(rowCount, 3, itemDescription);
-        userStoriesTable->setItem(rowCount, 4, itemStatus);
+
+
+        QComboBox* statusComboBox = new QComboBox();
+        statusComboBox->addItems({"ToDo", "InProgress", "Blocked", "Done"});
+        statusComboBox->setCurrentText(status);
+        userStoriesTable->setCellWidget(rowCount, 4, statusComboBox);
+
+        // Correct the connection to use the overload of currentIndexChanged that passes the current text
+        connect(statusComboBox, &QComboBox::currentTextChanged,
+                [this, storyID, statusComboBox](const QString &newStatus) {
+                    // Since storyID is captured by value, it is the correct ID for the row
+                    onUserStoryStatusChanged(storyID, newStatus);
+                });
+
         userStoriesTable->setItem(rowCount, 5, itemPriority);
         userStoriesTable->setItem(rowCount, 6, itemAssignee);
         /*
@@ -584,6 +649,31 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
         qDebug() << "Table view not found or accessible.";
     }
 }
+
+
+void pb_productbacklog_implementation::onUserStoryStatusChanged(int storyID, const QString& newStatus) {
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    if (!userStoriesTable) return;
+
+    // Find the row for the storyID. This assumes storyID is unique.
+    int row = -1;
+    for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
+        if (userStoriesTable->item(i, 0)->data(Qt::UserRole).toInt() == storyID) {
+            row = i;
+            break;
+        }
+    }
+    if (row == -1) return; // storyID not found
+
+    // Retrieve the rest of the details from the row
+    QString title = userStoriesTable->item(row, 2)->text();
+    QString description = userStoriesTable->item(row, 3)->text();
+    int priority = userStoriesTable->item(row, 5)->text().toInt();
+    int assignee = userStoriesTable->item(row, 6)->text().toInt();
+
+    updateUserStoryInDatabase(storyID, title, description, newStatus, priority, assignee);
+}
+
 
 void pb_productbacklog_implementation::updateUserStoryInDatabase(int storyID, const QString& title, const QString& description, const QString& status, int priority, int assignee) {
     if (!QSqlDatabase::database().isOpen()) {
@@ -628,7 +718,15 @@ void pb_productbacklog_implementation::onUserStoryTableItemChanged(QTableWidgetI
     if (storyMap.contains(storyID)) {
         QString title = userStoriesTable->item(row, 2)->text();
         QString description = userStoriesTable->item(row, 3)->text();
-        QString status = userStoriesTable->item(row, 4)->text();
+        // ...
+        QString status;
+        QWidget* widget = userStoriesTable->cellWidget(row, 4);
+        if (widget) {
+            QComboBox* comboBox = qobject_cast<QComboBox*>(widget);
+            if (comboBox) {
+                status = comboBox->currentText();
+            }
+        }
         int priority = userStoriesTable->item(row, 5)->text().toInt();
         int assignee = userStoriesTable->item(row, 6)->text().toInt();
         qDebug() << "Updating User Story: ID:" << storyID
