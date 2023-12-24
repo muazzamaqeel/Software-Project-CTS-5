@@ -67,11 +67,14 @@ public slots:
     void SendTasksToSprints();
     void Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, QString assignee, int priority, int taskID);
     void onTableItemChanged(QTableWidgetItem* item);
+    void onStatusComboBoxChanged(int index);
     void updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, QString assignee, int priority);
-    void onStatusChanged(int taskID, const QString& status);
+    //void onStatusChanged(int taskID, const QString& status);
     void onUserStoryStatusChanged(int storyID, const QString& newStatus);
-    void onAssigneeChanged(int taskID, const QString& newAssignee);
-    void fillAssigneeComboBox(QComboBox* comboBox, const QString& currentAssignee);
+    void onAssigneeComboBoxChanged(int index);
+    //void onAssigneeChanged(int taskID, const QString& assignee);
+    //void onAssigneeChanged(int taskID, const QString& newAssignee);
+    //void fillAssigneeComboBox(QComboBox* comboBox, const QString& currentAssignee);
 private:
     parentboard* parentBoard; // Reference to the parent board
     QMap<int, UserStoryDetails> storyMap; // Map for storing UserStoryDetails objects
