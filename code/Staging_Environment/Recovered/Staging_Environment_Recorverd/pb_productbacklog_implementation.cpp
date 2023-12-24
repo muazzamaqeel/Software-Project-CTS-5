@@ -11,7 +11,7 @@
 #include "qsqlerror.h"
 #include "qsqlquery.h"
 #include <QRegularExpression>
-
+#include "TableAnimator.h"
 //Fetch the Sprints from the Sprint table
 #include <QFont>
 #include <QString>
@@ -23,6 +23,34 @@ pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* 
     // Initialize any necessary variables or connections
     parentBoard = parentBoardInstance;
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    userStoriesTable->setStyleSheet(
+        "QTableWidget {"
+        "    background-color: #f5f5f5;"  // Lighter gray background
+        "    border: 1px solid #e0e0e0;"  // Light gray border
+        "    gridline-color: #d0d0d0;"    // Gridline color
+        "}"
+        "QTableWidget::item {"
+        "    padding: 4px;"  // Increased padding for table cells
+        "    border-bottom: 1px solid #e0e0e0;"  // Bottom border for cells
+        "}"
+        "QTableWidget::item:selected {"
+        "    background-color: #cce6ff;"  // Light blue background for selected cells
+        "}"
+        "QHeaderView::section {"
+        "    background-color: #333333;"  // Dark gray header background
+        "    color: white;"  // White text in headers
+        "    padding: 2px;"  // Padding for header sections
+        "    border-top: 1px solid #666666;"  // Top border for headers
+        "}"
+        "QHeaderView::section:checked {" // Styling for checked headers (if applicable)
+        "    background-color: #007acc;" // Example color for checked headers
+        "}"
+        );
+
+    TableAnimator animator(userStoriesTable); // Assuming the constructor takes a QTableWidget* parameter
+    int newRowIndex = 0; // Assuming you have the new row index
+    animator.animateRowAddition(newRowIndex); // Use this when a new row is added
+
     userStoriesTable->setGeometry(20, 55, 1250, 500);
         parentBoard->getCreationBox()->setVisible(false);
 

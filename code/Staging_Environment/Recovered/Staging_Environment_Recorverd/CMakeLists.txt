@@ -48,6 +48,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         databasefetcher.h
         teammember_projectswindow.h teammember_projectswindow.cpp teammember_projectswindow.ui
         assets/resources.qrc
+        TableAnimator.h TableAnimator.cpp
 
     )
 elseif(ANDROID)
