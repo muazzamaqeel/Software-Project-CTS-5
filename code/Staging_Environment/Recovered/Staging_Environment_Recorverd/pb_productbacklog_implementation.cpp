@@ -53,10 +53,14 @@ pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* 
 
     userStoriesTable->setGeometry(20, 55, 1250, 500);
         parentBoard->getCreationBox()->setVisible(false);
+
+
 }
 void pb_productbacklog_implementation::clearUserStoriesTable() {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     QComboBox* SprintComboBox = parentBoard->get_BL_SprintDropDown();
+
+
     userStoriesTable->clearContents();
     userStoriesTable->setRowCount(0);
     SprintComboBox->clear();
@@ -81,13 +85,32 @@ void pb_productbacklog_implementation::RetrieveAndDisplayBacklog() {
         userStoriesTable->blockSignals(false); // Unblock signals
     }
 }
+
+
 void pb_productbacklog_implementation::Hide_CreateSection(){
+
+    /*
+    QPushButton* buttonCreate = parentBoard->getButton_Create();
+    QTextBrowser* createAssignee = parentBoard->getCreate_Assignee();
+    QTextBrowser* createDescription = parentBoard->getCreate_Description();
+    QTextBrowser* createHeader = parentBoard->getCreate_Header();
+    QTextBrowser* createPriority = parentBoard->getCreate_Priority();
+    QTextBrowser* createStatus = parentBoard->getCreate_Status();
+    QTextBrowser* createTitle = parentBoard->getCreate_Title();
+
+    QTextEdit* inputAssignee = parentBoard->getInputAssignee();
+    QTextEdit* inputDescription = parentBoard->getInputDescription();
+    QTextEdit* inputPriority = parentBoard->getInputPriority();
+    QTextEdit* inputStatus = parentBoard->getInputStatus();
+    QTextEdit* inputTitle = parentBoard->getInputTitle();
+*/
     parentBoard->getCreate_Assignee()->setVisible(false);
     parentBoard->getCreate_Description()->setVisible(false);
     parentBoard->getCreate_Header()->setVisible(false);
     parentBoard->getCreate_Priority()->setVisible(false);
     parentBoard->getCreate_Status()->setVisible(false);
     parentBoard->getCreate_Title()->setVisible(false);
+
     parentBoard->getInputAssignee()->setVisible(false);
     parentBoard->getInputDescription()->setVisible(false);
     parentBoard->getInputPriority()->setVisible(false);
@@ -95,10 +118,14 @@ void pb_productbacklog_implementation::Hide_CreateSection(){
     parentBoard->getInputTitle()->setVisible(false);
     parentBoard->getButton_CreateUserStory()->setVisible(false);
     parentBoard->getButton_CreateTask()->setVisible(false);
+
     parentBoard->get_BL_SprintDropDown()->setVisible(false);
     parentBoard->get_SelecteSprint()->setVisible(false);
 
 }
+
+
+
 void pb_productbacklog_implementation::Show_CreateSection(){
     parentBoard->getCreationBox()->setVisible(true);
     parentBoard->getCreate_Assignee()->setVisible(true);
@@ -114,17 +141,22 @@ void pb_productbacklog_implementation::Show_CreateSection(){
     parentBoard->getInputTitle()->setVisible(true);
     parentBoard->get_BL_SprintDropDown()->setVisible(true);
     parentBoard->get_SelecteSprint()->setVisible(true);
+
+
 }
 
 void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
 
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setGeometry(20, 55, 750, 500);
+
     parentBoard->getCreationBox()->setVisible(true);
     parentBoard->getButton_CreateUserStory()->setVisible(true);
     parentBoard->getButton_CreateTask()->setVisible(false);
+
     parentBoard->get_BL_SprintDropDown()->setVisible(false);
     parentBoard->get_SelecteSprint()->setVisible(false);
+
     QTextBrowser* Create_Header = parentBoard->getCreate_Header();
     Create_Header->setAlignment(Qt::AlignCenter);  // Align text to center
     Create_Header->setHtml("<html><head/><body><p style='font-size:12pt; text-align:center;'>Create User Stories</p></body></html>");
@@ -132,6 +164,7 @@ void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
 }
 
 void pb_productbacklog_implementation::Show_CreateSection_Tasks(){
+
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setGeometry(20, 55, 750, 500);
     parentBoard->getCreationBox()->setVisible(true);
@@ -142,6 +175,7 @@ void pb_productbacklog_implementation::Show_CreateSection_Tasks(){
     QTextBrowser* Create_Header = parentBoard->getCreate_Header();
     Create_Header->setAlignment(Qt::AlignCenter);  // Align text to center
     Create_Header->setHtml("<html><head/><body><p style='font-size:12pt; text-align:center;'>Create User Tasks</p></body></html>");
+
 }
 
 
@@ -171,7 +205,7 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
                 QString title = query.value(1).toString();
                 QString description = query.value(2).toString();
                 QString status = query.value(3).toString();
-                QString assignee = query.value(4).toString();
+                int assignee = query.value(4).toInt();
                 int priority = query.value(5).toInt();
 
                 // Include taskID as the seventh argument
@@ -189,7 +223,7 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
     }
 }
 
-void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, QString assignee, int priority, int taskID) {
+void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, int assignee, int priority, int taskID) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(7); // Include an additional column for Task ID
     userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority"});
@@ -201,58 +235,40 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
     if (userStoriesTable) {
         int rowCount = userStoriesTable->rowCount();
         userStoriesTable->insertRow(rowCount);
+
         QTableWidgetItem* itemTaskID = new QTableWidgetItem();
         itemTaskID->setData(Qt::UserRole, QVariant(taskID));
         itemTaskID->setText(QString::number(taskID));
         userStoriesTable->setItem(rowCount, 0, itemTaskID);
+
         QTableWidgetItem* type = new QTableWidgetItem(type_pb);
         QTableWidgetItem* itemTaskName = new QTableWidgetItem(taskName);
         QTableWidgetItem* itemDescription = new QTableWidgetItem(description);
+        QTableWidgetItem* itemAssignee = new QTableWidgetItem(QString::number(assignee));
         QTableWidgetItem* itemPriority = new QTableWidgetItem(QString::number(priority));
+
         type->setFlags(type->flags() & ~Qt::ItemIsEditable);
         itemTaskID->setFlags(itemTaskID->flags() & ~Qt::ItemIsEditable);
+
         userStoriesTable->setItem(rowCount, 1, type);
         userStoriesTable->setItem(rowCount, 2, itemTaskName);
         userStoriesTable->setItem(rowCount, 3, itemDescription);
 
-
-        // Adding a combo box for Status
         QComboBox* statusComboBox = new QComboBox();
         statusComboBox->addItems({"ToDo", "InProgress", "Blocked", "Done"});
         statusComboBox->setCurrentText(status);
         statusComboBox->setProperty("row", rowCount); // Set the property for the row
         userStoriesTable->setCellWidget(rowCount, 4, statusComboBox);
+
         // Connect the QComboBox currentIndexChanged signal using a lambda function
-        disconnect(statusComboBox, &QComboBox::currentTextChanged, 0, 0);
         connect(statusComboBox, &QComboBox::currentTextChanged,
-                [this, taskID, statusComboBox]() {
+                [this, taskID, statusComboBox]() {  // Capture the statusComboBox pointer
                     QString status = statusComboBox->currentText();
                     onStatusChanged(taskID, status);
                 });
 
-        // Adding a combo box for Assignee
-        QComboBox* assigneeComboBox = new QComboBox();
-        fillAssigneeComboBox(assigneeComboBox, assignee); // 'assignee' is the current assignee for the task
-        assigneeComboBox->setProperty("row", rowCount);
-        userStoriesTable->setCellWidget(rowCount, 5, assigneeComboBox);
-        // Connect the QComboBox currentIndexChanged signal using a lambda function
-        disconnect(assigneeComboBox, &QComboBox::currentTextChanged, 0, 0);
-        // Add a check to ensure we don't re-fill the combobox if it's already populated
-        if (assigneeComboBox->count() == 0) {
-            fillAssigneeComboBox(assigneeComboBox, assignee);
-        }
-        connect(assigneeComboBox, &QComboBox::currentTextChanged,
-                [this, taskID, assigneeComboBox]() {
-                    QString newAssignee = assigneeComboBox->currentText();
-                    onAssigneeChanged(taskID, newAssignee);
-                });
-
+        userStoriesTable->setItem(rowCount, 5, itemAssignee);
         userStoriesTable->setItem(rowCount, 6, itemPriority);
-
-
-
-
-
     } else {
         qDebug() << "Table view not found or accessible.";
     }
@@ -260,9 +276,6 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
 
 
 
-//----------------------------------COMBO-BOX-INFO-----------------------------------------------
-//----------------------------------COMBO-BOX-INFO-----------------------------------------------
-//----------------------------------COMBO-BOX-INFO-----------------------------------------------
 
 void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString& status) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
@@ -280,93 +293,13 @@ void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString
 
     QString title = userStoriesTable->item(row, 2)->text();
     QString description = userStoriesTable->item(row, 3)->text();
-    QString assignee = userStoriesTable->item(row, 5)->text();
+    int assignee = userStoriesTable->item(row, 5)->text().toInt();
     int priority = userStoriesTable->item(row, 6)->text().toInt();
 
     if (taskMap.contains(taskID)) {
         updateTaskInDatabase(taskID, title, description, status, assignee, priority);
     }
 }
-
-void pb_productbacklog_implementation::onAssigneeChanged(int taskID, const QString& newAssignee) {
-    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
-    if (!userStoriesTable) return;
-
-    // Find the row for the taskID
-    int row = -1;
-    for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
-        if (userStoriesTable->item(i, 0)->data(Qt::UserRole).toInt() == taskID) {
-            row = i;
-            break;
-        }
-    }
-    if (row == -1) return; // Task ID not found
-
-    // Retrieve other details of the task to update
-    QString title = userStoriesTable->item(row, 2)->text();
-    QString description = userStoriesTable->item(row, 3)->text();
-    QString status;
-    QWidget* widget = userStoriesTable->cellWidget(row, 4);
-    if (widget) {
-        QComboBox* comboBox = qobject_cast<QComboBox*>(widget);
-        if (comboBox) {
-            status = comboBox->currentText();
-        }
-    }
-    int priority = userStoriesTable->item(row, 6)->text().toInt();
-
-    // Update the task in the database
-    updateTaskInDatabase(taskID, title, description, status, newAssignee, priority);
-}
-
-void pb_productbacklog_implementation::fillAssigneeComboBox(QComboBox* comboBox, const QString& currentAssignee) {
-    if (!QSqlDatabase::database().isOpen()) {
-        qDebug() << "Database is not open";
-        return;
-    }
-    int PassedProjectID = parentBoard->getProjectId(); // Get the project ID
-    QSqlQuery query;
-    query.prepare("SELECT CONCAT(U.FirstName, ' ', U.LastName) AS FullName "
-                  "FROM User AS U "
-                  "INNER JOIN Project_has_User AS PHU ON U.idUser = PHU.User_idUser "
-                  "INNER JOIN Project AS P ON PHU.Project_idProject = P.idProject "
-                  "WHERE P.idProject = :ProjectID"); // Updated line
-    query.bindValue(":ProjectID", PassedProjectID);
-    if (!query.exec()) {
-        qDebug() << "Query failed: " << query.lastError();
-        return;
-    }
-
-    while (query.next()) {
-        QString fullName = query.value(0).toString();
-        qDebug() << "Adding to combo box:" << fullName; // Debug output
-        comboBox->addItem(fullName);
-    }
-    // Set the current assignee if available
-    if (!currentAssignee.isEmpty()) {
-        int index = comboBox->findText(currentAssignee);
-        if (index != -1) {
-            comboBox->setCurrentIndex(index);
-        }
-    }
-}
-
-//----------------------------------COMBO-BOX-INFO-----------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -404,7 +337,7 @@ void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item
                 status = comboBox->currentText();
             }
         }
-        QString assignee = userStoriesTable->item(row, 5)->text();
+        int assignee = userStoriesTable->item(row, 5)->text().toInt();
         int priority = userStoriesTable->item(row, 6)->text().toInt();
 
         if (!status.isEmpty()) {
@@ -417,7 +350,7 @@ void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item
 
 
 
-void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, QString assignee, int priority) {
+void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, int assignee, int priority) {
     if (!QSqlDatabase::database().isOpen()) {
         qDebug() << "Database is not open";
         return;
@@ -471,17 +404,23 @@ void pb_productbacklog_implementation::onButtonIssueClicked() {
         addTaskToBacklog(title, description, status, priority, assignee, Pass_sprint);
     }
 }
+
+
+
+
+
 void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee, QString SelectedSprint) {
-    QTableWidget* table = parentBoard->getUserStoriesTableView();
+    QTableWidget* table = parentBoard->getUserStoriesTableView(); // Assuming there's a method to get the task table view
     int PassedProjectID = parentBoard->getProjectId();
 
     qDebug() << "Project ID in TASKPB - TASKSB: " << PassedProjectID;
+    //Getting the assignee value from the database
     if (!table) {
         qDebug() << "Task table view not found or accessible.";
         return;
     }
     table->setColumnCount(7);
-    table->setHorizontalHeaderLabels({"ID", "Title", "Description", "Status", "Assignee", "Priority", "ProductBacklog ID"});
+    table->setHorizontalHeaderLabels({"ID", "Title", "Description", "Status", "Priority", "Assignee", "ProductBacklog ID"});
 
     QHeaderView* header = table->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
@@ -492,6 +431,9 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
         qDebug() << "Connection Not Established - pb_productbacklog_implmentation!";
         return;
     }
+
+
+
     //-----------------Taking the Correct ProductBacklog ID--------------------
     QSqlQuery querySelect(dbobj);
     querySelect.prepare("SELECT PB.idProductBacklog "
@@ -509,6 +451,8 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
         qDebug() << "Failed to retrieve ProductBacklog ID:" << querySelect.lastError().text();
         return;
     }
+
+
     QSqlQuery query(dbobj);
     query.prepare("INSERT INTO scrummy.TaskPB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject) "
                   "VALUES (:title, :description, :status, :priority, :assignee, :productBacklogId, :projectId)");
@@ -517,7 +461,7 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
     query.bindValue(":status", status);
     query.bindValue(":priority", priority);
     query.bindValue(":assignee", assignee);
-    query.bindValue(":productBacklogId", productBacklogId);
+    query.bindValue(":productBacklogId", productBacklogId);  // Assuming 2 is the correct value
     query.bindValue(":projectId", PassedProjectID);
     if (!query.exec()) {
         qDebug() << "Failed to insert data into TaskPB table:" << query.lastError().text();
@@ -525,7 +469,6 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
         return;
     }
     qDebug() << "Data inserted into TaskPB table successfully!";
-
 
 
 
@@ -541,7 +484,7 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
     int assigneeId = 0;
     if (queryUser.exec()) {
         if (queryUser.next()) {
-            assigneeId = queryUser.value(0).toInt();
+            assigneeId = queryUser.value(0).toInt(); // Assuming the first column is the user ID
         }
     } else {
         qDebug() << "Failed to retrieve user ID:" << queryUser.lastError().text();
@@ -558,10 +501,10 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
     query1.bindValue(":description", description);
     query1.bindValue(":status", status);
     query1.bindValue(":priority", priority);
-    query1.bindValue(":assignee", assigneeId);
-    query1.bindValue(":sprintBacklogId", 1);
-    query1.bindValue(":sprintId", SelectedSprint);
-    query1.bindValue(":projectId", PassedProjectID);
+    query1.bindValue(":assignee", assigneeId); // Assuming 'assignee' is a variable holding the assignee's ID
+    query1.bindValue(":sprintBacklogId", 1); // Assuming this is a constant or should be obtained dynamically
+    query1.bindValue(":sprintId", SelectedSprint); // Assuming SelectedSprint is a variable holding the sprint ID
+    query1.bindValue(":projectId", PassedProjectID); // Assuming PassedProjectID is a variable holding the project ID
 
     if (!query1.exec()) {
         qDebug() << "Failed to insert data into TaskSB table:" << query1.lastError().text();
@@ -580,7 +523,7 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
     int rowCount = table->rowCount();
     table->insertRow(rowCount);
 
-    QTableWidgetItem* itemID = new QTableWidgetItem(query.lastInsertId().toString());
+    QTableWidgetItem* itemID = new QTableWidgetItem(query.lastInsertId().toString()); // Assuming auto-increment ID
     QTableWidgetItem* itemTitle = new QTableWidgetItem(title);
     QTableWidgetItem* itemDescription = new QTableWidgetItem(description);
     QTableWidgetItem* itemStatus = new QTableWidgetItem(status);
@@ -679,7 +622,7 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
 void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(7);
-    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority"});
+    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Priority", "Assignee"});
     userStoriesTable->setColumnHidden(0, true);
     //userStoriesTable->setColumnHidden(6, true);
     QHeaderView* header = userStoriesTable->horizontalHeader();
@@ -910,7 +853,7 @@ void pb_productbacklog_implementation::addUserStoryToBacklog(const QString& titl
     int rowCount = table->rowCount();
     table->insertRow(rowCount);
 
-    QTableWidgetItem* itemID = new QTableWidgetItem(query.lastInsertId().toString());
+    QTableWidgetItem* itemID = new QTableWidgetItem(query.lastInsertId().toString()); // Assuming auto-increment ID
     QTableWidgetItem* itemTitle = new QTableWidgetItem(title);
     QTableWidgetItem* itemDescription = new QTableWidgetItem(description);
     QTableWidgetItem* itemStatus = new QTableWidgetItem(status);
@@ -1059,7 +1002,7 @@ void pb_productbacklog_implementation::SendTasksToSprints() {
             qDebug() << "Sprint Data Retrieved Successfully!";
 
             while (query.next()) {
-                QString sprintTitle = query.value(0).toString();
+                QString sprintTitle = query.value(0).toString(); // Assuming Title is in the first column of the result
             }
 
         } else {
