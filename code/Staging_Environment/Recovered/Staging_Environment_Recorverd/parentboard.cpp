@@ -61,6 +61,31 @@ parentboard::parentboard(QWidget *parent) :
     //connect(ui->CreateSprint_SprintTab, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createUserStory_clicked);
     connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onTableItemChanged);
     connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onUserStoryTableItemChanged);
+    //Lambda Function to delete the tasks in the tables
+    connect(ui->delete_item, &QPushButton::clicked, [this, pbProductBacklogObj]() {
+        if (!ui->user_stories) {
+            qDebug() << "User stories table not found";
+            return;
+        }
+        int selectedRow = -1;
+        QList<QTableWidgetItem*> selectedItems = ui->user_stories->selectedItems();
+        if (!selectedItems.isEmpty()) {
+            selectedRow = selectedItems.first()->row();
+        }
+        if (selectedRow == -1) {
+            qDebug() << "No row selected";
+            return;
+        }
+        QTableWidgetItem* item = ui->user_stories->item(selectedRow, 0); // 0 is the column for taskID
+        if (item) {
+            pbProductBacklogObj->onRowClicked(item);
+        } else {
+            qDebug() << "Item is null";
+            // Optionally, handle this case
+        }
+    });
+
+
 //  pb_productbacklog Implementation Calls ---End
 
 
@@ -208,6 +233,9 @@ QTextBrowser* parentboard::get_SelecteSprint(){
 QGroupBox* parentboard::getCreationBox(){
     return ui->CreationBox;
 
+}
+QPushButton* parentboard::get_delete_item(){
+    return ui->delete_item;
 }
 
 

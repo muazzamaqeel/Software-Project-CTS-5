@@ -70,6 +70,8 @@ public slots:
     void updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, QString assignee, int priority);
     void onStatusChanged(int taskID, const QString& status);
     void onUserStoryStatusChanged(int storyID, const QString& newStatus);
+    void onRowClicked(QTableWidgetItem* item);
+    void deleteTaskFromDatabase(int taskID);
 private:
     parentboard* parentBoard; // Reference to the parent board
     QMap<int, UserStoryDetails> storyMap; // Map for storing UserStoryDetails objects

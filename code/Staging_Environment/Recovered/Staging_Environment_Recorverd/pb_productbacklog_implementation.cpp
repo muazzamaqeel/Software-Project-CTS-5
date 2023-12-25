@@ -374,6 +374,55 @@ void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QS
 
 
 
+
+// In your constructor or initialization code, connect the itemClicked signal to your slot
+
+// Slot to handle row deletion when a row is clicked
+void pb_productbacklog_implementation::onRowClicked(QTableWidgetItem* item) {
+    if (!item) {
+        qDebug() << "Item is null";
+        return;
+    }
+
+    int row = item->row();
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+
+    if (!userStoriesTable) {
+        qDebug() << "User stories table not found";
+        return;
+    }
+
+    // Retrieve the task ID associated with the clicked row
+    int taskID = userStoriesTable->item(row, 0)->data(Qt::UserRole).toInt();
+
+    // Remove the row from the table
+    userStoriesTable->removeRow(row);
+
+    // Call a function to delete the task from the database
+    deleteTaskFromDatabase(taskID);
+}
+
+// Function to delete a task from the database
+void pb_productbacklog_implementation::deleteTaskFromDatabase(int taskID) {
+    if (!QSqlDatabase::database().isOpen()) {
+        qDebug() << "Database is not open";
+        return;
+    }
+
+    QSqlQuery query;
+    query.prepare("DELETE FROM scrummy.TaskPB WHERE idTaskPB = ?");
+    query.addBindValue(taskID);
+
+    if (!query.exec()) {
+        qDebug() << "Delete failed: " << query.lastError();
+    } else {
+        qDebug() << "Delete successful for task ID:" << taskID;
+    }
+}
+
+
+
+
 //------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------
 //Creation of Tasks
@@ -420,7 +469,7 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
         return;
     }
     table->setColumnCount(7);
-    table->setHorizontalHeaderLabels({"ID", "Title", "Description", "Status", "Priority", "Assignee", "ProductBacklog ID"});
+    table->setHorizontalHeaderLabels({"ID", "Title", "Description", "Status", "Assignee", "Priority", "ProductBacklog ID"});
 
     QHeaderView* header = table->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
@@ -622,7 +671,7 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
 void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(7);
-    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Priority", "Assignee"});
+    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority"});
     userStoriesTable->setColumnHidden(0, true);
     //userStoriesTable->setColumnHidden(6, true);
     QHeaderView* header = userStoriesTable->horizontalHeader();

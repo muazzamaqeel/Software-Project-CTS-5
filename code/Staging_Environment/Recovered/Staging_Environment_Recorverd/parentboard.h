@@ -54,7 +54,7 @@ public:
     QTextEdit* getInputTitle();
     QPushButton* getButton_CreateTask();
     QPushButton* getButton_CreateUserStory();
-
+    QPushButton* get_delete_item();
     QComboBox* get_BL_SprintDropDown();
     QTextBrowser* get_SelecteSprint();
 
