@@ -14,7 +14,7 @@ struct TaskInfo {
     QString title;
     QString description;
     QString status;
-    int assignee;
+    QString assignee;
     int priority;
     int productBacklogID;
     int projectID;
@@ -65,9 +65,9 @@ public slots:
     void clearUserStoriesTable();
     void RetrieveAndDisplayBacklog();
     void SendTasksToSprints();
-    void Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, int assignee, int priority, int taskID);
+    void Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, QString assignee, int priority, int taskID);
     void onTableItemChanged(QTableWidgetItem* item);
-    void updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, int assignee, int priority);
+    void updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, QString assignee, int priority);
     void onStatusChanged(int taskID, const QString& status);
     void onUserStoryStatusChanged(int storyID, const QString& newStatus);
 private:

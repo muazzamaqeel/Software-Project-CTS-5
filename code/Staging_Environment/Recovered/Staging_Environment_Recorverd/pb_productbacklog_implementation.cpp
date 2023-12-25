@@ -205,7 +205,7 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
                 QString title = query.value(1).toString();
                 QString description = query.value(2).toString();
                 QString status = query.value(3).toString();
-                int assignee = query.value(4).toInt();
+                QString assignee = query.value(4).toString();
                 int priority = query.value(5).toInt();
 
                 // Include taskID as the seventh argument
@@ -223,7 +223,7 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
     }
 }
 
-void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, int assignee, int priority, int taskID) {
+void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, QString assignee, int priority, int taskID) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(7); // Include an additional column for Task ID
     userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority"});
@@ -244,7 +244,7 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
         QTableWidgetItem* type = new QTableWidgetItem(type_pb);
         QTableWidgetItem* itemTaskName = new QTableWidgetItem(taskName);
         QTableWidgetItem* itemDescription = new QTableWidgetItem(description);
-        QTableWidgetItem* itemAssignee = new QTableWidgetItem(QString::number(assignee));
+        QTableWidgetItem* itemAssignee = new QTableWidgetItem(assignee);
         QTableWidgetItem* itemPriority = new QTableWidgetItem(QString::number(priority));
 
         type->setFlags(type->flags() & ~Qt::ItemIsEditable);
@@ -293,7 +293,7 @@ void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString
 
     QString title = userStoriesTable->item(row, 2)->text();
     QString description = userStoriesTable->item(row, 3)->text();
-    int assignee = userStoriesTable->item(row, 5)->text().toInt();
+    QString assignee = userStoriesTable->item(row, 5)->text();
     int priority = userStoriesTable->item(row, 6)->text().toInt();
 
     if (taskMap.contains(taskID)) {
@@ -337,7 +337,7 @@ void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item
                 status = comboBox->currentText();
             }
         }
-        int assignee = userStoriesTable->item(row, 5)->text().toInt();
+        QString assignee = userStoriesTable->item(row, 5)->text();
         int priority = userStoriesTable->item(row, 6)->text().toInt();
 
         if (!status.isEmpty()) {
@@ -350,7 +350,7 @@ void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item
 
 
 
-void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, int assignee, int priority) {
+void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, QString assignee, int priority) {
     if (!QSqlDatabase::database().isOpen()) {
         qDebug() << "Database is not open";
         return;
