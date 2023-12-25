@@ -60,7 +60,6 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->Button_CreateUserStory, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createUserStory_clicked);
     //connect(ui->CreateSprint_SprintTab, &QPushButton::clicked, pbProductBacklogObj, &pb_productbacklog_implementation::on_createUserStory_clicked);
     connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onTableItemChanged);
-
     connect(ui->user_stories, &QTableWidget::itemChanged, pbProductBacklogObj, &pb_productbacklog_implementation::onUserStoryTableItemChanged);
 //  pb_productbacklog Implementation Calls ---End
 
