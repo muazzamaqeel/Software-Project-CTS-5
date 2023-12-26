@@ -542,7 +542,39 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
 
 
 
+    //TAKE THE CORRECT VALUES FROM THE SPRINT BACKLOG TABLE
+    /*
+    */
+    QString idSprintBacklog;
+    QString Sprint_idSprint;
+    QComboBox* SprintComboBox = parentBoard->get_BL_SprintDropDown();
+    QString selectedValue = SprintComboBox->currentText().trimmed(); // Trim to remove any whitespace
+    qDebug() << "Selected Value from ComboBox: " << selectedValue;
 
+    QSqlQuery querySprintValues(dbobj);
+    querySprintValues.prepare("SELECT SB.idSprintBacklog, SB.Sprint_idSprint "
+                              "FROM SprintBacklog SB "
+                              "INNER JOIN Sprint S ON S.idSprint = SB.Sprint_idSprint "
+                              "WHERE S.Title = :sprintTitle");
+    querySprintValues.bindValue(":sprintTitle", selectedValue); // Binding the selected value
+
+    if(querySprintValues.exec()) {
+        if(querySprintValues.next()) {
+            idSprintBacklog = querySprintValues.value(0).toString();
+            Sprint_idSprint = querySprintValues.value(1).toString();
+            qDebug() << "Fetched Values: " << idSprintBacklog << ", " << Sprint_idSprint;
+        } else {
+            qDebug() << "No data fetched. Check if the query returns any rows.";
+        }
+    } else {
+        qDebug() << "Query error:" << querySprintValues.lastError().text();
+    }
+
+    qDebug() << "Executed query:" << querySprintValues.executedQuery();
+
+
+
+    //COPY IN THE TASKSB TABLE
     QSqlQuery query1(dbobj);
     query1.prepare("INSERT INTO scrummy.TaskSB(Title, Description, Status, Priority, Assignee, SprintBacklog_idSprintBacklog, SprintBacklog_Sprint_idSprint, SprintBacklog_Sprint_Project_idProject) "
                    "VALUES (:title, :description, :status, :priority, :assignee, :sprintBacklogId, :sprintId, :projectId)");
@@ -551,8 +583,8 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
     query1.bindValue(":status", status);
     query1.bindValue(":priority", priority);
     query1.bindValue(":assignee", assigneeId); // Assuming 'assignee' is a variable holding the assignee's ID
-    query1.bindValue(":sprintBacklogId", 1); // Assuming this is a constant or should be obtained dynamically
-    query1.bindValue(":sprintId", SelectedSprint); // Assuming SelectedSprint is a variable holding the sprint ID
+    query1.bindValue(":sprintBacklogId", idSprintBacklog); // Assuming this is a constant or should be obtained dynamically
+    query1.bindValue(":sprintId", Sprint_idSprint); // Assuming SelectedSprint is a variable holding the sprint ID
     query1.bindValue(":projectId", PassedProjectID); // Assuming PassedProjectID is a variable holding the project ID
 
     if (!query1.exec()) {
