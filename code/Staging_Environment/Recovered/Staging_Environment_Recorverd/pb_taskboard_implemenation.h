@@ -23,6 +23,7 @@ private:
     void generateUserTaskTree();
     int getSelectedSprintId() const;
     void fetchSprintDates();
+    void generateUnassigned();
 
     QStandardItemModel *model;
     parentboard* parentBoard;
