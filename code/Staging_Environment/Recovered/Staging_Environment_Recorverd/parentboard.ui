@@ -2228,21 +2228,41 @@ QTreeWidget::branch:closed:has-children {
       <property name="text">
        <string>Meetings</string>
       </property>
+      <item>
+       <property name="text">
+        <string>Dailys</string>
+       </property>
+      </item>
      </item>
      <item>
       <property name="text">
        <string>Sprint Review</string>
       </property>
+      <item>
+       <property name="text">
+        <string>Review 1</string>
+       </property>
+      </item>
      </item>
      <item>
       <property name="text">
        <string>Sprint Retrospective</string>
       </property>
+      <item>
+       <property name="text">
+        <string>Retro 1</string>
+       </property>
+      </item>
      </item>
      <item>
       <property name="text">
        <string>General - Documentation</string>
       </property>
+      <item>
+       <property name="text">
+        <string>System Design</string>
+       </property>
+      </item>
      </item>
     </widget>
     <widget class="QTextBrowser" name="label_userstories_2">

@@ -109,6 +109,9 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->ButtoCreatePage_Confluence,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::ShowCreateWindow);
     connect(ui->Button_Create_Confluence,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::CreatePageFunction);
 
+    PB_Confluence_Implemenation* myConfluenceImplementation = new PB_Confluence_Implemenation(this);
+    connect(ui->userTaskTreeWidget_2, &QTreeWidget::itemClicked, myConfluenceImplementation, &PB_Confluence_Implemenation::ConfluenceTableChange_Dectection);
+
 
 
 

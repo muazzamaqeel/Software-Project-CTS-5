@@ -11,17 +11,21 @@
 #include <QSqlRelationalTableModel>
 #include <QMap>
 
-class PB_Confluence_Implemenation : public QObject
-{
+class PB_Confluence_Implemenation : public QObject {
     Q_OBJECT
 
 public:
     PB_Confluence_Implemenation(parentboard* parentBoardInstance);
     parentboard* parentBoard; // Reference to the parent board
+    QString Title;
+    QString Descrption;
+    QString Group;
+
 public slots:
     void HideCreationSection();
     void ShowCreateWindow();
     void CreatePageFunction();
+    void ConfluenceTableChange_Dectection(QTreeWidgetItem *item, int column);
 };
 
 #endif // PB_CONFLUENCE_IMPLEMENATION_H

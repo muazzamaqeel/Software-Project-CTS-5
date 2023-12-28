@@ -225,8 +225,8 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
 
 void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, QString assignee, int priority, int taskID) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
-    userStoriesTable->setColumnCount(7); // Include an additional column for Task ID
-    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority"});
+    userStoriesTable->setColumnCount(8); // Include an additional column for Task ID
+    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority", "Sprint"});
     userStoriesTable->setColumnHidden(0, true);
 
     QHeaderView* header = userStoriesTable->horizontalHeader();
@@ -468,8 +468,8 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
         qDebug() << "Task table view not found or accessible.";
         return;
     }
-    table->setColumnCount(7);
-    table->setHorizontalHeaderLabels({"ID", "Title", "Description", "Status", "Assignee", "Priority", "ProductBacklog ID"});
+    table->setColumnCount(8);
+    table->setHorizontalHeaderLabels({"ID", "Title", "Description", "Status", "Assignee", "Priority", "ProductBacklog ID", "Sprint"});
 
     QHeaderView* header = table->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
@@ -702,8 +702,8 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
 
 void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
-    userStoriesTable->setColumnCount(7);
-    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority"});
+    userStoriesTable->setColumnCount(8);
+    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority", "Sprint"});
     userStoriesTable->setColumnHidden(0, true);
     //userStoriesTable->setColumnHidden(6, true);
     QHeaderView* header = userStoriesTable->horizontalHeader();
@@ -901,8 +901,8 @@ void pb_productbacklog_implementation::addUserStoryToBacklog(const QString& titl
         qDebug() << "Table view not found or accessible.";
         return;
     }
-    table->setColumnCount(7);
-    table->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Priority", "Assignee"});
+    table->setColumnCount(8);
+    table->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Priority", "Assignee", "Sprint"});
 
     QHeaderView* header = table->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);

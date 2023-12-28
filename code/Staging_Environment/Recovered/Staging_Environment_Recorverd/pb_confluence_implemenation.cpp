@@ -8,6 +8,7 @@
 #include <QDebug> // Include qDebug for debugging
 #include "parentboard.h"
 #include <QTableView>
+#include "qmessagebox.h"
 
 PB_Confluence_Implemenation::PB_Confluence_Implemenation(parentboard* parentBoardInstance)
 {
@@ -56,11 +57,15 @@ void PB_Confluence_Implemenation::ShowCreateWindow(){
     parentBoard->get_Confluence_DescriptionText()->setVisible(true);
     parentBoard->get_Button_Create_Confluence()->setVisible(true);
 
+    QComboBox* GroupInput = parentBoard->get_InputGroup_Confluence_Heading();
+
+
+
+
 }
 
 
 void PB_Confluence_Implemenation::CreatePageFunction(){
-
     QTreeWidget* ConfluenceTable = parentBoard->getuserTaskTreeWidget_2();
     ConfluenceTable->setGeometry(10, 75, 1250, 550);
     parentBoard->getCreationBox_Confluence()->setVisible(false);
@@ -72,4 +77,31 @@ void PB_Confluence_Implemenation::CreatePageFunction(){
     parentBoard->get_Confluence_GroupText()->setVisible(false);
     parentBoard->get_Confluence_DescriptionText()->setVisible(false);
     parentBoard->get_Button_Create_Confluence()->setVisible(false);
+
+
+
+    Title = parentBoard->get_InputTitle_2()->toPlainText();
+    Descrption = parentBoard->get_InputTitle_2()->toPlainText();
+    Group = parentBoard->get_InputTitle_2()->toPlainText();
+
+    parentBoard->get_InputGroup_Confluence_Heading()->setVisible(false);
+    parentBoard->get_InputDescription_Confluence_Heading()->setVisible(false);
+
+    if (Title.isEmpty() || Descrption.isEmpty() || Group.isEmpty()) {
+        QMessageBox::warning(nullptr, "Required Fields", "Please fill up all the required fields.");
+    } else {
+        qDebug() << "Everything in Order";
+
+    }
+}
+
+
+
+
+
+
+void PB_Confluence_Implemenation::ConfluenceTableChange_Dectection(QTreeWidgetItem *item, int column) {
+    qDebug() << "ConfluenceTableChange_Dectection Function called";
+
+
 }
