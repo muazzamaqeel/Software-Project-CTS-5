@@ -104,6 +104,14 @@ parentboard::parentboard(QWidget *parent) :
    // connect(ui->delete_button, SIGNAL(clicked()), this, SLOT(onDeleteButtonClicked()));
 
 
+    PB_Confluence_Implemenation *pbConfluenceBObj = new PB_Confluence_Implemenation(obj); //Accessing the pb_sprint_implementation class
+    connect(ui->confluenceButton,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::HideCreationSection);
+    connect(ui->ButtoCreatePage_Confluence,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::ShowCreateWindow);
+    connect(ui->Button_Create_Confluence,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::CreatePageFunction);
+
+
+
+
 //  pb_team Implementation Calls
     connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
     connect(ui->teamButton, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::UserRetrieval);
@@ -150,10 +158,7 @@ void parentboard::on_confluenceButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(4);
 }
-void parentboard::confluence_class(){
-    PB_Confluence_Implemenation confluence_class_obj;
-    confluence_class_obj.backbutton();
-}
+
 void parentboard::goBackToMainWindow() {
     MainWindow* mainWindow = new MainWindow; // Create a new instance of the main window
     hide(); // Hide the registration window
@@ -274,8 +279,41 @@ QPushButton* parentboard::get_Button_CreateSprint(){
 
 
 //Confluence
+QPushButton* parentboard::get_ButtoCreatePage_Confluence(){
+    return ui->ButtoCreatePage_Confluence;
+}
 
+QTreeWidget* parentboard::getuserTaskTreeWidget_2(){
+    return ui->userTaskTreeWidget_2;
+}
 
+QTextEdit* parentboard::get_InputTitle_2() {
+    return ui->InputTitle_2;
+}
+QComboBox* parentboard::get_InputGroup_Confluence_Heading() {
+    return ui->InputGroup_Confluence_Heading;
+}
+QTextEdit* parentboard::get_InputDescription_Confluence_Heading() {
+    return ui->InputDescription_Confluence_Heading;
+}
+QTextBrowser* parentboard::get_Confluence_NameText() {
+    return ui->Confluence_NameText;
+}
+QTextBrowser* parentboard::get_Confluence_HeadingText() {
+    return ui->Confluence_HeadingText;
+}
+QTextBrowser* parentboard::get_Confluence_GroupText() {
+    return ui->Confluence_GroupText;
+}
+QTextBrowser* parentboard::get_Confluence_DescriptionText() {
+    return ui->Confluence_DescriptionText;
+}
+QPushButton* parentboard::get_Button_Create_Confluence() {
+    return ui->Button_Create_Confluence;
+}
+QGroupBox* parentboard::getCreationBox_Confluence() const {
+    return ui->CreationBox_Confluence;  // Replace "yourGroupBoxName" with the actual name of your group box
+}
 
 
 // ----------------------------------------------------Taskboard----------------------------------------------------
