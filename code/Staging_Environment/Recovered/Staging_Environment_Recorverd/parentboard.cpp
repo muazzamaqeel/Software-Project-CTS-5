@@ -111,7 +111,6 @@ parentboard::parentboard(QWidget *parent) :
     //Old Way
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
     connect(ui->button_userstory, SIGNAL(clicked()), this, SLOT(test()));
-    connect(ui->confluence_backbutton, SIGNAL(clicked()), this, SLOT(confluence_class()));
 
     // Taskboard
     pb_taskboard_implemenation *pbTaskboardBObj = new pb_taskboard_implemenation(obj);
@@ -275,9 +274,6 @@ QPushButton* parentboard::get_Button_CreateSprint(){
 
 
 //Confluence
-QWidget* parentboard::getSomeWidget() {
-    return ui->confluence_backbutton;
-}
 
 
 
