@@ -575,11 +575,6 @@ void pb_productbacklog_implementation::onButtonIssueClicked() {
 
 
 void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee, QString SelectedSprint) {
-
-
-
-
-
     /*
      *
      * // Adding the task in the TaskPB
@@ -590,9 +585,6 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
     int PassedProjectID = parentBoard->getProjectId();
     QComboBox* SprintComboBox = parentBoard->get_BL_SprintDropDown();
     QString selectedValue = SprintComboBox->currentText().trimmed(); // Trim to remove any whitespace
-
-
-
     qDebug() << "Project ID in TASKPB - TASKSB: " << PassedProjectID;
     //Getting the assignee value from the database
     if (!table) {

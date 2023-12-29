@@ -30,8 +30,7 @@ parentboard::parentboard(QWidget *parent) :
     taskModel->setColumnCount(2);
     ui->teamTable->setColumnCount(3);
     ui->teamTable->setHorizontalHeaderLabels({"First name", "Email", "Role"});
-    ui->sprint_table->setColumnCount(3);
-    ui->sprint_table->setHorizontalHeaderLabels({"StartDate", "EndDate","Title"}); // Set column headers
+
 
 
 
@@ -42,7 +41,9 @@ parentboard::parentboard(QWidget *parent) :
     //ui->issues->setHorizontalHeaderLabels({"Issue", "Description", "Priority"}); // Set column headers
 
 
-//  pb_productbacklog Implementation Calls ---Start
+
+//  PB_ProductBacklog ---------------------------------- Calls
+//  PB_ProductBacklog ---------------------------------- Calls
     parentboard *obj = this; // Create an instance of parentboard
     pb_team_implemenation *teamPagePtr = new pb_team_implemenation(obj);
     pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);
@@ -84,25 +85,34 @@ parentboard::parentboard(QWidget *parent) :
             // Optionally, handle this case
         }
     });
-
-
 //  pb_productbacklog Implementation Calls ---End
 
 
 
 
-//  pb_sprint Implementation Calls
+//  PB_Sprint  ---------------------------------- Calls
+//  PB_Sprint  ---------------------------------- Calls
+
     pb_sprint_implemenation *pbSprintBObj = new pb_sprint_implemenation(obj); //Accessing the pb_sprint_implementation class
-    connect(ui->sprint_createtask_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
-    connect(ui->sprint_create_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_create_sprint_clicked);
-    connect(ui->edit_sprint_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_editsprint_sprint_clicked);
+    connect(ui->sprintsButton,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::OBJECTS_VISIBLE_BOXES);
     connect(ui->sprintsButton,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::RetrieveAndDisplayTask);
+    //connect(ui->sprint_createtask_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::addTaskSprint);
+    connect(ui->sprint_create_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::OBJECTS_VISIBLE_on_create_sprint_clicked); //TO JUST MAKE THE CORRECT OBJECTS VISIBLE
+    connect(ui->edit_sprint_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_editsprint_sprint_clicked);
     //Create Task
     connect(ui->CreateSprint_SprintTab, &QPushButton::clicked, pbSprintObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
     connect(ui->delete_button,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::onDeleteButtonClicked);
     // Connect the delete button click signal to the onDeleteButtonClicked() slot
    // connect(ui->delete_button, SIGNAL(clicked()), this, SLOT(onDeleteButtonClicked()));
 
+
+
+
+
+
+
+//  PB_Confluence  ---------------------------------- Calls
+//  PB_Confluence  ---------------------------------- Calls
 
     PB_Confluence_Implemenation *pbConfluenceBObj = new PB_Confluence_Implemenation(obj); //Accessing the pb_sprint_implementation class
     connect(ui->confluenceButton,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::HideCreationSection);
@@ -115,7 +125,9 @@ parentboard::parentboard(QWidget *parent) :
 
 
 
-//  pb_team Implementation Calls
+//  PB_Team  ---------------------------------- Calls
+//  PB_Team  ---------------------------------- Calls
+
     connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
     connect(ui->teamButton, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::UserRetrieval);
 
@@ -123,9 +135,30 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
     connect(ui->button_userstory, SIGNAL(clicked()), this, SLOT(test()));
 
-    // Taskboard
+//  PB_TaskBoard ---------------------------------- Calls
+//  PB_TaskBoard ---------------------------------- Calls
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     pb_taskboard_implemenation *pbTaskboardBObj = new pb_taskboard_implemenation(obj);
 }
+
+
+
+
+
 //------------------------------------------------------------------------------------------------------------------------------------------------
 parentboard::~parentboard()
 {
@@ -260,7 +293,7 @@ QLineEdit* parentboard::getFirstNameField(){
     return ui->input_firstname;
 }
 QGroupBox* parentboard::getSprintGroupBox() const {
-    return ui->sprintGroupBox;  // Replace "yourGroupBoxName" with the actual name of your group box
+    return ui->sprintGroupBox;
 }
 
 QLineEdit* parentboard::get_Input_SprintName(){
@@ -275,6 +308,93 @@ QDateEdit* parentboard::get_Input_EndDate(){
 QPushButton* parentboard::get_Button_CreateSprint(){
     return ui->CreateSprint_SprintTab;
 }
+
+
+//Sprint_View_Box
+
+QGroupBox* parentboard::get_Sprint_View_Box() {
+    return ui->Sprint_View_Box;
+}
+QLineEdit* parentboard::get_Line_EditSprintEndDate() {
+    return ui->Edit_Sprint_EndDate;
+}
+QLineEdit* parentboard::get_LineEdit_SprintName() {
+    return ui->Edit_Sprint_Name;
+}
+
+QLineEdit* parentboard::get_LineEdit_SprintStartDate() {
+    return ui->Edit_Sprint_StartDate;
+}
+
+QLabel* parentboard::get_Label_Sprint_EndDate() {
+    return ui->Label_Sprint_EndDate;
+}
+
+QLabel* parentboard::get_Label_SprintStartDate() {
+    return ui->Label_Sprint_StartDate;
+}
+
+QLabel* parentboard::get_Label_SprintTitle() {
+    return ui->Label_Sprint_Title;
+}
+
+QLabel* parentboard::get_Label_TaskName() {
+    return ui->Label_Task_TableName;
+}
+
+QTableWidget* parentboard::get_Table_SprintDetails() {
+    return ui->SprintDetails_Table;
+}
+
+//Sprint Group Box
+QGroupBox* parentboard::get_GroupBox_SprintGroup() {
+    return ui->sprintGroupBox;
+}
+
+QPushButton* parentboard::get_Button_CreateSprintTab() {
+    return ui->CreateSprint_SprintTab;
+}
+
+QDateEdit* parentboard::get_DateEdit_InputEndDate() {
+    return ui->Input_EndDate;
+}
+
+QTextEdit* parentboard::get_TextEdit_InputSprintGoal() {
+    return ui->Input_SprintGoal;
+}
+
+QLineEdit* parentboard::get_LineEdit_InputSprintName() {
+    return ui->Input_SprintName;
+}
+
+QDateEdit* parentboard::get_DateEdit_InputStartDate() {
+    return ui->Input_StartDate;
+}
+
+QLabel* parentboard::get_DateEdit_Text_EndDate() {
+    return ui->Text_EndDate;
+}
+QLabel* parentboard::get_Label_TextName() {
+    return ui->Text_Name;
+}
+
+QLabel* parentboard::get_Label_TextSprintGoal() {
+    return ui->Text_SprintGoal;
+}
+
+QLabel* parentboard::get_Label_TextStartDate() {
+    return ui->Text_StartDate;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

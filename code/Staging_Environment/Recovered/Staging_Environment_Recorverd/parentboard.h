@@ -96,6 +96,29 @@ public:
     void updateSprintDateLabel(const QString& newText);
 
 
+
+    //Sprint
+    QGroupBox* get_Sprint_View_Box();
+    QLineEdit* get_Line_EditSprintEndDate();
+    QLineEdit* get_LineEdit_SprintName();
+    QLineEdit* get_LineEdit_SprintStartDate();
+    QLabel* get_Label_Sprint_EndDate();
+    QLabel* get_Label_SprintStartDate();
+    QLabel* get_Label_SprintTitle();
+    QLabel* get_Label_TaskName();
+    QTableWidget* get_Table_SprintDetails();
+    QGroupBox* get_GroupBox_SprintGroup();
+    QPushButton* get_Button_CreateSprintTab();
+    QDateEdit* get_DateEdit_InputEndDate();
+    QTextEdit* get_TextEdit_InputSprintGoal();
+    QLineEdit* get_LineEdit_InputSprintName();
+    QDateEdit* get_DateEdit_InputStartDate();
+    QLabel* get_DateEdit_Text_EndDate();
+    QLabel* get_Label_TextName();
+    QLabel* get_Label_TextSprintGoal();
+    QLabel* get_Label_TextStartDate();
+
+
 private slots:
     void on_taskboardButton_clicked();
     void on_Issue_selected();
