@@ -40,6 +40,8 @@ public:
     QMap<int, TaskInfo> taskMap; // Map for storing TaskInfo objects
     QStandardItemModel *model; // Standard item model for data
     DatabaseManager database;
+    QComboBox* SprintSelectionComboBox;
+
 
     // Constructor
     pb_productbacklog_implementation(parentboard* parentBoardInstance);
@@ -65,13 +67,14 @@ public slots:
     void clearUserStoriesTable();
     void RetrieveAndDisplayBacklog();
     void SendTasksToSprints();
-    void Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, QString assignee, int priority, int taskID);
+    void Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, QString assignee, int priority, int taskID, const QStringList& sprintTitles, const QString& assignedSprint);
     void onTableItemChanged(QTableWidgetItem* item);
     void updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, QString assignee, int priority);
     void onStatusChanged(int taskID, const QString& status);
     void onUserStoryStatusChanged(int storyID, const QString& newStatus);
     void onRowClicked(QTableWidgetItem* item);
     void deleteTaskFromDatabase(int taskID);
+    void SendToSprint(int taskID, const QString& title, const QString& description, const QString& status, int priority, const QString& assigneeId, const QString& selectedSprint);
 private:
     parentboard* parentBoard; // Reference to the parent board
     QMap<int, UserStoryDetails> storyMap; // Map for storing UserStoryDetails objects
