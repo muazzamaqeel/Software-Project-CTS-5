@@ -177,18 +177,66 @@ void pb_sprint_implemenation::AdditionalDetails(int row, int idSprint, const QSt
     }
 
 
+    QTableWidget* Table_SprintDetails = parentBoard->get_Table_SprintDetails();
+    Table_SprintDetails->clear();
+    Table_SprintDetails->clearContents();
+    Table_SprintDetails->setRowCount(0);
     parentBoard->get_Table_SprintDetails()->setColumnCount(4);
     parentBoard->get_Table_SprintDetails()->setHorizontalHeaderLabels({"ID", "Title", "Priority", "Status"}); // Set column headers
-    QTableWidget* TasksTable = parentBoard->get_Table_SprintDetails();
-    QHeaderView* header = TasksTable->horizontalHeader();
+    Table_SprintDetails->setColumnHidden(0, true);
+
+
+    QHeaderView* header = Table_SprintDetails->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
+    int PassedProjectID = parentBoard->getProjectId();
+    if (dbobj.isOpen()) {
+        QSqlQuery query(dbobj);
+        query.prepare("SELECT idSprint, StartDate, EndDate, Title FROM Sprint WHERE Project_idProject = :projectID");
+        query.bindValue(":projectID", PassedProjectID);
+        if (query.exec()) {
+            qDebug() << "Sprint Retrieved Successfully!";
+            while (query.next()) {
+                int idSprint = query.value(0).toInt();
+                QString StartDate = query.value(1).toString();
+                QString EndDate = query.value(2).toString();
+                QString Title = query.value(3).toString();
+            }
+        }
+    }
+    DatabaseManager database1;
+    QSqlDatabase dbobj1 = database1.getDatabase();
+    if (dbobj1.isOpen()) {
+        QSqlQuery query1(dbobj1);
+        query1.prepare(
+            "SELECT TSB.idTask, TSB.Title, TSB.Priority, TSB.Status "
+            "FROM TaskSB AS TSB "
+            "INNER JOIN SprintBacklog AS SB ON TSB.SprintBacklog_idSprintBacklog = SB.idSprintBacklog "
+            "INNER JOIN Sprint AS S ON SB.Sprint_idSprint = S.idSprint "
+            "WHERE S.Project_idProject = :projectID AND S.idSprint = :sprintID"
+            );
+        query1.bindValue(":projectID", PassedProjectID);
+        query1.bindValue(":sprintID", idSprint);
 
-
-
-
-
-
-
+        if (query1.exec()) {
+            qDebug() << "Tasks Retrieved Successfully!";
+            while (query1.next()) {
+                int idTask = query1.value("idTask").toInt();
+                QString title = query1.value("Title").toString();
+                int priority = query1.value("Priority").toInt();
+                QString status = query1.value("Status").toString();
+                int currentRow = Table_SprintDetails->rowCount();
+                Table_SprintDetails->insertRow(currentRow);
+                Table_SprintDetails->setItem(currentRow, 0, new QTableWidgetItem(QString::number(idTask)));
+                Table_SprintDetails->setItem(currentRow, 1, new QTableWidgetItem(title));
+                Table_SprintDetails->setItem(currentRow, 2, new QTableWidgetItem(QString::number(priority)));
+                Table_SprintDetails->setItem(currentRow, 3, new QTableWidgetItem(status));
+            }
+        } else {
+            qDebug() << "Error retrieving tasks:" << query1.lastError().text();
+        }
+    }
 }
 
 
