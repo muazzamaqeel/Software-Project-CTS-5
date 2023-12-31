@@ -42,8 +42,8 @@ parentboard::parentboard(QWidget *parent) :
 
 
 
-//  PB_ProductBacklog ---------------------------------- Calls
-//  PB_ProductBacklog ---------------------------------- Calls
+    //  PB_ProductBacklog ---------------------------------- Calls
+    //  PB_ProductBacklog ---------------------------------- Calls
     parentboard *obj = this; // Create an instance of parentboard
     pb_team_implemenation *teamPagePtr = new pb_team_implemenation(obj);
     pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);
@@ -85,13 +85,13 @@ parentboard::parentboard(QWidget *parent) :
             // Optionally, handle this case
         }
     });
-//  pb_productbacklog Implementation Calls ---End
+    //  pb_productbacklog Implementation Calls ---End
 
 
 
 
-//  PB_Sprint  ---------------------------------- Calls
-//  PB_Sprint  ---------------------------------- Calls
+    //  PB_Sprint  ---------------------------------- Calls
+    //  PB_Sprint  ---------------------------------- Calls
 
     pb_sprint_implemenation *pbSprintBObj = new pb_sprint_implemenation(obj); //Accessing the pb_sprint_implementation class
     connect(ui->sprintsButton,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::OBJECTS_VISIBLE_BOXES);
@@ -103,7 +103,7 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->CreateSprint_SprintTab, &QPushButton::clicked, pbSprintObj, &pb_sprint_implemenation::on_createtask_sprint_clicked);
     connect(ui->delete_button,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::onDeleteButtonClicked);
     // Connect the delete button click signal to the onDeleteButtonClicked() slot
-   // connect(ui->delete_button, SIGNAL(clicked()), this, SLOT(onDeleteButtonClicked()));
+    // connect(ui->delete_button, SIGNAL(clicked()), this, SLOT(onDeleteButtonClicked()));
 
 
 
@@ -111,13 +111,20 @@ parentboard::parentboard(QWidget *parent) :
 
 
 
-//  PB_Confluence  ---------------------------------- Calls
-//  PB_Confluence  ---------------------------------- Calls
+    //  PB_Confluence  ---------------------------------- Calls
+    //  PB_Confluence  ---------------------------------- Calls
 
     PB_Confluence_Implemenation *pbConfluenceBObj = new PB_Confluence_Implemenation(obj); //Accessing the pb_sprint_implementation class
     connect(ui->confluenceButton,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::HideCreationSection);
-    connect(ui->ButtoCreatePage_Confluence,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::ShowCreateWindow);
-    connect(ui->Button_Create_Confluence,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::CreatePageFunction);
+    connect(ui->ButtonGroup_Confluence,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::ShowCreateWindow);
+    connect(ui->ButtonPage_Confluence,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::ShowCreateWindow_Page);
+
+
+
+
+    connect(ui->Button_Create_Confluence,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::CreateGroupFunction);
+    connect(ui->Button_CreatePage_Confluence,&QPushButton::clicked,pbConfluenceBObj,&PB_Confluence_Implemenation::CreatePageFunction);
+
 
     PB_Confluence_Implemenation* myConfluenceImplementation = new PB_Confluence_Implemenation(this);
     connect(ui->userTaskTreeWidget_2, &QTreeWidget::itemClicked, myConfluenceImplementation, &PB_Confluence_Implemenation::ConfluenceTableChange_Dectection);
@@ -125,8 +132,8 @@ parentboard::parentboard(QWidget *parent) :
 
 
 
-//  PB_Team  ---------------------------------- Calls
-//  PB_Team  ---------------------------------- Calls
+    //  PB_Team  ---------------------------------- Calls
+    //  PB_Team  ---------------------------------- Calls
 
     connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
     connect(ui->teamButton, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::UserRetrieval);
@@ -135,8 +142,8 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
     connect(ui->button_userstory, SIGNAL(clicked()), this, SLOT(test()));
 
-//  PB_TaskBoard ---------------------------------- Calls
-//  PB_TaskBoard ---------------------------------- Calls
+    //  PB_TaskBoard ---------------------------------- Calls
+    //  PB_TaskBoard ---------------------------------- Calls
 
 
 
@@ -402,9 +409,6 @@ QLabel* parentboard::get_Label_TextStartDate() {
 
 
 //Confluence
-QPushButton* parentboard::get_ButtoCreatePage_Confluence(){
-    return ui->ButtoCreatePage_Confluence;
-}
 
 QTreeWidget* parentboard::getuserTaskTreeWidget_2(){
     return ui->userTaskTreeWidget_2;
@@ -416,9 +420,6 @@ QTextEdit* parentboard::get_InputTitle_2() {
 QComboBox* parentboard::get_InputGroup_Confluence_Heading() {
     return ui->InputGroup_Confluence_Heading;
 }
-QTextEdit* parentboard::get_InputDescription_Confluence_Heading() {
-    return ui->InputDescription_Confluence_Heading;
-}
 QTextBrowser* parentboard::get_Confluence_NameText() {
     return ui->Confluence_NameText;
 }
@@ -428,14 +429,23 @@ QTextBrowser* parentboard::get_Confluence_HeadingText() {
 QTextBrowser* parentboard::get_Confluence_GroupText() {
     return ui->Confluence_GroupText;
 }
-QTextBrowser* parentboard::get_Confluence_DescriptionText() {
-    return ui->Confluence_DescriptionText;
+QGroupBox* parentboard::getCreationBox_Confluence() const {
+    return ui->CreationBox_Confluence;
+}
+
+//BAR-BUTTONS
+QPushButton* parentboard::get_ButtonGroup_Confluence(){
+    return ui->ButtonGroup_Confluence;
+}
+QPushButton* parentboard::get_ButtonPage_Confluence(){
+    return ui->ButtonPage_Confluence;
+}
+//LOWER-BUTTONS
+QPushButton* parentboard::get_Button_CreatePage_Confluence(){
+    return ui->Button_CreatePage_Confluence;
 }
 QPushButton* parentboard::get_Button_Create_Confluence() {
     return ui->Button_Create_Confluence;
-}
-QGroupBox* parentboard::getCreationBox_Confluence() const {
-    return ui->CreationBox_Confluence;  // Replace "yourGroupBoxName" with the actual name of your group box
 }
 
 

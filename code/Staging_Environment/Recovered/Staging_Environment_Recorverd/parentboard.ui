@@ -108,7 +108,7 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -2341,7 +2341,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Confluence Space&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="ButtoCreatePage_Confluence">
+    <widget class="QPushButton" name="ButtonGroup_Confluence">
      <property name="geometry">
       <rect>
        <x>1150</x>
@@ -2351,16 +2351,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
       </rect>
      </property>
      <property name="text">
-      <string>Create Page</string>
+      <string>Create Group</string>
      </property>
     </widget>
     <widget class="QGroupBox" name="CreationBox_Confluence">
      <property name="geometry">
       <rect>
        <x>860</x>
-       <y>70</y>
+       <y>110</y>
        <width>411</width>
-       <height>421</height>
+       <height>371</height>
       </rect>
      </property>
      <property name="title">
@@ -2386,26 +2386,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
-     <widget class="QTextBrowser" name="Confluence_DescriptionText">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>120</y>
-        <width>101</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-hr { height: 1px; border-width: 0; }
-li.unchecked::marker { content: &quot;\2610&quot;; }
-li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Description&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
      <widget class="QTextEdit" name="InputTitle_2">
       <property name="geometry">
        <rect>
@@ -2416,21 +2396,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </rect>
       </property>
      </widget>
-     <widget class="QTextEdit" name="InputDescription_Confluence_Heading">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>120</y>
-        <width>281</width>
-        <height>121</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QTextBrowser" name="Confluence_GroupText">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>250</y>
+        <y>120</y>
         <width>101</width>
         <height>41</height>
        </rect>
@@ -2463,14 +2433,14 @@ hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Page Creation&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Group Creation&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="Button_Create_Confluence">
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>340</y>
+        <y>300</y>
         <width>110</width>
         <height>40</height>
        </rect>
@@ -2498,19 +2468,67 @@ color: rgb(255, 255, 255);
 }</string>
       </property>
       <property name="text">
-       <string>Create</string>
+       <string>Create Group</string>
       </property>
      </widget>
      <widget class="QComboBox" name="InputGroup_Confluence_Heading">
       <property name="geometry">
        <rect>
         <x>120</x>
-        <y>250</y>
+        <y>120</y>
         <width>281</width>
         <height>41</height>
        </rect>
       </property>
      </widget>
+     <widget class="QPushButton" name="Button_CreatePage_Confluence">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>300</y>
+        <width>110</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>110</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>110</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+font: 13pt &quot;Arial&quot;;
+background-color: rgb(100, 100, 100);
+color: rgb(255, 255, 255);
+}</string>
+      </property>
+      <property name="text">
+       <string>Create Page</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="ButtonPage_Confluence">
+     <property name="geometry">
+      <rect>
+       <x>1030</x>
+       <y>20</y>
+       <width>111</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Create Page</string>
+     </property>
     </widget>
    </widget>
   </widget>

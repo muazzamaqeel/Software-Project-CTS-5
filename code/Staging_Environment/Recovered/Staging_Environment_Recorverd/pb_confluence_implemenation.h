@@ -18,14 +18,16 @@ public:
     PB_Confluence_Implemenation(parentboard* parentBoardInstance);
     parentboard* parentBoard; // Reference to the parent board
     QString Title;
-    QString Descrption;
-    QString Group;
+    QString GroupName;
 
 public slots:
     void HideCreationSection();
     void ShowCreateWindow();
-    void CreatePageFunction();
+    void CreateGroupFunction();
     void ConfluenceTableChange_Dectection(QTreeWidgetItem *item, int column);
+    void ShowCreateWindow_Page();
+    void CreatePageFunction();
+
 };
 
 #endif // PB_CONFLUENCE_IMPLEMENATION_H

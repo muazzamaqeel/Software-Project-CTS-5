@@ -63,20 +63,19 @@ public:
     QDateEdit* get_Input_EndDate();
     QPushButton* get_Button_CreateSprint();
     QGroupBox* getCreationBox();
-    QPushButton* get_ButtoCreatePage_Confluence();
-
 
     //Confluence
     QTextEdit* get_InputTitle_2();
     QComboBox* get_InputGroup_Confluence_Heading();
-    QTextEdit* get_InputDescription_Confluence_Heading();
     QTextBrowser* get_Confluence_NameText();
     QTextBrowser* get_Confluence_HeadingText();
     QTextBrowser* get_Confluence_GroupText();
-    QTextBrowser* get_Confluence_DescriptionText();
     QPushButton* get_Button_Create_Confluence();
     QTreeWidget* getuserTaskTreeWidget_2();
     QGroupBox* getCreationBox_Confluence() const;
+    QPushButton* get_Button_CreatePage_Confluence();
+    QPushButton* get_ButtonPage_Confluence();
+    QPushButton* get_ButtonGroup_Confluence();
 
     static parentboard* getInstance(QWidget *parent = nullptr) {
         if (instance == nullptr) {
