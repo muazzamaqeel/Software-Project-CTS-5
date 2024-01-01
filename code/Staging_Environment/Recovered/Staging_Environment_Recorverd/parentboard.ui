@@ -108,7 +108,7 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -716,6 +716,64 @@ li.checked::marker { content: &quot;\2612&quot;; }
          <width>1251</width>
          <height>531</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QTableWidget {
+    background-color: white; /* White background for the cells */
+    border: none;
+    gridline-color: transparent; /* Assuming you want no grid lines */
+}
+
+QTableWidget::item {
+    padding: 4px;
+    border-bottom: 1px solid transparent; /* Transparent border for item bottoms */
+}
+
+QTableWidget::item:selected {
+    background-color: #b3d1ff; /* A medium blue for selected item */
+}
+
+QHeaderView::section {
+    background-color: #00165a; /* A darker blue for header sections */
+    color: white;
+    padding: 2px;
+    border-top: none;
+}
+
+/* This part is for the vertical header (row numbers) */
+QTableWidget QHeaderView::section {
+    background-color: #00165a; /* Dark blue for both headers */
+    color: white;
+    border: none;
+    padding: 2px;
+}
+
+/* This part is for the horizontal header (column titles) */
+QTableWidget::horizontalHeader {
+    background-color: #4d88ff;
+    color: white;
+    border: none;
+    padding: 2px;
+}
+
+/* This part is for the vertical header (row numbers) */
+QTableWidget::verticalHeader {
+    background-color: #00165a;
+    color: white;
+    border: none;
+}
+
+/* This will ensure that the row number cells (vertical header) also have the dark blue background */
+QTableWidget QHeaderView::section:vertical {
+    background-color: #00165a; /* Dark blue to match the horizontal header */
+    color: white;
+}
+
+/* For alternate row coloring, if desired */
+QTableWidget::item:alternate {
+    background-color: #f2f2f2; /* A light gray for alternate rows, if you want that */
+}
+</string>
        </property>
       </widget>
       <widget class="QGroupBox" name="CreationBox">
