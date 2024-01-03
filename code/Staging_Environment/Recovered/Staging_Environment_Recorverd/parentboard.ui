@@ -108,7 +108,7 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -2348,78 +2348,79 @@ background-color: rgb(0, 255, 44);
      <property name="styleSheet">
       <string notr="true">/* QTreeWidget Stylesheet */
 
+/* QTreeWidget background and basic styles */
 QTreeWidget {
+    background-color: #f0f0f0; /* Light gray background */
+    border: none; /* Remove border */
     font: 14pt &quot;Arial&quot;;
-    color: black;
-    background-color: rgb(200, 200, 200);
-    show-decoration-selected: 1;
 }
 
 /* Top-level items */
 QTreeWidget::item {
-    padding: 8px;
-    background-color: rgb(240, 240, 240); /* Background color for top-level items */
-    font-size: 14px;
+    padding: 10px 15px; /* Increase padding for better spacing */
+    background-color: #ffffff; /* White background */
+    color: #333333; /* Dark gray text color */
+    border: 1px solid #d1d1d1; /* Add a subtle border */
 }
 
 QTreeWidget::item:hover {
-    background-color: rgb(230, 230, 230);
+    background-color: #f2f2f2; /* Slightly lighter background on hover */
 }
 
 QTreeWidget::item:selected {
-    color: black;
+    background-color: #86ff98; /* Light green background for selected items */
+    color: #333333; /* Dark gray text color */
     font-weight: bold;
-    background-color: rgb(158, 255, 162);
 }
 
 /* Subitems (nested items) */
 QTreeWidget::item:has-children {
-    background-color: rgb(240, 240, 240); /* Background color for items with children */
+    background-color: #ffffff; /* White background for items with children */
+    border: 1px solid #d1d1d1; /* Add a subtle border */
 }
 
 QTreeWidget::item:!has-children {
-    background-color: rgb(240, 240, 240); /* Your desired color for top-level items without children */
+    background-color: #ffffff; /* White background for top-level items without children */
 }
 
 QTreeWidget::item:has-children:hover {
-    background-color: rgb(240, 240, 240);
+    background-color: #ffffff; /* White background on hover for items with children */
 }
 
 QTreeWidget::item:!has-children:hover {
-    background-color: rgb(240, 240, 240); /* Your desired hover color for top-level items without children */
+    background-color: #ffffff; /* White background on hover for top-level items without children */
 }
 
 QTreeWidget::item:has-children:selected {
-    color: black;
-    font-weight: bold;
-    background-color: rgb(240, 240, 240);
+    background-color: #ffffff; /* White background for selected items with children */
 }
+
 QTreeWidget::item:!has-children:selected {
-    color: black;
+    background-color: #86ff98; /* Light green background for selected top-level items without children */
     font-weight: bold;
-    background-color: rgb(158, 255, 162);
 }
 
 /* QHeaderView Sections (Individual Columns) */
 QHeaderView::section {
-    background-color: rgb(100, 100, 100);
-    color: white;
-    padding: 4px;
-    border: 1px solid white;
+    background-color: #333333; /* Dark gray background for header sections */
+    color: #ffffff; /* White text color for header sections */
+    padding: 8px;
+    border: none; /* Remove border */
     qproperty-horizontalStretch: 1; /* Stretch the header to fill the entire width */
     qproperty-stretchSection: 1; /* Stretch all sections to fill the remaining space */
 }
 
-/* Replace the default branch arrow with a smaller image */
+/* Replace the default branch arrow with custom images */
 QTreeWidget::branch:has-children {
-    image: url(:/down-arrow.png); /* Default arrow image when item is open */
-    width: 10px; /* Adjust the width of the image */
-    height: 10px; /* Adjust the height of the image */
+    image: url(:/down-arrow.png); /* Custom arrow image when item is open */
+    width: 14px; /* Adjust the width of the image */
+    height: 14px; /* Adjust the height of the image */
 }
 
 QTreeWidget::branch:closed:has-children {
-    image: url(:/right-arrow.png); /* Arrow image when item is closed */
-}</string>
+    image: url(:/right-arrow.png); /* Custom arrow image when item is closed */
+}
+</string>
      </property>
      <property name="sizeAdjustPolicy">
       <enum>QAbstractScrollArea::AdjustToContents</enum>
