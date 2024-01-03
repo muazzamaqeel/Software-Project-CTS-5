@@ -108,7 +108,7 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -1799,9 +1799,70 @@ color: rgb(0, 0, 0);
       <rect>
        <x>40</x>
        <y>80</y>
-       <width>561</width>
+       <width>551</width>
        <height>531</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTableWidget {
+    background-color: white; /* White background for the cells */
+    border: 1px solid black; /* Add a border to the table */
+}
+
+QTableWidget::item {
+    padding: 4px;
+    border-bottom: 1px solid transparent; /* Transparent border for item bottoms */
+}
+
+QTableWidget::item:selected {
+    background-color: #b3d1ff; /* A medium blue for selected item */
+}
+
+QHeaderView::section {
+    background-color: #00165a; /* A darker blue for header sections */
+    color: white;
+    padding: 2px;
+    border-top: none;
+    border-right: 1px solid black; /* Add right border to header sections */
+}
+
+/* This part is for the vertical header (row numbers) */
+QTableWidget QHeaderView::section {
+    background-color: #00165a; /* Dark blue for both headers */
+    color: white;
+    border: none;
+    padding: 2px;
+    border-right: 1px solid black; /* Add right border to vertical header */
+}
+
+/* This part is for the horizontal header (column titles) */
+QTableWidget::horizontalHeader {
+    background-color: #4d88ff;
+    color: white;
+    border: none;
+    padding: 2px;
+    border-bottom: 1px solid black; /* Add bottom border to horizontal header */
+}
+
+/* This part is for the vertical header (row numbers) */
+QTableWidget::verticalHeader {
+    background-color: #00165a;
+    color: white;
+    border: none;
+    border-right: 1px solid black; /* Add right border to vertical header */
+}
+
+/* This will ensure that the row number cells (vertical header) also have the dark blue background */
+QTableWidget QHeaderView::section:vertical {
+    background-color: #00165a; /* Dark blue to match the horizontal header */
+    color: white;
+}
+
+/* For alternate row coloring, if desired */
+QTableWidget::item:alternate {
+    background-color: #f2f2f2; /* A light gray for alternate rows, if you want that */
+}
+</string>
      </property>
     </widget>
     <widget class="QGroupBox" name="sprintGroupBox">
@@ -2097,6 +2158,64 @@ color: rgb(255, 255, 255);
         <height>211</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QTableWidget {
+    background-color: white; /* White background for the cells */
+    border: none;
+    gridline-color: transparent; /* Assuming you want no grid lines */
+}
+
+QTableWidget::item {
+    padding: 4px;
+    border-bottom: 1px solid transparent; /* Transparent border for item bottoms */
+}
+
+QTableWidget::item:selected {
+    background-color: #b3d1ff; /* A medium blue for selected item */
+}
+
+QHeaderView::section {
+    background-color: #00165a; /* A darker blue for header sections */
+    color: white;
+    padding: 2px;
+    border-top: none;
+}
+
+/* This part is for the vertical header (row numbers) */
+QTableWidget QHeaderView::section {
+    background-color: #00165a; /* Dark blue for both headers */
+    color: white;
+    border: none;
+    padding: 2px;
+}
+
+/* This part is for the horizontal header (column titles) */
+QTableWidget::horizontalHeader {
+    background-color: #4d88ff;
+    color: white;
+    border: none;
+    padding: 2px;
+}
+
+/* This part is for the vertical header (row numbers) */
+QTableWidget::verticalHeader {
+    background-color: #00165a;
+    color: white;
+    border: none;
+}
+
+/* This will ensure that the row number cells (vertical header) also have the dark blue background */
+QTableWidget QHeaderView::section:vertical {
+    background-color: #00165a; /* Dark blue to match the horizontal header */
+    color: white;
+}
+
+/* For alternate row coloring, if desired */
+QTableWidget::item:alternate {
+    background-color: #f2f2f2; /* A light gray for alternate rows, if you want that */
+}
+</string>
+      </property>
      </widget>
      <widget class="QPushButton" name="sprint_createtask_button">
       <property name="geometry">
@@ -2151,10 +2270,10 @@ color: rgb(255, 255, 255);
     <zorder>sprint_create_button</zorder>
     <zorder>edit_sprint_button</zorder>
     <zorder>sprint_date</zorder>
-    <zorder>sprint_table</zorder>
     <zorder>sprintGroupBox</zorder>
     <zorder>delete_button</zorder>
     <zorder>Sprint_View_Box</zorder>
+    <zorder>sprint_table</zorder>
    </widget>
    <widget class="QWidget" name="confluencePage">
     <widget class="QLabel" name="selectorC">
