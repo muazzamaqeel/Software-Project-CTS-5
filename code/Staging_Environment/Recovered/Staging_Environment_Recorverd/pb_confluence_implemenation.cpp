@@ -11,10 +11,11 @@
 #include "qmessagebox.h"
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QDialog>
 
-PB_Confluence_Implemenation::PB_Confluence_Implemenation(parentboard* parentBoardInstance)
-{
-    parentBoard = parentBoardInstance;
+
+PB_Confluence_Implemenation::PB_Confluence_Implemenation(QWidget *parent)
+    : QObject(parent), parentBoard(qobject_cast<parentboard*>(parent)){
     parentBoard->getCreationBox_Confluence()->setVisible(false);
     parentBoard->get_InputTitle_2()->setVisible(false);
     parentBoard->get_InputGroup_Confluence_Heading()->setVisible(false);
@@ -23,12 +24,17 @@ PB_Confluence_Implemenation::PB_Confluence_Implemenation(parentboard* parentBoar
     parentBoard->get_Confluence_GroupText()->setVisible(false);
     parentBoard->get_Button_Create_Confluence()->setVisible(false);
     parentBoard->getuserTaskTreeWidget_2()->setVisible(true);
+}
 
+parentboard* PB_Confluence_Implemenation::getParentBoard() {
+    return parentBoard;
 }
 
 void PB_Confluence_Implemenation::HideCreationSection()
 {
+    int PassedProjectID = parentBoard->getProjectId();
     QTreeWidget* ConfluenceTable = parentBoard->getuserTaskTreeWidget_2();
+    ConfluenceTable->clear();
     ConfluenceTable->setGeometry(10, 75, 1250, 550);
     parentBoard->getCreationBox_Confluence()->setVisible(false);
     parentBoard->get_InputTitle_2()->setVisible(false);
@@ -39,9 +45,164 @@ void PB_Confluence_Implemenation::HideCreationSection()
     parentBoard->get_Button_Create_Confluence()->setVisible(false);
     parentBoard->getuserTaskTreeWidget_2()->setVisible(true);
 
+    // Retrieve Confluence Current Data
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
+    QSqlQuery query(dbobj);
+    // Prepare the query to get the GroupNames, idGroup, and corresponding PageNames
+    query.prepare("SELECT cg.GroupName, cg.idGroup, p.PageName, p.idPage "
+                  "FROM ConfluenceGroup AS cg "
+                  "LEFT JOIN Page AS p ON cg.idGroup = p.ConfluenceGroup_idGroup "
+                  "WHERE cg.Project_idProject = :ProjectID "
+                  "ORDER BY cg.GroupName, p.PageName");
+    query.bindValue(":ProjectID", PassedProjectID);
 
+    if (query.exec()) {
+        QMap<QString, QTreeWidgetItem*> groupItems;
+        while (query.next()) {
+            QString groupName = query.value(0).toString();
+            int idGroup = query.value(1).toInt(); // Retrieve idGroup
+            QString pageName = query.value(2).toString();
+            // idPage is retrieved but not used directly here
+            // int idPage = query.value(3).toInt(); // Retrieve idPage if needed
+
+            // Check if the groupName item already exists
+            QTreeWidgetItem* groupItem;
+            if (!groupItems.contains(groupName)) {
+                // Create a new item for the groupName if it doesn't exist
+                groupItem = new QTreeWidgetItem(ConfluenceTable);
+                groupItem->setText(0, groupName);
+                // Store idGroup as user data in the tree item
+                groupItem->setData(0, Qt::UserRole, idGroup);
+                groupItems.insert(groupName, groupItem);
+            } else {
+                // Get the existing item for the groupName
+                groupItem = groupItems.value(groupName);
+            }
+
+            // If there is a pageName, create a child item for it under the groupName
+            if (!pageName.isEmpty()) {
+                QTreeWidgetItem* pageItem = new QTreeWidgetItem();
+                pageItem->setText(0, pageName);
+                // Optionally store idPage as user data in the tree item
+                // pageItem->setData(0, Qt::UserRole, idPage);
+                groupItem->addChild(pageItem);
+            }
+        }
+    }
+
+    // Ensure that the ConfluenceTable is updated to display the new items
+    ConfluenceTable->update();
 }
 
+
+/**
+ * @brief Slot function called when an item in the tree widget is clicked.
+ *
+ * This function handles the click event of an item in the tree widget and allows
+ * the user to update the content associated with the selected page.
+ *
+ * @param item The clicked tree widget item.
+ * @param column The column index of the clicked item.
+ */
+void PB_Confluence_Implemenation::onTreeItemClicked(QTreeWidgetItem* item, int column) {
+    if (item && item->parent()) {  // Ensure it's a sub-item
+        QString pageName = item->text(0);
+        QVariant idGroupVariant = item->parent()->data(0, Qt::UserRole);
+
+        // Validate idGroup
+        if (!idGroupVariant.isValid() || idGroupVariant.toInt() <= 0) {
+            qDebug() << "Invalid idGroup for pageName:" << pageName;
+            return;  // Exit if idGroup is not valid
+        }
+        int idGroup = idGroupVariant.toInt();
+
+        qDebug() << "Updating content for pageName:" << pageName << ", idGroup:" << idGroup;
+
+        // Create and show the dialog
+        QDialog *editorDialog = new QDialog(parentBoard);
+
+        QVBoxLayout *layout = new QVBoxLayout(editorDialog);
+        QTextEdit *textEditor = new QTextEdit(editorDialog);
+        QPushButton *saveButton = new QPushButton("Save", editorDialog);
+        QPushButton *closeButton = new QPushButton("Close", editorDialog);
+
+        // Add widgets to layout
+        layout->addWidget(textEditor);
+        layout->addWidget(saveButton);
+        layout->addWidget(closeButton);
+        editorDialog->setLayout(layout);
+
+        // Load the content from the database
+        DatabaseManager database;
+        QSqlDatabase dbobj = database.getDatabase();
+        QSqlQuery query(dbobj);
+        query.prepare("SELECT Content FROM Page WHERE PageName = :PageName AND ConfluenceGroup_idGroup = :idGroup");
+        query.bindValue(":PageName", pageName);
+        query.bindValue(":idGroup", idGroup);
+        if(query.exec() && query.next()) {
+            QString content = query.value(0).toString();
+            textEditor->setPlainText(content);
+        }
+
+        // Connect the Save button
+        connect(saveButton, &QPushButton::clicked, [this, textEditor, pageName, idGroup](){
+            DatabaseManager database;
+            QSqlDatabase dbobj = database.getDatabase();
+            if (dbobj.isOpen() && dbobj.isValid()) {
+                QSqlQuery query(dbobj);
+                qDebug() << "Attempting to update content for pageName:" << pageName << ", idGroup:" << idGroup;
+                qDebug() << "New content to save:" << textEditor->toPlainText();
+                query.prepare("UPDATE Page SET Content = :Content WHERE PageName = :PageName AND ConfluenceGroup_idGroup = :idGroup");
+                query.bindValue(":Content", textEditor->toPlainText());
+                query.bindValue(":PageName", pageName);
+                query.bindValue(":idGroup", idGroup);
+
+                dbobj.transaction();
+                // Inside the save button clicked lambda function
+                if (!query.exec()) {
+                    qDebug() << "Error updating content:" << query.lastError().text();
+                    dbobj.rollback();
+                } else {
+                    int rowsAffected = query.numRowsAffected();
+                    qDebug() << "Rows affected by the update:" << rowsAffected;
+                    if (rowsAffected > 0) {
+                        if (!dbobj.commit()) {
+                            qDebug() << "Error committing changes:" << dbobj.lastError().text();
+                        } else {
+                            qDebug() << "Update and commit were successful, rows affected:" << rowsAffected;
+                        }
+                    } else {
+                        qDebug() << "No rows affected by the update, rolling back.";
+                        dbobj.rollback();
+                    }
+                }
+
+
+            } else {
+                qDebug() << "Database is not open or is not valid";
+            }
+        });
+
+
+
+        // Connect the Close button
+        connect(closeButton, &QPushButton::clicked, editorDialog, &QDialog::reject);
+
+        // Show the dialog
+        editorDialog->exec();
+    }
+}
+
+
+
+
+/**
+ * @brief Displays the create window for a new Confluence page.
+ *
+ * This function makes various UI elements visible to allow the user to create a new Confluence page.
+ * It also populates a combo box with available Confluence groups for selection.
+ */
 void PB_Confluence_Implemenation::ShowCreateWindow_Page(){
 
     parentBoard->getCreationBox_Confluence()->setVisible(true);
@@ -83,6 +244,15 @@ void PB_Confluence_Implemenation::ShowCreateWindow_Page(){
         QMessageBox::critical(nullptr, "Database Error", "Cannot connect to the database.");
     }
 }
+
+/**
+ * @brief Creates a new Confluence page with the provided title and selected group.
+ *
+ * This function retrieves the selected group name from the combo box, fetches the corresponding group ID from the database,
+ * and inserts a new page into the database with the provided title and group ID.
+ */
+
+
 void PB_Confluence_Implemenation::CreatePageFunction(){
     QTextEdit* Title = parentBoard->get_InputTitle_2();
     QComboBox* GroupComboBox = parentBoard->get_InputGroup_Confluence_Heading();
@@ -135,6 +305,12 @@ void PB_Confluence_Implemenation::CreatePageFunction(){
 }
 
 
+/**
+ * @brief Displays the create window for a new Confluence group.
+ *
+ * This function sets up the UI elements for creating a new Confluence group.
+ */
+
 
 void PB_Confluence_Implemenation::ShowCreateWindow(){
     QTreeWidget* ConfluenceTable = parentBoard->getuserTaskTreeWidget_2();
@@ -153,6 +329,12 @@ void PB_Confluence_Implemenation::ShowCreateWindow(){
 
 }
 
+
+/**
+ * @brief Creates a new Confluence group with the provided group name.
+ *
+ * This function inserts a new Confluence group into the database with the provided group name.
+ */
 
 
 void PB_Confluence_Implemenation::CreateGroupFunction(){
@@ -218,16 +400,4 @@ void PB_Confluence_Implemenation::CreateGroupFunction(){
     parentBoard->get_Confluence_HeadingText()->setVisible(false);
     parentBoard->get_Confluence_GroupText()->setVisible(false);
     parentBoard->get_Button_Create_Confluence()->setVisible(false);
-}
-
-
-
-
-
-
-
-void PB_Confluence_Implemenation::ConfluenceTableChange_Dectection(QTreeWidgetItem *item, int column) {
-    qDebug() << "ConfluenceTableChange_Dectection Function called";
-
-
 }

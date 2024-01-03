@@ -10,23 +10,27 @@
 #include "parentboard.h"
 #include <QSqlRelationalTableModel>
 #include <QMap>
+#include <QWidget>
+
 
 class PB_Confluence_Implemenation : public QObject {
     Q_OBJECT
 
 public:
-    PB_Confluence_Implemenation(parentboard* parentBoardInstance);
+    explicit PB_Confluence_Implemenation(QWidget *parent = nullptr);
     parentboard* parentBoard; // Reference to the parent board
     QString Title;
     QString GroupName;
+    parentboard* getParentBoard();
 
 public slots:
     void HideCreationSection();
     void ShowCreateWindow();
     void CreateGroupFunction();
-    void ConfluenceTableChange_Dectection(QTreeWidgetItem *item, int column);
     void ShowCreateWindow_Page();
     void CreatePageFunction();
+    void onTreeItemClicked(QTreeWidgetItem* item, int column);
+
 
 };
 
