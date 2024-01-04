@@ -112,8 +112,9 @@ void pb_sprint_implemenation::TaskSBretrieval() {
 
             while (query.next()) {
                 int idSprint = query.value(0).toInt();
-                QString StartDate = query.value(1).toString();
-                QString EndDate = query.value(2).toString();
+                // Extracting only the date part before the 'T'
+                QString StartDate = query.value(1).toString().split("T").first();
+                QString EndDate = query.value(2).toString().split("T").first();
                 QString Title = query.value(3).toString();
                 addSprint(idSprint, StartDate, EndDate, Title);
             }
@@ -247,6 +248,11 @@ void pb_sprint_implemenation::on_createtask_sprint_clicked() {
     QLineEdit* Input_SprintName = parentBoard->get_Input_SprintName();
     QDateEdit* Input_StartDate = parentBoard->get_Input_StartDate();
     QDateEdit* Input_EndDate = parentBoard->get_Input_EndDate();
+
+
+    //Correct the format of the date
+
+
     int PassedProjectID = parentBoard->getProjectId();
     if(Input_SprintName->text().isEmpty()) {
         QMessageBox::warning(nullptr, "Missing Values", "Please fill in all fields.");
@@ -359,6 +365,19 @@ void pb_sprint_implemenation::on_create_sprint_clicked() {
     QDateEdit* endDateEdit = parentBoard->get_Input_EndDate();
     int PassedProjectID = parentBoard->getProjectId();
 
+
+    QDate startDate = startDateEdit->date();
+    QDate endDate = endDateEdit->date();
+    QString formattedStartDate = startDate.toString("MM/dd/yyyy");
+    QString formattedEndDate = endDate.toString("MM/dd/yyyy");
+    formattedStartDate = formattedStartDate.split("T").first();
+    formattedEndDate = formattedEndDate.split("T").first();
+
+
+    qDebug() << "formattedEndDate"<<formattedEndDate;
+    qDebug() << "formattedStartDate"<<formattedStartDate;
+
+
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
 
@@ -371,8 +390,8 @@ void pb_sprint_implemenation::on_create_sprint_clicked() {
         query.prepare("INSERT INTO Sprint (StartDate, EndDate, Title, Project_idProject) "
                       "VALUES (:StartDate, :EndDate, :Title, :Project_idProject)");
         // Fetch the actual date values and title text from the widgets
-        query.bindValue(":StartDate", startDateEdit->date());
-        query.bindValue(":EndDate", endDateEdit->date());
+        query.bindValue(":StartDate", formattedStartDate);
+        query.bindValue(":EndDate", formattedEndDate);
         query.bindValue(":Title", sprintTitleLineEdit->text());
         query.bindValue(":Project_idProject", PassedProjectID);
 

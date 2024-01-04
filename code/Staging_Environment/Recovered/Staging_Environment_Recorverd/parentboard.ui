@@ -108,7 +108,7 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -1868,9 +1868,9 @@ QTableWidget::item:alternate {
     <widget class="QGroupBox" name="sprintGroupBox">
      <property name="geometry">
       <rect>
-       <x>610</x>
+       <x>600</x>
        <y>70</y>
-       <width>641</width>
+       <width>651</width>
        <height>201</height>
       </rect>
      </property>
@@ -2053,9 +2053,9 @@ color: rgb(255, 255, 255);
     <widget class="QGroupBox" name="Sprint_View_Box">
      <property name="geometry">
       <rect>
-       <x>610</x>
+       <x>600</x>
        <y>270</y>
-       <width>641</width>
+       <width>651</width>
        <height>341</height>
       </rect>
      </property>
@@ -2083,9 +2083,9 @@ color: rgb(255, 255, 255);
      <widget class="QLineEdit" name="Edit_Sprint_Name">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>50</x>
         <y>40</y>
-        <width>131</width>
+        <width>141</width>
         <height>24</height>
        </rect>
       </property>
@@ -2093,9 +2093,9 @@ color: rgb(255, 255, 255);
      <widget class="QLabel" name="Label_Sprint_StartDate">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>200</x>
         <y>40</y>
-        <width>71</width>
+        <width>81</width>
         <height>21</height>
        </rect>
       </property>
@@ -2106,9 +2106,9 @@ color: rgb(255, 255, 255);
      <widget class="QLineEdit" name="Edit_Sprint_StartDate">
       <property name="geometry">
        <rect>
-        <x>470</x>
+        <x>280</x>
         <y>40</y>
-        <width>131</width>
+        <width>141</width>
         <height>24</height>
        </rect>
       </property>
@@ -2116,7 +2116,7 @@ color: rgb(255, 255, 255);
      <widget class="QLabel" name="Label_Sprint_EndDate">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>430</x>
         <y>40</y>
         <width>81</width>
         <height>21</height>
@@ -2129,9 +2129,9 @@ color: rgb(255, 255, 255);
      <widget class="QLineEdit" name="Edit_Sprint_EndDate">
       <property name="geometry">
        <rect>
-        <x>50</x>
+        <x>510</x>
         <y>40</y>
-        <width>131</width>
+        <width>141</width>
         <height>24</height>
        </rect>
       </property>
