@@ -534,6 +534,21 @@ void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QS
     } else {
         qDebug() << "Update successful for task ID:" << taskID;
     }
+    //Update TaskSB at the Same time
+    QSqlQuery query2;
+    query2.prepare("UPDATE scrummy.TaskSB SET Title = ?, Description = ?, Status = ?, Assignee = ?, Priority = ? WHERE idTask = ?");
+    query2.addBindValue(title);
+    query2.addBindValue(description);
+    query2.addBindValue(status);
+    query2.addBindValue(27);
+    query2.addBindValue(priority);
+    query2.addBindValue(taskID);
+
+    if (!query2.exec()) {
+        qDebug() << "Update failed: " << query2.lastError();
+    } else {
+        qDebug() << "Update successful for task ID:" << taskID;
+    }
 }
 
 
