@@ -286,13 +286,10 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
 
 void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& title, const QString& description, const QString& status, int priority, const QString& assigneeId, const QString& selectedSprint){
 
-    //First we need to delete exisiting row from TaskPB
-
+    //First we need to delete exisiting row from TaskPB in the Table
     deleteTaskFromDatabase(taskID);
 
 
-    //Then we Add a new Entry in TaskPB
-    //Then we Add a new Entry in TaskPB
     //Then we Add a new Entry in TaskPB
     QTableWidget* table = parentBoard->getUserStoriesTableView(); // Assuming there's a method to get the task table view
     int PassedProjectID = parentBoard->getProjectId();
@@ -396,6 +393,11 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
     QString selectedValue1 = selectedSprint;
     qDebug() << "Selected Value from ComboBox: " << selectedValue;
 
+
+    if (selectedSprint == "Unassigned") {
+        qDebug() << "Nothing Happend: " << selectedValue;
+    }else{
+    deleteTaskFromDatabase(taskID);
     QSqlQuery querySprintValues(dbobj);
     querySprintValues.prepare("SELECT SB.idSprintBacklog, SB.Sprint_idSprint "
                               "FROM SprintBacklog SB "
@@ -436,6 +438,7 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
     }
     qDebug() << "Data inserted into TaskSB table successfully!";
     dbobj.close();
+    }
 }
 
 
@@ -552,10 +555,6 @@ void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QS
 }
 
 
-
-
-// In your constructor or initialization code, connect the itemClicked signal to your slot
-
 // Slot to handle row deletion when a row is clicked
 void pb_productbacklog_implementation::onRowClicked(QTableWidgetItem* item) {
     if (!item) {
@@ -597,6 +596,22 @@ void pb_productbacklog_implementation::deleteTaskFromDatabase(int taskID) {
     } else {
         qDebug() << "Delete successful for task ID:" << taskID;
     }
+
+    //Also Gets Deleted in
+    QSqlQuery query1;
+    query.prepare("DELETE FROM scrummy.TaskSB WHERE idTask = ?");
+    query.addBindValue(taskID);
+
+    if (!query.exec()) {
+        qDebug() << "Delete failed: " << query.lastError();
+    } else {
+        qDebug() << "Delete successful for task ID:" << taskID;
+    }
+
+
+
+
+
 }
 
 
