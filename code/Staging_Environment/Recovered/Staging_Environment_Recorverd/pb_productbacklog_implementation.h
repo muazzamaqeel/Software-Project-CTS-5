@@ -75,6 +75,8 @@ public slots:
     void onRowClicked(QTableWidgetItem* item);
     void deleteTaskFromDatabase(int taskID);
     void SendToSprint(int taskID, const QString& title, const QString& description, const QString& status, int priority, const QString& assigneeId, const QString& selectedSprint);
+    void onHeaderClicked(int column);
+
 private:
     parentboard* parentBoard; // Reference to the parent board
     QMap<int, UserStoryDetails> storyMap; // Map for storing UserStoryDetails objects

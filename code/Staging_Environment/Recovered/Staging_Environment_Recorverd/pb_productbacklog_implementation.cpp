@@ -22,6 +22,9 @@ pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* 
     parentBoard = parentBoardInstance;
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setGeometry(20, 55, 1250, 500);
+
+    QHeaderView* headerView = userStoriesTable->horizontalHeader();
+    connect(headerView, SIGNAL(sectionClicked(int)), this, SLOT(onHeaderClicked(int)));
     parentBoard->getCreationBox()->setVisible(false);
 
 
@@ -1141,9 +1144,46 @@ void pb_productbacklog_implementation::BL_fetechSprints() {
 
 
 
+/**
+ * @brief Handles the sorting of a QTableWidget based on the clicked header column.
+ *
+ * This function sorts the QTableWidget named userStoriesTable based on the clicked header column.
+ * If the column clicked is column 6 (assumed to represent "Sprint"), the table is sorted in ascending order.
+ * If the column clicked is column 5 (assumed to represent "Assignee"), a custom sort is applied where "Unassigned"
+ * items are moved to the top of the sorted list. It temporarily alters the text of "Unassigned" items during sorting
+ * by replacing it with a space (' '), ensuring it appears at the beginning, then restores the original text
+ * after sorting.
+ *
+ * @param column The index of the column header that was clicked.
+ */
+void pb_productbacklog_implementation::onHeaderClicked(int column) {
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
 
+    if (column == 6) { // Assuming column 6 is "Sprint"
+        userStoriesTable->sortByColumn(column, Qt::AscendingOrder);
+    } else if (column == 5) { // Assuming column 5 is "Assignee"
+        // Custom sort: "Unassigned" comes first
+        for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
+            QTableWidgetItem* item = userStoriesTable->item(i, column);
+            if (item->text() == "Unassigned") {
+                // Set the item's text to something that will come first in the sort
+                item->setData(Qt::UserRole, item->text()); // Save the original text
+                item->setText(" "); // A space will sort before any other text
+            }
+        }
 
+        userStoriesTable->sortByColumn(column, Qt::AscendingOrder);
 
+        // Restore the original text after sorting
+        for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
+            QTableWidgetItem* item = userStoriesTable->item(i, column);
+            if (item->data(Qt::UserRole).isValid()) {
+                item->setText(item->data(Qt::UserRole).toString());
+                item->setData(Qt::UserRole, QVariant()); // Clear the user role data
+            }
+        }
+    }
+}
 
 
 
