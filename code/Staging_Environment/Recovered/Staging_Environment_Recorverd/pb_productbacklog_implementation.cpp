@@ -285,6 +285,78 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
 
 
 void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& title, const QString& description, const QString& status, int priority, const QString& assigneeId, const QString& selectedSprint){
+
+    //First we need to delete exisiting row from TaskPB
+
+    deleteTaskFromDatabase(taskID);
+
+
+    //Then we Add a new Entry in TaskPB
+    //Then we Add a new Entry in TaskPB
+    //Then we Add a new Entry in TaskPB
+    QTableWidget* table = parentBoard->getUserStoriesTableView(); // Assuming there's a method to get the task table view
+    int PassedProjectID = parentBoard->getProjectId();
+    QComboBox* SprintComboBox = parentBoard->get_BL_SprintDropDown();
+    QString selectedValue = SprintComboBox->currentText().trimmed(); // Trim to remove any whitespace
+    qDebug() << "Project ID in TASKPB - TASKSB: " << PassedProjectID;
+    //Getting the assignee value from the database
+    if (!table) {
+        qDebug() << "Task table view not found or accessible.";
+        return;
+    }
+    DatabaseManager database1;
+    QSqlDatabase dbobj12 = database1.getDatabase();
+    if (!dbobj12.isOpen()) {
+        qDebug() << "Connection Not Established - pb_productbacklog_implmentation!";
+        return;
+    }
+    //-----------------Taking the Correct ProductBacklog ID--------------------
+    QSqlQuery querySelect(dbobj12);
+    querySelect.prepare("SELECT PB.idProductBacklog "
+                        "FROM Project AS P "
+                        "INNER JOIN ProductBacklog AS PB ON P.idProject = PB.Project_idProject "
+                        "WHERE P.idProject = :projectId");
+    querySelect.bindValue(":projectId", PassedProjectID);
+
+    int productBacklogId = 0;
+    if (querySelect.exec()) {
+        if (querySelect.next()) {
+            productBacklogId = querySelect.value(0).toInt();
+        }
+    } else {
+        qDebug() << "Failed to retrieve ProductBacklog ID:" << querySelect.lastError().text();
+        return;
+    }
+    QSqlDatabase TaskPB = database.getDatabase();
+    QSqlQuery query(TaskPB);
+    query.prepare("INSERT INTO scrummy.TaskPB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject, AssignedSprint) "
+                  "VALUES (:title, :description, :status, :priority, :assignee, :productBacklogId, :projectId, :assignedSprint)");
+    query.bindValue(":title", title);
+    query.bindValue(":description", description);
+    query.bindValue(":status", status);
+    query.bindValue(":priority", priority);
+    query.bindValue(":assignee", assigneeId);
+    query.bindValue(":productBacklogId", productBacklogId); // Assuming this value is correctly provided
+    query.bindValue(":projectId", PassedProjectID);
+    query.bindValue(":assignedSprint", selectedSprint); // Corrected the double colon and misspelling
+
+    if (!query.exec()) {
+        qDebug() << "Failed to insert data into TaskPB table:" << query.lastError().text();
+        dbobj12.close();
+        return;
+    }
+    qDebug() << "Data inserted into TaskPB table successfully!";
+    // Retrieve the auto-incremented idTaskPB from the TaskPB table
+    QVariant lastInsertId = query.lastInsertId();
+    if (!lastInsertId.isValid()) {
+        qDebug() << "Failed to retrieve the last inserted TaskPB ID.";
+        dbobj12.close();
+        return;
+    }
+    int SameValueTaskPB = lastInsertId.toInt(); // This will be used for TaskSB
+
+    /*
+    //Then we update the Assigned Sprint Column
     //Udpate in the TaskPB-Column "AssignedSprint"
     //Udpate in the TaskPB-Column "AssignedSprint"
     //Udpate in the TaskPB-Column "AssignedSprint"
@@ -295,7 +367,7 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
                          "SET AssignedSprint = :selectedSprint "
                          "WHERE idTaskPB = :taskID" );
     UpdateTaskPB.bindValue(":selectedSprint", selectedSprint);
-    UpdateTaskPB.bindValue(":taskID", taskID);
+    UpdateTaskPB.bindValue(":taskID", SameValueTaskPB);   //Take the new entry
     if (!UpdateTaskPB.exec()) {
         qDebug() << "Update failed:" << UpdateTaskPB.lastError().text();
     } else {
@@ -309,6 +381,9 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
     //Udpate in the TaskPB-Column "AssignedSprint"
     //Udpate in the TaskPB-Column "AssignedSprint"
     //Udpate in the TaskPB-Column "AssignedSprint"
+    */
+
+
 
 
     //Add Task To a Sprint"
@@ -316,10 +391,9 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
     //Add Task To a Sprint"
 
     QSqlDatabase dbobj = database.getDatabase();
-    int PassedProjectID = parentBoard->getProjectId();
     QString idSprintBacklog;
     QString Sprint_idSprint;
-    QString selectedValue = selectedSprint;
+    QString selectedValue1 = selectedSprint;
     qDebug() << "Selected Value from ComboBox: " << selectedValue;
 
     QSqlQuery querySprintValues(dbobj);
@@ -327,7 +401,7 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
                               "FROM SprintBacklog SB "
                               "INNER JOIN Sprint S ON S.idSprint = SB.Sprint_idSprint "
                               "WHERE S.Title = :sprintTitle");
-    querySprintValues.bindValue(":sprintTitle", selectedValue); // Binding the selected value
+    querySprintValues.bindValue(":sprintTitle", selectedValue1); // Binding the selected value
 
     if(querySprintValues.exec()) {
         if(querySprintValues.next()) {
@@ -343,8 +417,9 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
     qDebug() << "Executed query:" << querySprintValues.executedQuery();
     //COPY IN THE TASKSB TABLE
     QSqlQuery query1(dbobj);
-    query1.prepare("INSERT INTO scrummy.TaskSB(Title, Description, Status, Priority, Assignee, SprintBacklog_idSprintBacklog, SprintBacklog_Sprint_idSprint, SprintBacklog_Sprint_Project_idProject) "
-                   "VALUES (:title, :description, :status, :priority, :assignee, :sprintBacklogId, :sprintId, :projectId)");
+    query1.prepare("INSERT INTO scrummy.TaskSB(idTask, Title, Description, Status, Priority, Assignee, SprintBacklog_idSprintBacklog, SprintBacklog_Sprint_idSprint, SprintBacklog_Sprint_Project_idProject) "
+                   "VALUES (:idTask, :title, :description, :status, :priority, :assignee, :sprintBacklogId, :sprintId, :projectId)");
+    query1.bindValue(":idTask", SameValueTaskPB);
     query1.bindValue(":title", title);
     query1.bindValue(":description", description);
     query1.bindValue(":status", status);
@@ -608,6 +683,15 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
         dbobj.close();
         return;
     }
+    //We need to get the Same Value of the Primary key of this table to store in TaskSB, where we are now able to make a relation mannually
+    QVariant lastInsertId = query.lastInsertId();
+    if (!lastInsertId.isValid()) {
+        qDebug() << "Failed to retrieve the last inserted TaskPB ID.";
+        dbobj.close();
+        return;
+    }
+    int SameValueTaskPB = lastInsertId.toInt(); // This will be used for TaskSB
+
     qDebug() << "Data inserted into TaskPB table successfully!";
 
 
@@ -677,8 +761,9 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
     qDebug() << "Executed query:" << querySprintValues.executedQuery();
     //COPY IN THE TASKSB TABLE
     QSqlQuery query1(dbobj);
-    query1.prepare("INSERT INTO scrummy.TaskSB(Title, Description, Status, Priority, Assignee, SprintBacklog_idSprintBacklog, SprintBacklog_Sprint_idSprint, SprintBacklog_Sprint_Project_idProject) "
-                   "VALUES (:title, :description, :status, :priority, :assignee, :sprintBacklogId, :sprintId, :projectId)");
+    query1.prepare("INSERT INTO scrummy.TaskSB(idTask, Title, Description, Status, Priority, Assignee, SprintBacklog_idSprintBacklog, SprintBacklog_Sprint_idSprint, SprintBacklog_Sprint_Project_idProject) "
+                   "VALUES (:idTask, :title, :description, :status, :priority, :assignee, :sprintBacklogId, :sprintId, :projectId)");
+    query1.bindValue(":idTask", SameValueTaskPB);
     query1.bindValue(":title", title);
     query1.bindValue(":description", description);
     query1.bindValue(":status", status);

@@ -80,12 +80,15 @@ parentboard::parentboard(QWidget *parent) :
         QTableWidgetItem* item = ui->user_stories->item(selectedRow, 0); // 0 is the column for taskID
         if (item) {
             pbProductBacklogObj->onRowClicked(item);
+            pbProductBacklogObj->RetrieveAndDisplayBacklog();
         } else {
             qDebug() << "Item is null";
             // Optionally, handle this case
         }
+
     });
     //  pb_productbacklog Implementation Calls ---End
+
 
 
 
