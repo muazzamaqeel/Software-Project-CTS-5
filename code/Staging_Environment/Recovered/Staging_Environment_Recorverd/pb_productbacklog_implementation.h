@@ -67,7 +67,7 @@ public slots:
     void clearUserStoriesTable();
     void RetrieveAndDisplayBacklog();
     void SendTasksToSprints();
-    void Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, QString assignee, int priority, int taskID, const QStringList& sprintTitles, const QString& assignedSprint);
+    void Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, QString assignee, int priority, int taskID, const QStringList& sprintTitles, const QString& assignedSprint, const QStringList& assigneeList);
     void onTableItemChanged(QTableWidgetItem* item);
     void updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, QString assignee, int priority);
     void onStatusChanged(int taskID, const QString& status);

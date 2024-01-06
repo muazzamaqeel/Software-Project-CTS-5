@@ -179,6 +179,24 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
             qDebug() << "Failed to retrieve sprints: " << sprintQuery.lastError().text();
         }
 
+
+        // Retrieve assignees from the database
+        QStringList assigneeList;
+        QSqlQuery queryUser(dbobj);
+        queryUser.prepare("SELECT User.Username "
+                          "FROM Project "
+                          "INNER JOIN Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
+                          "INNER JOIN User ON Project_has_User.User_idUser = User.idUser "
+                          "WHERE Project_has_User.Project_idProject = :projectID");
+        queryUser.bindValue(":projectID", PassedProjectID);
+        if (queryUser.exec()) {
+            while (queryUser.next()) {
+                assigneeList << queryUser.value(0).toString();
+            }
+        } else {
+            qDebug() << "Error executing query:" << queryUser.lastError().text();
+        }
+
         // Now retrieve the tasks.
         QSqlQuery taskQuery(dbobj);
         taskQuery.prepare("SELECT idTaskPB, Title, Description, Status, Assignee, Priority, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject, AssignedSprint FROM scrummy.TaskPB WHERE ProductBacklog_Project_idProject = :projectID");
@@ -197,7 +215,7 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
                 QString assignedSprint = taskQuery.value(8).toString(); // This assumes AssignedSprint is the ninth column
 
                 // Include sprintTitles as the last argument
-                Tasks_Added_In_Table("Task", title, description, status, assignee, priority, taskID, sprintTitles, assignedSprint);
+                Tasks_Added_In_Table("Task", title, description, status, assignee, priority, taskID, sprintTitles, assignedSprint, assigneeList);
 
                 // Store additional information in taskMap, if necessary
                 taskMap[taskID] = {title, description, status, assignee, priority, taskID};
@@ -212,7 +230,7 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
 }
 
 
-void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, QString assignee, int priority, int taskID, const QStringList& sprintTitles, const QString& assignedSprint) {
+void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_pb, const QString& taskName, const QString& description, const QString& status, QString assignee, int priority, int taskID, const QStringList& sprintTitles, const QString& assignedSprint, const QStringList& assigneeList) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     if (!userStoriesTable) {
         qDebug() << "Table view not found or accessible.";
@@ -256,7 +274,7 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
 
 
     QComboBox* assigneeComboBox = new QComboBox();
-    assigneeComboBox->addItems({"Muazzam", "Keti", "Aida", "Wes"});
+    assigneeComboBox->addItems(assigneeList);
     assigneeComboBox->setCurrentText(assignee); // Set the current assignee
     userStoriesTable->setCellWidget(rowCount, 5, assigneeComboBox);
 
