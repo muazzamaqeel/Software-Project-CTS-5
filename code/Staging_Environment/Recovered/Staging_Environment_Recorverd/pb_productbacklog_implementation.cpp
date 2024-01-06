@@ -253,8 +253,20 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
                 onStatusChanged(taskID, newStatus);
             });
 
-    QTableWidgetItem* itemAssignee = new QTableWidgetItem(assignee);
-    userStoriesTable->setItem(rowCount, 5, itemAssignee);
+
+
+    QComboBox* assigneeComboBox = new QComboBox();
+    assigneeComboBox->addItems({"Muazzam", "Keti", "Aida", "Wes"});
+    assigneeComboBox->setCurrentText(assignee); // Set the current assignee
+    userStoriesTable->setCellWidget(rowCount, 5, assigneeComboBox);
+
+    // Connect the ComboBox signal to a slot
+    connect(assigneeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            [this, taskID, assigneeComboBox](int index) {
+                QString newAssignee = assigneeComboBox->currentText();
+                onTaskAssigneeChanged(taskID, newAssignee);
+            });
+
 
     QTableWidgetItem* itemPriority = new QTableWidgetItem(QString::number(priority));
     userStoriesTable->setItem(rowCount, 6, itemPriority);
@@ -274,12 +286,32 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
             [this, userStoriesTable, rowCount, taskID](int index) {
                 QString title = userStoriesTable->item(rowCount, 2)->text();
                 QString description = userStoriesTable->item(rowCount, 3)->text();
-                QString status = qobject_cast<QComboBox *>(userStoriesTable->cellWidget(rowCount, 4))->currentText();
+
+                // Retrieve the status from the ComboBox in column 4
+                QString status;
+                QWidget* statusWidget = userStoriesTable->cellWidget(rowCount, 4);
+                if (statusWidget) {
+                    QComboBox* statusComboBox = qobject_cast<QComboBox*>(statusWidget);
+                    if (statusComboBox) {
+                        status = statusComboBox->currentText();
+                    }
+                }
+
+                // Retrieve the assigneeId from the ComboBox in column 5
+                QString assigneeId;
+                QWidget* assigneeWidget = userStoriesTable->cellWidget(rowCount, 5);
+                if (assigneeWidget) {
+                    QComboBox* assigneeComboBox = qobject_cast<QComboBox*>(assigneeWidget);
+                    if (assigneeComboBox) {
+                        assigneeId = assigneeComboBox->currentText();
+                    }
+                }
+
                 int priority = userStoriesTable->item(rowCount, 6)->text().toInt();
-                QString assigneeId = userStoriesTable->item(rowCount, 5)->text(); // This assumes assigneeId is stored as text
                 QString selectedSprint = qobject_cast<QComboBox *>(userStoriesTable->cellWidget(rowCount, 7))->currentText();
                 SendToSprint(taskID, title, description, status, priority, assigneeId, selectedSprint);
             });
+
 
 }
 
@@ -441,10 +473,23 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
     }
 }
 
+void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const QString& newAssignee) {
+    // Update the database with the new assignee for the given taskID
+    QSqlQuery query;
+    query.prepare("UPDATE scrummy.TaskPB SET Assignee = ? WHERE idTaskPB = ?");
+    query.addBindValue(newAssignee);
+    query.addBindValue(taskID);
 
+    if (!query.exec()) {
+        qDebug() << "Update failed for Task ID:" << taskID << " Error:" << query.lastError();
+    } else {
+        qDebug() << "Assignee updated successfully for task ID:" << taskID;
+    }
+}
 
 
 void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString& status) {
+    qDebug() << "onStatusChanged called with taskID:" << taskID << " status:" << status;
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     if (!userStoriesTable) return;
 
@@ -460,7 +505,17 @@ void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString
 
     QString title = userStoriesTable->item(row, 2)->text();
     QString description = userStoriesTable->item(row, 3)->text();
-    QString assignee = userStoriesTable->item(row, 5)->text();
+
+    // Retrieve the assignee from the ComboBox in column 5
+    QString assignee;
+    QWidget* assigneeWidget = userStoriesTable->cellWidget(row, 5);
+    if (assigneeWidget) {
+        QComboBox* assigneeComboBox = qobject_cast<QComboBox*>(assigneeWidget);
+        if (assigneeComboBox) {
+            assignee = assigneeComboBox->currentText();
+        }
+    }
+
     int priority = userStoriesTable->item(row, 6)->text().toInt();
 
     if (taskMap.contains(taskID)) {
@@ -493,27 +548,39 @@ void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item
     int taskID = userStoriesTable->item(row, 0)->data(Qt::UserRole).toInt();
     qDebug() << "Task ID to update:" << taskID;
 
-    if (taskMap.contains(taskID)) {
-        QString title = userStoriesTable->item(row, 2)->text();
-        QString description = userStoriesTable->item(row, 3)->text();
-        QString status;
-        QWidget* widget = userStoriesTable->cellWidget(row, 4);
-        if (widget) {
-            QComboBox* comboBox = qobject_cast<QComboBox*>(widget);
-            if (comboBox) {
-                status = comboBox->currentText();
-            }
-        }
-        QString assignee = userStoriesTable->item(row, 5)->text();
-        int priority = userStoriesTable->item(row, 6)->text().toInt();
+    if (!taskMap.contains(taskID)) {
+        qDebug() << "Task ID not found in taskMap:" << taskID;
+        return;
+    }
 
-        if (!status.isEmpty()) {
-            updateTaskInDatabase(taskID, title, description, status, assignee, priority);
-        } else {
-            qDebug() << "Status is empty for Task ID:" << taskID;
+    QString title = userStoriesTable->item(row, 2)->text();
+    QString description = userStoriesTable->item(row, 3)->text();
+    QString status;
+    QString assignee;
+    int priority = userStoriesTable->item(row, 6)->text().toInt();
+
+    // Retrieve status and assignee from their ComboBoxes
+    QWidget* statusWidget = userStoriesTable->cellWidget(row, 4);
+    QWidget* assigneeWidget = userStoriesTable->cellWidget(row, 5);
+
+    if (statusWidget) {
+        QComboBox* statusComboBox = qobject_cast<QComboBox*>(statusWidget);
+        if (statusComboBox) {
+            status = statusComboBox->currentText();
         }
     }
+
+    if (assigneeWidget) {
+        QComboBox* assigneeComboBox = qobject_cast<QComboBox*>(assigneeWidget);
+        if (assigneeComboBox) {
+            assignee = assigneeComboBox->currentText();
+        }
+    }
+
+    // Update the task in the database
+    updateTaskInDatabase(taskID, title, description, status, assignee, priority);
 }
+
 
 
 

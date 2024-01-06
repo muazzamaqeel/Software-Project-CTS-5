@@ -57,13 +57,13 @@ public:
     void Show_CreateSection_UserStory();
     void Show_CreateSection_Tasks();
     void BL_fetechSprints();
-
 public slots:
     // Slot functions for handling UI events and data updates
     void onUserStoryTableItemChanged(QTableWidgetItem* item);
     void addUserStoryToBacklog(const QString& title, const QString& description, const QString& status, int priority, const QString& assignee);
     void on_createUserStory_clicked();
     void TaskPBretrieval();
+    void onTaskAssigneeChanged(int taskID, const QString& newAssignee);
     void clearUserStoriesTable();
     void RetrieveAndDisplayBacklog();
     void SendTasksToSprints();
