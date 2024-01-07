@@ -448,6 +448,27 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
         qDebug() << "Nothing Happend: " << selectedValue;
     }else{
     deleteTaskFromDatabase(taskID);
+
+
+
+    //Take the Correct ID of the Username
+    QSqlQuery queryUserId(dbobj);
+    queryUserId.prepare("SELECT U.idUser FROM User AS U WHERE U.Username = :username");
+    queryUserId.bindValue(":username", assigneeId);
+
+    int userId = -1; // Default value, in case the query fails
+    if(queryUserId.exec()) {
+        if(queryUserId.next()) {
+            userId = queryUserId.value(0).toInt();
+            qDebug() << "Fetched User ID: " << userId;
+        } else {
+            qDebug() << "No user found for username: " << assigneeId;
+        }
+    } else {
+        qDebug() << "Query error while fetching user ID:" << queryUserId.lastError().text();
+    }
+
+
     QSqlQuery querySprintValues(dbobj);
     querySprintValues.prepare("SELECT SB.idSprintBacklog, SB.Sprint_idSprint "
                               "FROM SprintBacklog SB "
@@ -476,7 +497,7 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
     query1.bindValue(":description", description);
     query1.bindValue(":status", status);
     query1.bindValue(":priority", priority);
-    query1.bindValue(":assignee", 27);
+    query1.bindValue(":assignee", userId);
     query1.bindValue(":sprintBacklogId", idSprintBacklog);
     query1.bindValue(":sprintId", Sprint_idSprint);
     query1.bindValue(":projectId", PassedProjectID);
@@ -493,7 +514,38 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
 
 void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const QString& newAssignee) {
     // Update the database with the new assignee for the given taskID
-    QSqlQuery query;
+
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    if (!userStoriesTable) return;
+
+    // Find the row for the taskID. This assumes taskID is unique.
+    int row = -1;
+    for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
+        if (userStoriesTable->item(i, 0)->data(Qt::UserRole).toInt() == taskID) {
+            row = i;
+            break;
+        }
+    }
+    if (row == -1) return; // Task ID not found
+
+    QString title = userStoriesTable->item(row, 2)->text();
+    QString description = userStoriesTable->item(row, 3)->text();
+
+    // Retrieve the status from the ComboBox in another column (update the column index as needed)
+    QString status;
+    QWidget* statusWidget = userStoriesTable->cellWidget(row, 4); // Replace [statusColumnIndex] with the actual column index
+    if (statusWidget) {
+        QComboBox* statusComboBox = qobject_cast<QComboBox*>(statusWidget);
+        if (statusComboBox) {
+            status = statusComboBox->currentText();
+        }
+    }
+
+    int priority = userStoriesTable->item(row, 6)->text().toInt();
+
+    DatabaseManager database1;
+    QSqlDatabase onTaskAssigneeChangedConnection = database1.getDatabase();
+    QSqlQuery query(onTaskAssigneeChangedConnection);
     query.prepare("UPDATE scrummy.TaskPB SET Assignee = ? WHERE idTaskPB = ?");
     query.addBindValue(newAssignee);
     query.addBindValue(taskID);
@@ -503,7 +555,13 @@ void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const Q
     } else {
         qDebug() << "Assignee updated successfully for task ID:" << taskID;
     }
+    if (taskMap.contains(taskID)) {
+        updateTaskInDatabase(taskID, title, description, status, newAssignee, priority);
+    } else {
+        qDebug() << "TaskID in onTaskAssigneeChanged not found";
+    }
 }
+
 
 
 void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString& status) {
@@ -538,6 +596,9 @@ void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString
 
     if (taskMap.contains(taskID)) {
         updateTaskInDatabase(taskID, title, description, status, assignee, priority);
+    }else{
+        qDebug() << "TaskID in onStatusChagned not found";
+
     }
 }
 
@@ -603,6 +664,10 @@ void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item
 
 
 void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, QString assignee, int priority) {
+
+    qDebug() << "updateTaskInDatabase Function has been called";
+
+
     if (!QSqlDatabase::database().isOpen()) {
         qDebug() << "Database is not open";
         return;
@@ -622,13 +687,34 @@ void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QS
     } else {
         qDebug() << "Update successful for task ID:" << taskID;
     }
+
+    //Taking the correct ID of the UserName
+    QSqlQuery query3;
+    query3.prepare("SELECT U.idUser FROM User AS U WHERE U.Username = :username");
+    query3.bindValue(":username", assignee);
+
+    int userId = -1; // Default value, in case the query fails
+    if(query3.exec()) {
+        if(query3.next()) {
+            userId = query3.value(0).toInt();
+            qDebug() << "Fetched User ID: " << userId;
+        } else {
+            qDebug() << "No user found for username: " << assignee;
+        }
+    } else {
+        qDebug() << "Query error while fetching user ID:" << query3.lastError().text();
+    }
+
+    qDebug() << "Status:" << status;
+    qDebug() << "Assignee:" << userId;
+
     //Update TaskSB at the Same time
     QSqlQuery query2;
     query2.prepare("UPDATE scrummy.TaskSB SET Title = ?, Description = ?, Status = ?, Assignee = ?, Priority = ? WHERE idTask = ?");
     query2.addBindValue(title);
     query2.addBindValue(description);
     query2.addBindValue(status);
-    query2.addBindValue(27);
+    query2.addBindValue(userId);
     query2.addBindValue(priority);
     query2.addBindValue(taskID);
 
