@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql Test)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql Test)
+find_package(Python3 REQUIRED COMPONENTS Development)
 
 set(PROJECT_SOURCES
     main.cpp
@@ -50,6 +51,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         assets/resources.qrc
         TableAnimator.h TableAnimator.cpp
         databasefetcher.h databasefetcher.cpp
+        email_notification.h email_notification.cpp
 
     )
 elseif(ANDROID)
@@ -66,6 +68,8 @@ target_link_libraries(Staging_Environment_Recovered PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Sql
     Qt${QT_VERSION_MAJOR}::Test
+    Python3::Python  # Link against Python
+
 )
 
 if(WIN32)

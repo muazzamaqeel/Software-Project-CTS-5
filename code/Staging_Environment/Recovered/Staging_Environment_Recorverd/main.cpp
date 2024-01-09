@@ -1,3 +1,4 @@
+#include <Python.h>
 #include "launchscreen.h"
 #include "mainwindow.h"
 #include "qtunittest.h"
@@ -11,7 +12,7 @@
 #include <QDebug>
 #include <QtSql/QSqlError>
 #include <QtTest/QTest>
-
+#include <Python.h>
 
 // Remove this line if it's causing issues or make sure the moc file is generated correctly
 
@@ -21,7 +22,7 @@
 //#include "launchscreen.h"
 
 int main(int argc, char *argv[]) {
-
+    Py_Initialize();
 
 //Application-------------------------------------------------------------------
     QApplication app(argc, argv);
@@ -55,7 +56,33 @@ int main(int argc, char *argv[]) {
     }
 //------------------------------------------------------------------------------
 */
-
+    int result = app.exec();
+    Py_Finalize();
+    return result;
   return app.exec();
 }
 
+
+
+
+
+/*
+int main() {
+    std::string recipient_email = "muazzamali236236@gmail.com";
+    std::string subject = "Your Subject Here";
+    std::string email_body = "Hello, this is the email body.";
+
+    Email_Notification emailNotifier;
+    bool success = emailNotifier.sendEmail(recipient_email, subject, email_body);
+
+    if (success) {
+        std::cout << "Email sent successfully." << std::endl;
+    } else {
+        std::cerr << "Failed to send email." << std::endl;
+    }
+
+    return 0;
+}
+
+
+*/

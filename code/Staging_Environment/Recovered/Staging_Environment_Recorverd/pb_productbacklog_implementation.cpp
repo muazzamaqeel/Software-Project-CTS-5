@@ -16,6 +16,7 @@
 #include <QMap>
 #include <QVariant>
 #include <QMessageBox>
+#include "Email_Notification.h"
 
 pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* parentBoardInstance) {
     // Initialize any necessary variables or connections
@@ -542,7 +543,6 @@ void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const Q
     }
 
     int priority = userStoriesTable->item(row, 6)->text().toInt();
-
     DatabaseManager database1;
     QSqlDatabase onTaskAssigneeChangedConnection = database1.getDatabase();
     QSqlQuery query(onTaskAssigneeChangedConnection);
@@ -555,14 +555,48 @@ void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const Q
     } else {
         qDebug() << "Assignee updated successfully for task ID:" << taskID;
     }
+
+    // Assuming taskMap is a data structure to check for task existence
     if (taskMap.contains(taskID)) {
+        // Your method to update task in database (assuming it exists)
         updateTaskInDatabase(taskID, title, description, status, newAssignee, priority);
     } else {
         qDebug() << "TaskID in onTaskAssigneeChanged not found";
     }
+
+    // Prepare email
+    QString emailBody = QString("Task Details:\\n"
+                                "ID: %1\\n"
+                                "Title: %2\\n"
+                                "Description: %3\\n"
+                                "Status: %4\\n"
+                                "Assignee: %5\\n"
+                                "Priority: %6")
+                            .arg(QString::number(taskID))
+                            .arg(title)
+                            .arg(description)
+                            .arg(status)
+                            .arg(newAssignee)
+                            .arg(QString::number(priority));
+
+    // Send the email
+    // Send the email
+    std::string recipient_email = "scrummytool@gmail.com"; // Replace with an actual, valid recipient email address
+    std::string subject = "Task Assignment Update";
+    std::string email_body = emailBody.replace("\n", "\\n").toStdString(); // Convert QString to std::string and escape newlines
+
+    Email_Notification emailNotifier;
+    bool success = emailNotifier.sendEmail(recipient_email, subject, email_body);
+
+    if (success) {
+        qDebug() << "Email sent successfully for task ID:" << taskID;
+    } else {
+        qDebug() << "Failed to send email for task ID:" << taskID;
+    }
+
+    emailNotifier.~Email_Notification();
+
 }
-
-
 
 void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString& status) {
     qDebug() << "onStatusChanged called with taskID:" << taskID << " status:" << status;
