@@ -564,14 +564,37 @@ void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const Q
         qDebug() << "TaskID in onTaskAssigneeChanged not found";
     }
 
+    //Getting the correct Email to pass it to the Python Script
+    QSqlDatabase database2 = QSqlDatabase::database(); // Get your QSqlDatabase instance
+    QSqlQuery EmailQuery(database2);
+    EmailQuery.prepare("SELECT Email FROM User WHERE Username = :newAssignee");
+    EmailQuery.bindValue(":newAssignee", newAssignee);
+    QString email; // Declare 'email' outside the loop
+
+    if (EmailQuery.exec()) {
+        while (EmailQuery.next()) {
+            email = EmailQuery.value(0).toString();
+            qDebug() << "email:" << email;
+        }
+    } else {
+        // Handle the error here
+        qDebug() << "Error executing query:" << EmailQuery.lastError().text();
+    }
+
+
+
+
     // Prepare email
-    QString emailBody = QString("Task Details:\\n"
-                                "ID: %1\\n"
-                                "Title: %2\\n"
-                                "Description: %3\\n"
-                                "Status: %4\\n"
-                                "Assignee: %5\\n"
-                                "Priority: %6")
+    QString emailBody = QString(
+                            "Task Details: \n"
+                            "ID: %1 \n"
+                            "Title: %2 \n"
+                            "Description: %3 \n"
+                            "Status: %4 \n"
+                            "Assignee: %5 \n"
+                            "Priority: %6 \n"
+                            "This is an automated message. Please do not reply directly to this email. \n"
+                            )
                             .arg(QString::number(taskID))
                             .arg(title)
                             .arg(description)
@@ -580,10 +603,11 @@ void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const Q
                             .arg(QString::number(priority));
 
     // Send the email
-    // Send the email
-    std::string recipient_email = "scrummytool@gmail.com"; // Replace with an actual, valid recipient email address
+    std::string recipient_email = email.toStdString();
     std::string subject = "Task Assignment Update";
-    std::string email_body = emailBody.replace("\n", "\\n").toStdString(); // Convert QString to std::string and escape newlines
+    std::string email_body = emailBody.toStdString(); // Convert QString to std::string directly
+
+    qDebug() << "recipient_email: " + recipient_email << taskID;
 
     Email_Notification emailNotifier;
     bool success = emailNotifier.sendEmail(recipient_email, subject, email_body);
@@ -593,6 +617,7 @@ void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const Q
     } else {
         qDebug() << "Failed to send email for task ID:" << taskID;
     }
+
 
     emailNotifier.~Email_Notification();
 
@@ -635,7 +660,6 @@ void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString
 
     }
 }
-
 
 
 

@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
 
 /*
 int main() {
-    std::string recipient_email = "muazzamali236236@gmail.com";
+    std::string recipient_email = "test@gmail.com";
     std::string subject = "Your Subject Here";
     std::string email_body = "Hello, this is the email body.";
 
