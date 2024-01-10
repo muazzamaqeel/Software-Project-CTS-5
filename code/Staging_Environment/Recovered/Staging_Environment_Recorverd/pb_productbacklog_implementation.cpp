@@ -17,6 +17,10 @@
 #include <QVariant>
 #include <QMessageBox>
 #include "Email_Notification.h"
+#include <QApplication>
+#include <QWidget>
+#include <QLabel>
+#include <QVBoxLayout>
 
 pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* parentBoardInstance) {
     // Initialize any necessary variables or connections
@@ -239,7 +243,7 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
     }
 
     userStoriesTable->setColumnCount(8); // Include an additional column for Task ID
-    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority", "Sprint"});
+    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority (1-3)", "Sprint"});
     userStoriesTable->setColumnHidden(0, true);
 
     QHeaderView* header = userStoriesTable->horizontalHeader();
@@ -700,13 +704,45 @@ void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item
     QWidget* statusWidget = userStoriesTable->cellWidget(row, 4);
     QWidget* assigneeWidget = userStoriesTable->cellWidget(row, 5);
 
+
+    if(priority == 1){
+        priority=1;
+    }
+    if(priority == 2){
+        priority=2;
+    }
+    if(priority == 3){
+        priority=3;
+    }
+    else{
+        qDebug() << "Not Correct Value Priority";
+        // Create a QWidget (main window)
+        QWidget window;
+
+        // Create a QLabel widget to display text
+        QLabel label("Hello, Qt!");
+
+        // Create a layout for the main window
+        QVBoxLayout layout;
+        layout.addWidget(&label);
+
+        // Set the layout for the main window
+        window.setLayout(&layout);
+
+        // Set the window properties
+        window.setWindowTitle("Qt Window with Text");
+        window.resize(400, 300);
+
+        // Show the window
+        window.show();
+        priority=1;
+    }
     if (statusWidget) {
         QComboBox* statusComboBox = qobject_cast<QComboBox*>(statusWidget);
         if (statusComboBox) {
             status = statusComboBox->currentText();
         }
     }
-
     if (assigneeWidget) {
         QComboBox* assigneeComboBox = qobject_cast<QComboBox*>(assigneeWidget);
         if (assigneeComboBox) {
@@ -836,11 +872,6 @@ void pb_productbacklog_implementation::deleteTaskFromDatabase(int taskID) {
     } else {
         qDebug() << "Delete successful for task ID:" << taskID;
     }
-
-
-
-
-
 }
 
 
@@ -899,7 +930,7 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
         return;
     }
     table->setColumnCount(8);
-    table->setHorizontalHeaderLabels({"ID", "Title", "Description", "Status", "Assignee", "Priority", "ProductBacklog ID", "Sprint"});
+    table->setHorizontalHeaderLabels({"ID", "Title", "Description", "Status", "Assignee", "Priority (1-3)", "ProductBacklog ID", "Sprint"});
     QHeaderView* header = table->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
     DatabaseManager database;
@@ -1147,7 +1178,7 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
 void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(8);
-    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority", "Sprint"});
+    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority (1-3)", "Sprint"});
     userStoriesTable->setColumnHidden(0, true);
     //userStoriesTable->setColumnHidden(6, true);
     QHeaderView* header = userStoriesTable->horizontalHeader();
@@ -1346,7 +1377,7 @@ void pb_productbacklog_implementation::addUserStoryToBacklog(const QString& titl
         return;
     }
     table->setColumnCount(8);
-    table->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Priority", "Assignee", "Sprint"});
+    table->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Priority (1-3)", "Assignee", "Sprint"});
 
     QHeaderView* header = table->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
@@ -1504,7 +1535,7 @@ void pb_productbacklog_implementation::onHeaderClicked(int column) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
 
     if (column == 6) { // Assuming column 6 is "Sprint"
-        userStoriesTable->sortByColumn(column, Qt::AscendingOrder);
+        userStoriesTable->sortByColumn(column, Qt::DescendingOrder);
     } else if (column == 5) { // Assuming column 5 is "Assignee"
         // Custom sort: "Unassigned" comes first
         for (int i = 0; i < userStoriesTable->rowCount(); ++i) {

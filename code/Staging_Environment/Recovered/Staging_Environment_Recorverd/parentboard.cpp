@@ -14,6 +14,7 @@
 #include "pb_productbacklog_implementation.h"
 #include "pb_team_implemenation.h"
 #include "pb_taskboard_implemenation.h"
+#include "pb_productbacklog_implementation_extension.h"
 
 parentboard* parentboard::instance = nullptr;
 
@@ -47,6 +48,7 @@ parentboard::parentboard(QWidget *parent) :
     parentboard *obj = this; // Create an instance of parentboard
     pb_team_implemenation *teamPagePtr = new pb_team_implemenation(obj);
     pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);
+    pb_productbacklog_implementation_Extension *pbProductBacklog_ExtensionObj = new pb_productbacklog_implementation_Extension(obj);
     pb_sprint_implemenation *pbSprintObj = new pb_sprint_implemenation(obj);
     pbProductBacklogObj->RetrieveAndDisplayBacklog();
     pbProductBacklogObj->Hide_CreateSection();
@@ -87,6 +89,34 @@ parentboard::parentboard(QWidget *parent) :
         }
 
     });
+    connect(ui->delete_item_UserStory, &QPushButton::clicked, [this, pbProductBacklog_ExtensionObj]() {
+        qDebug() << "Delete button clicked"; // Debug message
+        if (!ui->user_stories) {
+            qDebug() << "User stories table not found";
+            return;
+        }
+        int selectedRow = -1;
+        QList<QTableWidgetItem*> selectedItems = ui->user_stories->selectedItems();
+        qDebug() << "Number of selected items: " << selectedItems.count(); // Debug message
+        if (!selectedItems.isEmpty()) {
+            selectedRow = selectedItems.first()->row();
+        }
+        if (selectedRow == -1) {
+            qDebug() << "No row selected";
+            return;
+        }
+        QTableWidgetItem* item = ui->user_stories->item(selectedRow, 0); // 0 is the column for storyID
+        if (item) {
+            int storyID = item->data(Qt::UserRole).toInt(); // Assuming the storyID is stored in the UserRole
+            pbProductBacklog_ExtensionObj->deleteUserStory(storyID); // Call the deleteUserStory function
+        } else {
+            qDebug() << "Item is null";
+            // Optionally, handle this case
+        }
+    });
+
+
+
     //  pb_productbacklog Implementation Calls ---End
 
 

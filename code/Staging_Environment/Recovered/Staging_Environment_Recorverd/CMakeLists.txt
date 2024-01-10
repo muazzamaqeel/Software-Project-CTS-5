@@ -52,6 +52,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         TableAnimator.h TableAnimator.cpp
         databasefetcher.h databasefetcher.cpp
         email_notification.h email_notification.cpp
+        pb_productbacklog_implementation_extension.h pb_productbacklog_implementation_extension.cpp
+
 
     )
 elseif(ANDROID)

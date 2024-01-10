@@ -108,7 +108,7 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -1123,7 +1123,7 @@ color: rgb(255, 255, 255);
     <widget class="QPushButton" name="buttton_issue">
      <property name="geometry">
       <rect>
-       <x>990</x>
+       <x>680</x>
        <y>20</y>
        <width>110</width>
        <height>40</height>
@@ -1158,7 +1158,7 @@ color: rgb(255, 255, 255);
     <widget class="QPushButton" name="button_userstory">
      <property name="geometry">
       <rect>
-       <x>1110</x>
+       <x>960</x>
        <y>20</y>
        <width>150</width>
        <height>40</height>
@@ -1193,7 +1193,7 @@ color: rgb(255, 255, 255);
     <widget class="QPushButton" name="delete_item">
      <property name="geometry">
       <rect>
-       <x>870</x>
+       <x>800</x>
        <y>20</y>
        <width>110</width>
        <height>40</height>
@@ -1222,7 +1222,42 @@ color: rgb(255, 255, 255);
 }</string>
      </property>
      <property name="text">
-      <string>Delete Item</string>
+      <string>Delete Task</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="delete_item_UserStory">
+     <property name="geometry">
+      <rect>
+       <x>1120</x>
+       <y>20</y>
+       <width>141</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>110</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>80</height>
+      </size>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+font: 13pt &quot;Arial&quot;;
+background-color: rgb(100, 100, 100);
+color: rgb(255, 255, 255);
+}</string>
+     </property>
+     <property name="text">
+      <string>Delete UserStory</string>
      </property>
     </widget>
    </widget>
