@@ -108,7 +108,7 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -2053,7 +2053,7 @@ color: rgb(255, 255, 255);
     <widget class="QPushButton" name="delete_button">
      <property name="geometry">
       <rect>
-       <x>810</x>
+       <x>870</x>
        <y>20</y>
        <width>110</width>
        <height>40</height>

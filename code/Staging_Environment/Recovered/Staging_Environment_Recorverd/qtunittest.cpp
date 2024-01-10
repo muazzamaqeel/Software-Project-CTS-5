@@ -15,6 +15,7 @@
 #include "settings.h"
 #include "sprints.h"
 #include "taskboard.h"
+#include "pb_confluence_implemenation.h"
 #include "teammember_projectswindow.h"
 //#include "pb_confluence_implemenation.h"
 //#include "pb_productbacklog_implementation.h"
@@ -108,7 +109,7 @@ void QTUnitTest::LaunchscreenTest(){
 
 //Implementation of the Tests of the parentboard.cpp
 void QTUnitTest::Parentboardtest(){
-    parentboard parenboardWindow;
+   class parentboard parenboardWindow;
     parenboardWindow.show();
     parenboardWindow.hide();
     QVERIFY2(!parenboardWindow.isVisible(), "parenboardWindow .ui test not passed");
@@ -212,4 +213,36 @@ void QTUnitTest::Teammember_projectswindowTest(){
      QVERIFY2(!teamMember_ProjectsWindowWindow.isVisible(), "teamMember_ProjectsWindowWindow .ui test not passed");
 
 }
+
+/**
+ * @brief Test for the PB_Confluence_Implemenation class.
+ *
+ * This test verifies the functionality of the "HideCreationSection" method
+ * in the PB_Confluence_Implemenation class. It checks whether the appropriate UI
+ * elements are hidden after the method is called. The test relies on
+ * the parentboard class for UI elements and checks their visibility status.
+ *
+ * @note This test uses the 'parentboard' class instance and checks the visibility
+ * of 'CreationBox_Confluence' and 'CreationBox' UI elements.
+ */
+void QTUnitTest::PB_Confluence_HideCreationSection_Test() {
+    // Correct usage with 'class' keyword
+    class parentboard parentBoardInstance;
+    PB_Confluence_Implemenation confluenceImplementation(&parentBoardInstance);
+    confluenceImplementation.HideCreationSection();
+    QVERIFY2(!parentBoardInstance.getCreationBox_Confluence()->isVisible(),
+             "CreationBox_Confluence should be hidden after HideCreationSection call");
+    QVERIFY2(!parentBoardInstance.get_InputTitle_2()->isVisible(),
+             "get_InputTitle_2 is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_InputGroup_Confluence_Heading()->isVisible(),
+             "get_InputGroup_Confluence_Heading should be hidden after HideCreationSection call");
+
+}
+
+
+
+
+
+
+
 

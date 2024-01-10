@@ -482,6 +482,11 @@ QPushButton* parentboard::get_Button_Create_Confluence() {
     return ui->Button_Create_Confluence;
 }
 
+QTreeWidget* parentboard::get_userTaskTreeWidget_2(){
+    return ui->userTaskTreeWidget_2;
+}
+
+
 
 // ----------------------------------------------------Taskboard----------------------------------------------------
 QComboBox* parentboard::getSprintDropdown() const

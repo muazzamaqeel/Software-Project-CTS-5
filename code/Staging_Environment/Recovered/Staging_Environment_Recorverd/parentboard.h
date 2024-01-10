@@ -77,7 +77,7 @@ public:
     QPushButton* get_Button_CreatePage_Confluence();
     QPushButton* get_ButtonPage_Confluence();
     QPushButton* get_ButtonGroup_Confluence();
-
+    QTreeWidget* get_userTaskTreeWidget_2();
     static parentboard* getInstance(QWidget *parent = nullptr) {
         if (instance == nullptr) {
             instance = new parentboard(parent);

@@ -1,13 +1,13 @@
 #ifndef QTUNITTEST_H
 #define QTUNITTEST_H
 #include <QtTest/QTest>
-
+#include "parentboard.h"
 class QTUnitTest:public QObject
 {
 public:
     QTUnitTest();
     Q_OBJECT;
-
+    parentboard *parentboard;
 //Decleration of the Functions that are in the qtunittest.cpp file
 private slots:
     void DatabaseCheck();
@@ -34,7 +34,7 @@ private slots:
     void Pb_sprint_implemenationTest();
     void Pb_taskboard_implemenationTest();
     void Pb_team_implemenationTest();
-
+    void PB_Confluence_HideCreationSection_Test();
 
 
 };
