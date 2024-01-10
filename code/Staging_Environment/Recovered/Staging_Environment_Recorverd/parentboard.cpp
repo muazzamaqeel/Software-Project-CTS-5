@@ -129,7 +129,8 @@ parentboard::parentboard(QWidget *parent) :
     pb_sprint_implemenation *pbSprintBObj = new pb_sprint_implemenation(obj); //Accessing the pb_sprint_implementation class
     connect(ui->sprintsButton,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::OBJECTS_VISIBLE_BOXES);
     connect(ui->sprintsButton,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::RetrieveAndDisplayTask);
-    //connect(ui->sprint_createtask_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::addTaskSprint);
+    connect(ui->sprintinfo_save_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::UpdateSprintDetails);
+
     connect(ui->sprint_create_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::OBJECTS_VISIBLE_on_create_sprint_clicked); //TO JUST MAKE THE CORRECT OBJECTS VISIBLE
     connect(ui->edit_sprint_button, &QPushButton::clicked, pbSprintBObj, &pb_sprint_implemenation::on_editsprint_sprint_clicked);
     //Create Task
@@ -423,6 +424,9 @@ QLabel* parentboard::get_Label_TextStartDate() {
 }
 
 
+QPushButton* parentboard::get_sprint_createtask_button(){
+    return ui->sprintinfo_save_button;
+}
 
 
 
@@ -469,6 +473,7 @@ QPushButton* parentboard::get_ButtonGroup_Confluence(){
 QPushButton* parentboard::get_ButtonPage_Confluence(){
     return ui->ButtonPage_Confluence;
 }
+
 //LOWER-BUTTONS
 QPushButton* parentboard::get_Button_CreatePage_Confluence(){
     return ui->Button_CreatePage_Confluence;

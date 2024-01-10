@@ -34,7 +34,8 @@ public:
     void OBJECTS_VISIBLE_Additional_Details();
     void OBJECTS_VISIBLE_BOXES();
     void AdditionalDetails(int row, int idSprint, const QString& StartDate, const QString& EndDate, const QString& Title);
-    void addTaskSprint();
+    void UpdateSprintDetails();
+    int Temp_idTask;
 private:
     parentboard* parentBoard;
     QGroupBox* sprintGroupBox;

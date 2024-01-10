@@ -152,6 +152,7 @@ void pb_sprint_implemenation::addSprint(int idSprint, const QString& StartDate, 
         sprint_table->setCellWidget(IssuerowCount, 4, viewButton);
         connect(viewButton, &QPushButton::clicked, [this, IssuerowCount, idSprint, StartDate, EndDate, Title](){
             AdditionalDetails(IssuerowCount, idSprint, StartDate, EndDate, Title);
+            Temp_idTask = idSprint;
         });
     } else {
         qDebug() << "Table view not found or accessible.";
@@ -239,6 +240,43 @@ void pb_sprint_implemenation::AdditionalDetails(int row, int idSprint, const QSt
         }
     }
 }
+
+
+void pb_sprint_implemenation::UpdateSprintDetails() {
+    QLineEdit* EditSprintEndDate = parentBoard->get_Line_EditSprintEndDate();
+    QLineEdit* SprintStartDate =  parentBoard->get_LineEdit_SprintStartDate();
+    QLineEdit* Edit_SprintName = parentBoard->get_LineEdit_SprintName();
+    qDebug() << "UpdateSprintDetails Function has been called /n";
+    qDebug() << "UpdateSprintDetails Function has been called: "<<Temp_idTask;
+
+
+
+
+    // Check if any of the fields are empty
+    if (EditSprintEndDate->text().isEmpty() || SprintStartDate->text().isEmpty() || Edit_SprintName->text().isEmpty()) {
+        QMessageBox::warning(parentBoard, "Missing Values", "Please fill in all fields."); // Use parentBoard as the parent widget for the message box
+    } else {
+        DatabaseManager database1;
+        QSqlDatabase dbobj1 = database1.getDatabase();
+        QSqlQuery query1(dbobj1);
+
+        // Corrected SQL UPDATE statement
+        query1.prepare("UPDATE Sprint "
+                       "SET StartDate = :StartDate, EndDate = :EndDate, Title = :Title "
+                       "WHERE idSprint = :Temp_idTask");
+        query1.bindValue(":StartDate", SprintStartDate->text());
+        query1.bindValue(":EndDate", EditSprintEndDate->text());
+        query1.bindValue(":Title", Edit_SprintName->text());
+        query1.bindValue(":Temp_idTask", Temp_idTask);
+
+        // Execute the query and check for success
+        if (!query1.exec()) {
+            QMessageBox::warning(parentBoard, "Database Error", "Could not update the sprint details.");
+        }
+    }
+    RetrieveAndDisplayTask();
+}
+
 
 
 
@@ -486,6 +524,3 @@ void pb_sprint_implemenation::editSprint(const QString& oldSprintName, const QSt
 
 
 
-void pb_sprint_implemenation::addTaskSprint() {
-
-}

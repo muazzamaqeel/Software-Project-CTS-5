@@ -117,7 +117,7 @@ public:
     QLabel* get_Label_TextName();
     QLabel* get_Label_TextSprintGoal();
     QLabel* get_Label_TextStartDate();
-
+    QPushButton* get_sprint_createtask_button();
 
 private slots:
     void on_taskboardButton_clicked();

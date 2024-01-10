@@ -1353,7 +1353,7 @@ void pb_productbacklog_implementation::on_createUserStory_clicked() {
     int priority = priorityText.toInt();
     QString status = inputStatus->toPlainText();
 
-    if (title.isEmpty() || description.isEmpty() || priorityText.isEmpty() || status.isEmpty()) {
+    if (title.isEmpty() || description.isEmpty() || priorityText.isEmpty()) {
         // One or more fields are empty
         QMessageBox::warning(nullptr, "Missing Values", "Please fill in all fields.");
     } else {

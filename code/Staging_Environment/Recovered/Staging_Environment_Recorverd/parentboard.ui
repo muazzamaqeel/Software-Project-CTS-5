@@ -108,7 +108,7 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -2106,7 +2106,7 @@ color: rgb(255, 255, 255);
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>40</y>
+        <y>60</y>
         <width>81</width>
         <height>21</height>
        </rect>
@@ -2119,7 +2119,7 @@ color: rgb(255, 255, 255);
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>40</y>
+        <y>60</y>
         <width>141</width>
         <height>24</height>
        </rect>
@@ -2129,7 +2129,7 @@ color: rgb(255, 255, 255);
       <property name="geometry">
        <rect>
         <x>200</x>
-        <y>40</y>
+        <y>60</y>
         <width>81</width>
         <height>21</height>
        </rect>
@@ -2141,8 +2141,8 @@ color: rgb(255, 255, 255);
      <widget class="QLineEdit" name="Edit_Sprint_StartDate">
       <property name="geometry">
        <rect>
-        <x>280</x>
-        <y>40</y>
+        <x>270</x>
+        <y>60</y>
         <width>141</width>
         <height>24</height>
        </rect>
@@ -2151,8 +2151,8 @@ color: rgb(255, 255, 255);
      <widget class="QLabel" name="Label_Sprint_EndDate">
       <property name="geometry">
        <rect>
-        <x>430</x>
-        <y>40</y>
+        <x>420</x>
+        <y>60</y>
         <width>81</width>
         <height>21</height>
        </rect>
@@ -2164,8 +2164,8 @@ color: rgb(255, 255, 255);
      <widget class="QLineEdit" name="Edit_Sprint_EndDate">
       <property name="geometry">
        <rect>
-        <x>510</x>
-        <y>40</y>
+        <x>500</x>
+        <y>60</y>
         <width>141</width>
         <height>24</height>
        </rect>
@@ -2175,7 +2175,7 @@ color: rgb(255, 255, 255);
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>70</y>
+        <y>90</y>
         <width>71</width>
         <height>21</height>
        </rect>
@@ -2188,7 +2188,7 @@ color: rgb(255, 255, 255);
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>90</y>
+        <y>120</y>
         <width>621</width>
         <height>211</height>
        </rect>
@@ -2252,11 +2252,11 @@ QTableWidget::item:alternate {
 </string>
       </property>
      </widget>
-     <widget class="QPushButton" name="sprint_createtask_button">
+     <widget class="QPushButton" name="sprintinfo_save_button">
       <property name="geometry">
        <rect>
-        <x>540</x>
-        <y>310</y>
+        <x>550</x>
+        <y>30</y>
         <width>91</width>
         <height>21</height>
        </rect>
@@ -2292,7 +2292,7 @@ color: rgb(255, 255, 255);
 }</string>
       </property>
       <property name="text">
-       <string>Add Task</string>
+       <string>Save</string>
       </property>
      </widget>
     </widget>
