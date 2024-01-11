@@ -21,7 +21,12 @@
 #include <QWidget>
 #include <QLabel>
 #include <QVBoxLayout>
-
+/**
+ * @brief Constructor for pb_productbacklog_implementation.
+ * Initializes the necessary variables and sets up the user stories table and its connections.
+ *
+ * @param parentBoardInstance Pointer to the parent board instance.
+ */
 pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* parentBoardInstance) {
     // Initialize any necessary variables or connections
     parentBoard = parentBoardInstance;
@@ -31,27 +36,28 @@ pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* 
     QHeaderView* headerView = userStoriesTable->horizontalHeader();
     connect(headerView, SIGNAL(sectionClicked(int)), this, SLOT(onHeaderClicked(int)));
     parentBoard->getCreationBox()->setVisible(false);
-
-
 }
+/**
+ * @brief Clears the contents of the user stories table and the sprint combo box.
+ */
 void pb_productbacklog_implementation::clearUserStoriesTable() {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     QComboBox* SprintComboBox = parentBoard->get_BL_SprintDropDown();
-
-
     userStoriesTable->clearContents();
     userStoriesTable->setRowCount(0);
     SprintComboBox->clear();
     //QComboBox* SprintBox = parentBoard->getSprintComboBox();
     //SprintBox->clear();
 }
+/**
+ * @brief Retrieves and displays the backlog in the user stories table.
+ * This function first clears the table, then fetches and displays the tasks and user stories.
+ */
 void pb_productbacklog_implementation::RetrieveAndDisplayBacklog() {
-
     qDebug() <<"RetrieveAndDisplayBacklog Called";
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setGeometry(20, 55, 1250, 500);
     parentBoard->getCreationBox()->setVisible(false);
-
     if (userStoriesTable) {
         userStoriesTable->blockSignals(true); // Block signals
         Hide_CreateSection();
@@ -63,8 +69,10 @@ void pb_productbacklog_implementation::RetrieveAndDisplayBacklog() {
         userStoriesTable->blockSignals(false); // Unblock signals
     }
 }
-
-
+/**
+ * @brief Hides the create section UI elements.
+ * This includes various input fields and buttons related to creating new user stories or tasks.
+ */
 void pb_productbacklog_implementation::Hide_CreateSection(){
 
     /*
@@ -101,9 +109,10 @@ void pb_productbacklog_implementation::Hide_CreateSection(){
     parentBoard->get_SelecteSprint()->setVisible(false);
 
 }
-
-
-
+/**
+ * @brief Shows the create section for adding new user stories or tasks.
+ * Makes the relevant UI elements visible and sets up the layout.
+ */
 void pb_productbacklog_implementation::Show_CreateSection(){
     parentBoard->getCreationBox()->setVisible(true);
     parentBoard->getCreate_Assignee()->setVisible(true);
@@ -122,7 +131,10 @@ void pb_productbacklog_implementation::Show_CreateSection(){
 
 
 }
-
+/**
+ * @brief Shows the create section specifically for creating user stories.
+ * Adjusts the UI layout and makes relevant elements visible for user story creation.
+ */
 void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
 
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
@@ -140,7 +152,10 @@ void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
     Create_Header->setHtml("<html><head/><body><p style='font-size:12pt; text-align:center;'>Create User Stories</p></body></html>");
 
 }
-
+/**
+ * @brief Shows the create section specifically for creating tasks.
+ * Adjusts the UI layout and makes relevant elements visible for task creation.
+ */
 void pb_productbacklog_implementation::Show_CreateSection_Tasks(){
 
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
