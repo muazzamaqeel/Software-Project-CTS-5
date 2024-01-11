@@ -37,6 +37,7 @@ public slots:
     void openParentBoard();
     void onSignInButtonClicked();
     void setPassUsername(const QString& username);
+    void keyPressEvent(QKeyEvent *event);
 private slots:
     void openSettings();
 

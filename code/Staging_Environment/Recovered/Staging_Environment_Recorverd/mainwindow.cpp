@@ -17,6 +17,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QPainter>
+#include <QKeyEvent>
 
 // Constructor of MainWindow Class
 MainWindow::MainWindow(QWidget *parent)
@@ -61,6 +62,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->adminButton, SIGNAL(clicked()), this, SLOT(adminLogin()));
 
     connect(ui->signIn_Button, SIGNAL(clicked()), this, SLOT(onSignInButtonClicked()));
+
+    ui->backlog_test->setVisible(false);
+    ui->parentboardButton->setVisible(false);
+    ui->adminButton->setVisible(false);
+    ui->settingsbutton_main->setVisible(false);
+
 
 }
 
@@ -151,6 +158,13 @@ void MainWindow::TeamMember_ProjectsWin() {
 }
 
 
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    if(event->modifiers() == (Qt::ControlModifier | Qt::AltModifier) && event->key() == Qt::Key_S) {
+        ui->adminButton->setVisible(true);
+    } else {
+        QMainWindow::keyPressEvent(event); // Call base class method for other key events
+    }
+}
 
 
 void MainWindow::userEncryptedLogin()

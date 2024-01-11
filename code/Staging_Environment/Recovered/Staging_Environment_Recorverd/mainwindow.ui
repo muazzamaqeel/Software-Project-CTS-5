@@ -70,7 +70,7 @@
     <property name="geometry">
      <rect>
       <x>430</x>
-      <y>360</y>
+      <y>410</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -111,7 +111,7 @@ hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; color:#ffffff;&quot;&gt;Username&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; color:#ffffff;&quot;&gt;Username:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="overwriteMode">
      <bool>true</bool>
@@ -120,10 +120,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>630</y>
-      <width>71</width>
-      <height>31</height>
+      <x>280</x>
+      <y>150</y>
+      <width>751</width>
+      <height>171</height>
      </rect>
     </property>
     <property name="font">
@@ -166,8 +166,35 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>-1</pointsize>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    text-decoration: none; /* No text decoration */
+    display: inline-block; /* Display as inline-block */
+    transition: all 0.3s; /* Smooth transition for hover effects */
+    cursor: pointer; /* Show hand cursor on hover */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Subtle shadow effect on hover */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+}
+</string>
     </property>
     <property name="text">
      <string>Quit</string>
@@ -176,16 +203,43 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QPushButton" name="registerbutton_main">
     <property name="geometry">
      <rect>
-      <x>570</x>
-      <y>520</y>
+      <x>560</x>
+      <y>570</y>
       <width>121</width>
       <height>51</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>-1</pointsize>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    text-decoration: none; /* No text decoration */
+    display: inline-block; /* Display as inline-block */
+    transition: all 0.3s; /* Smooth transition for hover effects */
+    cursor: pointer; /* Show hand cursor on hover */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Subtle shadow effect on hover */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+}
+</string>
     </property>
     <property name="text">
      <string>Register</string>
@@ -194,16 +248,43 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QPushButton" name="signIn_Button">
     <property name="geometry">
      <rect>
-      <x>570</x>
-      <y>460</y>
+      <x>560</x>
+      <y>510</y>
       <width>121</width>
       <height>51</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>-1</pointsize>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    text-decoration: none; /* No text decoration */
+    display: inline-block; /* Display as inline-block */
+    transition: all 0.3s; /* Smooth transition for hover effects */
+    cursor: pointer; /* Show hand cursor on hover */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Subtle shadow effect on hover */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+}
+</string>
     </property>
     <property name="text">
      <string>Sign In</string>
@@ -231,7 +312,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <property name="geometry">
      <rect>
       <x>430</x>
-      <y>410</y>
+      <y>460</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -268,29 +349,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QLineEdit" name="input_username">
     <property name="geometry">
      <rect>
-      <x>570</x>
-      <y>360</y>
-      <width>271</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLineEdit* lineEdit = new QLineEdit(this)
-lineEdit-&gt;setStyleSheet(&quot;background-color: rgba(255, 255, 255, 100); border: none;&quot;);</string>
-    </property>
-    <property name="text">
-     <string>Replace this text</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="input_password">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
+      <x>560</x>
       <y>410</y>
       <width>271</width>
       <height>41</height>
@@ -302,12 +361,57 @@ lineEdit-&gt;setStyleSheet(&quot;background-color: rgba(255, 255, 255, 100); bor
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLineEdit* lineEdit = new QLineEdit(this)
-lineEdit-&gt;setStyleSheet(&quot;background-color: rgba(255, 255, 255, 100); border: none;&quot;);
+     <string notr="true">QLineEdit {
+    border: 2px solid #CCCCCC; /* Light grey border */
+    border-radius: 4px; /* Slightly rounded corners for a modern look */
+    padding: 5px; /* Padding inside the text field */
+    background-color: #FFFFFF; /* White background color */
+    color: #000000; /* Black text color */
+    selection-background-color: #4A90E2; /* Blue selection color */
+    selection-color: #FFFFFF; /* White selection text color */
+}
+
+QLineEdit:focus {
+    border-color: #4A90E2; /* Blue border color when the QLineEdit has focus */
+}
 </string>
     </property>
     <property name="text">
-     <string>Replace this text</string>
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="input_password">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>460</y>
+      <width>271</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+    border: 2px solid #CCCCCC; /* Light grey border */
+    border-radius: 4px; /* Slightly rounded corners for a modern look */
+    padding: 5px; /* Padding inside the text field */
+    background-color: #FFFFFF; /* White background color */
+    color: #000000; /* Black text color */
+    selection-background-color: #4A90E2; /* Blue selection color */
+    selection-color: #FFFFFF; /* White selection text color */
+}
+
+QLineEdit:focus {
+    border-color: #4A90E2; /* Blue border color when the QLineEdit has focus */
+}
+</string>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="parentboardButton">
@@ -380,16 +484,34 @@ lineEdit-&gt;setStyleSheet(&quot;background-color: rgba(255, 255, 255, 100); bor
    <widget class="QLabel" name="logo">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>120</y>
-      <width>641</width>
-      <height>211</height>
+      <x>20</x>
+      <y>600</y>
+      <width>51</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="borde_login">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>340</y>
+      <width>521</width>
+      <height>311</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel* pLabel = new QLabel;
+pLabel-&gt;setStyleSheet(&quot;QLabel { background-color : red; color : blue; }&quot;);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>borde_login</zorder>
    <zorder>bg_main</zorder>
    <zorder>textBrowser_2</zorder>
    <zorder>textBrowser</zorder>
