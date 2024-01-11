@@ -159,9 +159,6 @@ parentboard::parentboard(QWidget *parent) :
     PB_Confluence_Implemenation* myConfluenceImplementation = new PB_Confluence_Implemenation(this);
     connect(ui->userTaskTreeWidget_2, &QTreeWidget::itemClicked, myConfluenceImplementation, &PB_Confluence_Implemenation::onTreeItemClicked);
 
-
-
-
     //  PB_Team  ---------------------------------- Calls
     //  PB_Team  ---------------------------------- Calls
 
@@ -172,29 +169,30 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
     connect(ui->button_userstory, SIGNAL(clicked()), this, SLOT(test()));
 
+
+
+
     //  PB_TaskBoard ---------------------------------- Calls
     //  PB_TaskBoard ---------------------------------- Calls
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     pb_taskboard_implemenation *pbTaskboardBObj = new pb_taskboard_implemenation(obj);
+    connect(ui->taskboardButton,&QPushButton::clicked,pbTaskboardBObj,&pb_taskboard_implemenation::pb_taskboard_Retrieval);
+
 }
 
 
 
+void parentboard::displayBacklogOnMaximized() {
+    auto pbProductBacklogObj = std::make_unique<pb_productbacklog_implementation>(this);
+    pbProductBacklogObj->RetrieveAndDisplayBacklog();
+}
 
+/*
+void parentboard::displayBacklogOnMaximized() {
+    parentboard *obj = this; // Create an instance of parentboard
+    pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);
+    pbProductBacklogObj->RetrieveAndDisplayBacklog();
+}
+*/
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 parentboard::~parentboard()

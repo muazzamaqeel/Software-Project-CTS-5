@@ -14,16 +14,7 @@ class pb_taskboard_implemenation : public QObject
 public:
     explicit pb_taskboard_implemenation(parentboard* parentBoardInstance);
     ~pb_taskboard_implemenation();
-
-private slots:
-    void updateLabels(int index);
-
-private:
-    void fetchSprintData();
-    void generateUserTaskTree();
     int getSelectedSprintId() const;
-    void fetchSprintDates();
-    void generateUnassigned();
 
     QStandardItemModel *model;
     parentboard* parentBoard;
@@ -34,6 +25,15 @@ private:
 
     QString startDate;
     QString endDate;
+
+public slots:
+    void updateLabels(int index);
+    void pb_taskboard_Retrieval();
+    void fetchSprintData();
+    void generateUnassigned();
+    void fetchSprintDates();
+    void generateUserTaskTree();
+
 };
 
 #endif // PB_TASKBOARD_IMPLEMENATION_H

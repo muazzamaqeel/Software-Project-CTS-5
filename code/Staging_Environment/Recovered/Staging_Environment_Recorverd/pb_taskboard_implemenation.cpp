@@ -34,6 +34,12 @@ pb_taskboard_implemenation::pb_taskboard_implemenation(parentboard* parentBoardI
     connect(parentBoard->getSprintDropdown(), QOverload<int>::of(&QComboBox::currentIndexChanged), this, &pb_taskboard_implemenation::updateLabels);
 }
 
+void pb_taskboard_implemenation::pb_taskboard_Retrieval()
+{
+    fetchSprintData();
+    fetchSprintDates();
+    generateUserTaskTree();
+}
 pb_taskboard_implemenation::~pb_taskboard_implemenation()
 {
     delete model;

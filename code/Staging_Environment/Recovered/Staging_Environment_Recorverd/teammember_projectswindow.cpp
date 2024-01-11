@@ -128,6 +128,7 @@ void TeamMember_ProjectsWindow::onProjectNameClicked(QTableWidgetItem *item) {
         parentboard* parentboardwindow = parentboard::getInstance();
         parentboardwindow->setProjectId(idProject);
         parentboardwindow->showMaximized();
+        parentboardwindow->displayBacklogOnMaximized();
     }
 }
 

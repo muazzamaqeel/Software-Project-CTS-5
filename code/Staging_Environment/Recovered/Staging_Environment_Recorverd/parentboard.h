@@ -35,7 +35,7 @@ public:
     QTableWidget* getTeamTableView();
     QTextBrowser *getSprintDate();
     QLineEdit *getFirstNameField();
-
+    void displayBacklogOnMaximized();
     QGroupBox* getSprintGroupBox() const;
     //QComboBox* getSprintComboBox();
 
