@@ -11,10 +11,12 @@
 #include "adminstrator.h"
 #include <QCryptographicHash>
 #include "parentboard.h"
-#include "pb_productbacklog_implementation.h"
 #include "teammember_projectswindow.h"
 #include "teammember_projectswindow.h"
-
+#include <QGraphicsBlurEffect>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include <QPainter>
 
 // Constructor of MainWindow Class
 MainWindow::MainWindow(QWidget *parent)
@@ -24,7 +26,29 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     // For Background
     QPixmap pix("C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/Recovered/Staging_Environment_Recorverd/assets/MainWindowbg.jpg");
-    ui->bg_main->setPixmap(pix);
+    // Create a blur effect
+    QGraphicsBlurEffect *blurEffect = new QGraphicsBlurEffect;
+    blurEffect->setBlurRadius(10); // Adjust the blur radius as needed
+
+    // Create a scene and pixmap item
+    QGraphicsScene scene;
+    QGraphicsPixmapItem item;
+    item.setPixmap(pix);
+    item.setGraphicsEffect(blurEffect);
+
+    // Render the scene to a new QPixmap
+    scene.addItem(&item);
+    QPixmap blurredPixmap(pix.size());
+    blurredPixmap.fill(Qt::transparent);
+    QPainter painter(&blurredPixmap);
+    scene.render(&painter);
+
+    // Set the blurred pixmap as the background
+    ui->bg_main->setPixmap(blurredPixmap);
+
+    QPixmap logo("C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/Recovered/Staging_Environment_Recorverd/assets/Scrummy_transparent.png");
+    ui->logo->setPixmap(logo);
+
     //Buttons on the mainwindow
     // Using the connect function to call the openRegistrationWindow() function
     connect(ui->registerbutton_main, SIGNAL(clicked()), this, SLOT(openRegistrationWindow()));
