@@ -16,7 +16,7 @@
 #include <QMap>
 #include <QVariant>
 #include <QMessageBox>
-#include "Email_Notification.h"
+#include "email_notification.h"
 #include <QApplication>
 #include <QWidget>
 #include <QLabel>

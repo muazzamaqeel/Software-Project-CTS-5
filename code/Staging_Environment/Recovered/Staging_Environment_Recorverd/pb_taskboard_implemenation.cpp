@@ -12,6 +12,8 @@
 #include <QTreeWidgetItem>
 #include <QDateTime>
 
+// QPushButton *editButtonT = new QPushButton("Edit");
+
 pb_taskboard_implemenation::pb_taskboard_implemenation(parentboard* parentBoardInstance)
     : parentBoard(parentBoardInstance),
     scrollAreaLayout(parentBoardInstance->getScrollAreaLayout())  // Initialize the layout
@@ -21,6 +23,8 @@ pb_taskboard_implemenation::pb_taskboard_implemenation(parentboard* parentBoardI
     fetchSprintData();
     fetchSprintDates();
     generateUserTaskTree();
+    hideShowT_Creation = false;
+    HideShow_CreateSectionTaskboard(hideShowT_Creation);
 
     // Resize QWidgetTree sections/columns
     QHeaderView* header = parentBoard->getTaskTreeWidget()->header();
@@ -29,17 +33,27 @@ pb_taskboard_implemenation::pb_taskboard_implemenation(parentboard* parentBoardI
 
     // Fixed
     header->setSectionResizeMode(QHeaderView::Fixed);
-    header->resizeSection(1, 320); // Task section wider
+    header->resizeSection(0, 300); // User section wider
+    header->resizeSection(1, 600); // Task section wider
 
     connect(parentBoard->getSprintDropdown(), QOverload<int>::of(&QComboBox::currentIndexChanged), this, &pb_taskboard_implemenation::updateLabels);
-}
+    // HideShow_CreateSectionT(bool hideShowT_Creation){
+ }
 
 void pb_taskboard_implemenation::pb_taskboard_Retrieval()
 {
     fetchSprintData();
     fetchSprintDates();
     generateUserTaskTree();
+    hideShowT_Creation = false;
+    HideShow_CreateSectionTaskboard(hideShowT_Creation);
 }
+void pb_taskboard_implemenation::showCreate_Taskboard()
+{
+    // hideShowT_Creation = true;
+    // HideShow_CreateSectionTaskboard(hideShowT_Creation);
+}
+
 pb_taskboard_implemenation::~pb_taskboard_implemenation()
 {
     delete model;
@@ -199,6 +213,7 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                     // Add task for the current user
                     if (!taskTitle.isEmpty()) {
                         QTreeWidgetItem* treeTaskItem = new QTreeWidgetItem(treeUserItem);
+                        // QListWidget::setItemWidget(treeUserItem, editButtonT);
                         treeTaskItem->setText(1, taskTitle);
                         treeTaskItem->setText(2, taskPriority);
                         treeTaskItem->setText(3, "Task");
@@ -407,3 +422,69 @@ int pb_taskboard_implemenation::getSelectedSprintId() const
 {
     return selectedSprintId;
 }
+
+
+/**
+ * @brief Hides the create section UI elements.
+ * This includes various input fields and buttons related to creating new user stories or tasks.
+ */
+void pb_taskboard_implemenation::HideShow_CreateSectionTaskboard(bool hideShowT_Creation)
+{
+    parentBoard->getCreationBoxT()->setVisible(false);
+
+    parentBoard->getCreate_AssigneeT()->setVisible(hideShowT_Creation);
+    parentBoard->getCreate_DescriptionT()->setVisible(hideShowT_Creation);
+    parentBoard->getCreate_HeaderT()->setVisible(hideShowT_Creation);
+    parentBoard->getCreate_PriorityT()->setVisible(hideShowT_Creation);
+    parentBoard->getCreate_StatusT()->setVisible(hideShowT_Creation);
+    parentBoard->getCreate_TitleT()->setVisible(hideShowT_Creation);
+
+    parentBoard->getInputAssigneeT()->setVisible(hideShowT_Creation);
+    parentBoard->getInputDescriptionT()->setVisible(hideShowT_Creation);
+    parentBoard->getInputPriorityT()->setVisible(hideShowT_Creation);
+    parentBoard->getInputStatusT()->setVisible(hideShowT_Creation);
+    parentBoard->getInputTitleT()->setVisible(hideShowT_Creation);
+
+    parentBoard->getButton_CreateUserStoryT()->setVisible(hideShowT_Creation);
+    parentBoard->getButton_CreateTaskT()->setVisible(hideShowT_Creation);
+
+    parentBoard->get_BL_SprintDropDownT()->setVisible(hideShowT_Creation);
+    parentBoard->get_SelectedSprintT()->setVisible(hideShowT_Creation);
+}
+
+
+/**
+ * @brief Shows the create section specifically for creating user stories.
+ * Adjusts the UI layout and makes relevant elements visible for user story creation.
+ */
+void pb_taskboard_implemenation::showCreateUseStoryTaskboard(){
+
+    parentBoard->getButton_CreateUserStoryT()->setVisible(true);
+    parentBoard->getButton_CreateTaskT()->setVisible(false);
+
+    parentBoard->get_BL_SprintDropDownT()->setVisible(false);
+    parentBoard->get_SelectedSprintT()->setVisible(false);
+
+    QTextBrowser* Create_Header = parentBoard->getCreate_Header();
+    Create_Header->setAlignment(Qt::AlignCenter);  // Align text to center
+    Create_Header->setHtml("<html><head/><body><p style='font-size:12pt; text-align:center;'>Create User Stories</p></body></html>");
+
+}
+/**
+ * @brief Shows the create section specifically for creating tasks.
+ * Adjusts the UI layout and makes relevant elements visible for task creation.
+ */
+void pb_taskboard_implemenation::showCreateTaskTaskboard(){
+
+    parentBoard->getButton_CreateUserStoryT()->setVisible(false);
+    parentBoard->getButton_CreateTaskT()->setVisible(true);
+
+    parentBoard->get_BL_SprintDropDownT()->setVisible(true);
+    parentBoard->get_SelectedSprintT()->setVisible(true);
+
+    QTextBrowser* Create_Header = parentBoard->getCreate_Header();
+    Create_Header->setAlignment(Qt::AlignCenter);  // Align text to center
+    Create_Header->setHtml("<html><head/><body><p style='font-size:12pt; text-align:center;'>Create User Tasks</p></body></html>");
+
+}
+

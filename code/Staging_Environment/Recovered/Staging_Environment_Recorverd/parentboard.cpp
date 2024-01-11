@@ -177,6 +177,10 @@ parentboard::parentboard(QWidget *parent) :
     pb_taskboard_implemenation *pbTaskboardBObj = new pb_taskboard_implemenation(obj);
     connect(ui->taskboardButton,&QPushButton::clicked,pbTaskboardBObj,&pb_taskboard_implemenation::pb_taskboard_Retrieval);
 
+    // Create Task
+    // connect(ui->newtaskButtonT, &QPushButton::clicked, pbSprintObj, &pb_taskboard_implemenation::on_createtask_sprint_clicked);
+    // connect(ui->delete_itemT,&QPushButton::clicked,pbSprintBObj,&pb_taskboard_implemenation::onDeleteButtonClicked);
+
 }
 
 
@@ -499,7 +503,7 @@ QTextEdit* parentboard::getTaskboardTextEdit() const {
     return taskboardTextEdit;
 }
 QTreeWidget* parentboard::getTaskTreeWidget() const {
-    return ui->userTaskTreeWidget;
+    return ui->userTaskTreeWidgetT;
 }
 void parentboard::updateSprintDateLabel(const QString& newText)
 {
@@ -507,8 +511,68 @@ void parentboard::updateSprintDateLabel(const QString& newText)
 }
 
 
+// Task Creation/Edit
 
+// Buttons
+QPushButton* parentboard::getButton_CreateTaskT(){
+    return ui->Button_CreateTaskT;
+}
+QPushButton* parentboard::getButton_CreateUserStoryT(){
+    return ui->Button_CreateUserStoryT;
+}
 
+// Labels
+QLabel* parentboard::getCreate_AssigneeT(){
+    return ui->CreateAssigneeT;
+}
+QLabel* parentboard::getCreate_DescriptionT(){
+    return ui->CreateDescriptionT;
+}
+QLabel* parentboard::getCreate_PriorityT(){
+    return ui->CreatePriorityT;
+}
+QLabel* parentboard::getCreate_StatusT(){
+    return ui->CreateStatusT;
+}
+QLabel* parentboard::getCreate_TitleT(){
+    return ui->CreateTitleT;
+}
+QTextBrowser* parentboard::getCreate_HeaderT(){
+    return ui->CreateHeaderT;
+}
+
+// Text
+QComboBox* parentboard::getInputAssigneeT(){
+    return ui->InputAssigneeT;
+}
+QTextEdit* parentboard::getInputDescriptionT(){
+    return ui->InputDescriptionT;
+}
+QTextEdit* parentboard::getInputPriorityT(){
+    return ui->InputPriorityT;
+}
+QTextEdit* parentboard::getInputStatusT(){
+    return ui->InputStatusT;
+}
+QTextEdit* parentboard::getInputTitleT(){
+    return ui->InputTitleT;
+}
+QLabel* parentboard::get_SelectedSprintT(){
+    return ui->SelectedSprintT;
+}
+QComboBox* parentboard::get_BL_SprintDropDownT(){
+    return ui->BL_SprintDropDownT;
+}
+
+// Box
+QGroupBox* parentboard::getCreationBoxT(){
+    return ui->CreationBoxT;
+}
+
+// Delete
+QPushButton* parentboard::get_delete_itemT(){
+    return ui->delete_itemT;
+}
 
 
 

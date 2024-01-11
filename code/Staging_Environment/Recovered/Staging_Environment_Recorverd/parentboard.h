@@ -88,12 +88,37 @@ public:
     int setProjectId(int id);
     int getProjectId() const;
 
-    // Taskboard
+    /// ------- Taskboard ---------
     QComboBox* getSprintDropdown() const;
     QVBoxLayout* getScrollAreaLayout() const;
     QTextEdit* getTaskboardTextEdit() const;
     QTreeWidget* getTaskTreeWidget() const;
     void updateSprintDateLabel(const QString& newText);
+
+    // ------ Task Creation --------
+    // Input
+    QGroupBox* getCreationBoxT();
+    QLabel* get_SelectedSprintT();
+    QTextEdit* getInputTitleT();
+    QTextEdit* getInputStatusT();
+    QTextEdit* getInputPriorityT();
+    QTextEdit* getInputDescriptionT();
+    QComboBox* getInputAssigneeT();
+
+    // Labels
+    QTextBrowser* getCreate_HeaderT();
+    QLabel* getCreate_TitleT();
+    QLabel* getCreate_StatusT();
+    QLabel* getCreate_PriorityT();
+    QLabel* getCreate_DescriptionT();
+    QLabel* getCreate_AssigneeT();
+    QComboBox* get_BL_SprintDropDownT();
+
+    // Buttons
+    QPushButton* getButton_CreateTaskT();
+    QPushButton* getButton_CreateUserStoryT();
+    QPushButton* get_delete_itemT();
+
 
 
 

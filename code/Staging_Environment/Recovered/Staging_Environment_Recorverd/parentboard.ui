@@ -176,7 +176,7 @@ background-color: rgb(0, 255, 44);
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="toplabel">
+    <widget class="QLabel" name="toplabelT">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -208,45 +208,10 @@ color: rgb(0, 0, 0);
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="newtaskButton">
-     <property name="geometry">
-      <rect>
-       <x>1190</x>
-       <y>15</y>
-       <width>80</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>80</width>
-       <height>40</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>80</width>
-       <height>40</height>
-      </size>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
-color: rgb(255, 255, 255);
-}</string>
-     </property>
-     <property name="text">
-      <string>New Task</string>
-     </property>
-    </widget>
     <widget class="QComboBox" name="sprintDropdownT">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>15</y>
        <width>250</width>
        <height>40</height>
@@ -254,7 +219,7 @@ color: rgb(255, 255, 255);
      </property>
      <property name="minimumSize">
       <size>
-       <width>128</width>
+       <width>104</width>
        <height>40</height>
       </size>
      </property>
@@ -352,17 +317,67 @@ QComboBox QAbstractItemView::item:selected {
       </property>
      </item>
     </widget>
-    <widget class="QTreeWidget" name="userTaskTreeWidget">
+    <widget class="QLabel" name="labelDateT">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>85</y>
-       <width>800</width>
-       <height>550</height>
+       <x>290</x>
+       <y>25</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+color: black;
+qproperty-alignment: 'AlignCenter';
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QScrollArea" name="scrollAreaT">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>65</y>
+       <width>1280</width>
+       <height>595</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">/* QTreeWidget Stylesheet */
+      <string notr="true">QScrollArea {
+background-color: white;
+}</string>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContentsT">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1278</width>
+        <height>593</height>
+       </rect>
+      </property>
+      <widget class="QTreeWidget" name="userTaskTreeWidgetT">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>1261</width>
+         <height>571</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">/* QTreeWidget Stylesheet */
 
 QTreeWidget {
     font: 14pt &quot;Arial&quot;;
@@ -436,154 +451,706 @@ QTreeWidget::branch:has-children {
 QTreeWidget::branch:closed:has-children {
     image: url(:/right-arrow.png); /* Arrow image when item is closed */
 }</string>
-     </property>
-     <property name="sizeAdjustPolicy">
-      <enum>QAbstractScrollArea::AdjustToContents</enum>
-     </property>
-     <property name="uniformRowHeights">
-      <bool>false</bool>
-     </property>
-     <property name="animated">
-      <bool>true</bool>
-     </property>
-     <property name="allColumnsShowFocus">
-      <bool>false</bool>
-     </property>
-     <attribute name="headerCascadingSectionResizes">
-      <bool>true</bool>
-     </attribute>
-     <attribute name="headerMinimumSectionSize">
-      <number>20</number>
-     </attribute>
-     <attribute name="headerDefaultSectionSize">
-      <number>120</number>
-     </attribute>
-     <attribute name="headerHighlightSections">
-      <bool>true</bool>
-     </attribute>
-     <attribute name="headerShowSortIndicator" stdset="0">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="headerStretchLastSection">
-      <bool>true</bool>
-     </attribute>
-     <column>
-      <property name="text">
-       <string>User</string>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>14</pointsize>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="textAlignment">
-       <set>AlignCenter</set>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Task</string>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="textAlignment">
-       <set>AlignCenter</set>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Priority</string>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="textAlignment">
-       <set>AlignCenter</set>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Type</string>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="textAlignment">
-       <set>AlignCenter</set>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Status</string>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="textAlignment">
-       <set>AlignCenter</set>
-      </property>
-     </column>
-     <item>
-      <property name="text">
-       <string>testing</string>
-      </property>
-      <property name="font">
-       <font>
-        <bold>false</bold>
-       </font>
-      </property>
-      <item>
-       <property name="text">
-        <string>hello</string>
        </property>
-       <property name="text">
+       <property name="sizeAdjustPolicy">
+        <enum>QAbstractScrollArea::AdjustToContents</enum>
+       </property>
+       <property name="uniformRowHeights">
+        <bool>false</bool>
+       </property>
+       <property name="animated">
+        <bool>true</bool>
+       </property>
+       <property name="allColumnsShowFocus">
+        <bool>false</bool>
+       </property>
+       <attribute name="headerCascadingSectionResizes">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="headerMinimumSectionSize">
+        <number>20</number>
+       </attribute>
+       <attribute name="headerDefaultSectionSize">
+        <number>120</number>
+       </attribute>
+       <attribute name="headerHighlightSections">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="headerShowSortIndicator" stdset="0">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="headerStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string>User</string>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="textAlignment">
+         <set>AlignCenter</set>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Task</string>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="textAlignment">
+         <set>AlignCenter</set>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Priority</string>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="textAlignment">
+         <set>AlignCenter</set>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Type</string>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="textAlignment">
+         <set>AlignCenter</set>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Status</string>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="textAlignment">
+         <set>AlignCenter</set>
+        </property>
+       </column>
+       <item>
+        <property name="text">
+         <string>testing</string>
+        </property>
+        <property name="font">
+         <font>
+          <bold>false</bold>
+         </font>
+        </property>
+        <item>
+         <property name="text">
+          <string>hello</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>testttt</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QGroupBox" name="CreationBoxT">
+       <property name="geometry">
+        <rect>
+         <x>780</x>
+         <y>0</y>
+         <width>500</width>
+         <height>595</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QGroupBox {
+background-color: rgb(250, 250, 250)
+}</string>
+       </property>
+       <property name="title">
         <string/>
        </property>
-      </item>
-     </item>
-     <item>
-      <property name="text">
-       <string>testttt</string>
-      </property>
-     </item>
+       <widget class="QTextEdit" name="InputTitleT">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>70</y>
+          <width>370</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QTextEdit {
+background: white;
+font: 14pt Arial;
+padding: 3px 3px 3px 3px;
+border: 0;
+}</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="InputDescriptionT">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>120</y>
+          <width>370</width>
+          <height>150</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QTextEdit {
+background: white;
+font: 14pt Arial;
+padding: 3px 3px 3px 3px;
+border: 0;
+}</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="InputStatusT">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>280</y>
+          <width>370</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QTextEdit {
+background: white;
+font: 14pt Arial;
+padding: 3px 3px 3px 3px;
+border: 0;
+}</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="InputPriorityT">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>330</y>
+          <width>370</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QTextEdit {
+background: white;
+font: 14pt Arial;
+padding: 3px 3px 3px 3px;
+border: 0;
+}</string>
+        </property>
+       </widget>
+       <widget class="QTextBrowser" name="CreateHeaderT">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>460</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QTextEdit {
+background: white;
+font: 14pt Arial;
+padding: 3px 3px 3px 3px;
+border: 0;
+}</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="BL_SprintDropDownT">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>430</y>
+          <width>300</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QComboBox {
+    border: 1px solid white;
+    padding: 3px;
+    background-color: white;
+    border-radius: 4px;
+    min-width: 6em;
+    color: black;
+    combobox-popup: 0;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 20px;
+    color: black;
+    border: 4px solid white;
+}
+
+/* Change the up arrow when the QComboBox is opened */
+QComboBox::up-arrow:open {
+    image: url(:/down-arrow.png); /* Arrow-down icon when the combo box is opened */
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+}
+
+/* Change the down arrow when the QComboBox is closed */
+QComboBox::down-arrow:closed {
+    image: url(:/up-arrow.png); /* Arrow-up icon when the combo box is closed */
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+}
+
+/* QComboBox popup menu */
+QComboBox QAbstractItemView {
+    background-color: white;
+    color: black;
+    border: 1px solid white;
+    border-radius: 4px;
+    bottom: -1px; /* Position the dropdown box just under the combo box */
+    margin-top: 1px;
+}
+
+QComboBox QAbstractItemView::item {
+    height: 25px;
+    padding: 3px 10px;
+    border-radius: 4px;
+}
+
+QComboBox QAbstractItemView::item:selected {
+    background-color: rgb(172, 255, 162);
+    color: black;
+    border-radius: 4px;
+}
+</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="InputAssigneeT">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>380</y>
+          <width>300</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QComboBox {
+    border: 1px solid white;
+    padding: 3px;
+    background-color: white;
+    border-radius: 4px;
+    min-width: 6em;
+    color: black;
+    combobox-popup: 0;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 20px;
+    color: black;
+    border: 4px solid white;
+}
+
+/* Change the up arrow when the QComboBox is opened */
+QComboBox::up-arrow:open {
+    image: url(:/down-arrow.png); /* Arrow-down icon when the combo box is opened */
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+}
+
+/* Change the down arrow when the QComboBox is closed */
+QComboBox::down-arrow:closed {
+    image: url(:/up-arrow.png); /* Arrow-up icon when the combo box is closed */
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+}
+
+/* QComboBox popup menu */
+QComboBox QAbstractItemView {
+    background-color: white;
+    color: black;
+    border: 1px solid white;
+    border-radius: 4px;
+    bottom: -1px; /* Position the dropdown box just under the combo box */
+    margin-top: 1px;
+}
+
+QComboBox QAbstractItemView::item {
+    height: 25px;
+    padding: 3px 10px;
+    border-radius: 4px;
+}
+
+QComboBox QAbstractItemView::item:selected {
+    background-color: rgb(172, 255, 162);
+    color: black;
+    border-radius: 4px;
+}
+</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CreateTitleT">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>70</y>
+          <width>90</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+background: transparent;
+font: 14pt Arial;
+font-weight: bold;
+}</string>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Title&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CreateDescriptionT">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>170</y>
+          <width>90</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+background: transparent;
+font: 14pt Arial;
+font-weight: bold;
+}</string>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Description&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CreateStatusT">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>280</y>
+          <width>90</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+background: transparent;
+font: 14pt Arial;
+font-weight: bold;
+}</string>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Status&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CreatePriorityT">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>330</y>
+          <width>90</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+background: transparent;
+font: 14pt Arial;
+font-weight: bold;
+}</string>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Priority&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CreateAssigneeT">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>380</y>
+          <width>90</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+background: transparent;
+font: 14pt Arial;
+font-weight: bold;
+}</string>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Assignee&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SelectedSprintT">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>430</y>
+          <width>90</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+background: transparent;
+font: 14pt Arial;
+font-weight: bold;
+}</string>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Sprint&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>500</y>
+          <width>360</width>
+          <height>42</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QPushButton" name="Button_CreateUserStoryT">
+           <property name="minimumSize">
+            <size>
+             <width>110</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>110</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Create</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="Button_CreateTaskT">
+           <property name="minimumSize">
+            <size>
+             <width>110</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>110</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Create</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="delete_itemT">
+           <property name="minimumSize">
+            <size>
+             <width>110</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>110</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Delete</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
     </widget>
-    <widget class="QLabel" name="labelDateT">
+    <widget class="QPushButton" name="newtaskButtonT">
      <property name="geometry">
       <rect>
-       <x>290</x>
-       <y>25</y>
-       <width>141</width>
-       <height>21</height>
+       <x>1145</x>
+       <y>15</y>
+       <width>110</width>
+       <height>40</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <bold>false</bold>
-      </font>
+     <property name="minimumSize">
+      <size>
+       <width>110</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>110</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">QLabel {
-color: black;
-qproperty-alignment: 'AlignCenter';
-}</string>
+      <string notr="true">QPushButton {
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
      </property>
      <property name="text">
-      <string/>
+      <string>New Task</string>
      </property>
     </widget>
    </widget>
@@ -704,8 +1271,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;User Stories &amp;amp; Tasks&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:12pt;&quot;&gt;User Stories &amp;amp; Tasks&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
       <widget class="QTableWidget" name="user_stories">
@@ -804,8 +1371,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Title&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Title&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QTextBrowser" name="CreatePriority">
@@ -824,8 +1391,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Priority&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Priority&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QTextBrowser" name="CreateStatus">
@@ -844,8 +1411,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Status&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Status&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QTextBrowser" name="CreateDescription">
@@ -864,8 +1431,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Description&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Description&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QPushButton" name="Button_CreateUserStory">
@@ -959,8 +1526,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Assignee&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Assignee&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QTextBrowser" name="CreateHeader">
@@ -1040,8 +1607,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Selected Sprint&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Selected Sprint&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QComboBox" name="BL_SprintDropDown">
@@ -1370,8 +1937,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;First Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;First Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="input_username">
@@ -1400,8 +1967,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Role&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Role&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="input_lastname">
@@ -1430,8 +1997,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Email&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Email&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="input_firstname">
@@ -1503,8 +2070,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Username&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Username&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QTextBrowser" name="display_lastname">
@@ -1523,8 +2090,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Last Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Last Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="CreateUser_Button">
@@ -1843,7 +2410,7 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;transparent&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;transparent&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Arial'; font-size:12pt;&quot;&gt;01.12 - 8.12&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
@@ -2589,9 +3156,9 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Confluence Space&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Segoe UI'; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:12pt;&quot;&gt;Confluence Space&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QPushButton" name="ButtonGroup_Confluence">
@@ -2635,8 +3202,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QTextEdit" name="InputTitle_2">
@@ -2665,8 +3232,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Group&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Group&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QTextBrowser" name="Confluence_HeadingText">
@@ -2685,8 +3252,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Group Creation&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:16pt;&quot;&gt;Group Creation&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="Button_Create_Confluence">

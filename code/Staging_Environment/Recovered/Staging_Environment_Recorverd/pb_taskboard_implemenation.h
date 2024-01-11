@@ -22,6 +22,7 @@ public:
     QStringList formattedDates;
 
     int selectedSprintId;
+    bool hideShowT_Creation;
 
     QString startDate;
     QString endDate;
@@ -33,6 +34,10 @@ public slots:
     void generateUnassigned();
     void fetchSprintDates();
     void generateUserTaskTree();
+    void HideShow_CreateSectionTaskboard(bool);
+    void showCreateUseStoryTaskboard();
+    void showCreateTaskTaskboard();
+    void showCreate_Taskboard();
 
 };
 
