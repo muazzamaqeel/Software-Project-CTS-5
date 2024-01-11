@@ -159,10 +159,10 @@ void MainWindow::TeamMember_ProjectsWin() {
 
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
-    if(event->modifiers() == (Qt::ControlModifier | Qt::AltModifier) && event->key() == Qt::Key_S) {
+    if(event->modifiers() == (Qt::ControlModifier | Qt::AltModifier) && event->key() == Qt::Key_D) {
         ui->adminButton->setVisible(true);
     } else {
-        QMainWindow::keyPressEvent(event); // Call base class method for other key events
+        //QMainWindow::keyPressEvent(event); // Call base class method for other key events
     }
 }
 

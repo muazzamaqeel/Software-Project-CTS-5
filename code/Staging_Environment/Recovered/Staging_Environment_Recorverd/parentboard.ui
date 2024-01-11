@@ -999,10 +999,26 @@ li.checked::marker { content: &quot;\2612&quot;; }
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
-color: rgb(255, 255, 255);
-}</string>
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
         </property>
         <property name="text">
          <string>Create</string>
@@ -1123,15 +1139,15 @@ color: rgb(255, 255, 255);
     <widget class="QPushButton" name="buttton_issue">
      <property name="geometry">
       <rect>
-       <x>680</x>
+       <x>530</x>
        <y>20</y>
-       <width>110</width>
+       <width>150</width>
        <height>40</height>
       </rect>
      </property>
      <property name="minimumSize">
       <size>
-       <width>110</width>
+       <width>150</width>
        <height>40</height>
       </size>
      </property>
@@ -1146,10 +1162,26 @@ color: rgb(255, 255, 255);
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
-color: rgb(255, 255, 255);
-}</string>
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
      </property>
      <property name="text">
       <string>Create Task</string>
@@ -1158,15 +1190,15 @@ color: rgb(255, 255, 255);
     <widget class="QPushButton" name="button_userstory">
      <property name="geometry">
       <rect>
-       <x>960</x>
+       <x>860</x>
        <y>20</y>
-       <width>150</width>
+       <width>200</width>
        <height>40</height>
       </rect>
      </property>
      <property name="minimumSize">
       <size>
-       <width>150</width>
+       <width>200</width>
        <height>40</height>
       </size>
      </property>
@@ -1181,10 +1213,26 @@ color: rgb(255, 255, 255);
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
-color: rgb(255, 255, 255);
-}</string>
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
      </property>
      <property name="text">
       <string>Create User Story</string>
@@ -1193,15 +1241,15 @@ color: rgb(255, 255, 255);
     <widget class="QPushButton" name="delete_item">
      <property name="geometry">
       <rect>
-       <x>800</x>
+       <x>690</x>
        <y>20</y>
-       <width>110</width>
+       <width>150</width>
        <height>40</height>
       </rect>
      </property>
      <property name="minimumSize">
       <size>
-       <width>110</width>
+       <width>150</width>
        <height>40</height>
       </size>
      </property>
@@ -1216,10 +1264,26 @@ color: rgb(255, 255, 255);
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
-color: rgb(255, 255, 255);
-}</string>
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
      </property>
      <property name="text">
       <string>Delete Task</string>
@@ -1228,15 +1292,15 @@ color: rgb(255, 255, 255);
     <widget class="QPushButton" name="delete_item_UserStory">
      <property name="geometry">
       <rect>
-       <x>1120</x>
+       <x>1070</x>
        <y>20</y>
-       <width>141</width>
+       <width>200</width>
        <height>40</height>
       </rect>
      </property>
      <property name="minimumSize">
       <size>
-       <width>110</width>
+       <width>200</width>
        <height>40</height>
       </size>
      </property>
@@ -1251,10 +1315,26 @@ color: rgb(255, 255, 255);
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
-color: rgb(255, 255, 255);
-}</string>
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
      </property>
      <property name="text">
       <string>Delete UserStory</string>
@@ -2731,10 +2811,26 @@ color: rgb(255, 255, 255);
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
-color: rgb(255, 255, 255);
-}</string>
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -2745,7 +2841,7 @@ color: rgb(255, 255, 255);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>701</width>
+     <width>881</width>
      <height>62</height>
     </rect>
    </property>
@@ -2775,7 +2871,7 @@ color: rgb(255, 255, 255);
       </property>
       <property name="maximumSize">
        <size>
-        <width>100</width>
+        <width>120</width>
         <height>60</height>
        </size>
       </property>
@@ -2784,10 +2880,26 @@ color: rgb(255, 255, 255);
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
-color: rgb(255, 255, 255);
-}</string>
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
       </property>
       <property name="text">
        <string>Taskboard</string>
@@ -2819,7 +2931,7 @@ color: rgb(255, 255, 255);
       </property>
       <property name="maximumSize">
        <size>
-        <width>100</width>
+        <width>120</width>
         <height>60</height>
        </size>
       </property>
@@ -2828,10 +2940,26 @@ color: rgb(255, 255, 255);
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
-color: rgb(255, 255, 255);
-}</string>
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
       </property>
       <property name="text">
        <string>Backlog</string>
@@ -2863,7 +2991,7 @@ color: rgb(255, 255, 255);
       </property>
       <property name="maximumSize">
        <size>
-        <width>100</width>
+        <width>150</width>
         <height>60</height>
        </size>
       </property>
@@ -2872,10 +3000,26 @@ color: rgb(255, 255, 255);
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
-color: rgb(255, 255, 255);
-}</string>
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
       </property>
       <property name="text">
        <string>Sprints</string>
@@ -2907,7 +3051,7 @@ color: rgb(255, 255, 255);
       </property>
       <property name="maximumSize">
        <size>
-        <width>100</width>
+        <width>140</width>
         <height>60</height>
        </size>
       </property>
@@ -2916,10 +3060,26 @@ color: rgb(255, 255, 255);
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
-color: rgb(255, 255, 255);
-}</string>
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
       </property>
       <property name="text">
        <string>Team</string>
@@ -2951,7 +3111,7 @@ color: rgb(255, 255, 255);
       </property>
       <property name="maximumSize">
        <size>
-        <width>100</width>
+        <width>150</width>
         <height>60</height>
        </size>
       </property>
@@ -2960,10 +3120,26 @@ color: rgb(255, 255, 255);
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
-color: rgb(255, 255, 255);
-}</string>
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
       </property>
       <property name="text">
        <string>Confluence</string>

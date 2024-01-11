@@ -13,7 +13,11 @@
 #include <sstream>
 #include <iomanip>
 #include <QCryptographicHash>
-
+#include <QGraphicsBlurEffect>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include <QPainter>
+#include <QKeyEvent>
 
 // Constructor for the registration window
 registration_window::registration_window(QWidget *parent) :
@@ -22,6 +26,36 @@ registration_window::registration_window(QWidget *parent) :
 {
     ui->setupUi(this); // Set up the user interface
     ui->display_error->setVisible(false); // Initially hide the error message
+    ui->display_role->setVisible(false);
+    ui->comboBox_role->setVisible(false);
+
+
+
+    // For Background
+    QPixmap pix("C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/Recovered/Staging_Environment_Recorverd/assets/MainWindowbg.jpg");
+    // Create a blur effect
+    QGraphicsBlurEffect *blurEffect = new QGraphicsBlurEffect;
+    blurEffect->setBlurRadius(10); // Adjust the blur radius as needed
+
+    // Create a scene and pixmap item
+    QGraphicsScene scene;
+    QGraphicsPixmapItem item;
+    item.setPixmap(pix);
+    item.setGraphicsEffect(blurEffect);
+
+    // Render the scene to a new QPixmap
+    scene.addItem(&item);
+    QPixmap blurredPixmap(pix.size());
+    blurredPixmap.fill(Qt::transparent);
+    QPainter painter(&blurredPixmap);
+    scene.render(&painter);
+
+    // Set the blurred pixmap as the background
+    ui->bg_main->setPixmap(blurredPixmap);
+
+
+
+
     connect(ui->back, SIGNAL(clicked()), this, SLOT(FromRegToMainWindow())); // Connect the "back" button to go back
     connect(ui->next, SIGNAL(clicked()), this, SLOT(storeInputValues())); // Connect the "next" button to store input values
 }
@@ -102,14 +136,13 @@ void registration_window::storeInputValues() {
 
         if (dbobj.isOpen()) {
             QSqlQuery query(dbobj);
-            query.prepare("INSERT INTO User (firstname, lastname, password, email, username, Role_idRole) "
-                          "VALUES (:firstname, :lastname, :password, :email, :username, :roleid)");
+            query.prepare("INSERT INTO User (firstname, lastname, password, email, username) "
+                          "VALUES (:firstname, :lastname, :password, :email, :username)");
             query.bindValue(":firstname", firstName);
             query.bindValue(":lastname", lastName);
             query.bindValue(":password", hashedPassword); // using hashed password
             query.bindValue(":email", email);
             query.bindValue(":username", username);
-            query.bindValue(":roleid", roleid);
 
             if (query.exec()) {
                 qDebug() << "Data inserted into User table successfully!";

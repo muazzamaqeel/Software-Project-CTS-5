@@ -203,10 +203,35 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>605</y>
+      <y>540</y>
       <width>101</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    text-decoration: none; /* No text decoration */
+    display: inline-block; /* Display as inline-block */
+    transition: all 0.3s; /* Smooth transition for hover effects */
+    cursor: pointer; /* Show hand cursor on hover */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Subtle shadow effect on hover */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+}
+</string>
     </property>
     <property name="text">
      <string>Back</string>
@@ -216,10 +241,35 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>605</y>
+      <y>540</y>
       <width>101</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    text-decoration: none; /* No text decoration */
+    display: inline-block; /* Display as inline-block */
+    transition: all 0.3s; /* Smooth transition for hover effects */
+    cursor: pointer; /* Show hand cursor on hover */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Subtle shadow effect on hover */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+}
+</string>
     </property>
     <property name="text">
      <string>Next</string>
@@ -229,7 +279,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>505</y>
+      <y>430</y>
       <width>211</width>
       <height>91</height>
      </rect>
@@ -249,8 +299,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QTextBrowser" name="display_role">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>440</y>
+      <x>830</x>
+      <y>600</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -269,8 +319,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QComboBox" name="comboBox_role">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>440</y>
+      <x>940</x>
+      <y>600</y>
       <width>211</width>
       <height>41</height>
      </rect>
@@ -296,6 +346,36 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </property>
     </item>
    </widget>
+   <widget class="QLabel" name="bg_main">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1281</width>
+      <height>691</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>bg_main</zorder>
+   <zorder>display_password</zorder>
+   <zorder>display_registration</zorder>
+   <zorder>display_email</zorder>
+   <zorder>display_lastname</zorder>
+   <zorder>display_firstname</zorder>
+   <zorder>display_username</zorder>
+   <zorder>input_firstname</zorder>
+   <zorder>input_lastname</zorder>
+   <zorder>input_username</zorder>
+   <zorder>input_password</zorder>
+   <zorder>input_email</zorder>
+   <zorder>back</zorder>
+   <zorder>next</zorder>
+   <zorder>display_error</zorder>
+   <zorder>display_role</zorder>
+   <zorder>comboBox_role</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -303,7 +383,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
