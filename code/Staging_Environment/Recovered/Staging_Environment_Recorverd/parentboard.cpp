@@ -29,19 +29,13 @@ parentboard::parentboard(QWidget *parent) :
 
     taskModel = new QStandardItemModel(this);
     taskModel->setColumnCount(2);
-    ui->teamTable->setColumnCount(3);
-    ui->teamTable->setHorizontalHeaderLabels({"First name", "Email", "Role"});
-
-
-
-
+    ui->teamTable->setColumnCount(4);
+    ui->teamTable->setHorizontalHeaderLabels({"First name","Last name", "Email", "Role"});
 
     //ui->user_stories->setColumnCount(3); // Add a new column for priority
     //ui->user_stories->setHorizontalHeaderLabels({"Userstory", "Description", "Priority"}); // Set column headers
     //ui->issues->setColumnCount(3); // Add a new column for priority
     //ui->issues->setHorizontalHeaderLabels({"Issue", "Description", "Priority"}); // Set column headers
-
-
 
     //  PB_ProductBacklog ---------------------------------- Calls
     //  PB_ProductBacklog ---------------------------------- Calls
@@ -115,13 +109,7 @@ parentboard::parentboard(QWidget *parent) :
         }
     });
 
-
-
     //  pb_productbacklog Implementation Calls ---End
-
-
-
-
 
     //  PB_Sprint  ---------------------------------- Calls
     //  PB_Sprint  ---------------------------------- Calls
@@ -138,12 +126,6 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->delete_button,&QPushButton::clicked,pbSprintBObj,&pb_sprint_implemenation::onDeleteButtonClicked);
     // Connect the delete button click signal to the onDeleteButtonClicked() slot
     // connect(ui->delete_button, SIGNAL(clicked()), this, SLOT(onDeleteButtonClicked()));
-
-
-
-
-
-
 
     //  PB_Confluence  ---------------------------------- Calls
     //  PB_Confluence  ---------------------------------- Calls
@@ -164,13 +146,11 @@ parentboard::parentboard(QWidget *parent) :
 
     connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
     connect(ui->teamButton, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::UserRetrieval);
+    teamPagePtr->HideUserProperties();
 
     //Old Way
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));
     connect(ui->button_userstory, SIGNAL(clicked()), this, SLOT(test()));
-
-
-
 
     //  PB_TaskBoard ---------------------------------- Calls
     //  PB_TaskBoard ---------------------------------- Calls
@@ -182,8 +162,6 @@ parentboard::parentboard(QWidget *parent) :
     // connect(ui->delete_itemT,&QPushButton::clicked,pbSprintBObj,&pb_taskboard_implemenation::onDeleteButtonClicked);
 
 }
-
-
 
 void parentboard::displayBacklogOnMaximized() {
     auto pbProductBacklogObj = std::make_unique<pb_productbacklog_implementation>(this);
@@ -430,17 +408,25 @@ QPushButton* parentboard::get_sprint_createtask_button(){
     return ui->sprintinfo_save_button;
 }
 
+//Team
 
+QPushButton* parentboard::getCreateUserButton()
+{
+    return ui->CreateUser_Button;
+}
 
-
-
-
-
-
-
-
-
-
+QTextBrowser* parentboard::getDisplayFirstName()
+{
+    return ui->display_firstname;
+}
+QTextBrowser* parentboard::getDisplayRole()
+{
+    return ui->display_role;
+}
+QLineEdit* parentboard::getInputFirstName()
+{
+    return ui->input_firstname;
+}
 
 
 //Confluence

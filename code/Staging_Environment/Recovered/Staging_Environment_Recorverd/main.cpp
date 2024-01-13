@@ -22,7 +22,7 @@
 //#include "launchscreen.h"
 
 int main(int argc, char *argv[]) {
-    Py_Initialize();
+    //Py_Initialize();
 
 //Application-------------------------------------------------------------------
     QApplication app(argc, argv);
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
 //------------------------------------------------------------------------------
 */
     int result = app.exec();
-    Py_Finalize();
+    //Py_Finalize();
     return result;
   return app.exec();
 }

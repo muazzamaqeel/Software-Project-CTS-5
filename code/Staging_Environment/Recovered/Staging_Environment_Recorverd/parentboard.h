@@ -48,6 +48,11 @@ public:
     QTextBrowser* getCreate_Status();
     QTextBrowser* getCreate_Title();
 
+    QPushButton* getCreateUserButton();
+    QTextBrowser* getDisplayFirstName();
+    QTextBrowser* getDisplayRole();
+    QLineEdit* getInputFirstName();
+
     QComboBox* getInputAssignee();
     QTextEdit* getInputDescription();
     QTextEdit* getInputPriority();

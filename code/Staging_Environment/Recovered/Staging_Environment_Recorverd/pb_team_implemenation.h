@@ -18,7 +18,8 @@ public slots:
     void on_teamTab_opened();
     void on_createuser_clicked();
     void UserRetrieval();
-    void AddRowUser(const QString& firstNameInput, const QString& emailInput, const QString& roleInput);
+    void HideUserProperties();
+    void AddRowUser(const QString& firstNameInput,const QString& lastNameInput, const QString& emailInput, const QString& roleInput);
 private:
         parentboard* parentBoard;
 };
