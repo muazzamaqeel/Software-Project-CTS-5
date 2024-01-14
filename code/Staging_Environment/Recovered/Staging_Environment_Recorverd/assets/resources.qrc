@@ -5,5 +5,6 @@
         <file>left-arrow.png</file>
         <file>right-arrow.png</file>
         <file>up-arrow.png</file>
+        <file>MainWindowbg.jpg</file>
     </qresource>
 </RCC>
