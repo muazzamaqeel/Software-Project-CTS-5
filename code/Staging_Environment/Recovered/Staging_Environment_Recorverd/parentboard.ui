@@ -149,7 +149,7 @@ background-color: rgb(150, 150, 150);
     <widget class="QLabel" name="selectorbarT">
      <property name="geometry">
       <rect>
-       <x>200</x>
+       <x>190</x>
        <y>0</y>
        <width>150</width>
        <height>5</height>
@@ -1188,7 +1188,7 @@ background-color: rgb(150, 150, 150);
     <widget class="QLabel" name="selectorbarB">
      <property name="geometry">
       <rect>
-       <x>360</x>
+       <x>350</x>
        <y>0</y>
        <width>150</width>
        <height>5</height>
@@ -2083,7 +2083,7 @@ color: rgb(0, 0, 0);
     <widget class="QLabel" name="selectorbarB_3">
      <property name="geometry">
       <rect>
-       <x>680</x>
+       <x>670</x>
        <y>0</y>
        <width>150</width>
        <height>5</height>
@@ -3316,9 +3316,9 @@ QPushButton:pressed {
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>-10</x>
      <y>0</y>
-     <width>1001</width>
+     <width>1171</width>
      <height>62</height>
     </rect>
    </property>
@@ -3620,6 +3620,66 @@ QPushButton:pressed {
       </property>
       <property name="text">
        <string>Confluence</string>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
+      </property>
+      <property name="default">
+       <bool>false</bool>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="Meeting">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    /* Removed unsupported properties: display, transition, cursor */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    /* Qt does not support box-shadow directly */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    /* Removed unsupported box-shadow */
+}
+</string>
+      </property>
+      <property name="text">
+       <string>Meeting</string>
       </property>
       <property name="autoDefault">
        <bool>false</bool>
