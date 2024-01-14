@@ -157,6 +157,7 @@ private slots:
     void on_sprintsButton_clicked();
     void on_confluenceButton_clicked();
     void goBackToMainWindow();
+    void on_meetingButton_clicked();
 private:
 
     Ui::parentboard *ui;

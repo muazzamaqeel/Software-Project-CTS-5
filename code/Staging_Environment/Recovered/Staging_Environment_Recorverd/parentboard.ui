@@ -3261,6 +3261,7 @@ color: rgb(255, 255, 255);
      </property>
     </widget>
    </widget>
+   <widget class="QWidget" name="page"/>
   </widget>
   <widget class="QPushButton" name="exitButton">
    <property name="geometry">
@@ -3633,7 +3634,7 @@ QPushButton:pressed {
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="Meeting">
+     <widget class="QPushButton" name="meetingButton">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>

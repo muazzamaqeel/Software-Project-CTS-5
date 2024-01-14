@@ -161,6 +161,10 @@ parentboard::parentboard(QWidget *parent) :
     // connect(ui->newtaskButtonT, &QPushButton::clicked, pbSprintObj, &pb_taskboard_implemenation::on_createtask_sprint_clicked);
     // connect(ui->delete_itemT,&QPushButton::clicked,pbSprintBObj,&pb_taskboard_implemenation::onDeleteButtonClicked);
 
+
+
+    connect(ui->meetingButton, SIGNAL(clicked()), this, SLOT(on_meetingButton_clicked()));
+
 }
 
 void parentboard::displayBacklogOnMaximized() {
@@ -211,6 +215,12 @@ void parentboard::on_confluenceButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(4);
 }
+void parentboard::on_meetingButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(6);
+}
+
+
 
 void parentboard::goBackToMainWindow() {
     MainWindow* mainWindow = new MainWindow; // Create a new instance of the main window
