@@ -108,7 +108,7 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>5</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -3261,7 +3261,21 @@ color: rgb(255, 255, 255);
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page"/>
+   <widget class="QWidget" name="page">
+    <widget class="QCalendarWidget" name="calendarWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>10</y>
+       <width>1261</width>
+       <height>631</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QPushButton" name="exitButton">
    <property name="geometry">
@@ -3680,7 +3694,7 @@ QPushButton:pressed {
 </string>
       </property>
       <property name="text">
-       <string>Meeting</string>
+       <string>Calander</string>
       </property>
       <property name="autoDefault">
        <bool>false</bool>
