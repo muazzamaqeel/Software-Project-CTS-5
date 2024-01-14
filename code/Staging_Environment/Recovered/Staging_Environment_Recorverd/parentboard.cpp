@@ -217,7 +217,7 @@ void parentboard::on_confluenceButton_clicked()
 }
 void parentboard::on_meetingButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(6);
+    ui->stackedWidget->setCurrentIndex(5);
 }
 
 
