@@ -15,6 +15,7 @@
 #include "pb_team_implemenation.h"
 #include "pb_taskboard_implemenation.h"
 #include "pb_productbacklog_implementation_extension.h"
+#include "teammember_projectswindow.h"
 
 // Temp - Scalability
 #include "QtGui/qevent.h"
@@ -46,6 +47,18 @@ parentboard::parentboard(QWidget *parent) :
     taskModel->setColumnCount(2);
     ui->teamTable->setColumnCount(4);
     ui->teamTable->setHorizontalHeaderLabels({"First name","Last name", "Email", "Role"});
+
+    //Call the query here bro
+
+    qDebug()<<"Passed-UserID: " <<userrole_id;
+    TeamMember_ProjectsWindow *Roleid = new TeamMember_ProjectsWindow; // instantiate the object
+    int userrole_id1 = Roleid->getRoleID();
+    qDebug()<<"From an Obejct of Team Class: "<<userrole_id;
+    UserSpecificView(userrole_id1);
+
+
+
+
 
     //ui->user_stories->setColumnCount(3); // Add a new column for priority
     //ui->user_stories->setHorizontalHeaderLabels({"Userstory", "Description", "Priority"}); // Set column headers
@@ -188,6 +201,18 @@ parentboard::parentboard(QWidget *parent) :
 
 }
 
+
+void parentboard::UserSpecificView(int value){
+
+    if(value == 3){
+    ui->sprintsButton->setVisible(false);
+    ui->backlogButton->setVisible(false);
+    ui->teamButton->setVisible(false);
+    }else{
+    }
+}
+
+
 void parentboard::displayBacklogOnMaximized() {
     auto pbProductBacklogObj = std::make_unique<pb_productbacklog_implementation>(this);
     pbProductBacklogObj->RetrieveAndDisplayBacklog();
@@ -296,6 +321,13 @@ int parentboard::setProjectId(int id) {
 int parentboard::getProjectId() const {
     return currentProjectId;
 }
+
+int parentboard::setUserRoleID(int RoleID) {
+    userrole_id = RoleID;
+    qDebug() << "setUserRoleID: " << userrole_id;
+    return userrole_id;
+}
+
 //------------------------------------------------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------------------------------------------------------------------------

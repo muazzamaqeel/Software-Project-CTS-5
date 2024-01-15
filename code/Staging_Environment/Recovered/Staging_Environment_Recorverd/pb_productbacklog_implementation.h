@@ -76,7 +76,11 @@ public slots:
     void deleteTaskFromDatabase(int taskID);
     void SendToSprint(int taskID, const QString& title, const QString& description, const QString& status, int priority, const QString& assigneeId, const QString& selectedSprint);
     void onHeaderClicked(int column);
-
+    QString priorityToString(int priority);
+    int priorityToInt(QString& priorityString);
+    void onPriorityChanged(int taskID, QString& Priority);
+    QString getAssigneeFromRow(QTableWidget* table, int row);
+    QString getStatusFromRow(QTableWidget* table, int row);
 private:
     parentboard* parentBoard; // Reference to the parent board
     QMap<int, UserStoryDetails> storyMap; // Map for storing UserStoryDetails objects
