@@ -52,9 +52,7 @@ parentboard::parentboard(QWidget *parent) :
 
     qDebug()<<"Passed-UserID: " <<userrole_id;
     TeamMember_ProjectsWindow *Roleid = new TeamMember_ProjectsWindow; // instantiate the object
-    int userrole_id1 = Roleid->getRoleID();
     qDebug()<<"From an Obejct of Team Class: "<<userrole_id;
-    UserSpecificView(userrole_id1);
 
 
 
