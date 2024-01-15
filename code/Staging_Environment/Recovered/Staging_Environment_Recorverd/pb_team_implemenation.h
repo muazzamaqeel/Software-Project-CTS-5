@@ -19,6 +19,7 @@ public slots:
     void on_createuser_clicked();
     void UserRetrieval();
     void HideUserProperties();
+    void ShowUserProperties();
     void AddRowUser(const QString& firstNameInput,const QString& lastNameInput, const QString& emailInput, const QString& roleInput);
 private:
         parentboard* parentBoard;

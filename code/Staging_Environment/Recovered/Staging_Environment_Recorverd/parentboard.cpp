@@ -144,6 +144,7 @@ parentboard::parentboard(QWidget *parent) :
     //  PB_Team  ---------------------------------- Calls
     //  PB_Team  ---------------------------------- Calls
 
+    connect(ui->button_inviteUser, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::ShowUserProperties);
     connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
     connect(ui->teamButton, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::UserRetrieval);
     teamPagePtr->HideUserProperties();
@@ -415,6 +416,10 @@ QPushButton* parentboard::getCreateUserButton()
     return ui->CreateUser_Button;
 }
 
+QComboBox* parentboard::getComboBoxRole()
+{
+    return ui->comboBox_role;
+}
 QTextBrowser* parentboard::getDisplayFirstName()
 {
     return ui->display_firstname;

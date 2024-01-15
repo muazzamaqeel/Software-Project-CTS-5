@@ -96,12 +96,22 @@ void pb_team_implemenation::AddRowUser(const QString& firstNameInput, const QStr
 
 }
 
+void pb_team_implemenation::ShowUserProperties()
+{
+    parentBoard->getCreateUserButton()->setVisible(true);
+    parentBoard->getDisplayFirstName()->setVisible(true);
+    parentBoard->getDisplayRole()->setVisible(true);
+    parentBoard->getInputFirstName()->setVisible(true);
+    parentBoard->getComboBoxRole()->setVisible(true);
+}
+
 void pb_team_implemenation::HideUserProperties()
 {
     parentBoard->getCreateUserButton()->setVisible(false);
     parentBoard->getDisplayFirstName()->setVisible(false);
     parentBoard->getDisplayRole()->setVisible(false);
     parentBoard->getInputFirstName()->setVisible(false);
+    parentBoard->getComboBoxRole()->setVisible(false);
 }
 
 void pb_team_implemenation::on_teamTab_opened()

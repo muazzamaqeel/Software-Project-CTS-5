@@ -52,6 +52,7 @@ public:
     QTextBrowser* getDisplayFirstName();
     QTextBrowser* getDisplayRole();
     QLineEdit* getInputFirstName();
+    QComboBox* getComboBoxRole();
 
     QComboBox* getInputAssignee();
     QTextEdit* getInputDescription();
