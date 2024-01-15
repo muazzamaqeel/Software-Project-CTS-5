@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>parentboard</class>
  <widget class="QWidget" name="parentboard">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -9,6 +12,12 @@
     <width>1280</width>
     <height>720</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
@@ -18,8 +27,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>1280</width>
-    <height>720</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -42,48 +51,11 @@
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
-background-color: rgb(200, 200, 200);
+background-color: white;
 }</string>
    </property>
    <property name="text">
     <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="logo">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>150</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>150</width>
-     <height>20</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>150</width>
-     <height>20</height>
-    </size>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap>../../../../../../../Wireframes/psd/Logo.svg</pixmap>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="indent">
-    <number>0</number>
    </property>
   </widget>
   <widget class="QStackedWidget" name="stackedWidget">
@@ -108,7 +80,7 @@ background-color: rgb(200, 200, 200);
     </size>
    </property>
    <property name="currentIndex">
-    <number>5</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -116,66 +88,6 @@ background-color: rgb(200, 200, 200);
 background-color: white;
 }</string>
     </property>
-    <widget class="QLabel" name="selectorT">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>1280</width>
-       <height>5</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>1280</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-background-color: rgb(150, 150, 150);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="selectorbarT">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>0</y>
-       <width>150</width>
-       <height>5</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>999999</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-background-color: rgb(0, 255, 44);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
     <widget class="QLabel" name="toplabelT">
      <property name="geometry">
       <rect>
@@ -200,7 +112,7 @@ background-color: rgb(0, 255, 44);
      <property name="styleSheet">
       <string notr="true">QLabel {
 font: 13pt &quot;Arial&quot;;
-background-color: rgb(200, 200, 200);
+background-color: #9EB3C0;
 color: rgb(0, 0, 0);
 }</string>
      </property>
@@ -211,7 +123,7 @@ color: rgb(0, 0, 0);
     <widget class="QComboBox" name="sprintDropdownT">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>110</x>
        <y>15</y>
        <width>250</width>
        <height>40</height>
@@ -219,7 +131,7 @@ color: rgb(0, 0, 0);
      </property>
      <property name="minimumSize">
       <size>
-       <width>128</width>
+       <width>104</width>
        <height>40</height>
       </size>
      </property>
@@ -292,7 +204,7 @@ QComboBox QAbstractItemView::item {
 }
 
 QComboBox QAbstractItemView::item:selected {
-    background-color: rgb(172, 255, 162);
+    background-color: #99DAFF;
     color: black;
     border-radius: 4px;
 }
@@ -320,7 +232,7 @@ QComboBox QAbstractItemView::item:selected {
     <widget class="QLabel" name="labelDateT">
      <property name="geometry">
       <rect>
-       <x>290</x>
+       <x>380</x>
        <y>25</y>
        <width>141</width>
        <height>21</height>
@@ -334,6 +246,7 @@ QComboBox QAbstractItemView::item:selected {
      <property name="styleSheet">
       <string notr="true">QLabel {
 color: black;
+border-radius: 4px;
 qproperty-alignment: 'AlignCenter';
 }</string>
      </property>
@@ -433,7 +346,7 @@ QTreeWidget::item:!has-children:selected {
 
 /* QHeaderView Sections (Individual Columns) */
 QHeaderView::section {
-    background-color: rgb(100, 100, 100);
+    background-color: #22344C;;
     color: white;
     padding: 4px;
     border: 1px solid white;
@@ -751,7 +664,7 @@ QComboBox QAbstractItemView::item {
 }
 
 QComboBox QAbstractItemView::item:selected {
-    background-color: rgb(172, 255, 162);
+    background-color: #99DAFF;
     color: black;
     border-radius: 4px;
 }
@@ -825,7 +738,7 @@ QComboBox QAbstractItemView::item {
 }
 
 QComboBox QAbstractItemView::item:selected {
-    background-color: rgb(172, 255, 162);
+    background-color: #99DAFF;
     color: black;
     border-radius: 4px;
 }
@@ -952,152 +865,152 @@ font-weight: bold;
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Sprint&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QWidget" name="layoutWidget">
+       <widget class="QPushButton" name="Button_CreateTaskT">
         <property name="geometry">
          <rect>
-          <x>80</x>
+          <x>120</x>
           <y>500</y>
-          <width>360</width>
-          <height>42</height>
+          <width>110</width>
+          <height>40</height>
          </rect>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QPushButton" name="Button_CreateUserStoryT">
-           <property name="minimumSize">
-            <size>
-             <width>110</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>110</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton {
-    background-color: #2D2D2D; /* Dark grey background */
+        <property name="minimumSize">
+         <size>
+          <width>110</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>110</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #22344C; /* Dark grey background */
     color: white; /* White text */
     border-radius: 5px; /* Rounded corners */
     padding: 10px 20px; /* Padding around text */
     font-size: 18px; /* Font size */
     border: none; /* No border */
     text-align: center; /* Center text */
-    /* Removed unsupported properties: display, transition, cursor */
 }
 
 QPushButton:hover {
     background-color: #3A3A3A; /* Slightly lighter grey on hover */
-    /* Qt does not support box-shadow directly */
 }
 
 QPushButton:pressed {
     background-color: #1A1A1A; /* Even lighter grey for pressed state */
-    /* Removed unsupported box-shadow */
 }
 </string>
-           </property>
-           <property name="text">
-            <string>Create</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="Button_CreateTaskT">
-           <property name="minimumSize">
-            <size>
-             <width>110</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>110</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton {
-    background-color: #2D2D2D; /* Dark grey background */
+        </property>
+        <property name="text">
+         <string>Create</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="delete_itemT">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>500</y>
+          <width>110</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>110</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>110</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #22344C; /* Dark grey background */
     color: white; /* White text */
     border-radius: 5px; /* Rounded corners */
     padding: 10px 20px; /* Padding around text */
     font-size: 18px; /* Font size */
     border: none; /* No border */
     text-align: center; /* Center text */
-    /* Removed unsupported properties: display, transition, cursor */
 }
 
 QPushButton:hover {
     background-color: #3A3A3A; /* Slightly lighter grey on hover */
-    /* Qt does not support box-shadow directly */
 }
 
 QPushButton:pressed {
     background-color: #1A1A1A; /* Even lighter grey for pressed state */
-    /* Removed unsupported box-shadow */
 }
 </string>
-           </property>
-           <property name="text">
-            <string>Create</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="delete_itemT">
-           <property name="minimumSize">
-            <size>
-             <width>110</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>110</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton {
-    background-color: #2D2D2D; /* Dark grey background */
+        </property>
+        <property name="text">
+         <string>Delete</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="Button_CreateUserStoryT">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>500</y>
+          <width>110</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>110</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>110</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #22344C; /* Dark grey background */
     color: white; /* White text */
     border-radius: 5px; /* Rounded corners */
     padding: 10px 20px; /* Padding around text */
     font-size: 18px; /* Font size */
     border: none; /* No border */
     text-align: center; /* Center text */
-    /* Removed unsupported properties: display, transition, cursor */
 }
 
 QPushButton:hover {
     background-color: #3A3A3A; /* Slightly lighter grey on hover */
-    /* Qt does not support box-shadow directly */
 }
 
 QPushButton:pressed {
     background-color: #1A1A1A; /* Even lighter grey for pressed state */
-    /* Removed unsupported box-shadow */
 }
 </string>
-           </property>
-           <property name="text">
-            <string>Delete</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        </property>
+        <property name="text">
+         <string>Create</string>
+        </property>
        </widget>
       </widget>
      </widget>
@@ -1105,21 +1018,21 @@ QPushButton:pressed {
     <widget class="QPushButton" name="newtaskButtonT">
      <property name="geometry">
       <rect>
-       <x>1145</x>
+       <x>1045</x>
        <y>15</y>
-       <width>110</width>
+       <width>120</width>
        <height>40</height>
       </rect>
      </property>
      <property name="minimumSize">
       <size>
-       <width>110</width>
+       <width>120</width>
        <height>40</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>110</width>
+       <width>120</width>
        <height>40</height>
       </size>
      </property>
@@ -1127,94 +1040,205 @@ QPushButton:pressed {
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton {
-    background-color: #2D2D2D; /* Dark grey background */
+      <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #22344C; /* Dark grey background */
     color: white; /* White text */
     border-radius: 5px; /* Rounded corners */
     padding: 10px 20px; /* Padding around text */
     font-size: 18px; /* Font size */
     border: none; /* No border */
     text-align: center; /* Center text */
-    /* Removed unsupported properties: display, transition, cursor */
 }
 
 QPushButton:hover {
     background-color: #3A3A3A; /* Slightly lighter grey on hover */
-    /* Qt does not support box-shadow directly */
 }
 
 QPushButton:pressed {
     background-color: #1A1A1A; /* Even lighter grey for pressed state */
-    /* Removed unsupported box-shadow */
+}
+
+/* Styles for QPushButton when checked (selected) */
+QPushButton:checked {
+    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
 }
 </string>
      </property>
      <property name="text">
-      <string>New Task</string>
+      <string>Task</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="newtUserStoryButtonT_2">
+     <property name="geometry">
+      <rect>
+       <x>911</x>
+       <y>15</y>
+       <width>120</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>120</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>120</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #22344C; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+}
+
+/* Styles for QPushButton when checked (selected) */
+QPushButton:checked {
+    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
+}
+</string>
+     </property>
+     <property name="text">
+      <string>UserStory</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>800</x>
+       <y>5</y>
+       <width>71</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>12</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+background-color: #22344C;
+color: white;
+line-height: 0.5;
+font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial'; font-size:12pt; font-weight:700; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt;&quot;&gt;CREATE&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:100%;&quot;&gt;NEW&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>5</y>
+       <width>20</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+background-color: #9DEBFF;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>5</y>
+       <width>20</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+background-color: #9DEBFF;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>5</y>
+       <width>71</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>12</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+background-color: #22344C;
+color: white;
+line-height: 0.5;
+font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial'; font-size:12pt; font-weight:700; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt;&quot;&gt;SPRINT&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:100%;&quot;&gt;INFO&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </widget>
    <widget class="QWidget" name="backlogPage">
-    <widget class="QLabel" name="selectorB">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>1280</width>
-       <height>5</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>1280</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-background-color: rgb(150, 150, 150);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="selectorbarB">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>0</y>
-       <width>150</width>
-       <height>5</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>999999</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-background-color: rgb(0, 255, 44);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
     <widget class="QScrollArea" name="scrollAreaB">
      <property name="geometry">
       <rect>
@@ -1271,8 +1295,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;User Stories &amp;amp; Tasks&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:12pt;&quot;&gt;User Stories &amp;amp; Tasks&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
       <widget class="QTableWidget" name="user_stories">
@@ -1371,8 +1395,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Title&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Title&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QTextBrowser" name="CreatePriority">
@@ -1391,8 +1415,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Priority&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Priority&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QTextBrowser" name="CreateStatus">
@@ -1411,8 +1435,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Status&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Status&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QTextBrowser" name="CreateDescription">
@@ -1431,8 +1455,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Description&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Description&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QPushButton" name="Button_CreateUserStory">
@@ -1526,8 +1550,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Assignee&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Assignee&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QTextBrowser" name="CreateHeader">
@@ -1607,8 +1631,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Selected Sprint&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Selected Sprint&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
        <widget class="QComboBox" name="BL_SprintDropDown">
@@ -1937,8 +1961,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Email&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Email&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QTextBrowser" name="display_role">
@@ -1957,8 +1981,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Role&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Role&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="input_firstname">
@@ -2018,36 +2042,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
       </property>
      </widget>
     </widget>
-    <widget class="QLabel" name="selectorB_4">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>1280</width>
-       <height>5</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>1280</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-background-color: rgb(150, 150, 150);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
     <widget class="QLabel" name="toplabelB_3">
      <property name="geometry">
       <rect>
@@ -2080,36 +2074,6 @@ color: rgb(0, 0, 0);
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="selectorbarB_3">
-     <property name="geometry">
-      <rect>
-       <x>670</x>
-       <y>0</y>
-       <width>150</width>
-       <height>5</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>999999</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-background-color: rgb(0, 255, 44);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
     <widget class="QTableWidget" name="teamTable">
      <property name="geometry">
       <rect>
@@ -2122,66 +2086,6 @@ background-color: rgb(0, 255, 44);
     </widget>
    </widget>
    <widget class="QWidget" name="sprintsPage">
-    <widget class="QLabel" name="selectorS">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>1280</width>
-       <height>5</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>1280</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-background-color: rgb(150, 150, 150);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="selectorbarS">
-     <property name="geometry">
-      <rect>
-       <x>520</x>
-       <y>0</y>
-       <width>150</width>
-       <height>5</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>999999</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-background-color: rgb(0, 255, 44);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
     <widget class="QListView" name="sprint_listView">
      <property name="geometry">
       <rect>
@@ -2320,70 +2224,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;transparent&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;transparent&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Arial'; font-size:12pt;&quot;&gt;01.12 - 8.12&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="selectorB_2">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>1280</width>
-       <height>5</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>1280</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-background-color: rgb(150, 150, 150);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="toplabelB_2">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>5</y>
-       <width>1280</width>
-       <height>60</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>1280</width>
-       <height>60</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>1280</width>
-       <height>60</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-font: 13pt &quot;Arial&quot;;
-background-color: rgb(200, 200, 200);
-color: rgb(0, 0, 0);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
      </property>
     </widget>
     <widget class="QTableWidget" name="sprint_table">
@@ -2853,10 +2695,6 @@ color: rgb(255, 255, 255);
       </property>
      </widget>
     </widget>
-    <zorder>toplabelB_2</zorder>
-    <zorder>selectorB_2</zorder>
-    <zorder>selectorS</zorder>
-    <zorder>selectorbarS</zorder>
     <zorder>sprint_listView</zorder>
     <zorder>sprint_top_down</zorder>
     <zorder>sprint_create_button</zorder>
@@ -2868,66 +2706,6 @@ color: rgb(255, 255, 255);
     <zorder>sprint_table</zorder>
    </widget>
    <widget class="QWidget" name="confluencePage">
-    <widget class="QLabel" name="selectorC">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>1280</width>
-       <height>5</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>1280</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-background-color: rgb(150, 150, 150);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="selectorbarC">
-     <property name="geometry">
-      <rect>
-       <x>840</x>
-       <y>0</y>
-       <width>150</width>
-       <height>5</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>999999</width>
-       <height>5</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-background-color: rgb(0, 255, 44);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
     <widget class="QTreeWidget" name="userTaskTreeWidget_2">
      <property name="geometry">
       <rect>
@@ -3066,9 +2844,9 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Confluence Space&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Segoe UI'; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:12pt;&quot;&gt;Confluence Space&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QPushButton" name="ButtonGroup_Confluence">
@@ -3112,8 +2890,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QTextEdit" name="InputTitle_2">
@@ -3142,8 +2920,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Group&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:11pt;&quot;&gt;Group&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QTextBrowser" name="Confluence_HeadingText">
@@ -3162,8 +2940,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Group Creation&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:16pt;&quot;&gt;Group Creation&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="Button_Create_Confluence">
@@ -3261,7 +3039,7 @@ color: rgb(255, 255, 255);
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page">
+   <widget class="QWidget" name="calendarPage">
     <widget class="QCalendarWidget" name="calendarWidget">
      <property name="geometry">
       <rect>
@@ -3277,63 +3055,12 @@ color: rgb(255, 255, 255);
     </widget>
    </widget>
   </widget>
-  <widget class="QPushButton" name="exitButton">
-   <property name="geometry">
-    <rect>
-     <x>1190</x>
-     <y>10</y>
-     <width>80</width>
-     <height>40</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>80</width>
-     <height>40</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>80</width>
-     <height>40</height>
-    </size>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton {
-    background-color: #2D2D2D; /* Dark grey background */
-    color: white; /* White text */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 20px; /* Padding around text */
-    font-size: 18px; /* Font size */
-    border: none; /* No border */
-    text-align: center; /* Center text */
-    /* Removed unsupported properties: display, transition, cursor */
-}
-
-QPushButton:hover {
-    background-color: #3A3A3A; /* Slightly lighter grey on hover */
-    /* Qt does not support box-shadow directly */
-}
-
-QPushButton:pressed {
-    background-color: #1A1A1A; /* Even lighter grey for pressed state */
-    /* Removed unsupported box-shadow */
-}
-</string>
-   </property>
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>-10</x>
+     <x>0</x>
      <y>0</y>
-     <width>1171</width>
+     <width>1281</width>
      <height>62</height>
     </rect>
    </property>
@@ -3345,8 +3072,67 @@ QPushButton:pressed {
      <enum>QLayout::SetMinimumSize</enum>
     </property>
     <property name="leftMargin">
-     <number>190</number>
+     <number>20</number>
     </property>
+    <property name="rightMargin">
+     <number>20</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="logoScrummy">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>110</width>
+        <height>60</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>2</width>
+        <height>1</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="assets/resources.qrc">:/LogoScrummy.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+      <property name="margin">
+       <number>5</number>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Minimum</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>70</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
     <item>
      <widget class="QPushButton" name="taskboardButton">
       <property name="sizePolicy">
@@ -3371,25 +3157,28 @@ QPushButton:pressed {
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-    background-color: #2D2D2D; /* Dark grey background */
+       <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #22344C; /* Dark grey background */
     color: white; /* White text */
     border-radius: 5px; /* Rounded corners */
     padding: 10px 20px; /* Padding around text */
     font-size: 18px; /* Font size */
     border: none; /* No border */
     text-align: center; /* Center text */
-    /* Removed unsupported properties: display, transition, cursor */
 }
 
 QPushButton:hover {
     background-color: #3A3A3A; /* Slightly lighter grey on hover */
-    /* Qt does not support box-shadow directly */
 }
 
 QPushButton:pressed {
     background-color: #1A1A1A; /* Even lighter grey for pressed state */
-    /* Removed unsupported box-shadow */
+}
+
+/* Styles for QPushButton when checked (selected) */
+QPushButton:checked {
+    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
 }
 </string>
       </property>
@@ -3431,25 +3220,28 @@ QPushButton:pressed {
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-    background-color: #2D2D2D; /* Dark grey background */
+       <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #22344C; /* Dark grey background */
     color: white; /* White text */
     border-radius: 5px; /* Rounded corners */
     padding: 10px 20px; /* Padding around text */
     font-size: 18px; /* Font size */
     border: none; /* No border */
     text-align: center; /* Center text */
-    /* Removed unsupported properties: display, transition, cursor */
 }
 
 QPushButton:hover {
     background-color: #3A3A3A; /* Slightly lighter grey on hover */
-    /* Qt does not support box-shadow directly */
 }
 
 QPushButton:pressed {
     background-color: #1A1A1A; /* Even lighter grey for pressed state */
-    /* Removed unsupported box-shadow */
+}
+
+/* Styles for QPushButton when checked (selected) */
+QPushButton:checked {
+    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
 }
 </string>
       </property>
@@ -3491,25 +3283,28 @@ QPushButton:pressed {
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-    background-color: #2D2D2D; /* Dark grey background */
+       <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #22344C; /* Dark grey background */
     color: white; /* White text */
     border-radius: 5px; /* Rounded corners */
     padding: 10px 20px; /* Padding around text */
     font-size: 18px; /* Font size */
     border: none; /* No border */
     text-align: center; /* Center text */
-    /* Removed unsupported properties: display, transition, cursor */
 }
 
 QPushButton:hover {
     background-color: #3A3A3A; /* Slightly lighter grey on hover */
-    /* Qt does not support box-shadow directly */
 }
 
 QPushButton:pressed {
     background-color: #1A1A1A; /* Even lighter grey for pressed state */
-    /* Removed unsupported box-shadow */
+}
+
+/* Styles for QPushButton when checked (selected) */
+QPushButton:checked {
+    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
 }
 </string>
       </property>
@@ -3551,25 +3346,28 @@ QPushButton:pressed {
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-    background-color: #2D2D2D; /* Dark grey background */
+       <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #22344C; /* Dark grey background */
     color: white; /* White text */
     border-radius: 5px; /* Rounded corners */
     padding: 10px 20px; /* Padding around text */
     font-size: 18px; /* Font size */
     border: none; /* No border */
     text-align: center; /* Center text */
-    /* Removed unsupported properties: display, transition, cursor */
 }
 
 QPushButton:hover {
     background-color: #3A3A3A; /* Slightly lighter grey on hover */
-    /* Qt does not support box-shadow directly */
 }
 
 QPushButton:pressed {
     background-color: #1A1A1A; /* Even lighter grey for pressed state */
-    /* Removed unsupported box-shadow */
+}
+
+/* Styles for QPushButton when checked (selected) */
+QPushButton:checked {
+    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
 }
 </string>
       </property>
@@ -3611,25 +3409,28 @@ QPushButton:pressed {
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
-    background-color: #2D2D2D; /* Dark grey background */
+       <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #22344C; /* Dark grey background */
     color: white; /* White text */
     border-radius: 5px; /* Rounded corners */
     padding: 10px 20px; /* Padding around text */
     font-size: 18px; /* Font size */
     border: none; /* No border */
     text-align: center; /* Center text */
-    /* Removed unsupported properties: display, transition, cursor */
 }
 
 QPushButton:hover {
     background-color: #3A3A3A; /* Slightly lighter grey on hover */
-    /* Qt does not support box-shadow directly */
 }
 
 QPushButton:pressed {
     background-color: #1A1A1A; /* Even lighter grey for pressed state */
-    /* Removed unsupported box-shadow */
+}
+
+/* Styles for QPushButton when checked (selected) */
+QPushButton:checked {
+    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
 }
 </string>
       </property>
@@ -3648,7 +3449,7 @@ QPushButton:pressed {
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="meetingButton">
+     <widget class="QPushButton" name="calendarButton">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -3665,6 +3466,79 @@ QPushButton:pressed {
        <size>
         <width>150</width>
         <height>55</height>
+       </size>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #22344C; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+}
+
+/* Styles for QPushButton when checked (selected) */
+QPushButton:checked {
+    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
+}
+</string>
+      </property>
+      <property name="text">
+       <string>Calendar</string>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
+      </property>
+      <property name="default">
+       <bool>false</bool>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Minimum</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>60</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="exitButton">
+      <property name="minimumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
        </size>
       </property>
       <property name="autoFillBackground">
@@ -3694,52 +3568,15 @@ QPushButton:pressed {
 </string>
       </property>
       <property name="text">
-       <string>Calander</string>
-      </property>
-      <property name="autoDefault">
-       <bool>false</bool>
-      </property>
-      <property name="default">
-       <bool>false</bool>
-      </property>
-      <property name="flat">
-       <bool>false</bool>
+       <string>Exit</string>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
-  <widget class="QLabel" name="selectorbarB_2">
-   <property name="geometry">
-    <rect>
-     <x>1320</x>
-     <y>170</y>
-     <width>100</width>
-     <height>5</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>100</width>
-     <height>5</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>999999</width>
-     <height>5</height>
-    </size>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-background-color: rgb(0, 255, 44);
-}</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="assets/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

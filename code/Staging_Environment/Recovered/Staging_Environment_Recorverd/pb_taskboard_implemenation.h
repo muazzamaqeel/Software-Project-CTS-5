@@ -34,10 +34,15 @@ public slots:
     void generateUnassigned();
     void fetchSprintDates();
     void generateUserTaskTree();
-    void HideShow_CreateSectionTaskboard(bool);
+    void HideShow_CreateSectionTaskboard();
     void showCreateUseStoryTaskboard();
     void showCreateTaskTaskboard();
     void showCreate_Taskboard();
+    void deleteItemTaskboard();
+    void createNewItemInDatabase();
+
+private:
+    // QMap<QString, QTreeWidgetItem*> userItemMap;
 
 };
 

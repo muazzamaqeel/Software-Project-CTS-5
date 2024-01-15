@@ -157,7 +157,13 @@ private slots:
     void on_sprintsButton_clicked();
     void on_confluenceButton_clicked();
     void goBackToMainWindow();
-    void on_meetingButton_clicked();
+    void on_calendarButton_clicked();
+
+
+protected:
+    // Resize
+    // void resizeEvent(QResizeEvent *event) override;
+
 private:
 
     Ui::parentboard *ui;
