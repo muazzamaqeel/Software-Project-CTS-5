@@ -18,6 +18,13 @@
 #include <QGraphicsPixmapItem>
 #include <QPainter>
 #include <QKeyEvent>
+#include <QLabel>
+#include <QPixmap>
+#include <QGraphicsBlurEffect>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include <QPainter>
+
 
 // Constructor of MainWindow Class
 MainWindow::MainWindow(QWidget *parent)
@@ -25,30 +32,39 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    // For Background
-    QPixmap pix("C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/Recovered/Staging_Environment_Recorverd/assets/MainWindowbg.jpg");
-    // Create a blur effect
-    QGraphicsBlurEffect *blurEffect = new QGraphicsBlurEffect;
-    blurEffect->setBlurRadius(10); // Adjust the blur radius as needed
+    ui->input_password->setEchoMode(QLineEdit::Password);
 
-    // Create a scene and pixmap item
-    QGraphicsScene scene;
-    QGraphicsPixmapItem item;
-    item.setPixmap(pix);
-    item.setGraphicsEffect(blurEffect);
+    QLabel bg_main;
+    QPixmap pix("qrc:/MainWindowbg.png");
 
-    // Render the scene to a new QPixmap
-    scene.addItem(&item);
-    QPixmap blurredPixmap(pix.size());
-    blurredPixmap.fill(Qt::transparent);
-    QPainter painter(&blurredPixmap);
-    scene.render(&painter);
+    if (!pix.isNull()) {
+        // Create a blur effect
+        QGraphicsBlurEffect *blurEffect = new QGraphicsBlurEffect();
+        blurEffect->setBlurRadius(30); // Increased blur radius for visibility
 
-    // Set the blurred pixmap as the background
-    ui->bg_main->setPixmap(blurredPixmap);
+        // Create a scene and a pixmap item
+        QGraphicsScene scene;
+        scene.setSceneRect(pix.rect()); // Set the scene size to the pixmap size
 
-    QPixmap logo("C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/Recovered/Staging_Environment_Recorverd/assets/Scrummy_transparent.png");
-    ui->logo->setPixmap(logo);
+        QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pix);
+        item->setGraphicsEffect(blurEffect);
+        scene.addItem(item);
+
+        // Render the scene with the blur effect into a new pixmap
+        QPixmap blurred(pix.size());
+        blurred.fill(Qt::transparent); // Ensure the pixmap is transparent
+        QPainter painter(&blurred);
+        scene.render(&painter, QRectF(), QRectF(0, 0, pix.width(), pix.height()));
+        painter.end();
+
+        // Set the blurred pixmap as the background
+        bg_main.setPixmap(blurred);
+    } else {
+        // Handle the case where the image failed to load
+        qDebug() << "Failed to load the image.";
+    }
+
+
 
     //Buttons on the mainwindow
     // Using the connect function to call the openRegistrationWindow() function

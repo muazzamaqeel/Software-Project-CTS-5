@@ -509,6 +509,9 @@ QPushButton:pressed {
     <property name="text">
      <string/>
     </property>
+    <property name="pixmap">
+     <pixmap resource="assets/resources.qrc">:/MainWindowbg.png</pixmap>
+    </property>
    </widget>
    <widget class="QLabel" name="logo">
     <property name="geometry">
@@ -602,12 +605,14 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="assets/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

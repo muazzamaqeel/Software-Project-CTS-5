@@ -15,6 +15,10 @@
 #include "pb_team_implemenation.h"
 #include "pb_taskboard_implemenation.h"
 #include "pb_productbacklog_implementation_extension.h"
+#include "teammember_projectswindow.h"
+
+// Temp - Scalability
+#include "QtGui/qevent.h"
 
 parentboard* parentboard::instance = nullptr;
 
@@ -27,10 +31,32 @@ parentboard::parentboard(QWidget *parent) :
     ui->setupUi(this);
     isTeamTableActive = false;
 
+    QLabel logoScrummy;
+    QPixmap logo("qrc:/LogoScrummy.png");
+    logoScrummy.setPixmap(logo);
+
+    // Bottom border of buttons
+    ui->taskboardButton->setCheckable(true);
+    ui->backlogButton->setCheckable(true);
+    ui->sprintsButton->setCheckable(true);
+    ui->teamButton->setCheckable(true);
+    ui->confluenceButton->setCheckable(true);
+    ui->calendarButton->setCheckable(true);
+
     taskModel = new QStandardItemModel(this);
     taskModel->setColumnCount(2);
     ui->teamTable->setColumnCount(4);
     ui->teamTable->setHorizontalHeaderLabels({"First name","Last name", "Email", "Role"});
+
+    //Call the query here bro
+
+    qDebug()<<"Passed-UserID: " <<userrole_id;
+    TeamMember_ProjectsWindow *Roleid = new TeamMember_ProjectsWindow; // instantiate the object
+    qDebug()<<"From an Obejct of Team Class: "<<userrole_id;
+
+
+
+
 
     //ui->user_stories->setColumnCount(3); // Add a new column for priority
     //ui->user_stories->setHorizontalHeaderLabels({"Userstory", "Description", "Priority"}); // Set column headers
@@ -158,11 +184,33 @@ parentboard::parentboard(QWidget *parent) :
     pb_taskboard_implemenation *pbTaskboardBObj = new pb_taskboard_implemenation(obj);
     connect(ui->taskboardButton,&QPushButton::clicked,pbTaskboardBObj,&pb_taskboard_implemenation::pb_taskboard_Retrieval);
 
-    // Create Task
-    // connect(ui->newtaskButtonT, &QPushButton::clicked, pbSprintObj, &pb_taskboard_implemenation::on_createtask_sprint_clicked);
-    // connect(ui->delete_itemT,&QPushButton::clicked,pbSprintBObj,&pb_taskboard_implemenation::onDeleteButtonClicked);
+    // Create Task or UserStory
+    connect(ui->newtaskButtonT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::showCreateTaskTaskboard);
+    connect(ui->newtUserStoryButtonT_2, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::showCreateUseStoryTaskboard);
+
+    // Delete Task or UserStory
+    connect(ui->delete_itemT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::deleteItemTaskboard);
+
+
+
+
+    //  PB_Calendar ---------------------------------- Calls
+    //  PB_Calendar ---------------------------------- Calls
+    connect(ui->calendarButton, SIGNAL(clicked()), this, SLOT(on_calendarButton_clicked()));
 
 }
+
+
+void parentboard::UserSpecificView(int value){
+
+    if(value == 3){
+    ui->sprintsButton->setVisible(false);
+    ui->backlogButton->setVisible(false);
+    ui->teamButton->setVisible(false);
+    }else{
+    }
+}
+
 
 void parentboard::displayBacklogOnMaximized() {
     auto pbProductBacklogObj = std::make_unique<pb_productbacklog_implementation>(this);
@@ -189,6 +237,12 @@ parentboard::~parentboard()
 
 void parentboard::on_taskboardButton_clicked()
 {
+    ui->taskboardButton->setChecked(true);
+    ui->backlogButton->setChecked(false);
+    ui->teamButton->setChecked(false);
+    ui->sprintsButton->setChecked(false);
+    ui->confluenceButton->setChecked(false);
+    ui->calendarButton->setChecked(false);
     ui->stackedWidget->setCurrentIndex(0);
     const int numOfRowsToAdd = 3;
 }
@@ -197,21 +251,58 @@ void parentboard::on_Issue_selected(){
 }
 void parentboard::on_backlogButton_clicked()
 {
+    ui->backlogButton->setChecked(true);
+    ui->taskboardButton->setChecked(false);
+    ui->teamButton->setChecked(false);
+    ui->sprintsButton->setChecked(false);
+    ui->confluenceButton->setChecked(false);
+    ui->calendarButton->setChecked(false);
     ui->stackedWidget->setCurrentIndex(1);
     const int numOfRowsToAdd = 3;
 }
-void parentboard::on_teamButton_clicked(){
+void parentboard::on_teamButton_clicked()
+{
+    ui->teamButton->setChecked(true);
+    ui->backlogButton->setChecked(false);
+    ui->taskboardButton->setChecked(false);
+    ui->sprintsButton->setChecked(false);
+    ui->confluenceButton->setChecked(false);
+    ui->calendarButton->setChecked(false);
     ui->stackedWidget->setCurrentIndex(2);
 }
 void parentboard::on_sprintsButton_clicked()
 {
+    ui->sprintsButton->setChecked(true);
+    ui->backlogButton->setChecked(false);
+    ui->teamButton->setChecked(false);
+    ui->taskboardButton->setChecked(false);
+    ui->confluenceButton->setChecked(false);
+    ui->calendarButton->setChecked(false);
     ui->stackedWidget->setCurrentIndex(3);
     const int numOfRowsToAdd = 3;
 }
 void parentboard::on_confluenceButton_clicked()
 {
+    ui->confluenceButton->setChecked(true);
+    ui->backlogButton->setChecked(false);
+    ui->teamButton->setChecked(false);
+    ui->sprintsButton->setChecked(false);
+    ui->taskboardButton->setChecked(false);
+    ui->calendarButton->setChecked(false);
     ui->stackedWidget->setCurrentIndex(4);
 }
+void parentboard::on_calendarButton_clicked()
+{
+    ui->calendarButton->setChecked(true);
+    ui->backlogButton->setChecked(false);
+    ui->teamButton->setChecked(false);
+    ui->sprintsButton->setChecked(false);
+    ui->confluenceButton->setChecked(false);
+    ui->taskboardButton->setChecked(false);
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
+
 
 void parentboard::goBackToMainWindow() {
     MainWindow* mainWindow = new MainWindow; // Create a new instance of the main window
@@ -229,6 +320,13 @@ int parentboard::setProjectId(int id) {
 int parentboard::getProjectId() const {
     return currentProjectId;
 }
+
+int parentboard::setUserRoleID(int RoleID) {
+    userrole_id = RoleID;
+    qDebug() << "setUserRoleID: " << userrole_id;
+    return userrole_id;
+}
+
 //------------------------------------------------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -566,10 +664,67 @@ QPushButton* parentboard::get_delete_itemT(){
 }
 
 
+// /// Resizing
+// void parentboard::resizeEvent(QResizeEvent *event) {
+//     // Call the base class implementation
+//     QWidget::resizeEvent(event);
+
+//     // new Width and Height
+//     int newWidth = event->size().width();
+//     int newHeight = event->size().height();
+
+//     // Parentboard Buttons
+//     QList<QPushButton*> buttons = {
+//         ui->taskboardButton,
+//         ui->backlogButton,
+//         ui->sprintsButton,
+//         ui->confluenceButton,
+//         ui->teamButton,
+//         ui->calendarButton
+//     };
+
+//     int totalButtons = buttons.size();
+//     int totalSpacing = 20;  // Spacing between buttons
+
+//     int buttonWidth = (newWidth - totalSpacing * (totalButtons - 1)) / totalButtons;
+//     int buttonHeight = newHeight / 18;
+
+//     for (QPushButton* button : buttons) {
+//         button->setFixedSize(buttonWidth, buttonHeight);
+//     }
+
+//     // For the stacked widget pages
+//     int pageCount = ui->stackedWidget->count();
+//     for (int i = 0; i < pageCount; ++i) {
+//         QWidget *pageWidget = ui->stackedWidget->widget(i);
+
+//         // backlogPage
+//         if (pageWidget == ui->backlogPage) {
+//             QList<QPushButton*> backlogButtons = {
+//                 ui->button_userstory,
+//                 ui->buttton_issue,
+//                 ui->delete_item,
+//                 ui->delete_item_UserStory
+//             };
+
+//             int totalBacklogButtons = backlogButtons.size();
+//             int totalBacklogSpacing = 20;  // Spacing between buttons
+
+//             int backlogButtonWidth = (newWidth - totalBacklogSpacing * (totalBacklogButtons - 1)) / totalBacklogButtons;
+//             int backlogButtonHeight = newHeight / 24;
+
+//             for (QPushButton* backlogButton : backlogButtons) {
+//                 backlogButton->setFixedSize(backlogButtonWidth, backlogButtonHeight);
+//             }
+//         }
+//     }
+// }
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 
 

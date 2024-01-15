@@ -90,9 +90,9 @@ public:
         }
         return instance;
     }
-
     int setProjectId(int id);
     int getProjectId() const;
+    int setUserRoleID(int RoleID);
 
     /// ------- Taskboard ---------
     QComboBox* getSprintDropdown() const;
@@ -158,12 +158,22 @@ private slots:
     void on_sprintsButton_clicked();
     void on_confluenceButton_clicked();
     void goBackToMainWindow();
+    void on_calendarButton_clicked();
+
+
+protected:
+    // Resize
+    // void resizeEvent(QResizeEvent *event) override;
+
+    void on_meetingButton_clicked();
+    void UserSpecificView(int value);
 private:
 
     Ui::parentboard *ui;
     QStandardItemModel *taskModel;
     int currentProjectId;
     static parentboard* instance;  // Static instance
+    int userrole_id;
 
     // Taskboard
     QVBoxLayout *scrollAreaLayout;

@@ -220,6 +220,7 @@ void pb_sprint_implemenation::AdditionalDetails(int row, int idSprint, const QSt
             );
         query1.bindValue(":projectID", PassedProjectID);
         query1.bindValue(":sprintID", idSprint);
+        QString priority1;
 
         if (query1.exec()) {
             qDebug() << "Tasks Retrieved Successfully!";
@@ -232,12 +233,22 @@ void pb_sprint_implemenation::AdditionalDetails(int row, int idSprint, const QSt
                 Table_SprintDetails->insertRow(currentRow);
                 Table_SprintDetails->setItem(currentRow, 0, new QTableWidgetItem(QString::number(idTask)));
                 Table_SprintDetails->setItem(currentRow, 1, new QTableWidgetItem(title));
-                Table_SprintDetails->setItem(currentRow, 2, new QTableWidgetItem(QString::number(priority)));
+
+                // Corrected priority assignment
+                if (priority == 1) {
+                    priority1 = "High";
+                } else if (priority == 2) {
+                    priority1 = "Medium";
+                } else if (priority == 3) {
+                    priority1 = "Low";
+                }
+                Table_SprintDetails->setItem(currentRow, 2, new QTableWidgetItem(priority1));
                 Table_SprintDetails->setItem(currentRow, 3, new QTableWidgetItem(status));
             }
         } else {
             qDebug() << "Error retrieving tasks:" << query1.lastError().text();
         }
+
     }
 }
 

@@ -305,9 +305,18 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
                 onTaskAssigneeChanged(taskID, newAssignee);
             });
 
+    QComboBox* itemPriority1 = new QComboBox();
+    itemPriority1->addItems({"High", "Medium", "Low"});
+    itemPriority1->setCurrentText(priorityToString(priority));
+    userStoriesTable->setCellWidget(rowCount, 6, itemPriority1);
+    connect(itemPriority1, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            [this, taskID, itemPriority1](int index) {
+                QString Priority = itemPriority1->currentText();
+                onPriorityChanged(taskID, Priority);
+            });
 
-    QTableWidgetItem* itemPriority = new QTableWidgetItem(QString::number(priority));
-    userStoriesTable->setItem(rowCount, 6, itemPriority);
+
+
 
     SprintSelectionComboBox = new QComboBox();
     SprintSelectionComboBox->addItems(sprintTitles);
@@ -345,12 +354,28 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
                     }
                 }
 
-                int priority = userStoriesTable->item(rowCount, 6)->text().toInt();
+                QString priorityString = getStatusFromRow(userStoriesTable, rowCount); // use your function to get the priority string
+                int priority = priorityToInt(priorityString); // convert the string to an integer
                 QString selectedSprint = qobject_cast<QComboBox *>(userStoriesTable->cellWidget(rowCount, 7))->currentText();
                 SendToSprint(taskID, title, description, status, priority, assigneeId, selectedSprint);
             });
 
 
+}
+
+QString pb_productbacklog_implementation::priorityToString(int priority) {
+    switch (priority) {
+    case 1: return "High";
+    case 2: return "Medium";
+    case 3: return "Low";
+    default: return "Unknown"; // For any other value that is not 1, 2, or 3
+    }
+}
+int pb_productbacklog_implementation::priorityToInt(QString& priorityString) {
+    if (priorityString == "High") return 1;
+    if (priorityString == "Medium") return 2;
+    if (priorityString == "Low") return 3;
+    return -1; // return a default value for unknown priority strings
 }
 
 
@@ -532,8 +557,39 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
     }
 }
 
-void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const QString& newAssignee) {
-    // Update the database with the new assignee for the given taskID
+
+QString pb_productbacklog_implementation::getAssigneeFromRow(QTableWidget* table, int row) {
+    QWidget* widget = table->cellWidget(row, 5); // Assuming that assignees are in the 6th column (index 5)
+    QComboBox* comboBox = qobject_cast<QComboBox*>(widget);
+    if (comboBox) {
+        return comboBox->currentText();
+    } else {
+        qDebug() << "No assignee combo box found at row" << row;
+        return QString();
+    }
+}
+
+QString pb_productbacklog_implementation::getStatusFromRow(QTableWidget* table, int row) {
+    QWidget* widget = table->cellWidget(row, 4); // Assuming that status values are in the 5th column (index 4)
+    QComboBox* comboBox = qobject_cast<QComboBox*>(widget);
+    if (comboBox) {
+        return comboBox->currentText();
+    } else {
+        qDebug() << "No status combo box found at row" << row;
+        return QString();
+    }
+}
+
+void pb_productbacklog_implementation::onPriorityChanged(int taskID, QString& Priority) {
+
+    // Convert the priority string to an int
+    int priorityValue = priorityToInt(Priority);
+
+    // Check for valid priorityValue
+    if(priorityValue == -1) {
+        qDebug() << "Invalid priority string: " << Priority;
+        return;
+    }
 
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     if (!userStoriesTable) return;
@@ -546,14 +602,45 @@ void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const Q
             break;
         }
     }
-    if (row == -1) return; // Task ID not found
+    if (row == -1) {
+        qDebug() << "Task ID not found in the table: " << taskID;
+        return; // Task ID not found
+    }
+
+    // Assuming taskMap is a data structure to check for task existence and updateTaskInDatabase is a method to update the task
+    if (taskMap.contains(taskID)) {
+        QString title = userStoriesTable->item(row, 2)->text();
+        QString description = userStoriesTable->item(row, 3)->text();
+        QString assignee = getAssigneeFromRow(userStoriesTable, row); // Implement this method or retrieve the text directly
+        QString status = getStatusFromRow(userStoriesTable, row); // Implement this method or retrieve the text directly
+
+        // Your method to update the task in the database, including the new priority
+        updateTaskInDatabase(taskID, title, description, status, assignee, priorityValue);
+    } else {
+        qDebug() << "TaskID not found in taskMap";
+    }
+}
+
+
+
+void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const QString& newAssignee) {
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    if (!userStoriesTable) return;
+
+    int row = -1;
+    for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
+        if (userStoriesTable->item(i, 0)->data(Qt::UserRole).toInt() == taskID) {
+            row = i;
+            break;
+        }
+    }
+    if (row == -1) return;
 
     QString title = userStoriesTable->item(row, 2)->text();
     QString description = userStoriesTable->item(row, 3)->text();
 
-    // Retrieve the status from the ComboBox in another column (update the column index as needed)
     QString status;
-    QWidget* statusWidget = userStoriesTable->cellWidget(row, 4); // Replace [statusColumnIndex] with the actual column index
+    QWidget* statusWidget = userStoriesTable->cellWidget(row, 4);
     if (statusWidget) {
         QComboBox* statusComboBox = qobject_cast<QComboBox*>(statusWidget);
         if (statusComboBox) {
@@ -561,7 +648,18 @@ void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const Q
         }
     }
 
-    int priority = userStoriesTable->item(row, 6)->text().toInt();
+    int priority = 0;
+    QString priorityString;    // Default priority value
+    QWidget* priorityWidget = userStoriesTable->cellWidget(row, 6);
+    if (priorityWidget) {
+        QComboBox* priorityComboBox = qobject_cast<QComboBox*>(priorityWidget);
+        if (priorityComboBox) {
+            priorityString = priorityComboBox->currentText();
+            priority = priorityToInt(priorityString); // Ensure this function handles invalid inputs gracefully
+            qDebug() << "Priority" << priority;
+        }
+    }
+
     DatabaseManager database1;
     QSqlDatabase onTaskAssigneeChangedConnection = database1.getDatabase();
     QSqlQuery query(onTaskAssigneeChangedConnection);
@@ -571,39 +669,34 @@ void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const Q
 
     if (!query.exec()) {
         qDebug() << "Update failed for Task ID:" << taskID << " Error:" << query.lastError();
+        return; // Add return statement to avoid further processing in case of failure
     } else {
         qDebug() << "Assignee updated successfully for task ID:" << taskID;
     }
 
-    // Assuming taskMap is a data structure to check for task existence
     if (taskMap.contains(taskID)) {
-        // Your method to update task in database (assuming it exists)
         updateTaskInDatabase(taskID, title, description, status, newAssignee, priority);
     } else {
         qDebug() << "TaskID in onTaskAssigneeChanged not found";
+        return; // Add return statement if taskID is not found
     }
 
-    //Getting the correct Email to pass it to the Python Script
-    QSqlDatabase database2 = QSqlDatabase::database(); // Get your QSqlDatabase instance
+    QSqlDatabase database2 = QSqlDatabase::database();
     QSqlQuery EmailQuery(database2);
     EmailQuery.prepare("SELECT Email FROM User WHERE Username = :newAssignee");
     EmailQuery.bindValue(":newAssignee", newAssignee);
-    QString email; // Declare 'email' outside the loop
+    QString email;
 
     if (EmailQuery.exec()) {
-        while (EmailQuery.next()) {
+        if (EmailQuery.next()) {
             email = EmailQuery.value(0).toString();
             qDebug() << "email:" << email;
         }
     } else {
-        // Handle the error here
         qDebug() << "Error executing query:" << EmailQuery.lastError().text();
+        return; // Add return statement to handle query error
     }
 
-
-
-
-    // Prepare email
     QString emailBody = QString(
                             "Task Details: \n"
                             "ID: %1 \n"
@@ -619,12 +712,11 @@ void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const Q
                             .arg(description)
                             .arg(status)
                             .arg(newAssignee)
-                            .arg(QString::number(priority));
+                            .arg(priorityString);
 
-    // Send the email
     std::string recipient_email = email.toStdString();
     std::string subject = "Task Assignment Update";
-    std::string email_body = emailBody.toStdString(); // Convert QString to std::string directly
+    std::string email_body = emailBody.toStdString();
 
     qDebug() << "recipient_email: " + recipient_email << taskID;
 
@@ -632,7 +724,8 @@ void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const Q
     bool success = emailNotifier.sendEmail(recipient_email, subject, email_body);
 
     if (success) {
-        qDebug() << "Email sent successfully for task ID:" << taskID;
+        qDebug() << "Email sent successfully for task ID";
+
     } else {
         qDebug() << "Failed to send email for task ID:" << taskID;
     }
@@ -669,8 +762,8 @@ void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString
             assignee = assigneeComboBox->currentText();
         }
     }
-
-    int priority = userStoriesTable->item(row, 6)->text().toInt();
+    QString priorityString = getStatusFromRow(userStoriesTable, row); // use your function to get the priority string
+    int priority = priorityToInt(priorityString); // convert the string to an integer
 
     if (taskMap.contains(taskID)) {
         updateTaskInDatabase(taskID, title, description, status, assignee, priority);
@@ -713,12 +806,14 @@ void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item
     QString description = userStoriesTable->item(row, 3)->text();
     QString status;
     QString assignee;
-    int priority = userStoriesTable->item(row, 6)->text().toInt();
+    QString priorityinter;
+    int priority;
+
 
     // Retrieve status and assignee from their ComboBoxes
     QWidget* statusWidget = userStoriesTable->cellWidget(row, 4);
     QWidget* assigneeWidget = userStoriesTable->cellWidget(row, 5);
-
+    QWidget* priorityString = userStoriesTable->cellWidget(row, 6);
 
     if(priority == 1){
         priority=1;
@@ -762,6 +857,15 @@ void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item
         QComboBox* assigneeComboBox = qobject_cast<QComboBox*>(assigneeWidget);
         if (assigneeComboBox) {
             assignee = assigneeComboBox->currentText();
+        }
+    }
+
+    if (priorityString) {
+        QComboBox* priorityStringComboBox = qobject_cast<QComboBox*>(priorityString);
+        if (priorityStringComboBox) {
+            priorityinter = priorityStringComboBox->currentText();
+            priority = priorityToInt(priorityinter); // Ensure this function handles invalid inputs gracefully
+            //COMEHERE
         }
     }
 
