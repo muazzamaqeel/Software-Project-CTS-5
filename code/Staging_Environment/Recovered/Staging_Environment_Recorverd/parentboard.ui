@@ -204,7 +204,7 @@ QComboBox QAbstractItemView::item {
 }
 
 QComboBox QAbstractItemView::item:selected {
-    background-color: #99DAFF;
+    background-color: #D5FEFF;
     color: black;
     border-radius: 4px;
 }
@@ -295,7 +295,7 @@ background-color: white;
 QTreeWidget {
     font: 14pt &quot;Arial&quot;;
     color: black;
-    background-color: rgb(200, 200, 200);
+    background-color: white;
     show-decoration-selected: 1;
 }
 
@@ -313,7 +313,7 @@ QTreeWidget::item:hover {
 QTreeWidget::item:selected {
     color: black;
     font-weight: bold;
-    background-color: rgb(158, 255, 162);
+    background-color: #D5FEFF;
 }
 
 /* Subitems (nested items) */
@@ -341,12 +341,12 @@ QTreeWidget::item:has-children:selected {
 QTreeWidget::item:!has-children:selected {
     color: black;
     font-weight: bold;
-    background-color: rgb(158, 255, 162);
+    background-color: #D5FEFF;
 }
 
 /* QHeaderView Sections (Individual Columns) */
 QHeaderView::section {
-    background-color: #22344C;;
+    background-color: #22344C;
     color: white;
     padding: 4px;
     border: 1px solid white;
@@ -493,7 +493,7 @@ QTreeWidget::branch:closed:has-children {
       <widget class="QGroupBox" name="CreationBoxT">
        <property name="geometry">
         <rect>
-         <x>780</x>
+         <x>779</x>
          <y>0</y>
          <width>500</width>
          <height>595</height>
@@ -501,7 +501,15 @@ QTreeWidget::branch:closed:has-children {
        </property>
        <property name="styleSheet">
         <string notr="true">QGroupBox {
-background-color: rgb(250, 250, 250)
+    border: 0px;
+	background-color: rgb(240,240,240);
+    border-radius: 10px; /* Adjust the value for the desired corner radius */
+    margin-top: 0px; /* Optional margin */
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center;
 }</string>
        </property>
        <property name="title">
@@ -664,7 +672,7 @@ QComboBox QAbstractItemView::item {
 }
 
 QComboBox QAbstractItemView::item:selected {
-    background-color: #99DAFF;
+    background-color: #D5FEFF;
     color: black;
     border-radius: 4px;
 }
@@ -738,7 +746,7 @@ QComboBox QAbstractItemView::item {
 }
 
 QComboBox QAbstractItemView::item:selected {
-    background-color: #99DAFF;
+    background-color: #D5FEFF;
     color: black;
     border-radius: 4px;
 }
@@ -757,8 +765,7 @@ QComboBox QAbstractItemView::item:selected {
         <property name="styleSheet">
          <string notr="true">QLabel {
 background: transparent;
-font: 14pt Arial;
-font-weight: bold;
+font: 12pt Arial black;
 }</string>
         </property>
         <property name="text">
@@ -777,8 +784,7 @@ font-weight: bold;
         <property name="styleSheet">
          <string notr="true">QLabel {
 background: transparent;
-font: 14pt Arial;
-font-weight: bold;
+font: 12pt Arial black;
 }</string>
         </property>
         <property name="text">
@@ -797,8 +803,7 @@ font-weight: bold;
         <property name="styleSheet">
          <string notr="true">QLabel {
 background: transparent;
-font: 14pt Arial;
-font-weight: bold;
+font: 12pt Arial black;
 }</string>
         </property>
         <property name="text">
@@ -817,8 +822,7 @@ font-weight: bold;
         <property name="styleSheet">
          <string notr="true">QLabel {
 background: transparent;
-font: 14pt Arial;
-font-weight: bold;
+font: 12pt Arial black;
 }</string>
         </property>
         <property name="text">
@@ -837,8 +841,7 @@ font-weight: bold;
         <property name="styleSheet">
          <string notr="true">QLabel {
 background: transparent;
-font: 14pt Arial;
-font-weight: bold;
+font: 12pt Arial black;
 }</string>
         </property>
         <property name="text">
@@ -857,8 +860,7 @@ font-weight: bold;
         <property name="styleSheet">
          <string notr="true">QLabel {
 background: transparent;
-font: 14pt Arial;
-font-weight: bold;
+font: 12pt Arial black;
 }</string>
         </property>
         <property name="text">
@@ -1061,7 +1063,7 @@ QPushButton:pressed {
 
 /* Styles for QPushButton when checked (selected) */
 QPushButton:checked {
-    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
+    border-bottom: 5px solid #D5FEFF; /* Slim green border at the bottom */
 }
 </string>
      </property>
@@ -1121,7 +1123,7 @@ QPushButton:pressed {
 
 /* Styles for QPushButton when checked (selected) */
 QPushButton:checked {
-    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
+    border-bottom: 5px solid #D5FEFF; /* Slim green border at the bottom */
 }
 </string>
      </property>
@@ -1176,7 +1178,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </property>
      <property name="styleSheet">
       <string notr="true">QLabel {
-background-color: #9DEBFF;
+background-color: #D5FEFF;
 }</string>
      </property>
      <property name="text">
@@ -1194,7 +1196,7 @@ background-color: #9DEBFF;
      </property>
      <property name="styleSheet">
       <string notr="true">QLabel {
-background-color: #9DEBFF;
+background-color: #D5FEFF;
 }</string>
      </property>
      <property name="text">
@@ -3178,7 +3180,7 @@ QPushButton:pressed {
 
 /* Styles for QPushButton when checked (selected) */
 QPushButton:checked {
-    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
+    border-bottom: 5px solid #D5FEFF; /* Slim green border at the bottom */
 }
 </string>
       </property>
@@ -3241,7 +3243,7 @@ QPushButton:pressed {
 
 /* Styles for QPushButton when checked (selected) */
 QPushButton:checked {
-    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
+    border-bottom: 5px solid #D5FEFF; /* Slim green border at the bottom */
 }
 </string>
       </property>
@@ -3304,7 +3306,7 @@ QPushButton:pressed {
 
 /* Styles for QPushButton when checked (selected) */
 QPushButton:checked {
-    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
+    border-bottom: 5px solid #D5FEFF; /* Slim green border at the bottom */
 }
 </string>
       </property>
@@ -3367,7 +3369,7 @@ QPushButton:pressed {
 
 /* Styles for QPushButton when checked (selected) */
 QPushButton:checked {
-    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
+    border-bottom: 5px solid #D5FEFF; /* Slim green border at the bottom */
 }
 </string>
       </property>
@@ -3430,7 +3432,7 @@ QPushButton:pressed {
 
 /* Styles for QPushButton when checked (selected) */
 QPushButton:checked {
-    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
+    border-bottom: 5px solid #D5FEFF; /* Slim green border at the bottom */
 }
 </string>
       </property>
@@ -3493,7 +3495,7 @@ QPushButton:pressed {
 
 /* Styles for QPushButton when checked (selected) */
 QPushButton:checked {
-    border-bottom: 5px solid #9DEBFF; /* Slim green border at the bottom */
+    border-bottom: 5px solid #D5FEFF; /* Slim green border at the bottom */
 }
 </string>
       </property>
