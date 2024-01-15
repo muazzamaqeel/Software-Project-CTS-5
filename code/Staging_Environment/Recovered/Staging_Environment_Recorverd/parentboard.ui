@@ -80,7 +80,7 @@ background-color: white;
     </size>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -2125,7 +2125,7 @@ color: rgb(0, 0, 0);
      <property name="styleSheet">
       <string notr="true">QPushButton {
 font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
+background-color: #22344C;
 color: rgb(255, 255, 255);
 }</string>
      </property>
@@ -2160,7 +2160,7 @@ color: rgb(255, 255, 255);
      <property name="styleSheet">
       <string notr="true">QPushButton {
 font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
+background-color: #22344C;
 color: rgb(255, 255, 255);
 }</string>
      </property>
@@ -2189,7 +2189,7 @@ color: rgb(255, 255, 255);
      <property name="styleSheet">
       <string notr="true">QComboBox {
 font: 15pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
+background-color: #22344C;
 color: rgb(255, 255, 255);
 }
 </string>
@@ -2255,7 +2255,7 @@ QTableWidget::item:selected {
 }
 
 QHeaderView::section {
-    background-color: #00165a; /* A darker blue for header sections */
+    background-color: #22344C; /* A darker blue for header sections */
     color: white;
     padding: 2px;
     border-top: none;
@@ -2264,7 +2264,7 @@ QHeaderView::section {
 
 /* This part is for the vertical header (row numbers) */
 QTableWidget QHeaderView::section {
-    background-color: #00165a; /* Dark blue for both headers */
+    background-color: #22344C; /* Dark blue for both headers */
     color: white;
     border: none;
     padding: 2px;
@@ -2273,7 +2273,7 @@ QTableWidget QHeaderView::section {
 
 /* This part is for the horizontal header (column titles) */
 QTableWidget::horizontalHeader {
-    background-color: #4d88ff;
+   background-color: #22344C;
     color: white;
     border: none;
     padding: 2px;
@@ -2282,7 +2282,7 @@ QTableWidget::horizontalHeader {
 
 /* This part is for the vertical header (row numbers) */
 QTableWidget::verticalHeader {
-    background-color: #00165a;
+    background-color: #22344C;
     color: white;
     border: none;
     border-right: 1px solid black; /* Add right border to vertical header */
@@ -2290,7 +2290,8 @@ QTableWidget::verticalHeader {
 
 /* This will ensure that the row number cells (vertical header) also have the dark blue background */
 QTableWidget QHeaderView::section:vertical {
-    background-color: #00165a; /* Dark blue to match the horizontal header */
+   background-color: #22344C; /* Dark blue to match the horizontal header */
+
     color: white;
 }
 
@@ -2442,7 +2443,7 @@ QTableWidget::item:alternate {
       <property name="styleSheet">
        <string notr="true">QPushButton {
 font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
+background-color: #22344C;
 color: rgb(255, 255, 255);
 }</string>
       </property>
@@ -2478,7 +2479,7 @@ color: rgb(255, 255, 255);
      <property name="styleSheet">
       <string notr="true">QPushButton {
 font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
+background-color: #22344C;
 color: rgb(255, 255, 255);
 }</string>
      </property>
@@ -2619,7 +2620,7 @@ QHeaderView::section {
 
 /* This part is for the vertical header (row numbers) */
 QTableWidget QHeaderView::section {
-    background-color: #00165a; /* Dark blue for both headers */
+background-color: #22344C; /* A darker blue for header sections */
     color: white;
     border: none;
     padding: 2px;
@@ -2642,7 +2643,7 @@ QTableWidget::verticalHeader {
 
 /* This will ensure that the row number cells (vertical header) also have the dark blue background */
 QTableWidget QHeaderView::section:vertical {
-    background-color: #00165a; /* Dark blue to match the horizontal header */
+background-color: #22344C; /* A darker blue for header sections */
     color: white;
 }
 
@@ -2688,7 +2689,7 @@ QTableWidget::item:alternate {
       <property name="styleSheet">
        <string notr="true">QPushButton {
 font: 11pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
+background-color: #22344C;
 color: rgb(255, 255, 255);
 }</string>
       </property>

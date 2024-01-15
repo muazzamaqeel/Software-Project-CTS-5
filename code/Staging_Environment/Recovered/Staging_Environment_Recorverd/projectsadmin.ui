@@ -59,7 +59,7 @@ color: rgb(0, 0, 0);
    <property name="styleSheet">
     <string notr="true">QPushButton {
 font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
+ background-color: #2D2D2D; /* Dark grey background */
 color: rgb(255, 255, 255);
 }</string>
    </property>
@@ -91,7 +91,7 @@ color: rgb(255, 255, 255);
    <property name="styleSheet">
     <string notr="true">QLabel {
 font: 24pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
+background-color: #9EB3C0;
 color: rgb(255, 255, 255);
 }</string>
    </property>
@@ -129,7 +129,7 @@ color: rgb(255, 255, 255);
    <property name="styleSheet">
     <string notr="true">QPushButton {
 font: 13pt &quot;Arial&quot;;
-background-color: rgb(200, 200, 200);
+background-color: #22344C;
 color: rgb(0, 0, 0);
 }</string>
    </property>
@@ -161,7 +161,7 @@ color: rgb(0, 0, 0);
    <property name="styleSheet">
     <string notr="true">QLabel {
 font: 13pt &quot;Arial&quot;;
-background-color: rgb(100, 100, 100);
+background-color: #22344C;
 color: white;
 }</string>
    </property>
@@ -226,7 +226,7 @@ color: white;
    <property name="styleSheet">
     <string notr="true">QPushButton {
 font: 13pt &quot;Arial&quot;;
-background-color: rgb(200, 200, 200);
+background-color: #22344C;
 color: rgb(0, 0, 0);
 }</string>
    </property>
@@ -320,6 +320,10 @@ color: rgb(0, 0, 0);
      <italic>false</italic>
      <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #22344C;
+</string>
    </property>
   </widget>
   <widget class="QPushButton" name="exitButton_2">
