@@ -42,7 +42,7 @@ public slots:
     void createNewItemInDatabase();
     void createNewUserStoryTaskboard();
     void createNewTaskTaskboard();
-    void addToTableTaskboard(const QString& title, const QString& description, const QString& status, int priority, const QString& assignee, const QString& sprint);
+    void addToTableTaskboard(const QString& title, const QString& description, const QString& status, int priority, int assignee, const QString& sprint);
 
 
 private:
