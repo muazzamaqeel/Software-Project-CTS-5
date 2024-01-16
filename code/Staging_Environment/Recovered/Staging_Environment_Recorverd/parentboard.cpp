@@ -42,6 +42,7 @@ parentboard::parentboard(QWidget *parent) :
     ui->teamButton->setCheckable(true);
     ui->confluenceButton->setCheckable(true);
     ui->calendarButton->setCheckable(true);
+    ui->taskboardButton->setChecked(true);
 
     taskModel = new QStandardItemModel(this);
     taskModel->setColumnCount(2);
