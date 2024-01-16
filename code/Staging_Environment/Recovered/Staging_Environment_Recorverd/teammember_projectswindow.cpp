@@ -188,7 +188,7 @@ void TeamMember_ProjectsWindow::onProjectNameClicked(QTableWidgetItem *item) {
         loadingDialog->setModal(true);
         loadingDialog->show();
 
-        QTimer::singleShot(5000, [this, loadingDialog]() {
+        QTimer::singleShot(2000, [this, loadingDialog]() {
             loadingDialog->close();
             showParentBoard();
         });

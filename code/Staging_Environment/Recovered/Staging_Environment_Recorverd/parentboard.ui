@@ -80,7 +80,7 @@ background-color: white;
     </size>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>5</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -3107,14 +3107,98 @@ color: rgb(255, 255, 255);
     <widget class="QCalendarWidget" name="calendarWidget">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>10</x>
        <y>10</y>
        <width>1261</width>
-       <height>631</height>
+       <height>641</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">QCalendarWidget {
+    border: 1px solid lightgray;
+    border-radius: 4px;
+}
+
+QCalendarWidget QToolButton {
+    color: black;
+    background-color: white;
+    border: none;
+    font-size: 16px;
+    icon-size: 20px, 20px;
+}
+
+QCalendarWidget QToolButton::hover {
+    background-color: lightgray;
+}
+
+QCalendarWidget QToolButton::pressed {
+    background-color: darkgray;
+}
+
+QCalendarWidget QToolButton#qt_calendar_prevmonth {
+    qproperty-icon: url(:/icons/left_arrow.png);
+}
+
+QCalendarWidget QToolButton#qt_calendar_nextmonth {
+    qproperty-icon: url(:/icons/right_arrow.png);
+}
+
+QCalendarWidget QSpinBox {
+    font-size: 16px;
+    color: black;
+    background-color: white;
+    border: none;
+    min-width: 50px;
+}
+
+QCalendarWidget QSpinBox::up-button, QCalendarWidget QSpinBox::down-button {
+    width: 16px;
+}
+
+QCalendarWidget QSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+}
+
+QCalendarWidget QSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+}
+
+QCalendarWidget QSpinBox::up-arrow, QCalendarWidget QSpinBox::down-arrow {
+    width: 16px;
+    height: 16px;
+}
+
+QCalendarWidget QMenu {
+    background-color: white;
+    border: 1px solid lightgray;
+}
+
+QCalendarWidget QWidget {
+    alternate-background-color: #9EB3C0;
+}
+
+QCalendarWidget QTableView {
+    selection-background-color: lightblue;
+    gridline-color: lightgray;
+}
+
+QCalendarWidget QHeaderView {
+    background-color: lightgray;
+    font-size: 16px;
+}
+
+QCalendarWidget QHeaderView::section {
+    background-color: lightgray;
+    padding: 4px;
+    border: 1px solid lightgray;
+}
+
+QCalendarWidget QWidget#qt_calendar_navigationbar {
+    background-color: lightgray;
+}
+</string>
      </property>
     </widget>
    </widget>
