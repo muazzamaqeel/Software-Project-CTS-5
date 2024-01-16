@@ -7,10 +7,13 @@
 #include <QDialog>
 #include "parentboard.h"
 #include "mainwindow.h"
+#include <QTimer>
+#include <QMovie>
 
 TeamMember_ProjectsWindow::TeamMember_ProjectsWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::TeamMember_ProjectsWindow) {
+    ui(new Ui::TeamMember_ProjectsWindow),
+    idProject(-1) {
 
     ui->setupUi(this);
     connect(ui->BackButton, SIGNAL(clicked()), this, SLOT(RetrieveAndDisplayUser_Project()));
@@ -121,28 +124,78 @@ void TeamMember_ProjectsWindow::addProject(const QString& projectName, const QSt
 }
 
 
+void TeamMember_ProjectsWindow::showLoadingScreen() {
+    // Fullscreen semi-transparent overlay
+    QWidget *overlayWidget = new QWidget(this);
+    overlayWidget->setStyleSheet("background-color: rgba(0, 0, 0, 120);"); // Semi-transparent black for contrast
+    overlayWidget->setFixedSize(this->size()); // Match the parent window size
+    overlayWidget->show();
+
+    // Loading label with your custom GIF
+    QLabel *loadingLabel = new QLabel(overlayWidget);
+    QString gifPath = "C:/programming/SpaceIn3D/SpaceIn3D/3D_Project/src/Main/playground/Loading_GIF.gif";
+    QMovie *movie = new QMovie(gifPath);
+    loadingLabel->setMovie(movie);
+    loadingLabel->setAlignment(Qt::AlignCenter);
+    movie->start();
+
+    // Text label for the loading message
+    QLabel *textLabel = new QLabel("Loading, please wait...", overlayWidget);
+    textLabel->setStyleSheet("font-size: 18pt; color: #FFFFFF; font-family: 'Segoe UI', sans-serif;");
+    textLabel->setAlignment(Qt::AlignCenter);
+
+    // Vertical layout to stack the loading GIF and text
+    QVBoxLayout *layout = new QVBoxLayout(overlayWidget);
+    layout->addWidget(loadingLabel, 0, Qt::AlignCenter);
+    layout->addWidget(textLabel, 0, Qt::AlignCenter);
+
+    // Center the overlay widget in the parent window
+    overlayWidget->move(this->rect().center() - overlayWidget->rect().center());
+
+    // Make the overlay window frameless
+    overlayWidget->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+
+    // Disable interaction with the main window
+    overlayWidget->setAttribute(Qt::WA_Disabled);
+
+    QTimer::singleShot(5000, [this, overlayWidget, movie]() {
+        movie->stop();
+        overlayWidget->deleteLater(); // Use deleteLater to safely delete the widget
+        showParentBoard();
+    });
+
+
+}
+void TeamMember_ProjectsWindow::showParentBoard() {
+    parentboard* parentboardwindow = parentboard::getInstance();
+    parentboardwindow->setProjectId(idProject); // Make sure idProject is class member and set correctly
+    qDebug() <<"Hello:"<<PassValueRole;
+    parentboardwindow->setUserRoleID(this);
+    parentboardwindow->showMaximized();
+    parentboardwindow->displayBacklogOnMaximized();
+    this->deleteLater();
+}
 
 void TeamMember_ProjectsWindow::onProjectNameClicked(QTableWidgetItem *item) {
     if (item && item->column() == 0) {
-        int idProject = item->data(Qt::UserRole).toInt();
-        this->deleteLater();
-        parentboard* parentboardwindow = parentboard::getInstance();
+        idProject = item->data(Qt::UserRole).toInt(); // Extract the project ID
+        QDialog *loadingDialog = new QDialog(this);
+        loadingDialog->setWindowTitle("Loading");
+        QLabel *loadingLabel = new QLabel("Loading, please wait...", loadingDialog);
+        QVBoxLayout *layout = new QVBoxLayout(loadingDialog);
+        layout->addWidget(loadingLabel);
+        loadingDialog->setLayout(layout);
+        loadingDialog->setModal(true);
+        loadingDialog->show();
 
-        // Pass the RoleidRole value to the singleton instance
-        parentboardwindow->setProjectId(idProject);
-        qDebug() <<"Hello:"<<PassValueRole;
-        parentboardwindow->setUserRoleID(this);
-
-        parentboardwindow->showMaximized();
-        parentboardwindow->displayBacklogOnMaximized();
+        QTimer::singleShot(5000, [this, loadingDialog]() {
+            loadingDialog->close();
+            showParentBoard();
+        });
     }
 }
 
 
-int TeamMember_ProjectsWindow::getUserIdFromUsername(const QString& USERTEST, const QSqlDatabase& db) {
-    qDebug() <<"Hello";
-    return 1;
-}
 
 int TeamMember_ProjectsWindow::getPassValueRole() const {
     return PassValueRole;

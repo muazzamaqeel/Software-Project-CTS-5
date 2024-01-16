@@ -23,14 +23,16 @@ public slots:
     void ProjectRetrieval();
     void addProject(const QString& projectName, const QString& description, int idProject);
     void onProjectNameClicked(QTableWidgetItem *item);
-    int getUserIdFromUsername(const QString& USERTEST, const QSqlDatabase& db);
     void setUsername(const QString& username);
     int getPassValueRole() const;
-
+    void showParentBoard();
+    void showLoadingScreen();
 
 private:
     Ui::TeamMember_ProjectsWindow *ui;
-    QString m_username; // This is where you declare the m_username variable
+    int idProject; // Add this line to declare idProject as a member variable
+    QString m_username;
+
 };
 
 #endif // TEAMMEMBER_PROJECTSWINDOW_H
