@@ -40,6 +40,10 @@ public slots:
     void showCreate_Taskboard();
     void deleteItemTaskboard();
     void createNewItemInDatabase();
+    void createNewUserStoryTaskboard();
+    void createNewTaskTaskboard();
+    void addToTableTaskboard(const QString& title, const QString& description, const QString& status, int priority, const QString& assignee, const QString& sprint);
+
 
 private:
     // QMap<QString, QTreeWidgetItem*> userItemMap;

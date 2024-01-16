@@ -178,9 +178,13 @@ parentboard::parentboard(QWidget *parent) :
     pb_taskboard_implemenation *pbTaskboardBObj = new pb_taskboard_implemenation(obj);
     connect(ui->taskboardButton,&QPushButton::clicked,pbTaskboardBObj,&pb_taskboard_implemenation::pb_taskboard_Retrieval);
 
+    // Show Task or UserStory creation
+    connect(ui->newTaskButtonT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::showCreateTaskTaskboard);
+    connect(ui->newUserStoryButtonT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::showCreateUseStoryTaskboard);
+
     // Create Task or UserStory
-    connect(ui->newtaskButtonT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::showCreateTaskTaskboard);
-    connect(ui->newtUserStoryButtonT_2, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::showCreateUseStoryTaskboard);
+    connect(ui->Button_CreateTaskT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::createNewTaskTaskboard);
+    connect(ui->Button_CreateUserStoryT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::createNewUserStoryTaskboard);
 
     // Delete Task or UserStory
     connect(ui->delete_itemT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::deleteItemTaskboard);

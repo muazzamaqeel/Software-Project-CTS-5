@@ -11,6 +11,7 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QDateTime>
+#include <QMessageBox>
 
 /// This class only handles data in the TaskSB and USerStorySB tables!
 
@@ -38,7 +39,6 @@ pb_taskboard_implemenation::pb_taskboard_implemenation(parentboard* parentBoardI
 
     connect(parentBoard->getSprintDropdown(), QOverload<int>::of(&QComboBox::currentIndexChanged), this, &pb_taskboard_implemenation::updateLabels);    
  }
-
 void pb_taskboard_implemenation::pb_taskboard_Retrieval()
 {
     fetchSprintData();
@@ -60,6 +60,9 @@ pb_taskboard_implemenation::~pb_taskboard_implemenation()
 void pb_taskboard_implemenation::fetchSprintData()
 {
     parentBoard->getSprintDropdown()->clear();
+    parentBoard->get_BL_SprintDropDownT()->clear();
+
+    parentBoard->get_BL_SprintDropDownT()->addItem("Select Sprint", -1);
 
     parentBoard->getSprintDropdown()->addItem("All Sprints", -1);
 
@@ -87,6 +90,7 @@ void pb_taskboard_implemenation::fetchSprintData()
                 QString title = query.value(1).toString();
 
                 parentBoard->getSprintDropdown()->addItem(title, idSprint);
+                parentBoard->get_BL_SprintDropDownT()->addItem(title, idSprint);
 
                 // qDebug() << "Sprint data fetched successfully!";
             }
@@ -129,6 +133,7 @@ void pb_taskboard_implemenation::generateUserTaskTree()
             {
                 // If "All Sprints" is selected, don't filter by sprint ID
                 query.prepare("SELECT "
+                              "   User.idUser, "
                               "   User.FirstName, "
                               "   User.LastName, "
                               "   TaskSB.Title, "
@@ -150,6 +155,7 @@ void pb_taskboard_implemenation::generateUserTaskTree()
             else
             {
                 query.prepare("SELECT "
+                              "   User.idUser, "
                               "   User.FirstName, "
                               "   User.LastName, "
                               "   TaskSB.Title, "
@@ -180,14 +186,15 @@ void pb_taskboard_implemenation::generateUserTaskTree()
 
             if (query.exec()) {
                 while (query.next()) {
-                    QString firstName = query.value(0).toString();
-                    QString lastName = query.value(1).toString();
-                    QString taskTitle = query.value(2).toString();
-                    QString taskPriority = query.value(3).toString();
-                    QString taskStatus = query.value(4).toString();
-                    QString storyTitle = query.value(5).toString();
-                    QString storyPriority = query.value(6).toString();
-                    QString storyStatus = query.value(7).toString();
+                    int idUser = query.value(0).toInt();
+                    QString firstName = query.value(1).toString();
+                    QString lastName = query.value(2).toString();
+                    QString taskTitle = query.value(3).toString();
+                    QString taskPriority = query.value(4).toString();
+                    QString taskStatus = query.value(5).toString();
+                    QString storyTitle = query.value(6).toString();
+                    QString storyPriority = query.value(7).toString();
+                    QString storyStatus = query.value(8).toString();
                     // qDebug() << "firstName: " << firstName;
                     // qDebug() << "lastName: " << lastName;
                     // qDebug() << "taskTitle: " << taskTitle;
@@ -200,6 +207,11 @@ void pb_taskboard_implemenation::generateUserTaskTree()
 
                     // Find or create treeUserItem in the QTreeWidget
                     QTreeWidgetItem* treeUserItem = userItemMap.value(name);
+
+                    qDebug() << "idUser: " << name << " = " << idUser;
+                    parentBoard->getInputAssigneeT()->clear();
+                    parentBoard->getInputAssigneeT()->addItem("Unassigned", -1);
+                    parentBoard->getInputAssigneeT()->addItem(name, QVariant(idUser));
 
                     if (!treeUserItem) {
                         treeUserItem = new QTreeWidgetItem(parentBoard->getTaskTreeWidget());
@@ -454,7 +466,8 @@ void pb_taskboard_implemenation::HideShow_CreateSectionTaskboard()
  * @brief Shows the create section specifically for creating tasks.
  * Adjusts the UI layout and makes relevant elements visible for task creation.
  */
-void pb_taskboard_implemenation::showCreateTaskTaskboard(){
+void pb_taskboard_implemenation::showCreateTaskTaskboard()
+{
 
     parentBoard->getCreationBoxT()->setVisible(true);
 
@@ -488,7 +501,8 @@ void pb_taskboard_implemenation::showCreateTaskTaskboard(){
  * @brief Shows the create section specifically for creating user stories.
  * Adjusts the UI layout and makes relevant elements visible for user story creation.
  */
-void pb_taskboard_implemenation::showCreateUseStoryTaskboard(){
+void pb_taskboard_implemenation::showCreateUseStoryTaskboard()
+{
 
     parentBoard->getCreationBoxT()->setVisible(true);
 
@@ -524,9 +538,6 @@ void pb_taskboard_implemenation::showCreateUseStoryTaskboard(){
  */
 void pb_taskboard_implemenation::deleteItemTaskboard(){
 
-    // // Get the userItemMap
-    // QMap<QString, QTreeWidgetItem*> userItemMap = getUserItemMap();
-
     // Delete Task
     if (parentBoard->getButton_CreateTaskT()->isVisible() == true)
     {
@@ -540,15 +551,142 @@ void pb_taskboard_implemenation::deleteItemTaskboard(){
     }
 }
 
+void pb_taskboard_implemenation::createNewTaskTaskboard()
+{
+    qDebug() << "Create User Story Taskboard button clicked.";
+
+
+    //QTextEdit* inputAssignee = parentBoard->getInputAssignee();
+    QTextEdit* inputDescriptionTt = parentBoard->getInputDescriptionT();
+    QTextEdit* inputPriorityTt = parentBoard->getInputPriorityT();
+    QTextEdit* inputStatusTt = parentBoard->getInputStatusT();
+    QTextEdit* inputTitleTt = parentBoard->getInputTitleT();
+    // QComboBox* inputSprintTt = parentBoard->get_BL_SprintDropDownT();
+
+    QString titleT = inputTitleTt->toPlainText();
+    // QString assignee = inputAssignee->toPlainText();
+    QString descriptionT = inputDescriptionTt->toPlainText();
+    QString priorityTextT = inputPriorityTt->toPlainText();
+    int priorityT = priorityTextT.toInt();
+    QString statusT = inputStatusTt->toPlainText();
+    QString sprintT = "sprint";
+
+    if (titleT.isEmpty() || descriptionT.isEmpty() || priorityTextT.isEmpty() || sprintT.isEmpty()) {
+        // One or more fields are empty
+        QMessageBox::warning(nullptr, "Missing Values", "Please fill in mandatory fields (Title, Description, Priority and Sprint.");
+    }
+    else {
+        addToTableTaskboard(titleT, descriptionT, statusT, priorityT, "assignee", sprintT);
+    }
+}
+
+void pb_taskboard_implemenation::createNewUserStoryTaskboard()
+{
+    qDebug() << "Create User Story Taskboard button clicked.";
+
+
+    //QTextEdit* inputAssignee = parentBoard->getInputAssignee();
+    QTextEdit* inputDescriptionTus = parentBoard->getInputDescriptionT();
+    QTextEdit* inputPriorityTus = parentBoard->getInputPriorityT();
+    QTextEdit* inputStatusTus = parentBoard->getInputStatusT();
+    QTextEdit* inputTitleTus = parentBoard->getInputTitleT();
+    QComboBox* currentSprintTus = parentBoard->get_BL_SprintDropDownT();
+    QComboBox* inputAssignee = parentBoard->getInputAssigneeT();
+
+    QString titleT = inputTitleTus->toPlainText();
+    QString descriptionT = inputDescriptionTus->toPlainText();
+    QString priorityTextT = inputPriorityTus->toPlainText();
+    int priorityT = priorityTextT.toInt();
+    QString statusT = inputStatusTus->toPlainText();
+    int assignee = inputAssignee->currentData().toInt();
+    QString sprintT = currentSprintTus->currentText();
+
+    qDebug() << "TASKBOARD: Input Values:";
+    qDebug() << "titleT" << titleT;
+    qDebug() << "descriptionT" << descriptionT;
+    qDebug() << "priorityT"  << priorityT;
+    qDebug() << "statusT" << statusT;
+    qDebug() << "assignee" << assignee;
+    qDebug() << "sprintT" << sprintT;
+
+    if (titleT.isEmpty() || descriptionT.isEmpty() || priorityTextT.isEmpty() || sprintT == "Select Sprint") {
+        // One or more fields are empty
+        QMessageBox::warning(nullptr, "Missing Values", "Please fill in mandatory fields (Title, Description, Priority and Sprint.");
+    }
+    // else {
+    //     addToTableTaskboard(titleT, descriptionT, statusT, priorityT, "assignee", sprintT);
+    // }
+}
+
+void pb_taskboard_implemenation::addToTableTaskboard(const QString& title, const QString& description, const QString& status, int priority, const QString& assignee, const QString& sprint)
+{
+
+    if (parentBoard->getButton_CreateTaskT()->isVisible() == true)
+    {
+        DatabaseManager database;
+        QSqlDatabase UserStorySB = database.getDatabase();
+        if (!UserStorySB.isOpen()) {
+            qDebug() << "TASKBOARD: Connection Not Established - Task Insert!";
+            return;
+        }
+
+        QSqlQuery query(UserStorySB);
+        query.prepare("INSERT INTO scrummy.TaskSB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject)"
+                      "VALUES (:title, :description, :status, :priority, :assignee, 1, 1)");
+        query.bindValue(":title", title);
+        query.bindValue(":description", description);
+        query.bindValue(":status", status);
+        query.bindValue(":priority", priority);
+        query.bindValue(":assignee", assignee);
+        query.bindValue(":sprint", sprint);
+
+
+        if (!query.exec()) {
+            qDebug() << "TASKBOARD: Failed to insert data into UserStorySB table:" << query.lastError().text();
+            UserStorySB.close();
+            return;
+        }
+        qDebug() << "TASKBOARD: Data inserted into UserStorySB table successfully!";
+        UserStorySB.close();
+    }
+
+    if (parentBoard->getButton_CreateUserStoryT()->isVisible() == true)
+    {
+        DatabaseManager database;
+        QSqlDatabase TaskSB = database.getDatabase();
+        if (!TaskSB.isOpen()) {
+            qDebug() << "TASKBOARD: Connection Not Established - UserStory Insert!";
+            return;
+        }
+
+        QSqlQuery query(TaskSB);
+        query.prepare("INSERT INTO scrummy.UserStorySB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject)"
+                      "VALUES (:title, :description, :status, :priority, :assignee, 1, 1)");
+        query.bindValue(":title", title);
+        query.bindValue(":description", description);
+        query.bindValue(":status", status);
+        query.bindValue(":priority", priority);
+        query.bindValue(":assignee", assignee);
+        query.bindValue(":sprint", sprint);
+
+
+        if (!query.exec()) {
+            qDebug() << "TASKBOARD: Failed to insert data into TaskSB table:" << query.lastError().text();
+            TaskSB.close();
+            return;
+        }
+        qDebug() << "TASKBOARD: Data inserted into TaskSB table successfully!";
+        TaskSB.close();
+    }
+}
+
 /**
  * @brief Edits/Creates the selected Task/UserStory.
  * Both implementations are inside this function to reduce computing.
  */
-void pb_taskboard_implemenation::createNewItemInDatabase() {
+void pb_taskboard_implemenation::createNewItemInDatabase()
+{
 
     // // Get the userItemMap
     // QMap<QString, QTreeWidgetItem*> userItemMap = getUserItemMap();
 }
-
-
-
