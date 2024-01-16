@@ -1,4 +1,5 @@
 #include "teammember_projectswindow.h"
+#include "QtGui/qscreen.h"
 #include "ui_teammember_projectswindow.h"
 #include "databasemanager.h"
 #include <QDebug>
@@ -181,11 +182,16 @@ void TeamMember_ProjectsWindow::onProjectNameClicked(QTableWidgetItem *item) {
         idProject = item->data(Qt::UserRole).toInt(); // Extract the project ID
         QDialog *loadingDialog = new QDialog(this);
         loadingDialog->setWindowTitle("Loading");
+        // Remove title bar and frame
+        loadingDialog->setWindowFlags(Qt::FramelessWindowHint);
         QLabel *loadingLabel = new QLabel("Loading, please wait...", loadingDialog);
         QVBoxLayout *layout = new QVBoxLayout(loadingDialog);
+        centerOnScreen();
         layout->addWidget(loadingLabel);
         loadingDialog->setLayout(layout);
         loadingDialog->setModal(true);
+        loadingLabel->setStyleSheet("QLabel { background-color: white; color: black;}");
+        loadingDialog->resize(300,100);
         loadingDialog->show();
 
         QTimer::singleShot(2000, [this, loadingDialog]() {
@@ -195,7 +201,15 @@ void TeamMember_ProjectsWindow::onProjectNameClicked(QTableWidgetItem *item) {
     }
 }
 
+void TeamMember_ProjectsWindow::centerOnScreen()
+{
+    // Center the window on the screen
+    QScreen *screenProject = QApplication::primaryScreen();
+    QRect mainScreenGeometry = screenProject->availableGeometry();
+    move(mainScreenGeometry.center() - rect().center());
 
+    //qDebug() << "Centering on screen.";
+}
 
 int TeamMember_ProjectsWindow::getPassValueRole() const {
     return PassValueRole;

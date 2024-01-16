@@ -27,6 +27,7 @@ public slots:
     int getPassValueRole() const;
     void showParentBoard();
     void showLoadingScreen();
+    void centerOnScreen();
 
 private:
     Ui::TeamMember_ProjectsWindow *ui;
