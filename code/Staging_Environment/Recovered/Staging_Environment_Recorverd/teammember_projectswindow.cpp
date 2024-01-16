@@ -78,7 +78,7 @@ void TeamMember_ProjectsWindow::ProjectRetrieval() {
         QSqlQuery query(dbobj);
 
         // Adjust the query to filter by the username
-        query.prepare("SELECT Project.idProject, Project.ProjectName, Project.Description "
+        query.prepare("SELECT Project.idProject, Project.ProjectName, Project.Description, User.Role_idRole "
                       "FROM Project "
                       "INNER JOIN Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
                       "INNER JOIN User ON Project_has_User.User_idUser = User.idUser "
@@ -92,8 +92,9 @@ void TeamMember_ProjectsWindow::ProjectRetrieval() {
                     int idProject = query.value(0).toInt(); // idProject is now the first column
                     QString projectName = query.value(1).toString();
                     QString description = query.value(2).toString();
-                    int idUser = query.value(2).toInt();
-                    qDebug() << "Project: " << projectName << ", Description: " << description << ", User ID: " << idUser;
+                    int RoleidRole = query.value(3).toInt();
+                    qDebug() << "Project: " << projectName << ", Description: " << description << ", User ID: " << RoleidRole;
+                    PassValueRole=RoleidRole;
                     addProject(projectName, description, idProject);
                 }
             } else {
@@ -126,14 +127,23 @@ void TeamMember_ProjectsWindow::onProjectNameClicked(QTableWidgetItem *item) {
         int idProject = item->data(Qt::UserRole).toInt();
         this->deleteLater();
         parentboard* parentboardwindow = parentboard::getInstance();
+
+        // Pass the RoleidRole value to the singleton instance
         parentboardwindow->setProjectId(idProject);
+        qDebug() <<"Hello:"<<PassValueRole;
+        parentboardwindow->setUserRoleID(this);
+
         parentboardwindow->showMaximized();
         parentboardwindow->displayBacklogOnMaximized();
     }
 }
+
 
 int TeamMember_ProjectsWindow::getUserIdFromUsername(const QString& USERTEST, const QSqlDatabase& db) {
     qDebug() <<"Hello";
     return 1;
 }
 
+int TeamMember_ProjectsWindow::getPassValueRole() const {
+    return PassValueRole;
+}

@@ -12,6 +12,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QDateEdit>
+#include "teammember_projectswindow.h"
 
 
 namespace Ui {
@@ -84,6 +85,8 @@ public:
     QPushButton* get_ButtonPage_Confluence();
     QPushButton* get_ButtonGroup_Confluence();
     QTreeWidget* get_userTaskTreeWidget_2();
+
+
     static parentboard* getInstance(QWidget *parent = nullptr) {
         if (instance == nullptr) {
             instance = new parentboard(parent);
@@ -149,6 +152,12 @@ public:
     QLabel* get_Label_TextSprintGoal();
     QLabel* get_Label_TextStartDate();
     QPushButton* get_sprint_createtask_button();
+    // Add this member variable to the parentboard class
+    int setUserRoleID(TeamMember_ProjectsWindow *tmWindow);
+    void adjustUIForUserRole(int role);
+
+    // Add this setter method
+
 
 private slots:
     void on_taskboardButton_clicked();
@@ -172,9 +181,8 @@ private:
     Ui::parentboard *ui;
     QStandardItemModel *taskModel;
     int currentProjectId;
+    int userRoleID;
     static parentboard* instance;  // Static instance
-    int userrole_id;
-
     // Taskboard
     QVBoxLayout *scrollAreaLayout;
     QTextEdit* taskboardTextEdit;

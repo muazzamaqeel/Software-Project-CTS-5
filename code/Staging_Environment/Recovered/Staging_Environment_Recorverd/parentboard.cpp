@@ -50,12 +50,6 @@ parentboard::parentboard(QWidget *parent) :
 
     //Call the query here bro
 
-    qDebug()<<"Passed-UserID: " <<userrole_id;
-    TeamMember_ProjectsWindow *Roleid = new TeamMember_ProjectsWindow; // instantiate the object
-    qDebug()<<"From an Obejct of Team Class: "<<userrole_id;
-
-
-
 
 
     //ui->user_stories->setColumnCount(3); // Add a new column for priority
@@ -204,17 +198,17 @@ parentboard::parentboard(QWidget *parent) :
 void parentboard::UserSpecificView(int value){
 
     if(value == 3){
-    ui->sprintsButton->setVisible(false);
-    ui->backlogButton->setVisible(false);
-    ui->teamButton->setVisible(false);
+        ui->sprintsButton->setVisible(false);
+        ui->backlogButton->setVisible(false);
+        ui->teamButton->setVisible(false);
     }else{
     }
 }
 
 
 void parentboard::displayBacklogOnMaximized() {
-    auto pbProductBacklogObj = std::make_unique<pb_productbacklog_implementation>(this);
-    pbProductBacklogObj->RetrieveAndDisplayBacklog();
+    auto taskboardobj = std::make_unique<pb_taskboard_implemenation>(this);
+    taskboardobj->pb_taskboard_Retrieval();
 }
 
 /*
@@ -321,11 +315,31 @@ int parentboard::getProjectId() const {
     return currentProjectId;
 }
 
-int parentboard::setUserRoleID(int RoleID) {
-    userrole_id = RoleID;
-    qDebug() << "setUserRoleID: " << userrole_id;
-    return userrole_id;
+int parentboard::setUserRoleID(TeamMember_ProjectsWindow *tmWindow) {
+    if (tmWindow) {
+        userRoleID = tmWindow->getPassValueRole();
+        qDebug() << "setUserRoleID: " << userRoleID;
+        adjustUIForUserRole(userRoleID);
+    }
+    return userRoleID;
 }
+
+void parentboard::adjustUIForUserRole(int role) {
+    // Assuming 1 is the role with full access
+    if (role != 1) {
+        ui->backlogButton->setVisible(false);
+        ui->sprintsButton->setVisible(false);
+        ui->teamButton->setVisible(false);
+    } else {
+        // Show all tabs for full access users
+        ui->backlogButton->setVisible(true);
+        ui->sprintsButton->setVisible(true);
+        ui->teamButton->setVisible(true);
+    }
+}
+
+
+
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 

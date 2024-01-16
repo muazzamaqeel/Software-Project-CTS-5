@@ -15,7 +15,7 @@ class TeamMember_ProjectsWindow : public QMainWindow {
 public:
     explicit TeamMember_ProjectsWindow(QWidget *parent = nullptr);
     ~TeamMember_ProjectsWindow();
-
+    int PassValueRole;
 
 public slots:
     void RetrieveAndDisplayUser_Project();
@@ -25,6 +25,7 @@ public slots:
     void onProjectNameClicked(QTableWidgetItem *item);
     int getUserIdFromUsername(const QString& USERTEST, const QSqlDatabase& db);
     void setUsername(const QString& username);
+    int getPassValueRole() const;
 
 
 private:
