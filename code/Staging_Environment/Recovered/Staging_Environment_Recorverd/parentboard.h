@@ -110,7 +110,7 @@ public:
     QLabel* get_SelectedSprintT();
     QTextEdit* getInputTitleT();
     QTextEdit* getInputStatusT();
-    QTextEdit* getInputPriorityT();
+    QComboBox* getInputPriorityT();
     QTextEdit* getInputDescriptionT();
     QComboBox* getInputAssigneeT();
 

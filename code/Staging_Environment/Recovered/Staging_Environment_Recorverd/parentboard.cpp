@@ -42,6 +42,7 @@ parentboard::parentboard(QWidget *parent) :
     ui->teamButton->setCheckable(true);
     ui->confluenceButton->setCheckable(true);
     ui->calendarButton->setCheckable(true);
+    ui->taskboardButton->setChecked(true);
 
     taskModel = new QStandardItemModel(this);
     taskModel->setColumnCount(2);
@@ -182,6 +183,7 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->newTaskButtonT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::showCreateTaskTaskboard);
     connect(ui->newUserStoryButtonT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::showCreateUseStoryTaskboard);
 
+
     // Create Task or UserStory
     connect(ui->Button_CreateTaskT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::createNewTaskTaskboard);
     connect(ui->Button_CreateUserStoryT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::createNewUserStoryTaskboard);
@@ -197,7 +199,6 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->calendarButton, SIGNAL(clicked()), this, SLOT(on_calendarButton_clicked()));
 
 }
-
 
 void parentboard::UserSpecificView(int value){
 
@@ -655,7 +656,7 @@ QComboBox* parentboard::getInputAssigneeT(){
 QTextEdit* parentboard::getInputDescriptionT(){
     return ui->InputDescriptionT;
 }
-QTextEdit* parentboard::getInputPriorityT(){
+QComboBox* parentboard::getInputPriorityT(){
     return ui->InputPriorityT;
 }
 QTextEdit* parentboard::getInputStatusT(){
