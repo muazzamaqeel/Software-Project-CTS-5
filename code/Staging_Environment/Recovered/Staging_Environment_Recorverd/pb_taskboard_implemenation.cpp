@@ -89,7 +89,7 @@ void pb_taskboard_implemenation::fetchSprintData()
                       "   idSprint, Title "
                       "FROM"
                       "   Sprint "
-                      "WHERE Project_idProject = 1"); // value to replace with :projectId
+                      "WHERE Project_idProject = :projectId"); // value to replace with :projectId
         query.bindValue(":projectId", PassedProjectID);  // Use the stored project ID
 
         if (query.exec()) {
@@ -146,50 +146,56 @@ void pb_taskboard_implemenation::generateUserTaskTree()
             {
                 // If "All Sprints" is selected, don't filter by sprint ID
                 query.prepare("SELECT "
-                              "   User.idUser, "
-                              "   User.FirstName, "
-                              "   User.LastName, "
-                              "   TaskSB.Title, "
-                              "   TaskSB.Priority, "
-                              "   TaskSB.Status, "
-                              "   UserStorySB.Title, "
-                              "   UserStorySB.Priority, "
-                              "   UserStorySB.Status, "
-                              "   User.Username "
+                              "    User.idUser, "
+                              "    User.FirstName, "
+                              "    User.LastName, "
+                              "    User.Username, "
+                              "    TaskSB.Title AS TaskTitle, "
+                              "    TaskSB.Priority AS TaskPriority, "
+                              "    TaskSB.Status AS TaskStatus, "
+                              "    UserStorySB.Title AS UserStoryTitle, "
+                              "    UserStorySB.Priority AS UserStoryPriority, "
+                              "    UserStorySB.Status AS UserStoryStatus "
                               "FROM "
-                              "   User "
+                              "    Project "
+                              "INNER JOIN "
+                              "    Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
+                              "INNER JOIN "
+                              "    User ON Project_has_User.User_idUser = User.idUser "
                               "LEFT JOIN "
-                              "   TaskSB ON User.idUser = TaskSB.Assignee "
-                              "   AND TaskSB.SprintBacklog_Sprint_Project_idProject = 1 "
+                              "    TaskSB ON User.idUser = TaskSB.Assignee AND TaskSB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject "
                               "LEFT JOIN "
-                              "   UserStorySB ON User.idUser = UserStorySB.Assignee "
-                              "   AND UserStorySB.SprintBacklog_Sprint_Project_idProject = 1 "
-                              "ORDER BY User.FirstName; ");
+                              "    UserStorySB ON User.idUser = UserStorySB.Assignee AND UserStorySB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject "
+                              "WHERE "
+                              "    Project.idProject = :projectId;");
             }
             else
             {
                 query.prepare("SELECT "
-                              "   User.idUser, "
-                              "   User.FirstName, "
-                              "   User.LastName, "
-                              "   TaskSB.Title, "
-                              "   TaskSB.Priority, "
-                              "   TaskSB.Status, "
-                              "   UserStorySB.Title, "
-                              "   UserStorySB.Priority, "
-                              "   UserStorySB.Status, "
-                              "   User.Username "
+                              "    User.idUser, "
+                              "    User.FirstName, "
+                              "    User.LastName, "
+                              "    User.Username, "
+                              "    TaskSB.Title AS TaskTitle, "
+                              "    TaskSB.Priority AS TaskPriority, "
+                              "    TaskSB.Status AS TaskStatus, "
+                              "    UserStorySB.Title AS UserStoryTitle, "
+                              "    UserStorySB.Priority AS UserStoryPriority, "
+                              "    UserStorySB.Status AS UserStoryStatus "
                               "FROM "
-                              "   User "
+                              "    Project "
+                              "INNER JOIN "
+                              "    Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
+                              "INNER JOIN "
+                              "    User ON Project_has_User.User_idUser = User.idUser "
                               "LEFT JOIN "
-                              "   TaskSB ON User.idUser = TaskSB.Assignee "
-                              "   AND TaskSB.SprintBacklog_Sprint_Project_idProject = 1 "
-                              "   AND TaskSB.SprintBacklog_Sprint_idSprint = :sprintId "
+                              "    TaskSB ON User.idUser = TaskSB.Assignee AND TaskSB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject AND TaskSB.SprintBacklog_Sprint_idSprint = :sprintId "
                               "LEFT JOIN "
-                              "   UserStorySB ON User.idUser = UserStorySB.Assignee "
-                              "   AND UserStorySB.SprintBacklog_Sprint_Project_idProject = 1 " // value to replace with :projectId
-                              "   AND UserStorySB.SprintBacklog_Sprint_idSprint = :sprintId "
-                              "ORDER BY User.FirstName; ");
+                              "    UserStorySB ON User.idUser = UserStorySB.Assignee AND UserStorySB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject AND UserStorySB.SprintBacklog_Sprint_idSprint = :sprintId "
+                              "LEFT JOIN"
+                              "    Sprint ON Sprint.idSprint = TaskSB.SprintBacklog_Sprint_idSprint "
+                              "WHERE "
+                              "    Project.idProject = :projectId;");
 
                 query.bindValue(":sprintId", selectedSprintId);
 
@@ -204,18 +210,24 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                     int idUser = query.value(0).toInt();
                     QString firstName = query.value(1).toString();
                     QString lastName = query.value(2).toString();
-                    QString taskTitle = query.value(3).toString();
-                    QString taskPriority = query.value(4).toString();
-                    QString taskStatus = query.value(5).toString();
-                    QString storyTitle = query.value(6).toString();
-                    QString storyPriority = query.value(7).toString();
-                    QString storyStatus = query.value(8).toString();
-                    QString username = query.value(9).toString();
-                    // qDebug() << "TASKBOARD: firstName: " << firstName;
-                    // qDebug() << "TASKBOARD: lastName: " << lastName;
-                    // qDebug() << "TASKBOARD: taskTitle: " << taskTitle;
-                    // qDebug() << "TASKBOARD: taskPriority: " << taskPriority;
-                    // qDebug() << "TASKBOARD: taskStatus: " << taskStatus;
+                    QString username = query.value(3).toString();
+                    QString taskTitle = query.value(4).toString();
+                    QString taskPriority = query.value(5).toString();
+                    QString taskStatus = query.value(6).toString();
+                    QString storyTitle = query.value(7).toString();
+                    QString storyPriority = query.value(8).toString();
+                    QString storyStatus = query.value(9).toString();
+
+                    qDebug() << "TASKBOARD: idUser: " << idUser;
+                    qDebug() << "TASKBOARD: firstName: " << firstName;
+                    qDebug() << "TASKBOARD: lastName: " << lastName;
+                    qDebug() << "TASKBOARD: username: " << username;
+                    qDebug() << "TASKBOARD: taskTitle: " << taskTitle;
+                    qDebug() << "TASKBOARD: taskPriority: " << taskPriority;
+                    qDebug() << "TASKBOARD: taskStatus: " << taskStatus;
+                    qDebug() << "TASKBOARD: storyTitle: " << storyTitle;
+                    qDebug() << "TASKBOARD: storyPriority: " << storyPriority;
+                    qDebug() << "TASKBOARD: storyStatus: " << storyStatus;
 
                     QString name = firstName + " " + lastName;
                     // qDebug() << "TASKBOARD: name: " << name;
@@ -309,35 +321,52 @@ void pb_taskboard_implemenation::generateUnassigned()
         if (selectedSprintId == -1)
         {
             query.prepare("SELECT "
-                          "   TaskSB.Title, "
-                          "   TaskSB.Priority, "
-                          "   TaskSB.Status, "
-                          "   UserStorySB.Title, "
-                          "   UserStorySB.Priority, "
-                          "   UserStorySB.Status "
+                          "    TaskSB.Title AS TaskTitle, "
+                          "    TaskSB.Priority AS TaskPriority, "
+                          "    TaskSB.Status AS TaskStatus, "
+                          "    UserStorySB.Title AS UserStoryTitle, "
+                          "    UserStorySB.Priority AS UserStoryPriority, "
+                          "    UserStorySB.Status AS UserStoryStatus "
                           "FROM "
-                          "   TaskSB, UserStorySB "
+                          "    Project "
+                          "INNER JOIN "
+                          "    Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
+                          "INNER JOIN "
+                          "    User ON Project_has_User.User_idUser = User.idUser "
+                          "LEFT JOIN "
+                          "    TaskSB ON User.idUser = TaskSB.Assignee AND TaskSB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject "
+                          "LEFT JOIN "
+                          "    UserStorySB ON User.idUser = UserStorySB.Assignee AND UserStorySB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject "
                           "WHERE "
-                          "   TaskSB.Assignee IS NULL AND UserStorySB.Assignee IS NULL "
-                          "   AND TaskSB.SprintBacklog_Sprint_Project_idProject = 1 "
-                          "ORDER BY TaskSB.Title");
+                          "    Project.idProject = :projectId "
+                          "    AND TaskSB.Assignee IS NULL "
+                          "    AND UserStorySB.Assignee IS NULL;");
         }
         else
         {
             query.prepare("SELECT "
-                          "   TaskSB.Title, "
-                          "   TaskSB.Priority, "
-                          "   TaskSB.Status, "
-                          "   UserStorySB.Title, "
-                          "   UserStorySB.Priority, "
-                          "   UserStorySB.Status "
+                          "    TaskSB.Title AS TaskTitle, "
+                          "    TaskSB.Priority AS TaskPriority, "
+                          "    TaskSB.Status AS TaskStatus, "
+                          "    UserStorySB.Title AS UserStoryTitle, "
+                          "    UserStorySB.Priority AS UserStoryPriority, "
+                          "    UserStorySB.Status AS UserStoryStatus "
                           "FROM "
-                          "   TaskSB, UserStorySB "
+                          "    Project "
+                          "INNER JOIN "
+                          "    Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
+                          "INNER JOIN "
+                          "    User ON Project_has_User.User_idUser = User.idUser "
+                          "LEFT JOIN "
+                          "    TaskSB ON User.idUser = TaskSB.Assignee AND TaskSB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject AND TaskSB.SprintBacklog_Sprint_idSprint = :sprintId "
+                          "LEFT JOIN "
+                          "    UserStorySB ON User.idUser = UserStorySB.Assignee AND UserStorySB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject AND UserStorySB.SprintBacklog_Sprint_idSprint = :sprintId "
+                          "LEFT JOIN"
+                          "    Sprint ON Sprint.idSprint = TaskSB.SprintBacklog_Sprint_idSprint "
                           "WHERE "
-                          "   TaskSB.Assignee IS NULL AND UserStorySB.Assignee IS NULL "
-                          "   AND TaskSB.SprintBacklog_Sprint_Project_idProject = 1 "
-                          "   AND TaskSB.SprintBacklog_Sprint_idSprint = :sprintId "
-                          "ORDER BY TaskSB.Title");
+                          "    Project.idProject = :projectId "
+                          "    AND TaskSB.Assignee IS NULL "
+                          "    AND UserStorySB.Assignee IS NULL;");
 
             query.bindValue(":sprintId", selectedSprintId);
         }
@@ -402,7 +431,7 @@ void pb_taskboard_implemenation::fetchSprintDates()
         else
         {
             query.prepare("SELECT StartDate, EndDate FROM Sprint "
-                          "WHERE  Project_idProject = 1 "
+                          "WHERE  Project_idProject = :projectId "
                           "AND idSprint = :sprintId");
             query.bindValue(":projectId", PassedProjectID);
             query.bindValue(":sprintId", selectedSprintId);
