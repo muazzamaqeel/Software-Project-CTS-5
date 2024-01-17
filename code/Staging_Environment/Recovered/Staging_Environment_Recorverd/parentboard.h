@@ -52,7 +52,7 @@ public:
     QPushButton* getCreateUserButton();
     QTextBrowser* getDisplayFirstName();
     QTextBrowser* getDisplayRole();
-    QLineEdit* getInputFirstName();
+    QLineEdit* getInputEmail();
     QComboBox* getComboBoxRole();
 
     QComboBox* getInputAssignee();

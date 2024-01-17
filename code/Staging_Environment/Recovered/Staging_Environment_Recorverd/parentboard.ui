@@ -80,7 +80,7 @@ background-color: white;
     </size>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="taskboardPage">
     <property name="styleSheet">
@@ -2054,7 +2054,7 @@ QHeaderView::section {
 }</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="input_firstname">
+    <widget class="QLineEdit" name="input_email">
      <property name="geometry">
       <rect>
        <x>950</x>
@@ -2141,7 +2141,7 @@ color: rgb(255, 255, 255);
      </property>
      <item>
       <property name="text">
-       <string>Please Select</string>
+       <string>Team Member</string>
       </property>
      </item>
      <item>
@@ -2152,11 +2152,6 @@ color: rgb(255, 255, 255);
      <item>
       <property name="text">
        <string>Scrum Master</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Team</string>
       </property>
      </item>
     </widget>
@@ -2176,7 +2171,7 @@ color: rgb(255, 255, 255);
     <zorder>widget</zorder>
     <zorder>toplabelB_3</zorder>
     <zorder>teamTable</zorder>
-    <zorder>input_firstname</zorder>
+    <zorder>input_email</zorder>
     <zorder>CreateUser_Button</zorder>
     <zorder>display_firstname</zorder>
     <zorder>display_role</zorder>

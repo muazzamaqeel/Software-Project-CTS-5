@@ -18,7 +18,7 @@ public slots:
     void on_teamTab_opened();
     void on_createuser_clicked();
     void UserRetrieval();
-    //void AddUserToProject(int userId);
+    void AddUserToProject(int userId);
     void HideUserProperties();
     void ShowUserProperties();
     void AddRowUser(const QString& firstNameInput,const QString& lastNameInput, const QString& emailInput, const QString& roleInput);

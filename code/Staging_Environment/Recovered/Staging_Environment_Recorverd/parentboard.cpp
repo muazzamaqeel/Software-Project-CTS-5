@@ -427,7 +427,7 @@ QTextBrowser* parentboard::getSprintDate(){
     return ui->sprint_date;
 }
 QLineEdit* parentboard::getFirstNameField(){
-    return ui->input_firstname;
+    return ui->input_email;
 }
 QGroupBox* parentboard::getSprintGroupBox() const {
     return ui->sprintGroupBox;
@@ -547,9 +547,9 @@ QTextBrowser* parentboard::getDisplayRole()
 {
     return ui->display_role;
 }
-QLineEdit* parentboard::getInputFirstName()
+QLineEdit* parentboard::getInputEmail()
 {
-    return ui->input_firstname;
+    return ui->input_email;
 }
 
 
