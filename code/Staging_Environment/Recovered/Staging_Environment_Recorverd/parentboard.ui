@@ -1225,6 +1225,10 @@ QTreeWidget::branch:has-children {
 
 QTreeWidget::branch:closed:has-children {
     image: url(:/right-arrow.png); /* Arrow image when item is closed */
+}
+
+QScrollBar:vertical { 
+width: 0; 
 }</string>
              </property>
              <property name="sizeAdjustPolicy">
