@@ -28,6 +28,7 @@ parentboard::parentboard(QWidget *parent) :
     ui(new Ui::parentboard)
 {
     ui->setupUi(this);
+    this->resize(1280, 720);
     isTeamTableActive = false;
     DatabaseManager database;
     QSqlDatabase databaseInstance = database.getDatabase();
@@ -44,6 +45,8 @@ parentboard::parentboard(QWidget *parent) :
     ui->confluenceButton->setCheckable(true);
     ui->calendarButton->setCheckable(true);
     ui->taskboardButton->setChecked(true);
+    ui->newTaskButtonT->setCheckable(true);
+    ui->newUserStoryButtonT->setChecked(true);
 
     taskModel = new QStandardItemModel(this);
     taskModel->setColumnCount(2);
@@ -646,7 +649,7 @@ QLabel* parentboard::getCreate_StatusT(){
 QLabel* parentboard::getCreate_TitleT(){
     return ui->CreateTitleT;
 }
-QTextBrowser* parentboard::getCreate_HeaderT(){
+QLabel* parentboard::getCreate_HeaderT(){
     return ui->CreateHeaderT;
 }
 

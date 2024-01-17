@@ -553,9 +553,9 @@ void pb_taskboard_implemenation::showCreateTaskTaskboard()
     parentBoard->get_BL_SprintDropDownT()->setVisible(true);
     parentBoard->get_SelectedSprintT()->setVisible(true);
 
-    QTextBrowser* Create_HeaderT = parentBoard->getCreate_HeaderT();
+    QLabel* Create_HeaderT = parentBoard->getCreate_HeaderT();
     Create_HeaderT->setAlignment(Qt::AlignCenter);  // Align text to center
-    Create_HeaderT->setHtml("<html><head/><body><p style='font-size:14pt; text-align:center; color:black; font-weight:bold; line-height:normal;'>USER TASK</p></body></html>");
+    Create_HeaderT->setText("TASK");
 
 }
 
@@ -588,9 +588,9 @@ void pb_taskboard_implemenation::showCreateUseStoryTaskboard()
     parentBoard->get_BL_SprintDropDownT()->setVisible(true);
     parentBoard->get_SelectedSprintT()->setVisible(true);
 
-    QTextBrowser* Create_HeaderT = parentBoard->getCreate_HeaderT();
+    QLabel* Create_HeaderT = parentBoard->getCreate_HeaderT();
     Create_HeaderT->setAlignment(Qt::AlignCenter);  // Align text to center
-    Create_HeaderT->setHtml("<html><head/><body><p style='font-size:14pt; text-align:center; color:black; font-weight:bold; line-height:normal;'>USER STORY</p></body></html>");
+    Create_HeaderT->setText("USER STORY");
 
 }
 

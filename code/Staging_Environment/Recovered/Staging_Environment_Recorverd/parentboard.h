@@ -115,7 +115,7 @@ public:
     QComboBox* getInputAssigneeT();
 
     // Labels
-    QTextBrowser* getCreate_HeaderT();
+    QLabel* getCreate_HeaderT();
     QLabel* getCreate_TitleT();
     QLabel* getCreate_StatusT();
     QLabel* getCreate_PriorityT();
