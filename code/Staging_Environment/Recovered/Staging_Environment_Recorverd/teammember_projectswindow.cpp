@@ -82,10 +82,10 @@ void TeamMember_ProjectsWindow::ProjectRetrieval() {
         QSqlQuery query(dbobj);
 
         // Adjust the query to filter by the username
-        query.prepare("SELECT Project.idProject, Project.ProjectName, Project.Description, User.Role_idRole "
+        query.prepare("SELECT Project.idProject, Project.ProjectName, Project.Description, User_Role_Project.Role_idRole "
                       "FROM Project "
-                      "INNER JOIN Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
-                      "INNER JOIN User ON Project_has_User.User_idUser = User.idUser "
+                      "INNER JOIN User_Role_Project ON Project.idProject = User_Role_Project.Project_idProject "
+                      "INNER JOIN User ON User_Role_Project.User_idUser = User.idUser "
                       "WHERE User.Username = :validUsername");
         query.bindValue(":validUsername", m_username);
 

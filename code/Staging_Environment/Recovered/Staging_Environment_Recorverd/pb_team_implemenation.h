@@ -12,17 +12,19 @@ class pb_team_implemenation: public QObject
     Q_OBJECT
 public:
     QStandardItemModel *model;
-    pb_team_implemenation(parentboard* parentBoardInstance);
+    pb_team_implemenation(parentboard* parentBoardInstance, QSqlDatabase& databaseInstance);
     QString GetUserFirstName(int UserId);
 public slots:
     void on_teamTab_opened();
     void on_createuser_clicked();
     void UserRetrieval();
+    //void AddUserToProject(int userId);
     void HideUserProperties();
     void ShowUserProperties();
     void AddRowUser(const QString& firstNameInput,const QString& lastNameInput, const QString& emailInput, const QString& roleInput);
 private:
         parentboard* parentBoard;
+        QSqlDatabase database;
 };
 
 #endif // PB_TEAM_IMPLEMENATION_H

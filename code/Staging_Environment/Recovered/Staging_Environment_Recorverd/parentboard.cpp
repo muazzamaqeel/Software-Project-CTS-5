@@ -30,6 +30,8 @@ parentboard::parentboard(QWidget *parent) :
 {
     ui->setupUi(this);
     isTeamTableActive = false;
+    DatabaseManager database;
+    QSqlDatabase databaseInstance = database.getDatabase();
 
     QLabel logoScrummy;
     QPixmap logo("qrc:/LogoScrummy.png");
@@ -61,7 +63,7 @@ parentboard::parentboard(QWidget *parent) :
     //  PB_ProductBacklog ---------------------------------- Calls
     //  PB_ProductBacklog ---------------------------------- Calls
     parentboard *obj = this; // Create an instance of parentboard
-    pb_team_implemenation *teamPagePtr = new pb_team_implemenation(obj);
+    pb_team_implemenation *teamPagePtr = new pb_team_implemenation(obj, databaseInstance);
     pb_productbacklog_implementation *pbProductBacklogObj = new pb_productbacklog_implementation(obj);
     pb_productbacklog_implementation_Extension *pbProductBacklog_ExtensionObj = new pb_productbacklog_implementation_Extension(obj);
     pb_sprint_implemenation *pbSprintObj = new pb_sprint_implemenation(obj);
@@ -165,10 +167,10 @@ parentboard::parentboard(QWidget *parent) :
     //  PB_Team  ---------------------------------- Calls
     //  PB_Team  ---------------------------------- Calls
 
-    connect(ui->button_inviteUser, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::ShowUserProperties);
+    //connect(ui->button_inviteUser, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::ShowUserProperties);
     connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
     connect(ui->teamButton, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::UserRetrieval);
-    teamPagePtr->HideUserProperties();
+    teamPagePtr->ShowUserProperties();
 
     //Old Way
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));

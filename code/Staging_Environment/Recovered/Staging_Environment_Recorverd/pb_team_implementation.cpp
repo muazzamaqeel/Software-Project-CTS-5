@@ -6,9 +6,11 @@
 #include "qsqlquery.h"
 #include <QDebug>
 
-pb_team_implemenation::pb_team_implemenation(parentboard* parentBoardInstance)
+pb_team_implemenation::pb_team_implemenation(parentboard* parentBoardInstance, QSqlDatabase& databaseInstance)
 {
     parentBoard = parentBoardInstance;
+    database = databaseInstance;
+
 }
 void pb_team_implemenation::on_createuser_clicked()
 {
@@ -19,23 +21,23 @@ void pb_team_implemenation::on_createuser_clicked()
 void pb_team_implemenation::UserRetrieval()
 {
 
+    DatabaseManager database1;
+    database = database1.getDatabase();
     if (parentBoard->isTeamTableActive)
     {
         return;
     }
     parentBoard->isTeamTableActive = true;
-    DatabaseManager database;
-    QSqlDatabase databaseInstance = database.getDatabase();
-    QSqlQuery query(databaseInstance);
+    QSqlQuery query(database);
 
     int projectID = parentBoard->getProjectId();
 
-    if (databaseInstance.isOpen()) {
+    if (database.isOpen()) {
 
-        query.prepare("SELECT FirstName, LastName, Email, Role_idRole FROM User "
-                      "INNER JOIN Project_has_User ON User.idUser = Project_has_User.User_idUser "
-                      "INNER JOIN Project ON Project.idProject = Project_has_User.Project_idProject "
-                      "WHERE Project_has_User.Project_idProject = :projectID");
+        query.prepare("SELECT User.FirstName, User.LastName, User.Email, User_Role_Project.Role_idRole FROM User "
+                      "INNER JOIN User_Role_Project ON User.idUser = User_Role_Project.User_idUser "
+                      "INNER JOIN Project ON Project.idProject = User_Role_Project.Project_idProject "
+                      "WHERE User_Role_Project.Project_idProject = :projectID");
         query.bindValue(":projectID", projectID);
         qDebug() << "Query prepared";
 
@@ -65,7 +67,7 @@ void pb_team_implemenation::UserRetrieval()
             qDebug() << "Row fetched: " << firstName << ", " << email << ", " << role2;
         }
     } else {
-        qDebug() << "Failed to open database: " << databaseInstance.lastError().text();
+        qDebug() << "Failed to open database: " << database.lastError().text();
     }
 }
 
@@ -104,6 +106,10 @@ void pb_team_implemenation::ShowUserProperties()
     parentBoard->getInputFirstName()->setVisible(true);
     parentBoard->getComboBoxRole()->setVisible(true);
 }
+
+//void AddUserToProject(int userId){
+
+//}
 
 void pb_team_implemenation::HideUserProperties()
 {
