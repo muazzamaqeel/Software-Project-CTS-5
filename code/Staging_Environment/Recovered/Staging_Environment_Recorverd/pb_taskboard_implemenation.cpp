@@ -723,6 +723,12 @@ void pb_taskboard_implemenation::addToTableTaskboard(const QString& title, const
     HideShow_CreateSectionTaskboard();
     generateUserTaskTree();
 
+
+    if (assignee == -1)
+    {
+        // doesnt input assignee so 2 queries, 1 with assignee, 1 without
+    }
+
     // if (parentBoard->getButton_CreateTaskT()->isVisible() == true)
     // {
     //     DatabaseManager database;

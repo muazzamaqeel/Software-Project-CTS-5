@@ -19,7 +19,7 @@ namespace Ui {
 class parentboard;
 }
 
-class parentboard : public QWidget
+class parentboard : public QMainWindow
 {
     Q_OBJECT
 

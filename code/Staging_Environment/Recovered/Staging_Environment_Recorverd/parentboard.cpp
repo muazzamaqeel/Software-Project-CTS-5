@@ -24,9 +24,8 @@ parentboard* parentboard::instance = nullptr;
 
 
 parentboard::parentboard(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::parentboard),
-    scrollAreaLayout(new QVBoxLayout(this))
+    QMainWindow(parent),
+    ui(new Ui::parentboard)
 {
     ui->setupUi(this);
     isTeamTableActive = false;
