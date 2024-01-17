@@ -9,22 +9,22 @@
 pb_team_implemenation::pb_team_implemenation(parentboard* parentBoardInstance, QSqlDatabase& databaseInstance)
 {
     parentBoard = parentBoardInstance;
-    database = databaseInstance;
+    database3 = databaseInstance;
 
 }
 void pb_team_implemenation::on_createuser_clicked()
 {
-    DatabaseManager database1;
-    database = database1.getDatabase();
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
     parentBoard->isTeamTableActive = true;
-    QSqlQuery query(database);
+    QSqlQuery query(dbobj);
 
     int userId;
     int projectID = parentBoard->getProjectId();
     QString userEmail = parentBoard->getInputEmail()->text().trimmed();
     qDebug() << "TEAM: The user Email:" << userEmail;
 
-    if (database.isOpen()) {
+    if (dbobj.isOpen()) {
 
         query.prepare("SELECT idUser FROM User WHERE User.Email = :userEmail");
         query.bindValue(":userEmail", userEmail);
@@ -42,7 +42,7 @@ void pb_team_implemenation::on_createuser_clicked()
             qDebug() << "TEAM: " << query.lastQuery();
         }
     } else {
-        qDebug() << "Failed to open database: " << database.lastError().text();
+        qDebug() << "Failed to open database: " << dbobj.lastError().text();
         return;
     }
 
@@ -52,18 +52,23 @@ void pb_team_implemenation::on_createuser_clicked()
 void pb_team_implemenation::UserRetrieval()
 {
 
-    DatabaseManager database1;
-    database = database1.getDatabase();
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
     if (parentBoard->isTeamTableActive)
     {
         return;
     }
     parentBoard->isTeamTableActive = true;
-    QSqlQuery query(database);
+    QSqlQuery query(dbobj);
+    QStringList roleList;
+
+    roleList << "Product Owner";
+    roleList << "Team Member";
+    roleList << "Scrum Master";
 
     int projectID = parentBoard->getProjectId();
 
-    if (database.isOpen()) {
+    if (dbobj.isOpen()) {
 
         query.prepare("SELECT User.FirstName, User.LastName, User.Email, User_Role_Project.Role_idRole FROM User "
                       "INNER JOIN User_Role_Project ON User.idUser = User_Role_Project.User_idUser "
@@ -85,24 +90,26 @@ void pb_team_implemenation::UserRetrieval()
             QString email = query.value(2).toString();
             QString role1 = query.value(3).toString();
 
+            QComboBox* roleComboBox = new QComboBox();
+            roleComboBox->addItems(roleList);
             QString role = role1.back();
             int role2 = role.toInt();
-            qDebug() << "Role as String: " << role1 << "   Role as int:" << role2;
             if(role2 == 1)
                 role = "Scrum Master";
             if(role2 == 2)
                 role = "Project Owner";
             if(role2 == 3)
                 role = "Team Member";
-            AddRowUser(firstName,lastName, email, role);
+            roleComboBox->setCurrentText(role);
+            AddRowUser(firstName,lastName, email, *roleComboBox);
         }
     } else {
-        qDebug() << "Failed to open database: " << database.lastError().text();
+        qDebug() << "Failed to open database: " << dbobj.lastError().text();
     }
 }
 
 void pb_team_implemenation::AddRowUser(const QString& firstNameInput, const QString& lastNameInput,
-                   const QString& emailInput, const QString& roleInput)
+                   const QString& emailInput, QComboBox& roleInput)
 {
 
     QTableWidget* teamTable = parentBoard->getTeamTableView();
@@ -115,15 +122,17 @@ void pb_team_implemenation::AddRowUser(const QString& firstNameInput, const QStr
         QTableWidgetItem* firstName = new QTableWidgetItem(firstNameInput);
         QTableWidgetItem* lastName = new QTableWidgetItem(lastNameInput);
         QTableWidgetItem* email = new QTableWidgetItem(emailInput);
-        QTableWidgetItem* role = new QTableWidgetItem(roleInput);
 
         email->setFlags(email->flags() & ~Qt::ItemIsEditable);
-        role->setFlags(role->flags() & ~Qt::ItemIsEditable);
 
         teamTable->setItem(rowSize, 0, firstName);
         teamTable->setItem(rowSize, 1, lastName);
         teamTable->setItem(rowSize, 2, email);
-        teamTable->setItem(rowSize, 3, role);
+        teamTable->setCellWidget(rowSize, 3, &roleInput);
+        connect(&roleInput, &QComboBox::currentTextChanged,
+                [this](const QString &newStatus) {
+                    onRoleChanged(newStatus);
+                });
     }
 
 }
@@ -138,10 +147,10 @@ void pb_team_implemenation::ShowUserProperties()
 }
 
 void pb_team_implemenation::AddUserToProject(int userId){
-    DatabaseManager database1;
-    database = database1.getDatabase();
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
     parentBoard->isTeamTableActive = true;
-    QSqlQuery query(database);
+    QSqlQuery query(dbobj);
 
     QString userRoleString = parentBoard->getDisplayRole()->toPlainText();
     int userRole;
@@ -153,7 +162,7 @@ void pb_team_implemenation::AddUserToProject(int userId){
         userRole = 2;
     int projectID = parentBoard->getProjectId();
     qDebug() << "TEAM: The user ID:" << userId;
-    if (database.isOpen()) {
+    if (dbobj.isOpen()) {
         query.prepare("INSERT INTO User_Role_Project(User_idUser, Project_idProject, Role_idRole) VALUES"
                       "(:userId, :projectID, :userRole)");
         query.bindValue(":projectID", projectID);
@@ -168,10 +177,16 @@ void pb_team_implemenation::AddUserToProject(int userId){
         }
 
     } else {
-        qDebug() << "Failed to open database: " << database.lastError().text();
+        qDebug() << "Failed to open database: " << dbobj.lastError().text();
     }
 
-    if (database.isOpen()) {
+    QStringList roleList;
+
+    roleList << "Product Owner";
+    roleList << "Team Member";
+    roleList << "Scrum Master";
+
+    if (dbobj.isOpen()) {
         query.prepare("SELECT User.FirstName, User.LastName, User.Email, User_Role_Project.Role_idRole FROM User "
                       "INNER JOIN User_Role_Project ON User.idUser = User_Role_Project.User_idUser "
                       "INNER JOIN Project ON Project.idProject = User_Role_Project.Project_idProject "
@@ -192,6 +207,9 @@ void pb_team_implemenation::AddUserToProject(int userId){
             QString email = query.value(2).toString();
             QString role1 = query.value(3).toString();
 
+            QComboBox* roleComboBox = new QComboBox();
+            roleComboBox->addItems(roleList);
+            roleComboBox->setCurrentText(role1);
             QString role = role1.back();
             int role2 = role.toInt();
             qDebug() << "Role as String: " << role1 << "   Role as int:" << role2;
@@ -201,11 +219,13 @@ void pb_team_implemenation::AddUserToProject(int userId){
                 role = "Project Owner";
             if(role2 == 3)
                 role = "Team Member";
-            AddRowUser(firstName,lastName, email, role);
+            AddRowUser(firstName,lastName, email, *roleComboBox);
         }
     } else {
-        qDebug() << "Failed to open database: " << database.lastError().text();
+        qDebug() << "Failed to open database: " << dbobj.lastError().text();
+        dbobj.close();
     }
+    dbobj.close();
 }
 
 void pb_team_implemenation::HideUserProperties()
@@ -231,32 +251,73 @@ void pb_team_implemenation::on_teamTab_opened()
 
     //QTableWidgetItem* userFirstName = new QTableWidgetItem()
 }
-QString pb_team_implemenation::GetUserFirstName(int UserId)
-{
-    DatabaseManager database;
-    QSqlDatabase databaseInstance = database.getDatabase();
-    QString id = QString::number(UserId);
-    QString FirstNameQuery = "SELECT FirstName FROM scrummy.User WHERE idUser= '" + id + "'";
-    QString returnText = "";
 
-    try{
-        databaseInstance.isOpen();
+void pb_team_implemenation::onRoleChanged(const QString& role)
+{
+    int userId;
+    int projectID = parentBoard->getProjectId();
+    QTableWidget* teamTable = parentBoard->getTeamTableView();
+    if(!teamTable)
+        return;
+    QItemSelectionModel *select = teamTable->selectionModel();
+    int selectedRow = select->selectedIndexes().first().row();
+    qDebug() << "TEAM: selected row:" << selectedRow;
+
+    QString userEmail = teamTable->item(selectedRow, 2)->text();
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
+    QSqlQuery query(dbobj);
+
+    int roleId;
+
+    if(role == "Team Member")
+        roleId = 3;
+    else if(role == "Scrum Master")
+        roleId = 2;
+    else
+        roleId = 1;
+
+    if (dbobj.isOpen()) {
+        query.prepare("SELECT idUser FROM User WHERE User.Email = :userEmail");
+        query.bindValue(":userEmail", userEmail);
+        qDebug() << "TEAM: Email fetch query prepared" << userEmail;
+
+        if (!query.exec())
+        {
+            qDebug() << "Query execution error: " << query.lastError().text();
+            return;
+            dbobj.close();
         }
-    catch(std::exception e){
-        qDebug() << "Connection Not Established - Login class!";
-        return "";
+        while(query.next())
+        {
+            userId = query.value(0).toInt();
+            qDebug() << "TEAM: user ID:" << userId;
+            qDebug() << "TEAM: project ID:" << projectID;
+        }
+        /*else{
+            qDebug() << "Query execution error: " << query.lastError().text();
+            return;
+        }*/
+
+        query.prepare("UPDATE User_Role_Project SET Role_idRole = :userRole WHERE Project_idProject = :projectID "
+                      "AND User_idUser = :userId");
+        query.bindValue(":userRole", roleId);
+        query.bindValue(":userId", userId);
+        query.bindValue(":projectID", projectID);
+        if (!query.exec())
+        {
+            qDebug() << "Query execution error: " << dbobj.lastError().text();
+            return;
+            dbobj.close();
+        }else
+            qDebug() << "TEAM: User role updated!";
+
+    }else {
+        qDebug() << "Failed to open database: " << dbobj.lastError().text();
+        return;
+        dbobj.close();
     }
-    QSqlQuery query(databaseInstance);
-    query.prepare(FirstNameQuery);
-    try{
-        query.exec();
-    }
-    catch(std::exception e){
-        qDebug() << "Failed to retrieve user data:" << query.lastError().text();
-        return "";
-    }
-    if(query.next()){
-        returnText = query.value(0).toString();
-    }
-    return returnText;
+
 }
+
+

@@ -136,6 +136,26 @@ void registration_window::storeInputValues() {
 
         if (dbobj.isOpen()) {
             QSqlQuery query(dbobj);
+            query.prepare("SELECT Email FROM User");
+            if (query.exec()) {
+                qDebug() << "Emails fetched!";
+            }
+
+            if (!query.exec())
+            {
+                qDebug() << "Query execution error: " << query.lastError().text();
+                return;
+            }
+            while (query.next())
+            {
+                if(query.value(0).toString() == email){
+                    error += "<font color='red'>Email already registered. </font>\n";
+                    ui->display_error->setText(error);
+                    ui->display_error->setVisible(true);
+                    return;
+                }
+            }
+
             query.prepare("INSERT INTO User (firstname, lastname, password, email, username) "
                           "VALUES (:firstname, :lastname, :password, :email, :username)");
             query.bindValue(":firstname", firstName);
