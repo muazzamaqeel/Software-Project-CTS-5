@@ -45,8 +45,6 @@ parentboard::parentboard(QWidget *parent) :
     ui->confluenceButton->setCheckable(true);
     ui->calendarButton->setCheckable(true);
     ui->taskboardButton->setChecked(true);
-    ui->newTaskButtonT->setCheckable(true);
-    ui->newUserStoryButtonT->setChecked(true);
 
     taskModel = new QStandardItemModel(this);
     taskModel->setColumnCount(2);
@@ -184,16 +182,12 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->taskboardButton,&QPushButton::clicked,pbTaskboardBObj,&pb_taskboard_implemenation::pb_taskboard_Retrieval);
 
     // Show Task or UserStory creation
-    connect(ui->newTaskButtonT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::showCreateTaskTaskboard);
-    connect(ui->newUserStoryButtonT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::showCreateUseStoryTaskboard);
+    connect(ui->editTaskButtonT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::showEditTaskboard);
 
 
     // Create Task or UserStory
-    connect(ui->Button_CreateTaskT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::createNewTaskTaskboard);
-    connect(ui->Button_CreateUserStoryT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::createNewUserStoryTaskboard);
-
-    // Delete Task or UserStory
-    connect(ui->delete_itemT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::deleteItemTaskboard);
+    connect(ui->Button_CreateTaskT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::editTaskTaskboard);
+    connect(ui->Button_CreateUserStoryT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::editUserStoryTaskboard);
 
 
 
@@ -684,6 +678,37 @@ QGroupBox* parentboard::getCreationBoxT(){
 // Delete
 QPushButton* parentboard::get_delete_itemT(){
     return ui->delete_itemT;
+}
+
+// Edit
+void parentboard::updateInputTitleT(const QString& data)
+{
+    ui->InputTitleT->append(data);
+}
+void parentboard::updateInputDescriptionT(const QString& data)
+{
+    ui->InputDescriptionT->append(data);
+}
+void parentboard::updateInputStatusT(const QString& data)
+{
+    ui->InputStatusT->append(data);
+}
+void parentboard::updateInputAssigneeT(int index)
+{
+    QComboBox* assignedUserT = ui->InputAssigneeT;
+
+    assignedUserT->setCurrentIndex(index);
+    qDebug() << "PARENTBOARD: TASKBOARD: updateInputAssigneeT - idUser" << index;
+
+}
+
+void parentboard::updateBL_SprintDropDownT(int index)
+{
+    QComboBox* sprintDropdownT = ui->BL_SprintDropDownT;
+
+    sprintDropdownT->setCurrentIndex(index);
+    qDebug() << "PARENTBOARD: TASKBOARD: updateBL_SprintDropDownT - idSprint" << index;
+
 }
 
 

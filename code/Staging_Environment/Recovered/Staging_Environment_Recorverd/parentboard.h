@@ -128,6 +128,13 @@ public:
     QPushButton* getButton_CreateUserStoryT();
     QPushButton* get_delete_itemT();
 
+    // Update/Edit
+    void updateInputStatusT(const QString& data);
+    void updateInputTitleT(const QString& data);
+    void updateInputDescriptionT(const QString& data);
+    void updateInputAssigneeT(int data);
+    void updateBL_SprintDropDownT(int data);
+
 
 
 

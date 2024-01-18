@@ -36,13 +36,13 @@ public slots:
     void generateUserTaskTree();
     void HideShow_CreateSectionTaskboard();
     void showCreateUseStoryTaskboard();
-    void showCreateTaskTaskboard();
+    void showEditTaskboard();
     void showCreate_Taskboard();
-    void deleteItemTaskboard();
+    void retrieveDataTaskboard();
     void createNewItemInDatabase();
-    void createNewUserStoryTaskboard();
-    void createNewTaskTaskboard();
-    void addToTableTaskboard(const QString& title, const QString& description, const QString& status, int priority, int assignee, const QString& sprint);
+    void editUserStoryTaskboard();
+    void editTaskTaskboard();
+    void addToTableTaskboard(const QString& title, const QString& description, const QString& status, int assignee, const QString& sprint);
 
 
 private:
