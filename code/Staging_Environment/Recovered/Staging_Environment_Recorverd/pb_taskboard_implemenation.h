@@ -40,7 +40,7 @@ public slots:
     void retrieveDataTaskboard();
     void editUserStoryTaskboard();
     void editTaskTaskboard();
-    void addToTableTaskboard(const QString& title, const QString& description, const QString& status, int assignee, const QString& sprint);
+    void addToTableTaskboard(const QString& title, const QString& description, const QString& status, int assignee, int sprint, int id, const QString& type);
 
 
 private:

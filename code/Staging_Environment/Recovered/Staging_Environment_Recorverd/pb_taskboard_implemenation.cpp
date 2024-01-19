@@ -75,7 +75,7 @@ void pb_taskboard_implemenation::fetchSprintData()
     parentBoard->get_BL_SprintDropDownT()->clear();
 
     parentBoard->getSprintDropdown()->addItem("All Sprints", -1);
-    parentBoard->get_BL_SprintDropDownT()->addItem("", -3);
+    parentBoard->get_BL_SprintDropDownT()->addItem(" ", -3);
 
     DatabaseManager database;
     QSqlDatabase db = database.getDatabase();
@@ -119,9 +119,7 @@ void pb_taskboard_implemenation::fetchSprintData()
 void pb_taskboard_implemenation::generateUserTaskTree()
 {
 
-
-    // Clear existing items from the QTreeWidget
-    parentBoard->getTaskTreeWidget()->clear();
+    // Clear existing items from the InputAssigneeT
     parentBoard->getInputAssigneeT()->clear();
 
     QSet<int> addedUserIds;  // Use a set to track added user IDs
@@ -222,6 +220,9 @@ void pb_taskboard_implemenation::generateUserTaskTree()
         query.bindValue(":projectId", PassedProjectID);
 
         QMap<QString, QTreeWidgetItem*> userItemMap;
+
+        // Clear Tree Wdiget items
+        parentBoard->getTaskTreeWidget()->clear();
 
         if (query.exec()) {
             while (query.next()) {
@@ -391,18 +392,12 @@ void pb_taskboard_implemenation::generateUnassigned()
                           "    UserStorySB.idUserStorySB AS idStory "
                           "FROM "
                           "    Project "
-                          "INNER JOIN "
-                          "    Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
-                          "INNER JOIN "
-                          "    User ON Project_has_User.User_idUser = User.idUser "
                           "LEFT JOIN "
-                          "    TaskSB ON User.idUser = TaskSB.Assignee AND TaskSB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject "
+                          "    TaskSB ON TaskSB.Assignee IS NULL "
                           "LEFT JOIN "
-                          "    UserStorySB ON User.idUser = UserStorySB.Assignee AND UserStorySB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject "
+                          "    UserStorySB ON UserStorySB.Assignee IS NULL "
                           "WHERE "
-                          "    Project.idProject = :projectId "
-                          "    AND TaskSB.Assignee IS NULL "
-                          "    AND UserStorySB.Assignee IS NULL;");
+                          "    Project.idProject = :projectId");
         }
         else
         {
@@ -421,20 +416,14 @@ void pb_taskboard_implemenation::generateUnassigned()
                           "    UserStorySB.idUserStorySB AS idStory "
                           "FROM "
                           "    Project "
-                          "INNER JOIN "
-                          "    Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
-                          "INNER JOIN "
-                          "    User ON Project_has_User.User_idUser = User.idUser "
                           "LEFT JOIN "
-                          "    TaskSB ON User.idUser = TaskSB.Assignee AND TaskSB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject AND TaskSB.SprintBacklog_Sprint_idSprint = :sprintId "
+                          "    TaskSB ON TaskSB.Assignee IS NULL AND TaskSB.SprintBacklog_Sprint_idSprint = :sprintId "
                           "LEFT JOIN "
-                          "    UserStorySB ON User.idUser = UserStorySB.Assignee AND UserStorySB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject AND UserStorySB.SprintBacklog_Sprint_idSprint = :sprintId "
-                          "LEFT JOIN"
-                          "    Sprint ON Sprint.idSprint = TaskSB.SprintBacklog_Sprint_idSprint "
+                          "    UserStorySB ON UserStorySB.Assignee IS NULL AND UserStorySB.SprintBacklog_Sprint_idSprint = :sprintId "
+                          "LEFT JOIN "
+                          "    Sprint ON Sprint.idSprint = TaskSB.SprintBacklog_Sprint_idSprint AND Sprint.idSprint = UserStorySB.SprintBacklog_Sprint_idSprint "
                           "WHERE "
-                          "    Project.idProject = :projectId "
-                          "    AND TaskSB.Assignee IS NULL "
-                          "    AND UserStorySB.Assignee IS NULL;");
+                          "    Project.idProject = :projectId;");
 
             query.bindValue(":sprintId", selectedSprintId);
         }
@@ -672,6 +661,8 @@ void pb_taskboard_implemenation::HideShow_CreateSectionTaskboard()
 void pb_taskboard_implemenation::showEditTaskboard()
 {
 
+    QComboBox* inputAssignee = parentBoard->getInputAssigneeT();
+
     if (parentBoard->getCreationBoxT()->isVisible())
     {
         parentBoard->getCreationBoxT()->setVisible(false);
@@ -682,13 +673,14 @@ void pb_taskboard_implemenation::showEditTaskboard()
         parentBoard->getInputDescriptionT()->clear();
         parentBoard->getInputStatusT()->clear();
 
-        QComboBox* inputAssignee = parentBoard->getInputAssigneeT();
         inputAssignee->setCurrentIndex(-1);
 
     }
     else
     {
         parentBoard->getCreationBoxT()->setVisible(true);
+
+        inputAssignee->setCurrentIndex(-1);
     }
 
     // parentBoard->getCreate_HeaderT()->setVisible(true);
@@ -759,10 +751,9 @@ void pb_taskboard_implemenation::retrieveDataTaskboard()
         return;
     }
 
+    // Tree Widget item retrieval
     QTreeWidget* treeWidget = parentBoard->getTaskTreeWidget();
     QTreeWidgetItem* selectedItem = treeWidget->currentItem();
-
-    // Tree Widget item retrieval
     if (selectedItem) {
 
         QString taskTitle = selectedItem->data(1, Qt::DisplayRole).toString();
@@ -771,18 +762,20 @@ void pb_taskboard_implemenation::retrieveDataTaskboard()
         int hiddenSprint = selectedItem->data(6, Qt::UserRole).toInt();
         int hiddenAssignee = selectedItem->data(7, Qt::UserRole).toInt();
 
-
         // Hiding buttons depending on the taskType
+        QLabel* Create_HeaderT = parentBoard->getCreate_HeaderT();
         QString taskType = selectedItem->data(3, Qt::DisplayRole).toString();
         if (taskType == "Task")
         {
             parentBoard->getButton_CreateTaskT()->setVisible(true);
-            parentBoard->getButton_CreateUserStoryT()->setVisible(false);
+            // parentBoard->getButton_CreateUserStoryT()->setVisible(false);
+            Create_HeaderT->setText("TASK");
         }
         if (taskType == "User Story")
         {
-            parentBoard->getButton_CreateTaskT()->setVisible(false);
-            parentBoard->getButton_CreateUserStoryT()->setVisible(true);
+            parentBoard->getButton_CreateTaskT()->setVisible(true);
+            // parentBoard->getButton_CreateUserStoryT()->setVisible(true);
+            Create_HeaderT->setText("USER STORY");
         }
 
         // Updating Input for editing
@@ -814,175 +807,205 @@ void pb_taskboard_implemenation::retrieveDataTaskboard()
 
 void pb_taskboard_implemenation::editTaskTaskboard()
 {
-    qDebug() << "TASKBOARD: EDIT Save Task Taskboard button clicked.";
+    qDebug() << "TASKBOARD: EDIT Save Task/UserStory Taskboard button clicked.";
 
-    QTextEdit* inputDescriptionTt = parentBoard->getInputDescriptionT();
-    QTextEdit* inputStatusTt = parentBoard->getInputStatusT();
-    QTextEdit* inputTitleTt = parentBoard->getInputTitleT();
-    QComboBox* currentSprintTt = parentBoard->get_BL_SprintDropDownT();
-    QComboBox* inputAssigneeTt = parentBoard->getInputAssigneeT();
-
-    QString titleT = inputTitleTt->toPlainText();
-    QString descriptionT = inputDescriptionTt->toPlainText();
-    QString statusT = inputStatusTt->toPlainText();
-    int assigneeT = inputAssigneeTt->currentData().toInt();
-    QString sprintT = currentSprintTt->currentText();
-    int sprintID = currentSprintTt->currentIndex();
-
-    qDebug() << "TASKBOARD: EDIT Input Values:";
-    qDebug() << "TASKBOARD: EDIT titleT" << titleT;
-    qDebug() << "TASKBOARD: EDIT descriptionT" << descriptionT;
-    qDebug() << "TASKBOARD: EDIT statusT" << statusT;
-    qDebug() << "TASKBOARD: EDIT assignee" << assigneeT;
-    qDebug() << "TASKBOARD: EDIT sprintT" << sprintT << sprintID;
-
-    if (titleT.isEmpty() || descriptionT.isEmpty()) {
-        // One or more fields are empty
-        QString errorMessage = "Missing Values:\n";
-
-        if (titleT.isEmpty()) {
-            errorMessage += "- Title\n";
-        }
-        if (descriptionT.isEmpty()) {
-            errorMessage += "- Description\n";
-        }
-
-        QMessageBox::warning(nullptr, "Missing Values", errorMessage);
-    }
-    else
+    // Tree Widget Task/User Story ID retrieval
+    QTreeWidget* treeWidget = parentBoard->getTaskTreeWidget();
+    QTreeWidgetItem* selectedItem = treeWidget->currentItem();
+    if (selectedItem)
     {
-        addToTableTaskboard(titleT, descriptionT, statusT, assigneeT, sprintT);
+        QString taskType = selectedItem->data(3, Qt::DisplayRole).toString();
+        int hiddenSprint = selectedItem->data(6, Qt::UserRole).toInt();
+        int hiddenID = selectedItem->data(8, Qt::UserRole).toInt();
+
+        QTextEdit* inputDescriptionTt = parentBoard->getInputDescriptionT();
+        QTextEdit* inputStatusTt = parentBoard->getInputStatusT();
+        QTextEdit* inputTitleTt = parentBoard->getInputTitleT();
+        QComboBox* currentSprintTt = parentBoard->get_BL_SprintDropDownT();
+        QComboBox* inputAssigneeTt = parentBoard->getInputAssigneeT();
+
+        QString titleT = inputTitleTt->toPlainText();
+        QString descriptionT = inputDescriptionTt->toPlainText();
+        QString statusT = inputStatusTt->toPlainText();
+        int assigneeT = inputAssigneeTt->currentData().toInt();
+
+        qDebug() << "TASKBOARD: EDIT Input Values:";
+        qDebug() << "TASKBOARD: EDIT titleT" << titleT;
+        qDebug() << "TASKBOARD: EDIT descriptionT" << descriptionT;
+        qDebug() << "TASKBOARD: EDIT statusT" << statusT;
+        qDebug() << "TASKBOARD: EDIT assignee" << assigneeT;
+        qDebug() << "TASKBOARD: EDIT hiddenSprint" << hiddenSprint;
+        qDebug() << "TASKBOARD: EDIT hiddenID" << hiddenID;
+        qDebug() << "TASKBOARD: EDIT taskType" << taskType;
+
+        if (titleT.isEmpty() || descriptionT.isEmpty()) {
+            // One or more fields are empty
+            QString errorMessage = "Missing Values:\n";
+
+            if (titleT.isEmpty()) {
+                errorMessage += "- Title\n";
+            }
+            if (descriptionT.isEmpty()) {
+                errorMessage += "- Description\n";
+            }
+
+            QMessageBox::warning(nullptr, "Missing Values", errorMessage);
+        }
+        else
+        {
+            addToTableTaskboard(titleT, descriptionT, statusT, assigneeT, hiddenSprint, hiddenID, taskType);
+        }
     }
 }
 
 void pb_taskboard_implemenation::editUserStoryTaskboard()
 {
-    qDebug() << "TASKBOARD: EDIT Save User Story Taskboard button clicked.";
+    // qDebug() << "TASKBOARD: EDIT Save User Story Taskboard button clicked.";
 
-    QTextEdit* inputDescriptionTus = parentBoard->getInputDescriptionT();
-    QTextEdit* inputStatusTus = parentBoard->getInputStatusT();
-    QTextEdit* inputTitleTus = parentBoard->getInputTitleT();
-    QComboBox* currentSprintTus = parentBoard->get_BL_SprintDropDownT();
-    QComboBox* inputAssigneeTus = parentBoard->getInputAssigneeT();
+    // QTextEdit* inputDescriptionTus = parentBoard->getInputDescriptionT();
+    // QTextEdit* inputStatusTus = parentBoard->getInputStatusT();
+    // QTextEdit* inputTitleTus = parentBoard->getInputTitleT();
+    // QComboBox* currentSprintTus = parentBoard->get_BL_SprintDropDownT();
+    // QComboBox* inputAssigneeTus = parentBoard->getInputAssigneeT();
 
-    QString titleT = inputTitleTus->toPlainText();
-    QString descriptionT = inputDescriptionTus->toPlainText();
-    QString statusT = inputStatusTus->toPlainText();
-    int assigneeT = inputAssigneeTus->currentData().toInt();
-    QString sprintT = currentSprintTus->currentText();
-    int sprintID = currentSprintTus->currentIndex();
+    // QString titleT = inputTitleTus->toPlainText();
+    // QString descriptionT = inputDescriptionTus->toPlainText();
+    // QString statusT = inputStatusTus->toPlainText();
+    // int assigneeT = inputAssigneeTus->currentData().toInt();
+    // QString sprintT = currentSprintTus->currentText();
+    // int sprintID = currentSprintTus->currentIndex();
 
-    qDebug() << "TASKBOARD: EDIT Input Values:";
-    qDebug() << "TASKBOARD: EDIT titleT" << titleT;
-    qDebug() << "TASKBOARD: EDIT descriptionT" << descriptionT;
-    qDebug() << "TASKBOARD: EDIT statusT" << statusT;
-    qDebug() << "TASKBOARD: EDIT assignee" << assigneeT;
-    qDebug() << "TASKBOARD: EDIT sprintT" << sprintT << sprintID;
+    // qDebug() << "TASKBOARD: EDIT Input Values:";
+    // qDebug() << "TASKBOARD: EDIT titleT" << titleT;
+    // qDebug() << "TASKBOARD: EDIT descriptionT" << descriptionT;
+    // qDebug() << "TASKBOARD: EDIT statusT" << statusT;
+    // qDebug() << "TASKBOARD: EDIT assignee" << assigneeT;
+    // qDebug() << "TASKBOARD: EDIT sprintT" << sprintT << sprintID;
 
-    if (titleT.isEmpty() || descriptionT.isEmpty()) {
-        // One or more fields are empty
-        QString errorMessage = "Missing Values:\n";
+    // if (titleT.isEmpty() || descriptionT.isEmpty()) {
+    //     // One or more fields are empty
+    //     QString errorMessage = "Missing Values:\n";
 
-        if (titleT.isEmpty()) {
-            errorMessage += "- Title\n";
-        }
-        if (descriptionT.isEmpty()) {
-            errorMessage += "- Description\n";
-        }
+    //     if (titleT.isEmpty()) {
+    //         errorMessage += "- Title\n";
+    //     }
+    //     if (descriptionT.isEmpty()) {
+    //         errorMessage += "- Description\n";
+    //     }
 
-        QMessageBox::warning(nullptr, "Missing Values", errorMessage);
-    }
-    else
-    {
-        addToTableTaskboard(titleT, descriptionT, statusT, assigneeT, sprintT);
-    }
+    //     QMessageBox::warning(nullptr, "Missing Values", errorMessage);
+    // }
+    // else
+    // {
+    //     addToTableTaskboard(titleT, descriptionT, statusT, assigneeT, sprintT);
+    // }
 }
 
 
-void pb_taskboard_implemenation::addToTableTaskboard(const QString& title, const QString& description, const QString& status, int assignee, const QString& sprint)
+void pb_taskboard_implemenation::addToTableTaskboard(const QString& title, const QString& description, const QString& status, int assignee, int sprint, int id, const QString& type)
 {
     qDebug() << "TASKBOARD: addToTableTaskboard Function is called";
-    HideShow_CreateSectionTaskboard();
-    generateUserTaskTree();
 
-    // "UPDATE UserStorySB "
-    // "SET Title="3rd attempt, "
-    // "Description="Trying task editing, "
-    // "Status="To Do, "
-    // "Assignee=32, "
-    // "SprintBacklog_idSprintBacklog=64, "
-    // "SprintBacklog_Sprint_idSprint=64 "
-    // "WHERE idUserStorySB=325;"
-
-    // "UPDATE TaskSB "
-    // "SET Title="3rd attempt, "
-    // "Description="Trying task editing, "
-    // "Status="To Do, "
-    // "Assignee=32, "
-    // "SprintBacklog_idSprintBacklog=64, "
-    // "SprintBacklog_Sprint_idSprint=64 "
-    // "WHERE idTask=325;"
-
-    // if (assignee == -1)
-    // {
-    //     // doesnt input assignee so 2 queries, 1 with assignee, 1 without
-    // }
-
-    // if (parentBoard->getButton_CreateTaskT()->isVisible() == true)
-    // {
-    //     DatabaseManager database;
-    //     QSqlDatabase UserStorySB = database.getDatabase();
-    //     if (!UserStorySB.isOpen()) {
-    //         qDebug() << "TASKBOARD: Connection Not Established - Task Insert!";
-    //         return;
-    //     }
-
-    //     QSqlQuery query(UserStorySB);
-    //     query.prepare("INSERT INTO scrummy.TaskSB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject)"
-    //                   "VALUES (:title, :description, :status, :priority, :assignee, 1, 1)");
-    //     query.bindValue(":title", title);
-    //     query.bindValue(":description", description);
-    //     query.bindValue(":status", status);
-    //     query.bindValue(":priority", priority);
-    //     query.bindValue(":assignee", assignee);
-    //     query.bindValue(":sprint", sprint);
+    qDebug() << "TASKBOARD: QUERY UPDATE Edit Input Values:";
+    qDebug() << "TASKBOARD: QUERY UPDATE Edit title" << title;
+    qDebug() << "TASKBOARD: QUERY UPDATE Edit description" << description;
+    qDebug() << "TASKBOARD: QUERY UPDATE Edit status" << status;
+    qDebug() << "TASKBOARD: QUERY UPDATE Edit assignee" << assignee;
+    qDebug() << "TASKBOARD: QUERY UPDATE Edit sprint" << sprint;
+    qDebug() << "TASKBOARD: QUERY UPDATE Edit ID" << id;
+    qDebug() << "TASKBOARD: QUERY UPDATE Edit type" << type;
 
 
-    //     if (!query.exec()) {
-    //         qDebug() << "TASKBOARD: Failed to insert data into UserStorySB table:" << query.lastError().text();
-    //         UserStorySB.close();
-    //         return;
-    //     }
-    //     qDebug() << "TASKBOARD: Data inserted into UserStorySB table successfully!";
-    //     UserStorySB.close();
-    // }
+    // Task Update Query
+    if (parentBoard->getButton_CreateTaskT()->isVisible() == true && type == "Task")
+    {
+        DatabaseManager database;
+        QSqlDatabase EditTaskSB = database.getDatabase();
+        if (!EditTaskSB.isOpen()) {
+            qDebug() << "TASKBOARD: Connection Not Established - Task Insert!";
+            return;
+        }
 
-    // if (parentBoard->getButton_CreateUserStoryT()->isVisible() == true)
-    // {
-    //     DatabaseManager database;
-    //     QSqlDatabase TaskSB = database.getDatabase();
-    //     if (!TaskSB.isOpen()) {
-    //         qDebug() << "TASKBOARD: Connection Not Established - UserStory Insert!";
-    //         return;
-    //     }
+        QSqlQuery query(EditTaskSB);
+        query.prepare("UPDATE TaskSB "
+                      "SET Title=:title, "
+                      "Description=:description, "
+                      "Status=:status, "
+                      "Assignee=:assignee, "
+                      "SprintBacklog_idSprintBacklog=:sprint, "
+                      "SprintBacklog_Sprint_idSprint=:sprint "
+                      "WHERE idTask=:id;");
 
-    //     QSqlQuery query(TaskSB);
-    //     query.prepare("INSERT INTO scrummy.UserStorySB(Title, Description, Status, Priority, Assignee, ProductBacklog_idProductBacklog, ProductBacklog_Project_idProject)"
-    //                   "VALUES (:title, :description, :status, :priority, :assignee, 1, 1)");
-    //     query.bindValue(":title", title);
-    //     query.bindValue(":description", description);
-    //     query.bindValue(":status", status);
-    //     query.bindValue(":priority", priority);
-    //     query.bindValue(":assignee", assignee);
-    //     query.bindValue(":sprint", sprint);
+        // Bind the 'assignee' value, handling NULL if necessary
+        if (assignee == -1) {
+            query.bindValue(":assignee", QVariant()); // assignee = NULL
+        } else {
+            query.bindValue(":assignee", assignee);
+        }
+        query.bindValue(":title", title);
+        query.bindValue(":description", description);
+        query.bindValue(":status", status);
+        query.bindValue(":sprint", sprint);
+        query.bindValue(":id", id);
 
 
-    //     if (!query.exec()) {
-    //         qDebug() << "TASKBOARD: Failed to insert data into TaskSB table:" << query.lastError().text();
-    //         TaskSB.close();
-    //         return;
-    //     }
-    //     qDebug() << "TASKBOARD: Data inserted into TaskSB table successfully!";
-    //     TaskSB.close();
-    // }
+        if (!query.exec()) {
+            qDebug() << "TASKBOARD: Failed to update data into TaskSB table:" << query.lastError().text();
+            EditTaskSB.close();
+            return;
+        }
+        qDebug() << "TASKBOARD: Data update in TaskSB table successfully!";
+        HideShow_CreateSectionTaskboard();
+        generateUserTaskTree();
+        EditTaskSB.close();
+    } else {
+        qDebug() << "TASKBOARD: TASK Could not open Query";
+    }
+
+
+    // User Story Update Query
+    if (parentBoard->getButton_CreateTaskT()->isVisible() == true && type == "Task")
+    {
+        DatabaseManager database;
+        QSqlDatabase EditUserStorySB = database.getDatabase();
+        if (!EditUserStorySB.isOpen()) {
+            qDebug() << "TASKBOARD: Connection Not Established - Task Insert!";
+            return;
+        }
+
+        QSqlQuery query(EditUserStorySB);
+        query.prepare("UPDATE UserStorySB "
+                      "SET Title=:title, "
+                      "Description=:description, "
+                      "Status=:status, "
+                      "Assignee=:assignee, "
+                      "SprintBacklog_idSprintBacklog=:sprint, "
+                      "SprintBacklog_Sprint_idSprint=:sprint "
+                      "WHERE idUserStorySB=:id;");
+
+        // Bind the 'assignee' value, handling NULL if necessary
+        if (assignee == -1) {
+            query.bindValue(":assignee", QVariant()); // assignee = NULL
+        } else {
+            query.bindValue(":assignee", assignee);
+        }
+        query.bindValue(":title", title);
+        query.bindValue(":description", description);
+        query.bindValue(":status", status);
+        query.bindValue(":sprint", sprint);
+        query.bindValue(":id", id);
+
+
+        if (!query.exec()) {
+            qDebug() << "TASKBOARD: Failed to update data into TaskSB table:" << query.lastError().text();
+            EditUserStorySB.close();
+            return;
+        }
+        qDebug() << "TASKBOARD: Data update in TaskSB table successfully!";
+        HideShow_CreateSectionTaskboard();
+        generateUserTaskTree();
+        EditUserStorySB.close();
+    } else {
+        qDebug() << "TASKBOARD: USER-STORY Could not open Query";
+    }
 }

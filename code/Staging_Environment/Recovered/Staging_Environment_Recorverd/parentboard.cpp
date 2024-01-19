@@ -188,7 +188,7 @@ parentboard::parentboard(QWidget *parent) :
 
     // Create Task or UserStory
     connect(ui->Button_CreateTaskT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::editTaskTaskboard);
-    connect(ui->Button_CreateUserStoryT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::editUserStoryTaskboard);
+    // connect(ui->Button_CreateUserStoryT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::editUserStoryTaskboard);
 
 
 
