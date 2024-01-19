@@ -139,7 +139,7 @@ void Settings::goBackToMainWindow()
 //temporary - Cosmin
 void MainWindow::openParentBoard()
 {
-    // qDebug() << "Parentboard button clicked.";
+    // qDebug() << "Project Selected";
     // To close the MainWindow screen when the parentboard window is opened
     hide();
     // Create an instance of the parentboard window

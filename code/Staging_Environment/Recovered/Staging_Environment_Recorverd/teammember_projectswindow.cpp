@@ -19,6 +19,8 @@ TeamMember_ProjectsWindow::TeamMember_ProjectsWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->BackButton, SIGNAL(clicked()), this, SLOT(RetrieveAndDisplayUser_Project()));
 
+    centerOnScreen();
+
     // Initialize table columns and headers
     ui->tm_project_table->setColumnCount(2);
     QStringList headers = {"Project Name", "Description"};
@@ -172,7 +174,8 @@ void TeamMember_ProjectsWindow::showParentBoard() {
     parentboardwindow->setProjectId(idProject); // Make sure idProject is class member and set correctly
     qDebug() <<"Hello:"<<PassValueRole;
     parentboardwindow->setUserRoleID(this);
-    parentboardwindow->showMaximized();
+    parentboardwindow->resize(1280,720);
+    parentboardwindow->show();
     parentboardwindow->displayBacklogOnMaximized();
     this->deleteLater();
 }
@@ -186,7 +189,6 @@ void TeamMember_ProjectsWindow::onProjectNameClicked(QTableWidgetItem *item) {
         loadingDialog->setWindowFlags(Qt::FramelessWindowHint);
         QLabel *loadingLabel = new QLabel("Loading, please wait...", loadingDialog);
         QVBoxLayout *layout = new QVBoxLayout(loadingDialog);
-        centerOnScreen();
         layout->addWidget(loadingLabel);
         loadingDialog->setLayout(layout);
         loadingDialog->setModal(true);

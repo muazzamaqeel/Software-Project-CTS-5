@@ -29,10 +29,11 @@ parentboard::parentboard(QWidget *parent) :
     ui(new Ui::parentboard)
 {
     ui->setupUi(this);
-    this->resize(1280, 720);
     isTeamTableActive = false;
     DatabaseManager database;
     QSqlDatabase databaseInstance = database.getDatabase();
+
+    centerOnScreen();
 
     QLabel logoScrummy;
     QPixmap logo("qrc:/LogoScrummy.png");
@@ -188,7 +189,6 @@ parentboard::parentboard(QWidget *parent) :
 
     // Create Task or UserStory
     connect(ui->Button_CreateTaskT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::editTaskTaskboard);
-    // connect(ui->Button_CreateUserStoryT, &QPushButton::clicked, pbTaskboardBObj, &pb_taskboard_implemenation::editUserStoryTaskboard);
 
 
 
@@ -735,14 +735,15 @@ void parentboard::updateInputAssigneeT(int idUser)
 
     if (index != -2) {
         assigneeDropdownT->setCurrentIndex(index);
-        qDebug() << "PARENTBOARD: TASKBOARD: assigneeDropdownT - idUser" << idUser;
+        qDebug() << "PARENTBOARD: TASKBOARD: assigneeDropdownT - idUser" << index;
     } else {
-        qDebug() << "PARENTBOARD: TASKBOARD: assigneeDropdownT - idUser not found" << idUser;
+        qDebug() << "PARENTBOARD: TASKBOARD: assigneeDropdownT - idUser not found" << index;
     }
 }
 
 void parentboard::updateBL_SprintDropDownT(int idSprint)
 {
+
     QComboBox* sprintDropdownT = ui->BL_SprintDropDownT;
 
     // Find the index of the item with the specified data
@@ -750,11 +751,24 @@ void parentboard::updateBL_SprintDropDownT(int idSprint)
 
     if (index != -1) {
         sprintDropdownT->setCurrentIndex(index);
-        qDebug() << "PARENTBOARD: TASKBOARD: updateBL_SprintDropDownT - idSprint" << idSprint;
+        qDebug() << "PARENTBOARD: TASKBOARD: updateBL_SprintDropDownT - idSprint" << index;
     } else {
-        qDebug() << "PARENTBOARD: TASKBOARD: updateBL_SprintDropDownT - idSprint not found" << idSprint;
+        qDebug() << "PARENTBOARD: TASKBOARD: updateBL_SprintDropDownT - idSprint not found" << index;
     }
 }
+
+
+// Centering Window
+void parentboard::centerOnScreen()
+{
+    // Center the window on the screen
+    QScreen *screenProject = QApplication::primaryScreen();
+    QRect mainScreenGeometry = screenProject->availableGeometry();
+    move(mainScreenGeometry.center() - rect().center());
+
+    //qDebug() << "Centering on screen.";
+}
+
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------

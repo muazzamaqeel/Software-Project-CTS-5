@@ -146,8 +146,6 @@ public:
     void updateBL_SprintDropDownT(int data);
 
 
-
-
     //Sprint
     QGroupBox* get_Sprint_View_Box();
     QLineEdit* get_Line_EditSprintEndDate();
@@ -185,6 +183,7 @@ private slots:
     void on_confluenceButton_clicked();
     void goBackToMainWindow();
     void on_calendarButton_clicked();
+    void centerOnScreen();
 
 
 protected:

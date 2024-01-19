@@ -13,15 +13,28 @@
 #include <QDateTime>
 #include <QMessageBox>
 
-/** Known Errors
- *  1. Can't change sprint of task/user story
- *  Using hiddenSprint from the selected item in the tree widget instead of selectedSprint from the Editing section
- *  2. Tasks/User Stories sometimes duplicated when added to Users or Unassigned items in the tree widget
+/** Known Errors/Bugs
+ *  -
  */
 
 /**
  * @brief This class handles data in the TaskSB and USerStorySB tables
  * @param parentBoardInstance
+ *
+ * @details Functions:
+ *      pb_taskboard_Retrieval()
+ *      fetchSprintData()
+ *      generateUserTaskTree()
+ *      generateUnassigned()
+ *      fetchSprintDates()
+ *      updateLabels(int index)
+ *      getSelectedSprintId() const
+ *      HideShow_CreateSectionTaskboard()
+ *      showEditTaskboard()
+ *      retrieveDataTaskboard()
+ *      editTaskTaskboard()
+ *      addToTableTaskboard(const QString& title, const QString& description, const QString& status, int assignee, int sprint, int id, const QString& type)
+ *      ~pb_taskboard_implemenation()
  */
 
 pb_taskboard_implemenation::pb_taskboard_implemenation(parentboard* parentBoardInstance)
@@ -71,7 +84,7 @@ void pb_taskboard_implemenation::fetchSprintData()
 
     // Initializing first Items
     parentBoard->getSprintDropdown()->addItem("All Sprints", -1);
-    parentBoard->get_BL_SprintDropDownT()->addItem(" ", -3);
+    parentBoard->get_BL_SprintDropDownT()->addItem(" ", -1);
 
     // Sprint Fetching Database
     DatabaseManager database;
@@ -222,6 +235,8 @@ void pb_taskboard_implemenation::generateUserTaskTree()
         query.bindValue(":projectId", PassedProjectID);
 
         QMap<QString, QTreeWidgetItem*> userItemMap;
+        QSet<int> uniqueTaskIDs;
+        QSet<int> uniqueStoryIDs;
 
         // Clear Tree Wdiget items
         parentBoard->getTaskTreeWidget()->clear();
@@ -316,35 +331,37 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                 }
 
                 // Add task for the current user
-                if (!taskTitle.isEmpty()) {
+                if (!taskTitle.isEmpty() && !uniqueTaskIDs.contains(idTask)) {
                     QTreeWidgetItem* treeTaskItem = new QTreeWidgetItem(treeUserItem);
-                    // QListWidget::setItemWidget(treeUserItem, editButtonT);
                     treeTaskItem->setText(1, taskTitle);
                     treeTaskItem->setText(2, taskPriority);
                     treeTaskItem->setText(3, "Task");
-                    // treeTaskItem->setData(0, Qt::UserRole, "task");
                     treeTaskItem->setText(4, taskStatus);
-                    // Hidden data - Description, Sprint, Assignee
                     treeTaskItem->setData(5, Qt::UserRole, taskDescription);
                     treeTaskItem->setData(6, Qt::UserRole, taskSprint);
                     treeTaskItem->setData(7, Qt::UserRole, idUser);
                     treeTaskItem->setData(8, Qt::UserRole, idTask);
+
+                    // Add the task ID to the set to mark it as added
+                    uniqueTaskIDs.insert(idTask);
                 }
 
                 // Add user story for the current user
-                if (!storyTitle.isEmpty()) {
+                if (!storyTitle.isEmpty() && !uniqueStoryIDs.contains(idStory)) {
                     QTreeWidgetItem* treeStoryItem = new QTreeWidgetItem(treeUserItem);
                     treeStoryItem->setText(1, storyTitle);
                     treeStoryItem->setText(2, storyPriority);
                     treeStoryItem->setText(3, "User Story");
-                    // treeStoryItem->setData(0, Qt::UserRole, "userstory");
                     treeStoryItem->setText(4, storyStatus);
-                    // Hidden data - Description, Sprint, Assignee
                     treeStoryItem->setData(5, Qt::UserRole, storyDescription);
                     treeStoryItem->setData(6, Qt::UserRole, storySprint);
                     treeStoryItem->setData(7, Qt::UserRole, idUser);
                     treeStoryItem->setData(8, Qt::UserRole, idStory);
+
+                    // Add the user story ID to the set to mark it as added
+                    uniqueStoryIDs.insert(idStory);
                 }
+
 
                 // qDebug() << "TASKBOARD: User and task/user story data fetched successfully!";
             }
@@ -436,6 +453,9 @@ void pb_taskboard_implemenation::generateUnassigned()
 
         query.bindValue(":projectId", PassedProjectID);
 
+        QSet<int> uniqueTaskIDs;
+        QSet<int> uniqueStoryIDs;
+
         if (query.exec()) {
             while (query.next()) {
                 QString taskTitle = query.value(0).toString();
@@ -501,7 +521,7 @@ void pb_taskboard_implemenation::generateUnassigned()
 
                 int unassigned = -1;
                 // Add task for unassigned
-                if (!taskTitle.isEmpty()) {
+                if (!taskTitle.isEmpty() && !uniqueTaskIDs.contains(idTask)) {
                     QTreeWidgetItem* treeTaskItem = new QTreeWidgetItem(unassignedItem);
                     treeTaskItem->setText(1, taskTitle);
                     treeTaskItem->setText(2, taskPriority);
@@ -512,10 +532,13 @@ void pb_taskboard_implemenation::generateUnassigned()
                     treeTaskItem->setData(6, Qt::UserRole, taskSprint);
                     treeTaskItem->setData(7, Qt::UserRole, unassigned);
                     treeTaskItem->setData(8, Qt::UserRole, idTask);
+
+                    // Add the task ID to the set to mark it as added
+                    uniqueTaskIDs.insert(idTask);
                 }
 
                 // Add user story for unassigned
-                if (!storyTitle.isEmpty()) {
+                if (!storyTitle.isEmpty() && !uniqueStoryIDs.contains(idStory)) {
                     QTreeWidgetItem* treeStoryItem = new QTreeWidgetItem(unassignedItem);
                     treeStoryItem->setText(1, storyTitle);
                     treeStoryItem->setText(2, storyPriority);
@@ -526,6 +549,9 @@ void pb_taskboard_implemenation::generateUnassigned()
                     treeStoryItem->setData(6, Qt::UserRole, storySprint);
                     treeStoryItem->setData(7, Qt::UserRole, unassigned);
                     treeStoryItem->setData(8, Qt::UserRole, idStory);
+
+                    // Add the user story ID to the set to mark it as added
+                    uniqueStoryIDs.insert(idStory);
                 }
 
             }
@@ -661,7 +687,8 @@ void pb_taskboard_implemenation::HideShow_CreateSectionTaskboard()
 void pb_taskboard_implemenation::showEditTaskboard()
 {
 
-    QComboBox* inputAssignee = parentBoard->getInputAssigneeT();
+    QComboBox* inputAssigneeT = parentBoard->getInputAssigneeT();
+    QComboBox* inputSprintT = parentBoard->get_BL_SprintDropDownT();
 
     if (parentBoard->getCreationBoxT()->isVisible())
     {
@@ -673,14 +700,20 @@ void pb_taskboard_implemenation::showEditTaskboard()
         parentBoard->getInputDescriptionT()->clear();
         parentBoard->getInputStatusT()->clear();
 
-        inputAssignee->setCurrentIndex(-1);
+        inputAssigneeT->setCurrentIndex(-1);
+        inputSprintT->setCurrentIndex(-1);
 
     }
     else
     {
         parentBoard->getCreationBoxT()->setVisible(true);
+        // Clear Previous Inputs
+        parentBoard->getInputTitleT()->clear();
+        parentBoard->getInputDescriptionT()->clear();
+        parentBoard->getInputStatusT()->clear();
 
-        inputAssignee->setCurrentIndex(-1);
+        inputAssigneeT->setCurrentIndex(-1);
+        inputSprintT->setCurrentIndex(-1);
     }
 
     QLabel* Create_HeaderT = parentBoard->getCreate_HeaderT();
@@ -715,13 +748,11 @@ void pb_taskboard_implemenation::retrieveDataTaskboard()
         if (taskType == "Task")
         {
             parentBoard->getButton_CreateTaskT()->setVisible(true);
-            // parentBoard->getButton_CreateUserStoryT()->setVisible(false);
             Create_HeaderT->setText("TASK");
         }
         if (taskType == "User Story")
         {
             parentBoard->getButton_CreateTaskT()->setVisible(true);
-            // parentBoard->getButton_CreateUserStoryT()->setVisible(true);
             Create_HeaderT->setText("USER STORY");
         }
 
@@ -744,6 +775,7 @@ void pb_taskboard_implemenation::retrieveDataTaskboard()
             qDebug() << "TASKBOARD: RETRIEVE taskStatus:" << taskStatus;
             qDebug() << "TASKBOARD: RETRIEVE hiddenTaskDescription: " << hiddenTaskDescription;
             qDebug() << "TASKBOARD: RETRIEVE hiddenAssignee: " << hiddenAssignee;
+
         }
 
     } else {
@@ -766,29 +798,30 @@ void pb_taskboard_implemenation::editTaskTaskboard()
     if (selectedItem)
     {
         QString taskType = selectedItem->data(3, Qt::DisplayRole).toString();
-        int hiddenSprint = selectedItem->data(6, Qt::UserRole).toInt();
         int hiddenID = selectedItem->data(8, Qt::UserRole).toInt();
 
-        QTextEdit* inputDescriptionTt = parentBoard->getInputDescriptionT();
-        QTextEdit* inputStatusTt = parentBoard->getInputStatusT();
-        QTextEdit* inputTitleTt = parentBoard->getInputTitleT();
-        QComboBox* inputAssigneeTt = parentBoard->getInputAssigneeT();
+        QTextEdit* inputDescriptionT = parentBoard->getInputDescriptionT();
+        QTextEdit* inputStatusT = parentBoard->getInputStatusT();
+        QTextEdit* inputTitleT = parentBoard->getInputTitleT();
+        QComboBox* inputAssigneeT = parentBoard->getInputAssigneeT();
+        QComboBox* inputSprintT = parentBoard->get_BL_SprintDropDownT();
 
-        QString titleT = inputTitleTt->toPlainText();
-        QString descriptionT = inputDescriptionTt->toPlainText();
-        QString statusT = inputStatusTt->toPlainText();
-        int assigneeT = inputAssigneeTt->currentData().toInt();
+        QString titleT = inputTitleT->toPlainText();
+        QString descriptionT = inputDescriptionT->toPlainText();
+        QString statusT = inputStatusT->toPlainText();
+        int assigneeT = inputAssigneeT->currentData().toInt();
+        int sprintT = inputSprintT->currentData().toInt();
 
         qDebug() << "TASKBOARD: EDIT Input Values:";
         qDebug() << "TASKBOARD: EDIT titleT" << titleT;
         qDebug() << "TASKBOARD: EDIT descriptionT" << descriptionT;
         qDebug() << "TASKBOARD: EDIT statusT" << statusT;
         qDebug() << "TASKBOARD: EDIT assignee" << assigneeT;
-        qDebug() << "TASKBOARD: EDIT hiddenSprint" << hiddenSprint;
+        qDebug() << "TASKBOARD: EDIT sprintT" << sprintT;
         qDebug() << "TASKBOARD: EDIT hiddenID" << hiddenID;
         qDebug() << "TASKBOARD: EDIT taskType" << taskType;
 
-        if (titleT.isEmpty() || descriptionT.isEmpty() || hiddenSprint < 1) {
+        if (titleT.isEmpty() || descriptionT.isEmpty() || sprintT == -1) {
             // One or more fields are empty
             QString errorMessage = "Missing Values:\n";
 
@@ -798,7 +831,7 @@ void pb_taskboard_implemenation::editTaskTaskboard()
             if (descriptionT.isEmpty()) {
                 errorMessage += "- Description\n";
             }
-            if (hiddenSprint < 1) {
+            if (sprintT == -1) {
                 errorMessage += "- Sprint\n";
             }
 
@@ -806,7 +839,7 @@ void pb_taskboard_implemenation::editTaskTaskboard()
         }
         else
         {
-            addToTableTaskboard(titleT, descriptionT, statusT, assigneeT, hiddenSprint, hiddenID, taskType);
+            addToTableTaskboard(titleT, descriptionT, statusT, assigneeT, sprintT, hiddenID, taskType);
         }
     }
 }
@@ -883,12 +916,12 @@ void pb_taskboard_implemenation::addToTableTaskboard(const QString& title, const
 
 
     // User Story Update Query
-    if (parentBoard->getButton_CreateTaskT()->isVisible() == true && type == "Task")
+    if (parentBoard->getButton_CreateTaskT()->isVisible() == true && type == "User Story")
     {
         DatabaseManager database;
         QSqlDatabase EditUserStorySB = database.getDatabase();
         if (!EditUserStorySB.isOpen()) {
-            qDebug() << "TASKBOARD: Connection Not Established - Task Insert!";
+            qDebug() << "TASKBOARD: Connection Not Established - User Story Insert!";
             return;
         }
 
