@@ -693,22 +693,34 @@ void parentboard::updateInputStatusT(const QString& data)
 {
     ui->InputStatusT->append(data);
 }
-void parentboard::updateInputAssigneeT(int index)
+void parentboard::updateInputAssigneeT(int idUser)
 {
-    QComboBox* assignedUserT = ui->InputAssigneeT;
+    QComboBox* assigneeDropdownT = ui->InputAssigneeT;
 
-    assignedUserT->setCurrentIndex(index);
-    qDebug() << "PARENTBOARD: TASKBOARD: updateInputAssigneeT - idUser" << index;
+    // Find the index of the item with the specified data
+    int index = assigneeDropdownT->findData(QVariant(idUser));
 
+    if (index != -2) {
+        assigneeDropdownT->setCurrentIndex(index);
+        qDebug() << "PARENTBOARD: TASKBOARD: assigneeDropdownT - idUser" << idUser;
+    } else {
+        qDebug() << "PARENTBOARD: TASKBOARD: assigneeDropdownT - idUser not found" << idUser;
+    }
 }
 
-void parentboard::updateBL_SprintDropDownT(int index)
+void parentboard::updateBL_SprintDropDownT(int idSprint)
 {
     QComboBox* sprintDropdownT = ui->BL_SprintDropDownT;
 
-    sprintDropdownT->setCurrentIndex(index);
-    qDebug() << "PARENTBOARD: TASKBOARD: updateBL_SprintDropDownT - idSprint" << index;
+    // Find the index of the item with the specified data
+    int index = sprintDropdownT->findData(QVariant(idSprint));
 
+    if (index != -1) {
+        sprintDropdownT->setCurrentIndex(index);
+        qDebug() << "PARENTBOARD: TASKBOARD: updateBL_SprintDropDownT - idSprint" << idSprint;
+    } else {
+        qDebug() << "PARENTBOARD: TASKBOARD: updateBL_SprintDropDownT - idSprint not found" << idSprint;
+    }
 }
 
 

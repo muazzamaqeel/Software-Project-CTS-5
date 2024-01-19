@@ -71,8 +71,6 @@ void pb_taskboard_implemenation::fetchSprintData()
     parentBoard->getSprintDropdown()->clear();
     parentBoard->get_BL_SprintDropDownT()->clear();
 
-    parentBoard->get_BL_SprintDropDownT()->addItem("Select Sprint", -1);
-
     parentBoard->getSprintDropdown()->addItem("All Sprints", -1);
 
     DatabaseManager database;
@@ -613,22 +611,31 @@ void pb_taskboard_implemenation::HideShow_CreateSectionTaskboard()
 {
     parentBoard->getCreationBoxT()->setVisible(false);
 
-    parentBoard->getCreate_AssigneeT()->setVisible(false);
-    parentBoard->getCreate_DescriptionT()->setVisible(false);
-    parentBoard->getCreate_HeaderT()->setVisible(false);
-    parentBoard->getCreate_StatusT()->setVisible(false);
-    parentBoard->getCreate_TitleT()->setVisible(false);
-
-    parentBoard->getInputAssigneeT()->setVisible(false);
-    parentBoard->getInputDescriptionT()->setVisible(false);
-    parentBoard->getInputStatusT()->setVisible(false);
-    parentBoard->getInputTitleT()->setVisible(false);
+    // TEMPORARY - TO REMOVE PRIORITY UI ELEMENTS FROM PARENTBOARD.UI
+    parentBoard->getCreate_PriorityT()->setVisible(false);
+    parentBoard->getInputPriorityT()->setVisible(false);
 
     parentBoard->getButton_CreateUserStoryT()->setVisible(false);
     parentBoard->getButton_CreateTaskT()->setVisible(false);
 
-    parentBoard->get_BL_SprintDropDownT()->setVisible(false);
-    parentBoard->get_SelectedSprintT()->setVisible(false);
+    // parentBoard->getCreate_AssigneeT()->setVisible(false);
+    // parentBoard->getCreate_DescriptionT()->setVisible(false);
+    // parentBoard->getCreate_HeaderT()->setVisible(false);
+
+    // parentBoard->getCreate_StatusT()->setVisible(false);
+    // parentBoard->getCreate_TitleT()->setVisible(false);
+
+    // parentBoard->getInputAssigneeT()->setVisible(false);
+    // parentBoard->getInputDescriptionT()->setVisible(false);
+
+    // parentBoard->getInputStatusT()->setVisible(false);
+    // parentBoard->getInputTitleT()->setVisible(false);
+
+    // parentBoard->getButton_CreateUserStoryT()->setVisible(false);
+    // parentBoard->getButton_CreateTaskT()->setVisible(false);
+
+    // parentBoard->get_BL_SprintDropDownT()->setVisible(false);
+    // parentBoard->get_SelectedSprintT()->setVisible(false);
 }
 
 /**
@@ -638,29 +645,46 @@ void pb_taskboard_implemenation::HideShow_CreateSectionTaskboard()
 void pb_taskboard_implemenation::showEditTaskboard()
 {
 
+    if (parentBoard->getCreationBoxT()->isVisible())
+    {
+        parentBoard->getCreationBoxT()->setVisible(false);
+        parentBoard->getButton_CreateUserStoryT()->setVisible(false);
+        parentBoard->getButton_CreateTaskT()->setVisible(false);
+        // Clear Previous Inputs
+        parentBoard->getInputTitleT()->clear();
+        parentBoard->getInputDescriptionT()->clear();
+        parentBoard->getInputStatusT()->clear();
+
+        QComboBox* inputAssignee = parentBoard->getInputAssigneeT();
+        inputAssignee->setCurrentIndex(-1);
+
+    }
+    else
+    {
     parentBoard->getCreationBoxT()->setVisible(true);
+    }
 
-    parentBoard->getCreate_HeaderT()->setVisible(true);
+    // parentBoard->getCreate_HeaderT()->setVisible(true);
 
-    parentBoard->getCreate_AssigneeT()->setVisible(true);
-    parentBoard->getCreate_DescriptionT()->setVisible(true);
-    parentBoard->getCreate_StatusT()->setVisible(true);
-    parentBoard->getCreate_TitleT()->setVisible(true);
+    // parentBoard->getCreate_AssigneeT()->setVisible(true);
+    // parentBoard->getCreate_DescriptionT()->setVisible(true);
+    // parentBoard->getCreate_StatusT()->setVisible(true);
+    // parentBoard->getCreate_TitleT()->setVisible(true);
 
-    parentBoard->getInputAssigneeT()->setVisible(true);
-    parentBoard->getInputDescriptionT()->setVisible(true);
-    parentBoard->getInputStatusT()->setVisible(true);
-    parentBoard->getInputTitleT()->setVisible(true);
+    // parentBoard->getInputAssigneeT()->setVisible(true);
+    // parentBoard->getInputDescriptionT()->setVisible(true);
+    // parentBoard->getInputStatusT()->setVisible(true);
+    // parentBoard->getInputTitleT()->setVisible(true);
 
-    parentBoard->getButton_CreateUserStoryT()->setVisible(false);
-    parentBoard->getButton_CreateTaskT()->setVisible(true);
+    // parentBoard->getButton_CreateUserStoryT()->setVisible(false);
+    // parentBoard->getButton_CreateTaskT()->setVisible(true);
 
-    parentBoard->get_BL_SprintDropDownT()->setVisible(true);
-    parentBoard->get_SelectedSprintT()->setVisible(true);
+    // parentBoard->get_BL_SprintDropDownT()->setVisible(true);
+    // parentBoard->get_SelectedSprintT()->setVisible(true);
 
     QLabel* Create_HeaderT = parentBoard->getCreate_HeaderT();
     Create_HeaderT->setAlignment(Qt::AlignCenter);  // Align text to center
-    Create_HeaderT->setText("TASK");
+    Create_HeaderT->setText("EDIT");
 
 }
 
@@ -703,11 +727,14 @@ void pb_taskboard_implemenation::showCreateUseStoryTaskboard()
  */
 void pb_taskboard_implemenation::retrieveDataTaskboard()
 {
+    if (!parentBoard->getCreationBoxT()->isVisible())
+    {
+        return;
+    }
     // Clear Previous Inputs
     parentBoard->getInputTitleT()->clear();
     parentBoard->getInputDescriptionT()->clear();
     parentBoard->getInputStatusT()->clear();
-
 
     QTreeWidget* treeWidget = parentBoard->getTaskTreeWidget();
     QTreeWidgetItem* selectedItem = treeWidget->currentItem();
@@ -721,6 +748,20 @@ void pb_taskboard_implemenation::retrieveDataTaskboard()
         int hiddenSprint = selectedItem->data(6, Qt::UserRole).toInt();
         int hiddenAssignee = selectedItem->data(7, Qt::UserRole).toInt();
 
+
+        // Hiding buttons depending on the taskType
+        QString taskType = selectedItem->data(3, Qt::DisplayRole).toString();
+        if (taskType == "Task")
+        {
+            parentBoard->getButton_CreateTaskT()->setVisible(true);
+            parentBoard->getButton_CreateUserStoryT()->setVisible(false);
+        }
+        if (taskType == "User Story")
+        {
+            parentBoard->getButton_CreateTaskT()->setVisible(false);
+            parentBoard->getButton_CreateUserStoryT()->setVisible(true);
+        }
+
         // Updating Input for editing
         parentBoard->updateInputTitleT(taskTitle);
         parentBoard->updateInputStatusT(taskStatus);
@@ -729,11 +770,11 @@ void pb_taskboard_implemenation::retrieveDataTaskboard()
         parentBoard->updateBL_SprintDropDownT(hiddenSprint);
 
 
+        qDebug() << "TASKBOARD: RETRIEVE hiddenSprint: " << hiddenSprint;
         qDebug() << "TASKBOARD: RETRIEVE taskTitle:" << taskTitle;
         qDebug() << "TASKBOARD: RETRIEVE taskStatus:" << taskStatus;
         qDebug() << "TASKBOARD: RETRIEVE hiddenTaskDescription: " << hiddenTaskDescription;
         qDebug() << "TASKBOARD: RETRIEVE hiddenAssignee: " << hiddenAssignee;
-        qDebug() << "TASKBOARD: RETRIEVE hiddenSprint: " << hiddenSprint;
 
     } else {
         qDebug() << "TASKBOARD: No item selected.";
@@ -765,7 +806,7 @@ void pb_taskboard_implemenation::editTaskTaskboard()
     qDebug() << "TASKBOARD: EDIT assignee" << assigneeT;
     qDebug() << "TASKBOARD: EDIT sprintT" << sprintT << sprintID;
 
-    if (titleT.isEmpty() || descriptionT.isEmpty() || sprintT == "Select Sprint") {
+    if (titleT.isEmpty() || descriptionT.isEmpty()) {
         // One or more fields are empty
         QString errorMessage = "Missing Values:\n";
 
@@ -774,9 +815,6 @@ void pb_taskboard_implemenation::editTaskTaskboard()
         }
         if (descriptionT.isEmpty()) {
             errorMessage += "- Description\n";
-        }
-        if (sprintT == "Select Sprint") {
-            errorMessage += "- Sprint\n";
         }
 
         QMessageBox::warning(nullptr, "Missing Values", errorMessage);
@@ -811,7 +849,7 @@ void pb_taskboard_implemenation::editUserStoryTaskboard()
     qDebug() << "TASKBOARD: EDIT assignee" << assigneeT;
     qDebug() << "TASKBOARD: EDIT sprintT" << sprintT << sprintID;
 
-    if (titleT.isEmpty() || descriptionT.isEmpty()|| sprintT == "Select Sprint") {
+    if (titleT.isEmpty() || descriptionT.isEmpty()) {
         // One or more fields are empty
         QString errorMessage = "Missing Values:\n";
 
@@ -820,9 +858,6 @@ void pb_taskboard_implemenation::editUserStoryTaskboard()
         }
         if (descriptionT.isEmpty()) {
             errorMessage += "- Description\n";
-        }
-        if (sprintT == "Select Sprint") {
-            errorMessage += "- Sprint\n";
         }
 
         QMessageBox::warning(nullptr, "Missing Values", errorMessage);
