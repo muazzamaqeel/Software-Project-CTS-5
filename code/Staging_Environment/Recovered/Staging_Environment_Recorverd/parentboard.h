@@ -87,6 +87,16 @@ public:
     QTreeWidget* get_userTaskTreeWidget_2();
 
 
+    //Calendar
+    QPushButton* get_Button_SaveCalendar();
+    QTextBrowser* get_CalendarDescription();
+    QTextBrowser* get_CalendarHeading();
+    QTextBrowser* get_CalendarTitle();
+    QTextEdit* get_Input_Calendar_Description();
+    QTextEdit* get_Input_Calendar_Title();
+    QGroupBox* get_Calendar_GroupBox();
+
+
     static parentboard* getInstance(QWidget *parent = nullptr) {
         if (instance == nullptr) {
             instance = new parentboard(parent);

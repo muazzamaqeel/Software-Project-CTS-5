@@ -16,6 +16,7 @@
 #include "pb_taskboard_implemenation.h"
 #include "pb_productbacklog_implementation_extension.h"
 #include "teammember_projectswindow.h"
+#include "pb_calendar_implemenation.h"
 
 // Temp - Scalability
 #include "QtGui/qevent.h"
@@ -195,6 +196,11 @@ parentboard::parentboard(QWidget *parent) :
     //  PB_Calendar ---------------------------------- Calls
     //  PB_Calendar ---------------------------------- Calls
     connect(ui->calendarButton, SIGNAL(clicked()), this, SLOT(on_calendarButton_clicked()));
+
+    pb_calendar_implemenation *pbcalendarObj = new pb_calendar_implemenation(this);
+
+    // Correct connection with the right class name
+    connect(ui->calendarButton, &QPushButton::clicked, pbcalendarObj, &pb_calendar_implemenation::Calendar_HideEventCreation);
 
 }
 
@@ -592,6 +598,33 @@ QPushButton* parentboard::get_Button_Create_Confluence() {
 
 QTreeWidget* parentboard::get_userTaskTreeWidget_2(){
     return ui->userTaskTreeWidget_2;
+}
+
+//Calendar
+
+QPushButton* parentboard::get_Button_SaveCalendar(){
+    return ui->Button_SaveCalendar;
+}
+
+QTextBrowser* parentboard::get_CalendarDescription() {
+    return ui->CalendarDescription;
+}
+
+QTextBrowser* parentboard::get_CalendarHeading() {
+    return ui->CalendarHeading;
+}
+
+QTextBrowser* parentboard::get_CalendarTitle() {
+    return ui->CalendarTitle;
+}
+QTextEdit* parentboard::get_Input_Calendar_Description(){
+    return ui->Input_Calendar_Description;
+}
+QTextEdit* parentboard::get_Input_Calendar_Title(){
+    return ui->Input_Calendar_Title;
+}
+QGroupBox* parentboard::get_Calendar_GroupBox(){
+    return ui->groupBox;
 }
 
 
