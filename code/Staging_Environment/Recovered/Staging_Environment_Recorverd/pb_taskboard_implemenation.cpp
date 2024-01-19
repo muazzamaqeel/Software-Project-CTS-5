@@ -47,7 +47,7 @@ pb_taskboard_implemenation::pb_taskboard_implemenation(parentboard* parentBoardI
 
     connect(parentBoard->getTaskTreeWidget(), &QTreeWidget::itemDoubleClicked, this, &pb_taskboard_implemenation::retrieveDataTaskboard);
     connect(parentBoard->getSprintDropdown(), QOverload<int>::of(&QComboBox::currentIndexChanged), this, &pb_taskboard_implemenation::updateLabels);    
- }
+}
 void pb_taskboard_implemenation::pb_taskboard_Retrieval()
 {
     fetchSprintData();
@@ -115,6 +115,8 @@ void pb_taskboard_implemenation::fetchSprintData()
 
 void pb_taskboard_implemenation::generateUserTaskTree()
 {
+
+
     // Clear existing items from the QTreeWidget
     parentBoard->getTaskTreeWidget()->clear();
     parentBoard->getInputAssigneeT()->clear();
@@ -133,226 +135,221 @@ void pb_taskboard_implemenation::generateUserTaskTree()
     qDebug() << "TASKBOARD: Project ID in Taskboard generateUserTasks: " << PassedProjectID;
     // qDebug() << "TASKBOARD: Selected Sprint ID: " << selectedSprintId;
 
-    {
-        DatabaseManager database;
-        QSqlDatabase db = database.getDatabase();
+    if (db.isOpen()) {
+        // qDebug() << "TASKBOARD: Connection Established - Taskboard class!";
 
-        if (db.isOpen()) {
-            // qDebug() << "TASKBOARD: Connection Established - Taskboard class!";
+        QSqlQuery query(db);
 
-            QSqlQuery query(db);
-
-            // Check if "All Sprints" is selected
-            if (selectedSprintId == -1)
-            {
-                // If "All Sprints" is selected, don't filter by sprint ID
-                query.prepare("SELECT "
-                              "    User.idUser, "
-                              "    User.FirstName, "
-                              "    User.LastName, "
-                              "    User.Username, "
-                              "    TaskSB.Title AS TaskTitle, "
-                              "    TaskSB.Priority AS TaskPriority, "
-                              "    TaskSB.Status AS TaskStatus, "
-                              "    UserStorySB.Title AS UserStoryTitle, "
-                              "    UserStorySB.Priority AS UserStoryPriority, "
-                              "    UserStorySB.Status AS UserStoryStatus, "
-                              "    TaskSB.Description AS TaskDescription, "
-                              "    UserStorySB.Description AS UserStoryDescription, "
-                              "    TaskSB.SprintBacklog_Sprint_idSprint AS TaskSprint, "
-                              "    UserStorySB.SprintBacklog_Sprint_idSprint AS UserStorySprint, "
-                              "    TaskSB.idTask AS idTask, "
-                              "    UserStorySB.idUserStorySB AS idStory "
-                              "FROM "
-                              "    Project "
-                              "INNER JOIN "
-                              "    Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
-                              "INNER JOIN "
-                              "    User ON Project_has_User.User_idUser = User.idUser "
-                              "LEFT JOIN "
-                              "    TaskSB ON User.idUser = TaskSB.Assignee AND TaskSB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject "
-                              "LEFT JOIN "
-                              "    UserStorySB ON User.idUser = UserStorySB.Assignee AND UserStorySB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject "
-                              "WHERE "
-                              "    Project.idProject = :projectId "
-                              "ORDER BY "
-                              "    User.LastName;");
-            }
-            else
-            {
-                query.prepare("SELECT "
-                              "    User.idUser, "
-                              "    User.FirstName, "
-                              "    User.LastName, "
-                              "    User.Username, "
-                              "    TaskSB.Title AS TaskTitle, "
-                              "    TaskSB.Priority AS TaskPriority, "
-                              "    TaskSB.Status AS TaskStatus, "
-                              "    UserStorySB.Title AS UserStoryTitle, "
-                              "    UserStorySB.Priority AS UserStoryPriority, "
-                              "    UserStorySB.Status AS UserStoryStatus, "
-                              "    TaskSB.Description AS TaskDescription, "
-                              "    UserStorySB.Description AS UserStoryDescription, "
-                              "    TaskSB.SprintBacklog_Sprint_idSprint AS TaskSprint, "
-                              "    UserStorySB.SprintBacklog_Sprint_idSprint AS UserStorySprint, "
-                              "    TaskSB.idTask AS idTask, "
-                              "    UserStorySB.idUserStorySB AS idStory "
-                              "FROM "
-                              "    Project "
-                              "INNER JOIN "
-                              "    Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
-                              "INNER JOIN "
-                              "    User ON Project_has_User.User_idUser = User.idUser "
-                              "LEFT JOIN "
-                              "    TaskSB ON User.idUser = TaskSB.Assignee AND TaskSB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject AND TaskSB.SprintBacklog_Sprint_idSprint = :sprintId "
-                              "LEFT JOIN "
-                              "    UserStorySB ON User.idUser = UserStorySB.Assignee AND UserStorySB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject AND UserStorySB.SprintBacklog_Sprint_idSprint = :sprintId "
-                              "LEFT JOIN"
-                              "    Sprint ON Sprint.idSprint = TaskSB.SprintBacklog_Sprint_idSprint "
-                              "WHERE "
-                              "    Project.idProject = :projectId "
-                              "ORDER BY "
-                              "    User.LastName;");
-
-                query.bindValue(":sprintId", selectedSprintId);
-
-            }
-
-            query.bindValue(":projectId", PassedProjectID);
-
-            QMap<QString, QTreeWidgetItem*> userItemMap;
-
-            if (query.exec()) {
-                while (query.next()) {
-                    int idUser = query.value(0).toInt();
-                    QString firstName = query.value(1).toString();
-                    QString lastName = query.value(2).toString();
-                    QString username = query.value(3).toString();
-                    QString taskTitle = query.value(4).toString();
-                    int taskPriorityTree = query.value(5).toInt();
-                    QString taskStatus = query.value(6).toString();
-                    QString storyTitle = query.value(7).toString();
-                    int storyPriorityTree = query.value(8).toInt();
-                    QString storyStatus = query.value(9).toString();
-                    QString taskDescription = query.value(10).toString();
-                    QString storyDescription = query.value(11).toString();
-                    int taskSprint = query.value(12).toInt();
-                    int storySprint = query.value(13).toInt();
-
-                    int idTask = query.value(14).toInt();
-                    int idStory = query.value(15).toInt();
-
-
-                    QString taskPriority;
-                    switch (taskPriorityTree)
-                    {
-                    case 3:
-                        taskPriority = "High";
-                        break;
-                    case 2:
-                        taskPriority = "Medium";
-                        break;
-                    case 1:
-                        taskPriority = "Low";
-                        break;
-                    default:
-                        break;
-                    }
-
-                    QString storyPriority;
-                    switch (storyPriorityTree)
-                    {
-                    case 3:
-                        storyPriority = "High";
-                        break;
-                    case 2:
-                        storyPriority = "Medium";
-                        break;
-                    case 1:
-                        storyPriority = "Low";
-                        break;
-                    default:
-                        break;
-                    }
-
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED idUser: " << idUser;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED firstName: " << firstName;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED lastName: " << lastName;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED username: " << username;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED taskTitle: " << taskTitle;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED taskPriority: " << taskPriorityTree << taskPriority;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED taskStatus: " << taskStatus;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED storyTitle: " << storyTitle;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED storyPriority: " << storyPriorityTree << storyPriorityTree;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED storyStatus: " << storyStatus;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED taskDescription: " << taskDescription;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED storyDescription: " << storyDescription;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED taskSprint: " << taskSprint;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED storySprint: " << storySprint;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED idTask: " << idTask;
-                    qDebug() << "TASKBOARD: QUERY ASSIGNED idStory: " << idStory;
-
-                    QString name = firstName + " " + lastName;
-                    // qDebug() << "TASKBOARD: name: " << name;
-
-                    QString nameWithId = name + " (" + username + ")";
-                    QTreeWidgetItem* treeUserItem = userItemMap.value(nameWithId);
-
-                    qDebug() << "TASKBOARD: idUser: " << nameWithId << " = " << idUser;
-
-                    if (!addedUserIds.contains(idUser)) {
-                        parentBoard->getInputAssigneeT()->addItem(nameWithId, QVariant(idUser));
-                        addedUserIds.insert(idUser);  // Add the user ID to the set
-                    }
-
-                    if (!treeUserItem) {
-                        treeUserItem = new QTreeWidgetItem(parentBoard->getTaskTreeWidget());
-                        treeUserItem->setText(0, nameWithId);
-                        userItemMap.insert(nameWithId, treeUserItem);
-                    }
-
-                    // Add task for the current user
-                    if (!taskTitle.isEmpty()) {
-                        QTreeWidgetItem* treeTaskItem = new QTreeWidgetItem(treeUserItem);
-                        // QListWidget::setItemWidget(treeUserItem, editButtonT);
-                        treeTaskItem->setText(1, taskTitle);
-                        treeTaskItem->setText(2, taskPriority);
-                        treeTaskItem->setText(3, "Task");
-                        // treeTaskItem->setData(0, Qt::UserRole, "task");
-                        treeTaskItem->setText(4, taskStatus);
-                        // Hidden data - Description, Sprint, Assignee
-                        treeTaskItem->setData(5, Qt::UserRole, taskDescription);
-                        treeTaskItem->setData(6, Qt::UserRole, taskSprint);
-                        treeTaskItem->setData(7, Qt::UserRole, idUser);
-                        treeTaskItem->setData(8, Qt::UserRole, idTask);
-                    }
-
-                    // Add user story for the current user
-                    if (!storyTitle.isEmpty()) {
-                        QTreeWidgetItem* treeStoryItem = new QTreeWidgetItem(treeUserItem);
-                        treeStoryItem->setText(1, storyTitle);
-                        treeStoryItem->setText(2, storyPriority);
-                        treeStoryItem->setText(3, "User Story");
-                        // treeStoryItem->setData(0, Qt::UserRole, "userstory");
-                        treeStoryItem->setText(4, storyStatus);
-                        // Hidden data - Description, Sprint, Assignee
-                        treeStoryItem->setData(5, Qt::UserRole, storyDescription);
-                        treeStoryItem->setData(6, Qt::UserRole, storySprint);
-                        treeStoryItem->setData(7, Qt::UserRole, idUser);
-                        treeStoryItem->setData(8, Qt::UserRole, idStory);
-                    }
-
-                    // qDebug() << "TASKBOARD: User and task/user story data fetched successfully!";
-                }
-                generateUnassigned();
-            } else {
-                // qDebug() << "TASKBOARD: Failed to fetch user and task/user story data:" << query.lastError().text();
-            }
-
-            db.close();
-        } else {
-            // qDebug() << "TASKBOARD: Connection Not Established - Taskboard class!";
+        // Check if "All Sprints" is selected
+        if (selectedSprintId == -1)
+        {
+            // If "All Sprints" is selected, don't filter by sprint ID
+            query.prepare("SELECT "
+                          "    User.idUser, "
+                          "    User.FirstName, "
+                          "    User.LastName, "
+                          "    User.Username, "
+                          "    TaskSB.Title AS TaskTitle, "
+                          "    TaskSB.Priority AS TaskPriority, "
+                          "    TaskSB.Status AS TaskStatus, "
+                          "    UserStorySB.Title AS UserStoryTitle, "
+                          "    UserStorySB.Priority AS UserStoryPriority, "
+                          "    UserStorySB.Status AS UserStoryStatus, "
+                          "    TaskSB.Description AS TaskDescription, "
+                          "    UserStorySB.Description AS UserStoryDescription, "
+                          "    TaskSB.SprintBacklog_Sprint_idSprint AS TaskSprint, "
+                          "    UserStorySB.SprintBacklog_Sprint_idSprint AS UserStorySprint, "
+                          "    TaskSB.idTask AS idTask, "
+                          "    UserStorySB.idUserStorySB AS idStory "
+                          "FROM "
+                          "    Project "
+                          "INNER JOIN "
+                          "    Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
+                          "INNER JOIN "
+                          "    User ON Project_has_User.User_idUser = User.idUser "
+                          "LEFT JOIN "
+                          "    TaskSB ON User.idUser = TaskSB.Assignee AND TaskSB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject "
+                          "LEFT JOIN "
+                          "    UserStorySB ON User.idUser = UserStorySB.Assignee AND UserStorySB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject "
+                          "WHERE "
+                          "    Project.idProject = :projectId "
+                          "ORDER BY "
+                          "    User.LastName;");
         }
+        else
+        {
+            query.prepare("SELECT "
+                          "    User.idUser, "
+                          "    User.FirstName, "
+                          "    User.LastName, "
+                          "    User.Username, "
+                          "    TaskSB.Title AS TaskTitle, "
+                          "    TaskSB.Priority AS TaskPriority, "
+                          "    TaskSB.Status AS TaskStatus, "
+                          "    UserStorySB.Title AS UserStoryTitle, "
+                          "    UserStorySB.Priority AS UserStoryPriority, "
+                          "    UserStorySB.Status AS UserStoryStatus, "
+                          "    TaskSB.Description AS TaskDescription, "
+                          "    UserStorySB.Description AS UserStoryDescription, "
+                          "    TaskSB.SprintBacklog_Sprint_idSprint AS TaskSprint, "
+                          "    UserStorySB.SprintBacklog_Sprint_idSprint AS UserStorySprint, "
+                          "    TaskSB.idTask AS idTask, "
+                          "    UserStorySB.idUserStorySB AS idStory "
+                          "FROM "
+                          "    Project "
+                          "INNER JOIN "
+                          "    Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
+                          "INNER JOIN "
+                          "    User ON Project_has_User.User_idUser = User.idUser "
+                          "LEFT JOIN "
+                          "    TaskSB ON User.idUser = TaskSB.Assignee AND TaskSB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject AND TaskSB.SprintBacklog_Sprint_idSprint = :sprintId "
+                          "LEFT JOIN "
+                          "    UserStorySB ON User.idUser = UserStorySB.Assignee AND UserStorySB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject AND UserStorySB.SprintBacklog_Sprint_idSprint = :sprintId "
+                          "LEFT JOIN"
+                          "    Sprint ON Sprint.idSprint = TaskSB.SprintBacklog_Sprint_idSprint "
+                          "WHERE "
+                          "    Project.idProject = :projectId "
+                          "ORDER BY "
+                          "    User.LastName;");
+
+            query.bindValue(":sprintId", selectedSprintId);
+
+        }
+
+        query.bindValue(":projectId", PassedProjectID);
+
+        QMap<QString, QTreeWidgetItem*> userItemMap;
+
+        if (query.exec()) {
+            while (query.next()) {
+                int idUser = query.value(0).toInt();
+                QString firstName = query.value(1).toString();
+                QString lastName = query.value(2).toString();
+                QString username = query.value(3).toString();
+                QString taskTitle = query.value(4).toString();
+                int taskPriorityTree = query.value(5).toInt();
+                QString taskStatus = query.value(6).toString();
+                QString storyTitle = query.value(7).toString();
+                int storyPriorityTree = query.value(8).toInt();
+                QString storyStatus = query.value(9).toString();
+                QString taskDescription = query.value(10).toString();
+                QString storyDescription = query.value(11).toString();
+                int taskSprint = query.value(12).toInt();
+                int storySprint = query.value(13).toInt();
+
+                int idTask = query.value(14).toInt();
+                int idStory = query.value(15).toInt();
+
+
+                QString taskPriority;
+                switch (taskPriorityTree)
+                {
+                case 3:
+                    taskPriority = "High";
+                    break;
+                case 2:
+                    taskPriority = "Medium";
+                    break;
+                case 1:
+                    taskPriority = "Low";
+                    break;
+                default:
+                    break;
+                }
+
+                QString storyPriority;
+                switch (storyPriorityTree)
+                {
+                case 3:
+                    storyPriority = "High";
+                    break;
+                case 2:
+                    storyPriority = "Medium";
+                    break;
+                case 1:
+                    storyPriority = "Low";
+                    break;
+                default:
+                    break;
+                }
+
+                qDebug() << "TASKBOARD: QUERY ASSIGNED idUser: " << idUser;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED firstName: " << firstName;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED lastName: " << lastName;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED username: " << username;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED taskTitle: " << taskTitle;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED taskPriority: " << taskPriorityTree << taskPriority;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED taskStatus: " << taskStatus;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED storyTitle: " << storyTitle;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED storyPriority: " << storyPriorityTree << storyPriorityTree;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED storyStatus: " << storyStatus;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED taskDescription: " << taskDescription;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED storyDescription: " << storyDescription;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED taskSprint: " << taskSprint;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED storySprint: " << storySprint;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED idTask: " << idTask;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED idStory: " << idStory;
+
+                QString name = firstName + " " + lastName;
+                // qDebug() << "TASKBOARD: name: " << name;
+
+                QString nameWithId = name + " (" + username + ")";
+                QTreeWidgetItem* treeUserItem = userItemMap.value(nameWithId);
+
+                qDebug() << "TASKBOARD: idUser: " << nameWithId << " = " << idUser;
+
+                if (!addedUserIds.contains(idUser)) {
+                    parentBoard->getInputAssigneeT()->addItem(nameWithId, QVariant(idUser));
+                    addedUserIds.insert(idUser);  // Add the user ID to the set
+                }
+
+                if (!treeUserItem) {
+                    treeUserItem = new QTreeWidgetItem(parentBoard->getTaskTreeWidget());
+                    treeUserItem->setText(0, nameWithId);
+                    userItemMap.insert(nameWithId, treeUserItem);
+                }
+
+                // Add task for the current user
+                if (!taskTitle.isEmpty()) {
+                    QTreeWidgetItem* treeTaskItem = new QTreeWidgetItem(treeUserItem);
+                    // QListWidget::setItemWidget(treeUserItem, editButtonT);
+                    treeTaskItem->setText(1, taskTitle);
+                    treeTaskItem->setText(2, taskPriority);
+                    treeTaskItem->setText(3, "Task");
+                    // treeTaskItem->setData(0, Qt::UserRole, "task");
+                    treeTaskItem->setText(4, taskStatus);
+                    // Hidden data - Description, Sprint, Assignee
+                    treeTaskItem->setData(5, Qt::UserRole, taskDescription);
+                    treeTaskItem->setData(6, Qt::UserRole, taskSprint);
+                    treeTaskItem->setData(7, Qt::UserRole, idUser);
+                    treeTaskItem->setData(8, Qt::UserRole, idTask);
+                }
+
+                // Add user story for the current user
+                if (!storyTitle.isEmpty()) {
+                    QTreeWidgetItem* treeStoryItem = new QTreeWidgetItem(treeUserItem);
+                    treeStoryItem->setText(1, storyTitle);
+                    treeStoryItem->setText(2, storyPriority);
+                    treeStoryItem->setText(3, "User Story");
+                    // treeStoryItem->setData(0, Qt::UserRole, "userstory");
+                    treeStoryItem->setText(4, storyStatus);
+                    // Hidden data - Description, Sprint, Assignee
+                    treeStoryItem->setData(5, Qt::UserRole, storyDescription);
+                    treeStoryItem->setData(6, Qt::UserRole, storySprint);
+                    treeStoryItem->setData(7, Qt::UserRole, idUser);
+                    treeStoryItem->setData(8, Qt::UserRole, idStory);
+                }
+
+                // qDebug() << "TASKBOARD: User and task/user story data fetched successfully!";
+            }
+            generateUnassigned();
+        } else {
+            // qDebug() << "TASKBOARD: Failed to fetch user and task/user story data:" << query.lastError().text();
+        }
+
+        db.close();
+    } else {
+        // qDebug() << "TASKBOARD: Connection Not Established - Taskboard class!";
     }
 }
 
@@ -580,15 +577,15 @@ void pb_taskboard_implemenation::fetchSprintDates()
                 }
                 else
                 {
-                // Format the StartDate and EndDate
-                startDate = startDate.mid(5, 5);
-                endDate = endDate.mid(5, 5);
-                startDate.replace("-", ".");
-                endDate.replace("-", ".");
+                    // Format the StartDate and EndDate
+                    startDate = startDate.mid(5, 5);
+                    endDate = endDate.mid(5, 5);
+                    startDate.replace("-", ".");
+                    endDate.replace("-", ".");
 
-                // Update the label with the new text
-                parentBoard->updateSprintDateLabel(startDate + " - " + endDate);
-                // qDebug() << "Dates: " << startDate << " - " << endDate;
+                    // Update the label with the new text
+                    parentBoard->updateSprintDateLabel(startDate + " - " + endDate);
+                    // qDebug() << "Dates: " << startDate << " - " << endDate;
                 }
             } else {
                 // qDebug() << "Failed to fetch Sprint dates:" << query.lastError().text();
@@ -688,7 +685,7 @@ void pb_taskboard_implemenation::showEditTaskboard()
     }
     else
     {
-    parentBoard->getCreationBoxT()->setVisible(true);
+        parentBoard->getCreationBoxT()->setVisible(true);
     }
 
     // parentBoard->getCreate_HeaderT()->setVisible(true);
