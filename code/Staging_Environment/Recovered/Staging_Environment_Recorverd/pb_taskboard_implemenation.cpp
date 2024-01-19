@@ -29,7 +29,6 @@
  *      fetchSprintDates()
  *      updateLabels(int index)
  *      getSelectedSprintId() const
- *      HideShow_CreateSectionTaskboard()
  *      showEditTaskboard()
  *      retrieveDataTaskboard()
  *      editTaskTaskboard()
@@ -69,7 +68,7 @@ void pb_taskboard_implemenation::pb_taskboard_Retrieval()
     fetchSprintData();
     fetchSprintDates();
     generateUserTaskTree();
-    HideShow_CreateSectionTaskboard();
+    parentBoard->getCreationBoxT()->setVisible(false);
 }
 
 /**
@@ -663,17 +662,6 @@ int pb_taskboard_implemenation::getSelectedSprintId() const
     return selectedSprintId;
 }
 
-
-/**
- * @brief Hides the create section UI elements.
- * This includes various input fields and buttons related to creating new user stories or tasks.
- */
-void pb_taskboard_implemenation::HideShow_CreateSectionTaskboard()
-{
-    parentBoard->getCreationBoxT()->setVisible(false);
-    parentBoard->getButton_CreateTaskT()->setVisible(false);
-}
-
 /**
  * @brief Shows the editing section specifically for editing Tasks/User Stories.
  * Adjusts the UI layout and makes relevant elements visible for task creation.
@@ -700,6 +688,7 @@ void pb_taskboard_implemenation::showEditTaskboard()
     else
     {
         parentBoard->getCreationBoxT()->setVisible(true);
+        parentBoard->getButton_CreateTaskT()->setVisible(false);
         // Clear Previous Inputs
         parentBoard->getInputTitleT()->clear();
         parentBoard->getInputDescriptionT()->clear();
@@ -900,7 +889,7 @@ void pb_taskboard_implemenation::addToTableTaskboard(const QString& title, const
             return;
         }
         qDebug() << "TASKBOARD: Data update in TaskSB table successfully!";
-        HideShow_CreateSectionTaskboard();
+        parentBoard->getCreationBoxT()->setVisible(false);
         generateUserTaskTree();
         EditTaskSB.close();
     } else {
@@ -947,7 +936,7 @@ void pb_taskboard_implemenation::addToTableTaskboard(const QString& title, const
             return;
         }
         qDebug() << "TASKBOARD: Data update in TaskSB table successfully!";
-        HideShow_CreateSectionTaskboard();
+        parentBoard->getCreationBoxT()->setVisible(false);
         generateUserTaskTree();
         EditUserStorySB.close();
     } else {

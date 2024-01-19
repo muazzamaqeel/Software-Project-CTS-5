@@ -34,7 +34,6 @@ public slots:
     void generateUnassigned();
     void fetchSprintDates();
     void generateUserTaskTree();
-    void HideShow_CreateSectionTaskboard();
     void showEditTaskboard();
     void retrieveDataTaskboard();
     void editTaskTaskboard();
