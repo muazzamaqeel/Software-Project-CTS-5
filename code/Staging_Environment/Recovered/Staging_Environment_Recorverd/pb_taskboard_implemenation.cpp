@@ -251,13 +251,13 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                     switch (storyPriorityTree)
                     {
                     case 3:
-                        taskPriority = "High";
+                        storyPriority = "High";
                         break;
                     case 2:
-                        taskPriority = "Medium";
+                        storyPriority = "Medium";
                         break;
                     case 1:
-                        taskPriority = "Low";
+                        storyPriority = "Low";
                         break;
                     default:
                         break;
@@ -433,8 +433,8 @@ void pb_taskboard_implemenation::generateUnassigned()
                 QString storyStatus = query.value(6).toString();
                 QString storyDescription = query.value(7).toString();
 
-                int taskSprint = query.value(12).toInt();
-                int storySprint = query.value(13).toInt();
+                int taskSprint = query.value(8).toInt();
+                int storySprint = query.value(9).toInt();
 
                 QString taskPriority;
                 switch (taskPriorityTree)
@@ -456,13 +456,13 @@ void pb_taskboard_implemenation::generateUnassigned()
                 switch (storyPriorityTree)
                 {
                 case 3:
-                    taskPriority = "High";
+                    storyPriority = "High";
                     break;
                 case 2:
-                    taskPriority = "Medium";
+                    storyPriority = "Medium";
                     break;
                 case 1:
-                    taskPriority = "Low";
+                    storyPriority = "Low";
                     break;
                 default:
                     break;
