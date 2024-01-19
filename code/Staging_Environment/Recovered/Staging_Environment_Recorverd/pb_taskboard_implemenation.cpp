@@ -55,11 +55,6 @@ void pb_taskboard_implemenation::pb_taskboard_Retrieval()
     generateUserTaskTree();
     HideShow_CreateSectionTaskboard();
 }
-void pb_taskboard_implemenation::showCreate_Taskboard()
-{
-    // hideShowT_Creation = true;
-    // HideShow_CreateSectionTaskboard(hideShowT_Creation);
-}
 
 pb_taskboard_implemenation::~pb_taskboard_implemenation()
 {
@@ -982,15 +977,4 @@ void pb_taskboard_implemenation::addToTableTaskboard(const QString& title, const
     //     qDebug() << "TASKBOARD: Data inserted into TaskSB table successfully!";
     //     TaskSB.close();
     // }
-}
-
-/**
- * @brief Edits/Creates the selected Task/UserStory.
- * Both implementations are inside this function to reduce computing.
- */
-void pb_taskboard_implemenation::createNewItemInDatabase()
-{
-
-    // // Get the userItemMap
-    // QMap<QString, QTreeWidgetItem*> userItemMap = getUserItemMap();
 }
