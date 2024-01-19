@@ -72,6 +72,7 @@ void pb_taskboard_implemenation::fetchSprintData()
     parentBoard->get_BL_SprintDropDownT()->clear();
 
     parentBoard->getSprintDropdown()->addItem("All Sprints", -1);
+    parentBoard->get_BL_SprintDropDownT()->addItem("", -3);
 
     DatabaseManager database;
     QSqlDatabase db = database.getDatabase();
@@ -159,7 +160,9 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                               "    TaskSB.Description AS TaskDescription, "
                               "    UserStorySB.Description AS UserStoryDescription, "
                               "    TaskSB.SprintBacklog_Sprint_idSprint AS TaskSprint, "
-                              "    UserStorySB.SprintBacklog_Sprint_idSprint AS UserStorySprint "
+                              "    UserStorySB.SprintBacklog_Sprint_idSprint AS UserStorySprint, "
+                              "    TaskSB.idTask AS idTask, "
+                              "    UserStorySB.idUserStorySB AS idStory "
                               "FROM "
                               "    Project "
                               "INNER JOIN "
@@ -171,7 +174,9 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                               "LEFT JOIN "
                               "    UserStorySB ON User.idUser = UserStorySB.Assignee AND UserStorySB.SprintBacklog_Sprint_Project_idProject = Project_has_User.Project_idProject "
                               "WHERE "
-                              "    Project.idProject = :projectId;");
+                              "    Project.idProject = :projectId "
+                              "ORDER BY "
+                              "    User.LastName;");
             }
             else
             {
@@ -189,7 +194,9 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                               "    TaskSB.Description AS TaskDescription, "
                               "    UserStorySB.Description AS UserStoryDescription, "
                               "    TaskSB.SprintBacklog_Sprint_idSprint AS TaskSprint, "
-                              "    UserStorySB.SprintBacklog_Sprint_idSprint AS UserStorySprint "
+                              "    UserStorySB.SprintBacklog_Sprint_idSprint AS UserStorySprint, "
+                              "    TaskSB.idTask AS idTask, "
+                              "    UserStorySB.idUserStorySB AS idStory "
                               "FROM "
                               "    Project "
                               "INNER JOIN "
@@ -203,7 +210,9 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                               "LEFT JOIN"
                               "    Sprint ON Sprint.idSprint = TaskSB.SprintBacklog_Sprint_idSprint "
                               "WHERE "
-                              "    Project.idProject = :projectId;");
+                              "    Project.idProject = :projectId "
+                              "ORDER BY "
+                              "    User.LastName;");
 
                 query.bindValue(":sprintId", selectedSprintId);
 
@@ -229,6 +238,9 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                     QString storyDescription = query.value(11).toString();
                     int taskSprint = query.value(12).toInt();
                     int storySprint = query.value(13).toInt();
+
+                    int idTask = query.value(14).toInt();
+                    int idStory = query.value(15).toInt();
 
 
                     QString taskPriority;
@@ -277,11 +289,13 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                     qDebug() << "TASKBOARD: QUERY ASSIGNED storyDescription: " << storyDescription;
                     qDebug() << "TASKBOARD: QUERY ASSIGNED taskSprint: " << taskSprint;
                     qDebug() << "TASKBOARD: QUERY ASSIGNED storySprint: " << storySprint;
+                    qDebug() << "TASKBOARD: QUERY ASSIGNED idTask: " << idTask;
+                    qDebug() << "TASKBOARD: QUERY ASSIGNED idStory: " << idStory;
 
                     QString name = firstName + " " + lastName;
                     // qDebug() << "TASKBOARD: name: " << name;
 
-                    QString nameWithId = QString("%1 (%2, %3)").arg(name).arg(username).arg(idUser);
+                    QString nameWithId = name + " (" + username + ")";
                     QTreeWidgetItem* treeUserItem = userItemMap.value(nameWithId);
 
                     qDebug() << "TASKBOARD: idUser: " << nameWithId << " = " << idUser;
@@ -310,6 +324,7 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                         treeTaskItem->setData(5, Qt::UserRole, taskDescription);
                         treeTaskItem->setData(6, Qt::UserRole, taskSprint);
                         treeTaskItem->setData(7, Qt::UserRole, idUser);
+                        treeTaskItem->setData(8, Qt::UserRole, idTask);
                     }
 
                     // Add user story for the current user
@@ -324,6 +339,7 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                         treeStoryItem->setData(5, Qt::UserRole, storyDescription);
                         treeStoryItem->setData(6, Qt::UserRole, storySprint);
                         treeStoryItem->setData(7, Qt::UserRole, idUser);
+                        treeStoryItem->setData(8, Qt::UserRole, idStory);
                     }
 
                     // qDebug() << "TASKBOARD: User and task/user story data fetched successfully!";
@@ -370,7 +386,9 @@ void pb_taskboard_implemenation::generateUnassigned()
                           "    UserStorySB.Status AS UserStoryStatus, "
                           "    UserStorySB.Description AS UserStoryDescription, "
                           "    TaskSB.SprintBacklog_Sprint_idSprint AS TaskSprint, "
-                          "    UserStorySB.SprintBacklog_Sprint_idSprint AS UserStorySprint "
+                          "    UserStorySB.SprintBacklog_Sprint_idSprint AS UserStorySprint, "
+                          "    TaskSB.idTask AS idTask, "
+                          "    UserStorySB.idUserStorySB AS idStory "
                           "FROM "
                           "    Project "
                           "INNER JOIN "
@@ -398,7 +416,9 @@ void pb_taskboard_implemenation::generateUnassigned()
                           "    UserStorySB.Status AS UserStoryStatus, "
                           "    UserStorySB.Description AS UserStoryDescription, "
                           "    TaskSB.SprintBacklog_Sprint_idSprint AS TaskSprint, "
-                          "    UserStorySB.SprintBacklog_Sprint_idSprint AS UserStorySprint "
+                          "    UserStorySB.SprintBacklog_Sprint_idSprint AS UserStorySprint, "
+                          "    TaskSB.idTask AS idTask, "
+                          "    UserStorySB.idUserStorySB AS idStory "
                           "FROM "
                           "    Project "
                           "INNER JOIN "
@@ -435,6 +455,9 @@ void pb_taskboard_implemenation::generateUnassigned()
 
                 int taskSprint = query.value(8).toInt();
                 int storySprint = query.value(9).toInt();
+
+                int idTask = query.value(10).toInt();
+                int idStory = query.value(11).toInt();
 
                 QString taskPriority;
                 switch (taskPriorityTree)
@@ -478,6 +501,8 @@ void pb_taskboard_implemenation::generateUnassigned()
                 qDebug() << "TASKBOARD: QUERY UNASSIGNED storyDescription: " << storyDescription;
                 qDebug() << "TASKBOARD: QUERY UNASSIGNED taskSprint: " << taskSprint;
                 qDebug() << "TASKBOARD: QUERY UNASSIGNED storySprint: " << storySprint;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED idTask: " << idTask;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED idStory: " << idStory;
 
                 int unassigned = -1;
                 // Add task for unassigned
@@ -491,6 +516,7 @@ void pb_taskboard_implemenation::generateUnassigned()
                     treeTaskItem->setData(5, Qt::UserRole, taskDescription);
                     treeTaskItem->setData(6, Qt::UserRole, taskSprint);
                     treeTaskItem->setData(7, Qt::UserRole, unassigned);
+                    treeTaskItem->setData(8, Qt::UserRole, idTask);
                 }
 
                 // Add user story for unassigned
@@ -504,6 +530,7 @@ void pb_taskboard_implemenation::generateUnassigned()
                     treeStoryItem->setData(5, Qt::UserRole, storyDescription);
                     treeStoryItem->setData(6, Qt::UserRole, storySprint);
                     treeStoryItem->setData(7, Qt::UserRole, unassigned);
+                    treeStoryItem->setData(8, Qt::UserRole, idStory);
                 }
 
             }
@@ -731,10 +758,6 @@ void pb_taskboard_implemenation::retrieveDataTaskboard()
     {
         return;
     }
-    // Clear Previous Inputs
-    parentBoard->getInputTitleT()->clear();
-    parentBoard->getInputDescriptionT()->clear();
-    parentBoard->getInputStatusT()->clear();
 
     QTreeWidget* treeWidget = parentBoard->getTaskTreeWidget();
     QTreeWidgetItem* selectedItem = treeWidget->currentItem();
@@ -763,18 +786,25 @@ void pb_taskboard_implemenation::retrieveDataTaskboard()
         }
 
         // Updating Input for editing
-        parentBoard->updateInputTitleT(taskTitle);
-        parentBoard->updateInputStatusT(taskStatus);
-        parentBoard->updateInputDescriptionT(hiddenTaskDescription);
-        parentBoard->updateInputAssigneeT(hiddenAssignee);
-        parentBoard->updateBL_SprintDropDownT(hiddenSprint);
+        if (!taskTitle.isEmpty()) // Ignoring User Items
+        {
+            // Clear Previous Inputs
+            parentBoard->getInputTitleT()->clear();
+            parentBoard->getInputDescriptionT()->clear();
+            parentBoard->getInputStatusT()->clear();
 
+            parentBoard->updateInputTitleT(taskTitle);
+            parentBoard->updateInputStatusT(taskStatus);
+            parentBoard->updateInputDescriptionT(hiddenTaskDescription);
+            parentBoard->updateInputAssigneeT(hiddenAssignee);
+            parentBoard->updateBL_SprintDropDownT(hiddenSprint);
 
-        qDebug() << "TASKBOARD: RETRIEVE hiddenSprint: " << hiddenSprint;
-        qDebug() << "TASKBOARD: RETRIEVE taskTitle:" << taskTitle;
-        qDebug() << "TASKBOARD: RETRIEVE taskStatus:" << taskStatus;
-        qDebug() << "TASKBOARD: RETRIEVE hiddenTaskDescription: " << hiddenTaskDescription;
-        qDebug() << "TASKBOARD: RETRIEVE hiddenAssignee: " << hiddenAssignee;
+            qDebug() << "TASKBOARD: RETRIEVE hiddenSprint: " << hiddenSprint;
+            qDebug() << "TASKBOARD: RETRIEVE taskTitle:" << taskTitle;
+            qDebug() << "TASKBOARD: RETRIEVE taskStatus:" << taskStatus;
+            qDebug() << "TASKBOARD: RETRIEVE hiddenTaskDescription: " << hiddenTaskDescription;
+            qDebug() << "TASKBOARD: RETRIEVE hiddenAssignee: " << hiddenAssignee;
+        }
 
     } else {
         qDebug() << "TASKBOARD: No item selected.";
@@ -875,11 +905,28 @@ void pb_taskboard_implemenation::addToTableTaskboard(const QString& title, const
     HideShow_CreateSectionTaskboard();
     generateUserTaskTree();
 
+    // "UPDATE UserStorySB "
+    // "SET Title="3rd attempt, "
+    // "Description="Trying task editing, "
+    // "Status="To Do, "
+    // "Assignee=32, "
+    // "SprintBacklog_idSprintBacklog=64, "
+    // "SprintBacklog_Sprint_idSprint=64 "
+    // "WHERE idUserStorySB=325;"
 
-    if (assignee == -1)
-    {
-        // doesnt input assignee so 2 queries, 1 with assignee, 1 without
-    }
+    // "UPDATE TaskSB "
+    // "SET Title="3rd attempt, "
+    // "Description="Trying task editing, "
+    // "Status="To Do, "
+    // "Assignee=32, "
+    // "SprintBacklog_idSprintBacklog=64, "
+    // "SprintBacklog_Sprint_idSprint=64 "
+    // "WHERE idTask=325;"
+
+    // if (assignee == -1)
+    // {
+    //     // doesnt input assignee so 2 queries, 1 with assignee, 1 without
+    // }
 
     // if (parentBoard->getButton_CreateTaskT()->isVisible() == true)
     // {
