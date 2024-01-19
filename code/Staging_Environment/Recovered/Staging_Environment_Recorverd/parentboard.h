@@ -120,7 +120,6 @@ public:
     QLabel* get_SelectedSprintT();
     QTextEdit* getInputTitleT();
     QTextEdit* getInputStatusT();
-    QComboBox* getInputPriorityT();
     QTextEdit* getInputDescriptionT();
     QComboBox* getInputAssigneeT();
 
@@ -128,15 +127,12 @@ public:
     QLabel* getCreate_HeaderT();
     QLabel* getCreate_TitleT();
     QLabel* getCreate_StatusT();
-    QLabel* getCreate_PriorityT();
     QLabel* getCreate_DescriptionT();
     QLabel* getCreate_AssigneeT();
     QComboBox* get_BL_SprintDropDownT();
 
     // Buttons
     QPushButton* getButton_CreateTaskT();
-    QPushButton* getButton_CreateUserStoryT();
-    QPushButton* get_delete_itemT();
 
     // Update/Edit
     void updateInputStatusT(const QString& data);

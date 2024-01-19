@@ -656,9 +656,6 @@ void parentboard::updateSprintDateLabel(const QString& newText)
 QPushButton* parentboard::getButton_CreateTaskT(){
     return ui->Button_CreateTaskT;
 }
-QPushButton* parentboard::getButton_CreateUserStoryT(){
-    return ui->Button_CreateUserStoryT;
-}
 
 // Labels
 QLabel* parentboard::getCreate_AssigneeT(){
@@ -666,9 +663,6 @@ QLabel* parentboard::getCreate_AssigneeT(){
 }
 QLabel* parentboard::getCreate_DescriptionT(){
     return ui->CreateDescriptionT;
-}
-QLabel* parentboard::getCreate_PriorityT(){
-    return ui->CreatePriorityT;
 }
 QLabel* parentboard::getCreate_StatusT(){
     return ui->CreateStatusT;
@@ -687,9 +681,6 @@ QComboBox* parentboard::getInputAssigneeT(){
 QTextEdit* parentboard::getInputDescriptionT(){
     return ui->InputDescriptionT;
 }
-QComboBox* parentboard::getInputPriorityT(){
-    return ui->InputPriorityT;
-}
 QTextEdit* parentboard::getInputStatusT(){
     return ui->InputStatusT;
 }
@@ -706,11 +697,6 @@ QComboBox* parentboard::get_BL_SprintDropDownT(){
 // Box
 QGroupBox* parentboard::getCreationBoxT(){
     return ui->CreationBoxT;
-}
-
-// Delete
-QPushButton* parentboard::get_delete_itemT(){
-    return ui->delete_itemT;
 }
 
 // Edit

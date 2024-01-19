@@ -671,12 +671,6 @@ int pb_taskboard_implemenation::getSelectedSprintId() const
 void pb_taskboard_implemenation::HideShow_CreateSectionTaskboard()
 {
     parentBoard->getCreationBoxT()->setVisible(false);
-
-    // TEMPORARY - TO REMOVE PRIORITY UI ELEMENTS FROM PARENTBOARD.UI
-    parentBoard->getCreate_PriorityT()->setVisible(false);
-    parentBoard->getInputPriorityT()->setVisible(false);
-
-    parentBoard->getButton_CreateUserStoryT()->setVisible(false);
     parentBoard->getButton_CreateTaskT()->setVisible(false);
 }
 
@@ -693,7 +687,6 @@ void pb_taskboard_implemenation::showEditTaskboard()
     if (parentBoard->getCreationBoxT()->isVisible())
     {
         parentBoard->getCreationBoxT()->setVisible(false);
-        parentBoard->getButton_CreateUserStoryT()->setVisible(false);
         parentBoard->getButton_CreateTaskT()->setVisible(false);
         // Clear Previous Inputs
         parentBoard->getInputTitleT()->clear();
