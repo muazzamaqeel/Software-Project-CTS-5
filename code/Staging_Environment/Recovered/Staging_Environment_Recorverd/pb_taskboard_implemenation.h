@@ -35,10 +35,8 @@ public slots:
     void fetchSprintDates();
     void generateUserTaskTree();
     void HideShow_CreateSectionTaskboard();
-    void showCreateUseStoryTaskboard();
     void showEditTaskboard();
     void retrieveDataTaskboard();
-    void editUserStoryTaskboard();
     void editTaskTaskboard();
     void addToTableTaskboard(const QString& title, const QString& description, const QString& status, int assignee, int sprint, int id, const QString& type);
 

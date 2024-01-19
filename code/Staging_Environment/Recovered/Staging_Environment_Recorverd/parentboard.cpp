@@ -756,64 +756,6 @@ void parentboard::updateBL_SprintDropDownT(int idSprint)
     }
 }
 
-
-// /// Resizing
-// void parentboard::resizeEvent(QResizeEvent *event) {
-//     // Call the base class implementation
-//     QWidget::resizeEvent(event);
-
-//     // new Width and Height
-//     int newWidth = event->size().width();
-//     int newHeight = event->size().height();
-
-//     // Parentboard Buttons
-//     QList<QPushButton*> buttons = {
-//         ui->taskboardButton,
-//         ui->backlogButton,
-//         ui->sprintsButton,
-//         ui->confluenceButton,
-//         ui->teamButton,
-//         ui->calendarButton
-//     };
-
-//     int totalButtons = buttons.size();
-//     int totalSpacing = 20;  // Spacing between buttons
-
-//     int buttonWidth = (newWidth - totalSpacing * (totalButtons - 1)) / totalButtons;
-//     int buttonHeight = newHeight / 18;
-
-//     for (QPushButton* button : buttons) {
-//         button->setFixedSize(buttonWidth, buttonHeight);
-//     }
-
-//     // For the stacked widget pages
-//     int pageCount = ui->stackedWidget->count();
-//     for (int i = 0; i < pageCount; ++i) {
-//         QWidget *pageWidget = ui->stackedWidget->widget(i);
-
-//         // backlogPage
-//         if (pageWidget == ui->backlogPage) {
-//             QList<QPushButton*> backlogButtons = {
-//                 ui->button_userstory,
-//                 ui->buttton_issue,
-//                 ui->delete_item,
-//                 ui->delete_item_UserStory
-//             };
-
-//             int totalBacklogButtons = backlogButtons.size();
-//             int totalBacklogSpacing = 20;  // Spacing between buttons
-
-//             int backlogButtonWidth = (newWidth - totalBacklogSpacing * (totalBacklogButtons - 1)) / totalBacklogButtons;
-//             int backlogButtonHeight = newHeight / 24;
-
-//             for (QPushButton* backlogButton : backlogButtons) {
-//                 backlogButton->setFixedSize(backlogButtonWidth, backlogButtonHeight);
-//             }
-//         }
-//     }
-// }
-
-
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------
 

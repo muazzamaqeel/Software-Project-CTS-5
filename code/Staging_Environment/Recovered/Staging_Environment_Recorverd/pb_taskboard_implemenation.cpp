@@ -3,7 +3,6 @@
 #include "QtWidgets/qheaderview.h"
 #include "parentboard.h"  // Include parentboard header
 #include "databasemanager.h"
-#include "ui_parentboard.h"
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QComboBox>
@@ -14,18 +13,22 @@
 #include <QDateTime>
 #include <QMessageBox>
 
-/// This class only handles data in the TaskSB and USerStorySB tables!
+/** Known Errors
+ *  1. Can't change sprint of task/user story
+ *  Using hiddenSprint from the selected item in the tree widget instead of selectedSprint from the Editing section
+ *  2. Tasks/User Stories sometimes duplicated when added to Users or Unassigned items in the tree widget
+ */
+
+/**
+ * @brief This class handles data in the TaskSB and USerStorySB tables
+ * @param parentBoardInstance
+ */
 
 pb_taskboard_implemenation::pb_taskboard_implemenation(parentboard* parentBoardInstance)
     : parentBoard(parentBoardInstance),
     scrollAreaLayout(parentBoardInstance->getScrollAreaLayout())  // Initialize the layout
 {
     model = new QStandardItemModel(parentBoard);
-
-    // fetchSprintData();
-    // fetchSprintDates();
-    // generateUserTaskTree();
-    // HideShow_CreateSectionTaskboard();
 
     // Passing project ID
     int PassedProjectID = parentBoard->getProjectId();
@@ -36,26 +39,18 @@ pb_taskboard_implemenation::pb_taskboard_implemenation(parentboard* parentBoardI
         pb_taskboard_Retrieval();
     }
 
-    // Resize QWidgetTree sections/columns
+    // Tree Table Resize Header/Section
     QHeaderView* header = parentBoard->getTaskTreeWidget()->header();
-    // header->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    // header->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+    header->resizeSection(0, 300);
+    header->resizeSection(1, 600);
 
-    // Priority Dropdown Initialization
-    // parentBoard->getInputPriorityT()->clear();
-    // parentBoard->getInputPriorityT()->addItem("Select Priority", -1);
-    // parentBoard->getInputPriorityT()->addItem("High", 1);
-    // parentBoard->getInputPriorityT()->addItem("Medium", 2);
-    // parentBoard->getInputPriorityT()->addItem("Low", 3);
-
-    // Fixed
-    // header->setSectionResizeMode(QHeaderView::Fixed);
-    header->resizeSection(0, 300); // User section wider
-    header->resizeSection(1, 600); // Task section wider
-
+    // Connections
     connect(parentBoard->getTaskTreeWidget(), &QTreeWidget::itemDoubleClicked, this, &pb_taskboard_implemenation::retrieveDataTaskboard);
     connect(parentBoard->getSprintDropdown(), QOverload<int>::of(&QComboBox::currentIndexChanged), this, &pb_taskboard_implemenation::updateLabels);    
 }
+/**
+ * @brief Function call hub for data fetching and generation.
+ */
 void pb_taskboard_implemenation::pb_taskboard_Retrieval()
 {
     fetchSprintData();
@@ -64,30 +59,32 @@ void pb_taskboard_implemenation::pb_taskboard_Retrieval()
     HideShow_CreateSectionTaskboard();
 }
 
-pb_taskboard_implemenation::~pb_taskboard_implemenation()
-{
-    delete model;
-}
-
+/**
+ * @brief Populates the sprint selection Dropdown/ComboBox
+ * getSprintDropdown, get_BL_SprintDropDownT
+ */
 void pb_taskboard_implemenation::fetchSprintData()
 {
+    // Clearing Dropdowns/ComboBoxes before adding items
     parentBoard->getSprintDropdown()->clear();
     parentBoard->get_BL_SprintDropDownT()->clear();
 
+    // Initializing first Items
     parentBoard->getSprintDropdown()->addItem("All Sprints", -1);
     parentBoard->get_BL_SprintDropDownT()->addItem(" ", -3);
 
+    // Sprint Fetching Database
     DatabaseManager database;
-    QSqlDatabase db = database.getDatabase();
+    QSqlDatabase FetchSprintsTaskboard = database.getDatabase();
 
     // Passing project ID
     int PassedProjectID = parentBoard->getProjectId();
     qDebug() << "TASKBOARD: Project ID in Taskboard fetchSprint: " << PassedProjectID;
 
-    if (db.isOpen()) {
+    if (FetchSprintsTaskboard.isOpen()) {
         // qDebug() << "TASKBOARD: Connection Established - Taskboard class!";
 
-        QSqlQuery query(db);
+        QSqlQuery query(FetchSprintsTaskboard);
         query.prepare("SELECT "
                       "   idSprint, Title "
                       "FROM"
@@ -110,12 +107,17 @@ void pb_taskboard_implemenation::fetchSprintData()
             // qDebug() << "TASKBOARD: Failed to fetch Sprint data:" << query.lastError().text();
         }
 
-        db.close();
+        FetchSprintsTaskboard.close();
     } else {
         // qDebug() << "TASKBOARD: Connection Not Established - Taskboard class!";
     }
 }
 
+/**
+ * @brief Adds User parent items to the Tree Widget
+ * Adds Task/UserStory children items to the parent items
+ * Calls generateUnassigned
+ */
 void pb_taskboard_implemenation::generateUserTaskTree()
 {
 
@@ -128,7 +130,7 @@ void pb_taskboard_implemenation::generateUserTaskTree()
 
     // Fetch User and Task data and generate the tree
     DatabaseManager database;
-    QSqlDatabase db = database.getDatabase();
+    QSqlDatabase UserTasksTaskboard = database.getDatabase();
 
     // Passing Project ID and Sprint ID
     int PassedProjectID = parentBoard->getProjectId();
@@ -136,10 +138,10 @@ void pb_taskboard_implemenation::generateUserTaskTree()
     qDebug() << "TASKBOARD: Project ID in Taskboard generateUserTasks: " << PassedProjectID;
     // qDebug() << "TASKBOARD: Selected Sprint ID: " << selectedSprintId;
 
-    if (db.isOpen()) {
+    if (UserTasksTaskboard.isOpen()) {
         // qDebug() << "TASKBOARD: Connection Established - Taskboard class!";
 
-        QSqlQuery query(db);
+        QSqlQuery query(UserTasksTaskboard);
 
         // Check if "All Sprints" is selected
         if (selectedSprintId == -1)
@@ -285,7 +287,7 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                 qDebug() << "TASKBOARD: QUERY ASSIGNED taskPriority: " << taskPriorityTree << taskPriority;
                 qDebug() << "TASKBOARD: QUERY ASSIGNED taskStatus: " << taskStatus;
                 qDebug() << "TASKBOARD: QUERY ASSIGNED storyTitle: " << storyTitle;
-                qDebug() << "TASKBOARD: QUERY ASSIGNED storyPriority: " << storyPriorityTree << storyPriorityTree;
+                qDebug() << "TASKBOARD: QUERY ASSIGNED storyPriority: " << storyPriorityTree << storyPriority;
                 qDebug() << "TASKBOARD: QUERY ASSIGNED storyStatus: " << storyStatus;
                 qDebug() << "TASKBOARD: QUERY ASSIGNED taskDescription: " << taskDescription;
                 qDebug() << "TASKBOARD: QUERY ASSIGNED storyDescription: " << storyDescription;
@@ -351,19 +353,23 @@ void pb_taskboard_implemenation::generateUserTaskTree()
             // qDebug() << "TASKBOARD: Failed to fetch user and task/user story data:" << query.lastError().text();
         }
 
-        db.close();
+        UserTasksTaskboard.close();
     } else {
         // qDebug() << "TASKBOARD: Connection Not Established - Taskboard class!";
     }
 }
 
+/**
+ * @brief Adds children items to unassignedItem
+ * Fetches Tasks/User Stories where assignee is NULL
+ */
 void pb_taskboard_implemenation::generateUnassigned()
 {
     QTreeWidgetItem* unassignedItem = new QTreeWidgetItem(parentBoard->getTaskTreeWidget());
     unassignedItem->setText(0, "Unassigned");
 
     DatabaseManager database;
-    QSqlDatabase db = database.getDatabase();
+    QSqlDatabase UnassignedTaskboard = database.getDatabase();
 
     // Passing Project ID and Sprint ID
     int PassedProjectID = parentBoard->getProjectId();
@@ -371,8 +377,8 @@ void pb_taskboard_implemenation::generateUnassigned()
     qDebug() << "Project ID in Taskboard generateUnassigned: " << PassedProjectID;
     // qDebug() << "Selected Sprint ID generateUnassigned: " << selectedSprintId;
 
-    if (db.isOpen()) {
-        QSqlQuery query(db);
+    if (UnassignedTaskboard.isOpen()) {
+        QSqlQuery query(UnassignedTaskboard);
 
         // Check if "All Sprints" is selected
         if (selectedSprintId == -1)
@@ -484,7 +490,7 @@ void pb_taskboard_implemenation::generateUnassigned()
                 qDebug() << "TASKBOARD: QUERY UNASSIGNED taskPriority: " << taskPriorityTree << taskPriority;
                 qDebug() << "TASKBOARD: QUERY UNASSIGNED taskStatus: " << taskStatus;
                 qDebug() << "TASKBOARD: QUERY UNASSIGNED storyTitle: " << storyTitle;
-                qDebug() << "TASKBOARD: QUERY UNASSIGNED storyPriority: " << storyPriorityTree << storyPriorityTree;
+                qDebug() << "TASKBOARD: QUERY UNASSIGNED storyPriority: " << storyPriorityTree << storyPriority;
                 qDebug() << "TASKBOARD: QUERY UNASSIGNED storyStatus: " << storyStatus;
                 qDebug() << "TASKBOARD: QUERY UNASSIGNED taskDescription: " << taskDescription;
                 qDebug() << "TASKBOARD: QUERY UNASSIGNED storyDescription: " << storyDescription;
@@ -527,12 +533,16 @@ void pb_taskboard_implemenation::generateUnassigned()
             // qDebug() << "Failed to fetch unassigned tasks and user stories:" << query.lastError().text();
         }
 
-        db.close();
+        UnassignedTaskboard.close();
     } else {
         // qDebug() << "Connection Not Established - Taskboard class!";
     }
 }
 
+/**
+ * @brief Fetches sprint dates based on the selected sprint
+ * Updates SprintDateLabel - Format: startDate - endDate
+ */
 void pb_taskboard_implemenation::fetchSprintDates()
 {
     DatabaseManager database;
@@ -590,9 +600,13 @@ void pb_taskboard_implemenation::fetchSprintDates()
     }
 }
 
+/**
+ * @brief Intermediate function to update the Tree Widget based on the selected sprint
+ * @param index of selected sprint
+ * Calls fetchSprintDates, generateUserTaskTree
+ */
 void pb_taskboard_implemenation::updateLabels(int index)
 {
-    // int selectedIdSprint = parentBoard->getSprintDropdown()->currentData().toInt();
 
     QComboBox* sprintDropdown = parentBoard->getSprintDropdown();
 
@@ -613,6 +627,11 @@ void pb_taskboard_implemenation::updateLabels(int index)
         selectedSprintId = -2;
     }
 }
+
+/**
+ * @brief Returns the ID of the selected sprint from the Dropdown/ComboBox
+ * @return selectedSprintId
+ */
 int pb_taskboard_implemenation::getSelectedSprintId() const
 {
     return selectedSprintId;
@@ -633,29 +652,10 @@ void pb_taskboard_implemenation::HideShow_CreateSectionTaskboard()
 
     parentBoard->getButton_CreateUserStoryT()->setVisible(false);
     parentBoard->getButton_CreateTaskT()->setVisible(false);
-
-    // parentBoard->getCreate_AssigneeT()->setVisible(false);
-    // parentBoard->getCreate_DescriptionT()->setVisible(false);
-    // parentBoard->getCreate_HeaderT()->setVisible(false);
-
-    // parentBoard->getCreate_StatusT()->setVisible(false);
-    // parentBoard->getCreate_TitleT()->setVisible(false);
-
-    // parentBoard->getInputAssigneeT()->setVisible(false);
-    // parentBoard->getInputDescriptionT()->setVisible(false);
-
-    // parentBoard->getInputStatusT()->setVisible(false);
-    // parentBoard->getInputTitleT()->setVisible(false);
-
-    // parentBoard->getButton_CreateUserStoryT()->setVisible(false);
-    // parentBoard->getButton_CreateTaskT()->setVisible(false);
-
-    // parentBoard->get_BL_SprintDropDownT()->setVisible(false);
-    // parentBoard->get_SelectedSprintT()->setVisible(false);
 }
 
 /**
- * @brief Shows the create section specifically for creating tasks.
+ * @brief Shows the editing section specifically for editing Tasks/User Stories.
  * Adjusts the UI layout and makes relevant elements visible for task creation.
  */
 void pb_taskboard_implemenation::showEditTaskboard()
@@ -683,66 +683,13 @@ void pb_taskboard_implemenation::showEditTaskboard()
         inputAssignee->setCurrentIndex(-1);
     }
 
-    // parentBoard->getCreate_HeaderT()->setVisible(true);
-
-    // parentBoard->getCreate_AssigneeT()->setVisible(true);
-    // parentBoard->getCreate_DescriptionT()->setVisible(true);
-    // parentBoard->getCreate_StatusT()->setVisible(true);
-    // parentBoard->getCreate_TitleT()->setVisible(true);
-
-    // parentBoard->getInputAssigneeT()->setVisible(true);
-    // parentBoard->getInputDescriptionT()->setVisible(true);
-    // parentBoard->getInputStatusT()->setVisible(true);
-    // parentBoard->getInputTitleT()->setVisible(true);
-
-    // parentBoard->getButton_CreateUserStoryT()->setVisible(false);
-    // parentBoard->getButton_CreateTaskT()->setVisible(true);
-
-    // parentBoard->get_BL_SprintDropDownT()->setVisible(true);
-    // parentBoard->get_SelectedSprintT()->setVisible(true);
-
     QLabel* Create_HeaderT = parentBoard->getCreate_HeaderT();
     Create_HeaderT->setAlignment(Qt::AlignCenter);  // Align text to center
     Create_HeaderT->setText("EDIT");
-
-}
-
-/**
- * @brief Shows the create section specifically for creating user stories.
- * Adjusts the UI layout and makes relevant elements visible for user story creation.
- */
-void pb_taskboard_implemenation::showCreateUseStoryTaskboard()
-{
-
-    parentBoard->getCreationBoxT()->setVisible(true);
-
-    parentBoard->getCreate_HeaderT()->setVisible(true);
-
-    parentBoard->getCreate_AssigneeT()->setVisible(true);
-    parentBoard->getCreate_DescriptionT()->setVisible(true);
-    parentBoard->getCreate_StatusT()->setVisible(true);
-    parentBoard->getCreate_TitleT()->setVisible(true);
-
-    parentBoard->getInputAssigneeT()->setVisible(true);
-    parentBoard->getInputDescriptionT()->setVisible(true);
-    parentBoard->getInputStatusT()->setVisible(true);
-    parentBoard->getInputTitleT()->setVisible(true);
-
-    parentBoard->getButton_CreateUserStoryT()->setVisible(true);
-    parentBoard->getButton_CreateTaskT()->setVisible(false);
-
-    parentBoard->get_BL_SprintDropDownT()->setVisible(true);
-    parentBoard->get_SelectedSprintT()->setVisible(true);
-
-    QLabel* Create_HeaderT = parentBoard->getCreate_HeaderT();
-    Create_HeaderT->setAlignment(Qt::AlignCenter);  // Align text to center
-    Create_HeaderT->setText("USER STORY");
-
 }
 
 /**
  * @brief Retrieves data from the selected item in the Tree Widget for edit
- * Title, Priority, Type, Status
  */
 void pb_taskboard_implemenation::retrieveDataTaskboard()
 {
@@ -805,6 +752,10 @@ void pb_taskboard_implemenation::retrieveDataTaskboard()
 
 }
 
+/**
+ * @brief Retrieves all inputs and data on selected Task/UserStory
+ * Calls addToTableTaskboard
+ */
 void pb_taskboard_implemenation::editTaskTaskboard()
 {
     qDebug() << "TASKBOARD: EDIT Save Task/UserStory Taskboard button clicked.";
@@ -821,7 +772,6 @@ void pb_taskboard_implemenation::editTaskTaskboard()
         QTextEdit* inputDescriptionTt = parentBoard->getInputDescriptionT();
         QTextEdit* inputStatusTt = parentBoard->getInputStatusT();
         QTextEdit* inputTitleTt = parentBoard->getInputTitleT();
-        QComboBox* currentSprintTt = parentBoard->get_BL_SprintDropDownT();
         QComboBox* inputAssigneeTt = parentBoard->getInputAssigneeT();
 
         QString titleT = inputTitleTt->toPlainText();
@@ -838,7 +788,7 @@ void pb_taskboard_implemenation::editTaskTaskboard()
         qDebug() << "TASKBOARD: EDIT hiddenID" << hiddenID;
         qDebug() << "TASKBOARD: EDIT taskType" << taskType;
 
-        if (titleT.isEmpty() || descriptionT.isEmpty()) {
+        if (titleT.isEmpty() || descriptionT.isEmpty() || hiddenSprint < 1) {
             // One or more fields are empty
             QString errorMessage = "Missing Values:\n";
 
@@ -847,6 +797,9 @@ void pb_taskboard_implemenation::editTaskTaskboard()
             }
             if (descriptionT.isEmpty()) {
                 errorMessage += "- Description\n";
+            }
+            if (hiddenSprint < 1) {
+                errorMessage += "- Sprint\n";
             }
 
             QMessageBox::warning(nullptr, "Missing Values", errorMessage);
@@ -858,50 +811,16 @@ void pb_taskboard_implemenation::editTaskTaskboard()
     }
 }
 
-void pb_taskboard_implemenation::editUserStoryTaskboard()
-{
-    // qDebug() << "TASKBOARD: EDIT Save User Story Taskboard button clicked.";
-
-    // QTextEdit* inputDescriptionTus = parentBoard->getInputDescriptionT();
-    // QTextEdit* inputStatusTus = parentBoard->getInputStatusT();
-    // QTextEdit* inputTitleTus = parentBoard->getInputTitleT();
-    // QComboBox* currentSprintTus = parentBoard->get_BL_SprintDropDownT();
-    // QComboBox* inputAssigneeTus = parentBoard->getInputAssigneeT();
-
-    // QString titleT = inputTitleTus->toPlainText();
-    // QString descriptionT = inputDescriptionTus->toPlainText();
-    // QString statusT = inputStatusTus->toPlainText();
-    // int assigneeT = inputAssigneeTus->currentData().toInt();
-    // QString sprintT = currentSprintTus->currentText();
-    // int sprintID = currentSprintTus->currentIndex();
-
-    // qDebug() << "TASKBOARD: EDIT Input Values:";
-    // qDebug() << "TASKBOARD: EDIT titleT" << titleT;
-    // qDebug() << "TASKBOARD: EDIT descriptionT" << descriptionT;
-    // qDebug() << "TASKBOARD: EDIT statusT" << statusT;
-    // qDebug() << "TASKBOARD: EDIT assignee" << assigneeT;
-    // qDebug() << "TASKBOARD: EDIT sprintT" << sprintT << sprintID;
-
-    // if (titleT.isEmpty() || descriptionT.isEmpty()) {
-    //     // One or more fields are empty
-    //     QString errorMessage = "Missing Values:\n";
-
-    //     if (titleT.isEmpty()) {
-    //         errorMessage += "- Title\n";
-    //     }
-    //     if (descriptionT.isEmpty()) {
-    //         errorMessage += "- Description\n";
-    //     }
-
-    //     QMessageBox::warning(nullptr, "Missing Values", errorMessage);
-    // }
-    // else
-    // {
-    //     addToTableTaskboard(titleT, descriptionT, statusT, assigneeT, sprintT);
-    // }
-}
-
-
+/**
+ * @brief Function to update TaskSB and UserStorySB tables in the database.
+ * @param title of Task/User Story
+ * @param description of Task/User Story
+ * @param status of Task/User Story
+ * @param assignee of Task/User Story
+ * @param sprint of Task/User Story
+ * @param id of Task/User Story
+ * @param type Task/User Story
+ */
 void pb_taskboard_implemenation::addToTableTaskboard(const QString& title, const QString& description, const QString& status, int assignee, int sprint, int id, const QString& type)
 {
     qDebug() << "TASKBOARD: addToTableTaskboard Function is called";
@@ -1008,4 +927,13 @@ void pb_taskboard_implemenation::addToTableTaskboard(const QString& title, const
     } else {
         qDebug() << "TASKBOARD: USER-STORY Could not open Query";
     }
+}
+
+
+/**
+ * @brief Destructor
+ */
+pb_taskboard_implemenation::~pb_taskboard_implemenation()
+{
+    delete model;
 }
