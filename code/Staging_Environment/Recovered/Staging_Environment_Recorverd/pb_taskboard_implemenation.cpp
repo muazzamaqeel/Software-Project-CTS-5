@@ -26,22 +26,30 @@ pb_taskboard_implemenation::pb_taskboard_implemenation(parentboard* parentBoardI
     // fetchSprintDates();
     // generateUserTaskTree();
     // HideShow_CreateSectionTaskboard();
-    pb_taskboard_Retrieval();
+
+    // Passing project ID
+    int PassedProjectID = parentBoard->getProjectId();
+    qDebug() << "TASKBOARD: Project ID in Taskboard: " << PassedProjectID;
+
+    if (PassedProjectID != 0)
+    {
+        pb_taskboard_Retrieval();
+    }
 
     // Resize QWidgetTree sections/columns
     QHeaderView* header = parentBoard->getTaskTreeWidget()->header();
     // header->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     // header->setSectionResizeMode(1, QHeaderView::ResizeToContents);
 
-    // Priority Dropdown
-    parentBoard->getInputPriorityT()->clear();
-    parentBoard->getInputPriorityT()->addItem("Select Priority", -1);
-    parentBoard->getInputPriorityT()->addItem("High", 1);
-    parentBoard->getInputPriorityT()->addItem("Medium", 2);
-    parentBoard->getInputPriorityT()->addItem("Low", 3);
+    // Priority Dropdown Initialization
+    // parentBoard->getInputPriorityT()->clear();
+    // parentBoard->getInputPriorityT()->addItem("Select Priority", -1);
+    // parentBoard->getInputPriorityT()->addItem("High", 1);
+    // parentBoard->getInputPriorityT()->addItem("Medium", 2);
+    // parentBoard->getInputPriorityT()->addItem("Low", 3);
 
     // Fixed
-    header->setSectionResizeMode(QHeaderView::Fixed);
+    // header->setSectionResizeMode(QHeaderView::Fixed);
     header->resizeSection(0, 300); // User section wider
     header->resizeSection(1, 600); // Task section wider
 
