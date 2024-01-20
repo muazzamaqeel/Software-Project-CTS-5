@@ -209,8 +209,6 @@ void TeamMember_ProjectsWindow::centerOnScreen()
     QScreen *screenProject = QApplication::primaryScreen();
     QRect mainScreenGeometry = screenProject->availableGeometry();
     move(mainScreenGeometry.center() - rect().center());
-
-    //qDebug() << "Centering on screen.";
 }
 
 int TeamMember_ProjectsWindow::getPassValueRole() const {
