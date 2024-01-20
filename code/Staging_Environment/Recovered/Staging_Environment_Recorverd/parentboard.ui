@@ -626,7 +626,7 @@ QPushButton:checked {
        </size>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="taskboardPage">
        <property name="minimumSize">
@@ -3712,9 +3712,9 @@ background-color: #22344C;
         <property name="geometry">
          <rect>
           <x>40</x>
-          <y>20</y>
+          <y>10</y>
           <width>681</width>
-          <height>591</height>
+          <height>631</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -3725,9 +3725,9 @@ background-color: #22344C;
         <property name="geometry">
          <rect>
           <x>770</x>
-          <y>20</y>
+          <y>10</y>
           <width>491</width>
-          <height>591</height>
+          <height>631</height>
          </rect>
         </property>
         <property name="title">
@@ -3824,6 +3824,19 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </property>
          <property name="text">
           <string>Save</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="Button_DeleteCalendar">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>520</y>
+           <width>161</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Delete</string>
          </property>
         </widget>
        </widget>

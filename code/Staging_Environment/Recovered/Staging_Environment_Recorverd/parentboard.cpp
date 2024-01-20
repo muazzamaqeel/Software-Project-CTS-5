@@ -197,12 +197,10 @@ parentboard::parentboard(QWidget *parent) :
     //  PB_Calendar ---------------------------------- Calls
     //  PB_Calendar ---------------------------------- Calls
     connect(ui->calendarButton, SIGNAL(clicked()), this, SLOT(on_calendarButton_clicked()));
-
     pb_calendar_implementation *pbcalendarObj = new pb_calendar_implementation(this); // Corrected class name
-
-    // Correct connection with the right class name
     connect(ui->calendarButton, &QPushButton::clicked, pbcalendarObj, &pb_calendar_implementation::Calendar_HideEventCreation);
     connect(ui->Button_SaveCalendar, &QPushButton::clicked, pbcalendarObj, &pb_calendar_implementation::onCreateTaskClicked);
+
 
 }
 
@@ -632,7 +630,9 @@ QGroupBox* parentboard::get_Calendar_GroupBox(){
 CustomCalendarWidget* parentboard::get_CalendarWidget() {
     return static_cast<CustomCalendarWidget*>(ui->calendarWidget);
 }
-
+QPushButton* parentboard::get_Button_DeleteCalendar(){
+    return ui->Button_DeleteCalendar;
+}
 
 // ----------------------------------------------------Taskboard----------------------------------------------------
 QComboBox* parentboard::getSprintDropdown() const

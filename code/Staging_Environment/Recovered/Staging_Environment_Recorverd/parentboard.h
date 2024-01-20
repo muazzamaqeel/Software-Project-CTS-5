@@ -164,7 +164,7 @@ public:
     QLabel* get_Label_TextSprintGoal();
     QLabel* get_Label_TextStartDate();
     QPushButton* get_sprint_createtask_button();
-    // Add this member variable to the parentboard class
+    QPushButton* get_Button_DeleteCalendar();
     int setUserRoleID(TeamMember_ProjectsWindow *tmWindow);
     void adjustUIForUserRole(int role);
 
