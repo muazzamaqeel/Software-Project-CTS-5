@@ -17,6 +17,7 @@
 #include "pb_productbacklog_implementation_extension.h"
 #include "teammember_projectswindow.h"
 #include "pb_calendar_implemenation.h"
+#include "customcalendarwidget.h"
 
 // Temp - Scalability
 #include "QtGui/qevent.h"
@@ -197,10 +198,11 @@ parentboard::parentboard(QWidget *parent) :
     //  PB_Calendar ---------------------------------- Calls
     connect(ui->calendarButton, SIGNAL(clicked()), this, SLOT(on_calendarButton_clicked()));
 
-    pb_calendar_implemenation *pbcalendarObj = new pb_calendar_implemenation(this);
+    pb_calendar_implementation *pbcalendarObj = new pb_calendar_implementation(this); // Corrected class name
 
     // Correct connection with the right class name
-    connect(ui->calendarButton, &QPushButton::clicked, pbcalendarObj, &pb_calendar_implemenation::Calendar_HideEventCreation);
+    connect(ui->calendarButton, &QPushButton::clicked, pbcalendarObj, &pb_calendar_implementation::Calendar_HideEventCreation);
+    connect(ui->Button_SaveCalendar, &QPushButton::clicked, pbcalendarObj, &pb_calendar_implementation::onCreateTaskClicked);
 
 }
 
@@ -627,6 +629,9 @@ QGroupBox* parentboard::get_Calendar_GroupBox(){
     return ui->groupBox;
 }
 
+CustomCalendarWidget* parentboard::get_CalendarWidget() {
+    return static_cast<CustomCalendarWidget*>(ui->calendarWidget);
+}
 
 
 // ----------------------------------------------------Taskboard----------------------------------------------------

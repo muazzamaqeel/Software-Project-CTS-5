@@ -53,7 +53,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         databasefetcher.h databasefetcher.cpp
         email_notification.h email_notification.cpp
         pb_productbacklog_implementation_extension.h pb_productbacklog_implementation_extension.cpp
-        pb_calendar_implemenation.h pb_calendar_implemenation.cpp
+        pb_calendar_implemenation.h pb_calendar_implementation.cpp
+        customcalendarwidget.h customcalendarwidget.cpp
 
 
     )

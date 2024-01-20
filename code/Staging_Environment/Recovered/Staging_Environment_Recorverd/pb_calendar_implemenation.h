@@ -1,18 +1,25 @@
-#ifndef PB_CALENDAR_IMPLEMENATION_H
-#define PB_CALENDAR_IMPLEMENATION_H
+#ifndef PB_CALENDAR_IMPLEMENTATION_H
+#define PB_CALENDAR_IMPLEMENTATION_H
+
 #include "parentboard.h"
-class pb_calendar_implemenation: public QObject
-{
+#include <QDate>
+
+class pb_calendar_implementation : public QObject {
     Q_OBJECT
+
 public:
-    pb_calendar_implemenation(parentboard* parentBoardInstance);
+    explicit pb_calendar_implementation(parentboard* parentBoardInstance);
+
+
 public slots:
     void Calendar_HideEventCreation();
     void Calendar_ShowEventCreation();
-
+    void onDateSelected();
+    void onCreateTaskClicked();
 private:
     parentboard* parentBoard; // Reference to the parent board
-
+    void paintCell(const QDate &date) const;
+    QDate selectedDate;
 };
 
-#endif // PB_CALENDAR_IMPLEMENATION_H
+#endif // PB_CALENDAR_IMPLEMENTATION_H

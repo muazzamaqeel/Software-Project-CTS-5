@@ -13,6 +13,7 @@
 #include <QLabel>
 #include <QDateEdit>
 #include "teammember_projectswindow.h"
+#include "customcalendarwidget.h"
 
 
 namespace Ui {
@@ -95,7 +96,7 @@ public:
     QTextEdit* get_Input_Calendar_Description();
     QTextEdit* get_Input_Calendar_Title();
     QGroupBox* get_Calendar_GroupBox();
-
+    CustomCalendarWidget* get_CalendarWidget();
 
     static parentboard* getInstance(QWidget *parent = nullptr) {
         if (instance == nullptr) {
