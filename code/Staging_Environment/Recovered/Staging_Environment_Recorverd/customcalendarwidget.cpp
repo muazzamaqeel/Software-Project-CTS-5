@@ -1,6 +1,6 @@
 #include "customcalendarwidget.h"
 #include <QTextCharFormat>
-#include <QKeyEvent> // Correct this line
+#include <QKeyEvent>
 
 CustomCalendarWidget::CustomCalendarWidget(QWidget *parent) : QCalendarWidget(parent) {
     setFocusPolicy(Qt::StrongFocus);
@@ -19,16 +19,15 @@ void CustomCalendarWidget::clearHighlight(const QDate &date) {
 }
 
 void CustomCalendarWidget::clearAllHighlights() {
-    // Clear highlights for all dates
     QTextCharFormat defaultFormat;
-    this->setDateTextFormat(QDate(), defaultFormat); // Passing a null date clears all dates
+    this->setDateTextFormat(QDate(), defaultFormat);
 }
 void CustomCalendarWidget::keyPressEvent(QKeyEvent *event) {
     qDebug() << "Key pressed in calendar widget";
     if (event->key() == Qt::Key_Delete) {
-        emit dateDeleted(this->selectedDate()); // You should declare this signal
+        emit dateDeleted(this->selectedDate());
     } else {
-        QCalendarWidget::keyPressEvent(event); // Call the base class method for other key events
+        QCalendarWidget::keyPressEvent(event);
     }
 }
 

@@ -225,6 +225,7 @@ void QTUnitTest::Teammember_projectswindowTest(){
  * @note This test uses the 'parentboard' class instance and checks the visibility
  * of 'CreationBox_Confluence' and 'CreationBox' UI elements.
  */
+//Ui.Component Visibilty - - - - - - - - - - - - - - - - - - Confluence - - - - - - - - - - - -
 void QTUnitTest::PB_Confluence_HideCreationSection_Test() {
     // Correct usage with 'class' keyword
     class parentboard parentBoardInstance;
@@ -240,7 +241,43 @@ void QTUnitTest::PB_Confluence_HideCreationSection_Test() {
 }
 
 
+//Ui.Component Visibilty - - - - - - - - - - - - - - - - - - Sprint - - - - - - - - - - - -
+void QTUnitTest::PB_Sprint_OBJECTS_VISIBLE_BOXES(){
 
+}
+
+
+void QTUnitTest::PB_Sprint_OBJECTS_VISIBLE_on_create_sprint_clicked(){
+
+}
+
+
+void QTUnitTest::PB_Sprint_OBJECTS_VISIBLE_Additional_Details(){
+
+
+}
+
+//Ui.Component Visibilty - - - - - - - - - - - - - - - - - - Backlog - - - - - - - - - - - -
+void QTUnitTest::Show_CreateSection_UserStory(){
+
+
+}
+void QTUnitTest::Hide_CreateSection(){
+
+
+}
+void QTUnitTest::Show_CreateSection(){
+
+
+}
+
+//Ui.Component Visibilty - - - - - - - - - - - - - - - - - - Calendar - - - - - - - - - - - -
+void QTUnitTest::Calendar_ShowEventCreation(){
+
+}
+void QTUnitTest::Calendar_HideEventCreation(){
+
+}
 
 
 

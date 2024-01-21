@@ -12,10 +12,7 @@ public:
 private slots:
     void DatabaseCheck();
     void MainWindowTest();
-
-
     void AdminstratorTest();
-
     void BacklogTest();
     void CalendarTest();
     void ConfluenceTest();
@@ -35,6 +32,14 @@ private slots:
     void Pb_taskboard_implemenationTest();
     void Pb_team_implemenationTest();
     void PB_Confluence_HideCreationSection_Test();
+    void PB_Sprint_OBJECTS_VISIBLE_Additional_Details();
+    void PB_Sprint_OBJECTS_VISIBLE_on_create_sprint_clicked();
+    void PB_Sprint_OBJECTS_VISIBLE_BOXES();
+    void Show_CreateSection_UserStory();
+    void Hide_CreateSection();
+    void Show_CreateSection();
+    void Calendar_HideEventCreation();
+    void Calendar_ShowEventCreation();
 
 
 };

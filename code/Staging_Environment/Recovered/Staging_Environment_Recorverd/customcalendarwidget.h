@@ -14,7 +14,7 @@ public:
     void clearAllHighlights();
 
 signals:
-    void dateDeleted(const QDate &date); // Declare this signal
+    void dateDeleted(const QDate &date);
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
