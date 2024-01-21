@@ -88,18 +88,6 @@ void registration_window::storeInputValues() {
     password = ui->input_password->text();
     email = ui->input_email->text();
     username = ui->input_username->text();
-    QString selectedOption = ui->comboBox_role->currentText();
-
-    int roleid = -1;
-    if (selectedOption == "Product Owner") {
-        roleid = 2;
-    } else if (selectedOption == "Scrum Master") {
-        roleid = 1;
-    } else if (selectedOption == "Team") {
-        roleid = 3;
-    } else {
-        qDebug() << "Error with the combobox";
-    }
 
     QString error = "";
     if (firstName.isEmpty() || lastName.isEmpty() || password.isEmpty() || email.isEmpty() || username.isEmpty()) {
