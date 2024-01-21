@@ -26,10 +26,6 @@ registration_window::registration_window(QWidget *parent) :
 {
     ui->setupUi(this); // Set up the user interface
     ui->display_error->setVisible(false); // Initially hide the error message
-    ui->display_role->setVisible(false);
-    ui->comboBox_role->setVisible(false);
-
-
 
     // For Background
     QPixmap pix("C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/Recovered/Staging_Environment_Recorverd/assets/MainWindowbg.jpg");
