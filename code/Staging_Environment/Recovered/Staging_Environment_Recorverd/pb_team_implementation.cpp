@@ -152,11 +152,12 @@ void pb_team_implemenation::AddUserToProject(int userId){
     parentBoard->isTeamTableActive = true;
     QSqlQuery query(dbobj);
 
-    QString userRoleString = parentBoard->getDisplayRole()->toPlainText();
+    QString userRoleString = parentBoard->getComboBoxRole()->currentText();
+    qDebug() << "TEAM: This is the text from role:" << userRoleString;
     int userRole;
-    if(userRoleString.trimmed() =="Team Member")
+    if(userRoleString =="Team Member")
         userRole = 3;
-    else if(userRoleString.trimmed() == "Scrum Master")
+    else if(userRoleString == "Scrum Master")
         userRole = 1;
     else
         userRole = 2;
@@ -207,9 +208,6 @@ void pb_team_implemenation::AddUserToProject(int userId){
             QString email = query.value(2).toString();
             QString role1 = query.value(3).toString();
 
-            QComboBox* roleComboBox = new QComboBox();
-            roleComboBox->addItems(roleList);
-            roleComboBox->setCurrentText(role1);
             QString role = role1.back();
             int role2 = role.toInt();
             qDebug() << "Role as String: " << role1 << "   Role as int:" << role2;
@@ -219,6 +217,10 @@ void pb_team_implemenation::AddUserToProject(int userId){
                 role = "Project Owner";
             if(role2 == 3)
                 role = "Team Member";
+
+            QComboBox* roleComboBox = new QComboBox();
+            roleComboBox->addItems(roleList);
+            roleComboBox->setCurrentText(role);
             AddRowUser(firstName,lastName, email, *roleComboBox);
         }
     } else {
@@ -318,6 +320,77 @@ void pb_team_implemenation::onRoleChanged(const QString& role)
         dbobj.close();
     }
 
+}
+
+void pb_team_implemenation::RemoveUser(QTableWidgetItem* item){
+    if (!item) {
+        qDebug() << "Item is null";
+        return;
+    }
+
+    int row = item->row();
+    QTableWidget* teamTable = parentBoard->getTeamTableView();
+
+    if (!teamTable) {
+        qDebug() << "User stories table not found";
+        return;
+    }
+
+    // Retrieve the task ID associated with the clicked row
+    int userId;
+    int projectID = parentBoard->getProjectId();
+    if(!teamTable)
+        return;
+    QItemSelectionModel *select = teamTable->selectionModel();
+    int selectedRow = select->selectedIndexes().first().row();
+    qDebug() << "TEAM: selected row:" << selectedRow;
+
+    QString userEmail = teamTable->item(selectedRow, 2)->text();
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
+    QSqlQuery query(dbobj);
+
+    if (dbobj.isOpen()) {
+        query.prepare("SELECT idUser FROM User WHERE User.Email = :userEmail");
+        query.bindValue(":userEmail", userEmail);
+        qDebug() << "TEAM: Email fetch query prepared" << userEmail;
+
+        if (!query.exec())
+        {
+            qDebug() << "Query execution error: " << query.lastError().text();
+            return;
+            dbobj.close();
+        }
+        while(query.next())
+        {
+            userId = query.value(0).toInt();
+            qDebug() << "TEAM: user ID:" << userId;
+            qDebug() << "TEAM: project ID:" << projectID;
+        }
+    }
+
+    teamTable->removeRow(selectedRow);
+
+    if (dbobj.isOpen()) {
+        query.prepare("DELETE FROM scrummy.User WHERE idUser = ?");
+        query.addBindValue(userId);
+
+        if (!query.exec()) {
+            qDebug() << "Delete user failed: " << query.lastError();
+        } else {
+            qDebug() << "Delete successful for user ID:" << userId;
+        }
+
+        query.prepare("DELETE FROM scrummy.User_Role_Project WHERE User_idUser = ? AND Project_idProject = ?");
+        query.addBindValue(userId);
+        query.addBindValue(projectID);
+
+        if (!query.exec()) {
+            qDebug() << "Delete role failed: " << query.lastError();
+        } else {
+            qDebug() << "Delete successful for role user ID:" << userId << " and project ID:" << projectID;
+        }
+    }
 }
 
 

@@ -174,6 +174,32 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->CreateUser_Button, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::on_createuser_clicked);
     connect(ui->teamButton, &QPushButton::clicked, teamPagePtr, &pb_team_implemenation::UserRetrieval);
     teamPagePtr->ShowUserProperties();
+    connect(ui->RemoveUser_Button, &QPushButton::clicked, [this, teamPagePtr]() {
+        if (!ui->teamTable) {
+            qDebug() << "Team table not found";
+            return;
+        }
+        int selectedRow = -1;
+        QList<QTableWidgetItem*> selectedItems = ui->teamTable->selectedItems();
+        if (!selectedItems.isEmpty()) {
+            selectedRow = selectedItems.first()->row();
+        }
+        if (selectedRow == -1) {
+            qDebug() << "No row selected";
+            ui->TeamError_display->setText("No row selected.");
+            return;
+        }
+        QTableWidgetItem* item = ui->teamTable->item(selectedRow, 0); // 0 is the column for taskID
+        if (item) {
+            ui->TeamError_display->setText("");
+            teamPagePtr->RemoveUser(item);
+        } else {
+            qDebug() << "Item is null";
+            ui->TeamError_display->setText("Please select a row to delete.");
+            // Optionally, handle this case
+        }
+
+    });
 
     //Old Way
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(goBackToMainWindow()));

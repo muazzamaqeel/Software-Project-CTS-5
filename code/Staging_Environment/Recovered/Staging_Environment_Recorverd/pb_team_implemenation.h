@@ -22,6 +22,7 @@ public slots:
     void AddUserToProject(int userId);
     void HideUserProperties();
     void ShowUserProperties();
+    void RemoveUser(QTableWidgetItem* item);
     void AddRowUser(const QString& firstNameInput,const QString& lastNameInput, const QString& emailInput, QComboBox& roleInput);
 private:
         parentboard* parentBoard;
