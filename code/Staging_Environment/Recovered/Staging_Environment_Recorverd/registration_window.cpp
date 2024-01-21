@@ -174,4 +174,5 @@ void registration_window::storeInputValues() {
             qDebug() << "Connection Not Established - Registration class!";
         }
     }
+    FromRegToMainWindow();
 }

@@ -28,6 +28,7 @@ public slots:
     void showParentBoard();
     void showLoadingScreen();
     void centerOnScreen();
+    void BackButtonClicked();
 
 private:
     Ui::TeamMember_ProjectsWindow *ui;

@@ -17,7 +17,7 @@ TeamMember_ProjectsWindow::TeamMember_ProjectsWindow(QWidget *parent) :
     idProject(-1) {
 
     ui->setupUi(this);
-    connect(ui->BackButton, SIGNAL(clicked()), this, SLOT(RetrieveAndDisplayUser_Project()));
+    connect(ui->BackButton, SIGNAL(clicked()), this, SLOT(BackButtonClicked()));
 
     centerOnScreen();
 
@@ -59,6 +59,14 @@ TeamMember_ProjectsWindow::TeamMember_ProjectsWindow(QWidget *parent) :
 TeamMember_ProjectsWindow::~TeamMember_ProjectsWindow() {
     delete ui;
 }
+
+void TeamMember_ProjectsWindow::BackButtonClicked(){
+    MainWindow* mainWindow = new MainWindow; // Create a new instance of the main window
+    hide(); // Hide the registration window
+    mainWindow->showMaximized(); // Show the main window
+    ui->~TeamMember_ProjectsWindow();
+}
+
 
 void TeamMember_ProjectsWindow::RetrieveAndDisplayUser_Project() {
     Clear_User_Project();
