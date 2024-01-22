@@ -27,6 +27,9 @@ int main(int argc, char *argv[]) {
 //Application-------------------------------------------------------------------
     QApplication app(argc, argv);
 
+    // Application Icon
+    //app.setWindowIcon(QIcon(":/path"));
+
     // Launch Screen window
     LaunchScreen launchScreen;
     launchScreen.show();
