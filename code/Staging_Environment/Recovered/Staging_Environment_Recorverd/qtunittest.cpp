@@ -232,11 +232,22 @@ void QTUnitTest::PB_Confluence_HideCreationSection_Test() {
     PB_Confluence_Implemenation confluenceImplementation(&parentBoardInstance);
     confluenceImplementation.HideCreationSection();
     QVERIFY2(!parentBoardInstance.getCreationBox_Confluence()->isVisible(),
-             "CreationBox_Confluence should be hidden after HideCreationSection call");
+             "CreationBox_Confluence is still visible (Failed)");
     QVERIFY2(!parentBoardInstance.get_InputTitle_2()->isVisible(),
-             "get_InputTitle_2 is still visible (Failed)");
+             "InputTitle_2 is still visible (Failed)");
     QVERIFY2(!parentBoardInstance.get_InputGroup_Confluence_Heading()->isVisible(),
-             "get_InputGroup_Confluence_Heading should be hidden after HideCreationSection call");
+             "InputGroup_Confluence_Heading is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Confluence_NameText()->isVisible(),
+             "Confluence_NameText is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Confluence_HeadingText()->isVisible(),
+             "Confluence_HeadingText is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Confluence_GroupText()->isVisible(),
+             "Confluence_GroupText is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Button_Create_Confluence()->isVisible(),
+             "Button_Create_Confluence is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getuserTaskTreeWidget_2()->isVisible(),
+             "userTaskTreeWidget_2 is still visible (Failed)");
+
 
 }
 
