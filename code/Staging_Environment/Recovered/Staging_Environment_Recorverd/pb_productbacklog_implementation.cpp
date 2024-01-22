@@ -1262,7 +1262,7 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
 
     if (dbobj.isOpen()) {
         QSqlQuery query(dbobj);
-        query.prepare("SELECT idUserStoryPB, Title, Description, Status, Priority, Assignee FROM scrummy.UserStoryPB WHERE ProductBacklog_Project_idProject = :projectID");
+        query.prepare("SELECT idUserStoryPB, Title, Description, Status, Priority, Assignee, AssignedSprint FROM scrummy.UserStoryPB WHERE ProductBacklog_Project_idProject = :projectID");
         query.bindValue(":projectID", PassedProjectID);
 
         if (query.exec()) {
@@ -1282,7 +1282,8 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
                          << " Priority:" << priority
                          << " Assignee:" << assignee;
                 */
-                UserStories_Added_In_Table("User Story", title, description, status, assignee, priority, storyID);
+                QString assignedSprint = query.value(6).toString(); // Assuming 'AssignedSprint' is the 7th column
+                UserStories_Added_In_Table("User Story", title, description, status, assignee, priority, storyID, assignedSprint);
                 storyMap[storyID] = {title, description, status, priority, assignee, storyID};
             }
         } else {
@@ -1294,7 +1295,7 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
     }
 }
 
-void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID) {
+void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID, const QString& assignedSprint) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(8);
     userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority (1-3)", "Sprint"});
@@ -1340,6 +1341,18 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
 
         userStoriesTable->setItem(rowCount, 5, itemPriority);
         userStoriesTable->setItem(rowCount, 6, itemAssignee);
+
+
+        QComboBox* sprintComboBox = new QComboBox();
+        // Here you would add the sprints from your database or a predefined list
+        sprintComboBox->addItems({"Sprint1", "Sprint2", "Unassigned"});
+        sprintComboBox->setCurrentText(assignedSprint);
+        userStoriesTable->setCellWidget(rowCount, 7, sprintComboBox);
+
+        connect(sprintComboBox, &QComboBox::currentTextChanged,
+                [this, storyID, sprintComboBox](const QString &newSprint) {
+                    onUserStorySprintChanged(storyID, newSprint);
+                });
         /*
         qDebug() << "Adding User Story to Table: ID:" << storyID
                  << " Title:" << storyName
@@ -1351,6 +1364,34 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
     } else {
         qDebug() << "Table view not found or accessible.";
     }
+}
+
+
+void pb_productbacklog_implementation::onUserStorySprintChanged(int storyID, const QString& newSprint) {
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    if (!userStoriesTable) return;
+
+    int row = -1;
+    for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
+        QTableWidgetItem* idItem = userStoriesTable->item(i, 0);
+        if (idItem && idItem->data(Qt::UserRole).toInt() == storyID) {
+            row = i;
+            break;
+        }
+    }
+
+    if (row == -1) {
+        qDebug() << "Story ID not found in the table: " << storyID;
+        return;
+    }
+
+    QString title = userStoriesTable->item(row, 2)->text();
+    QString description = userStoriesTable->item(row, 3)->text();
+    QString status = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 4))->currentText();
+    int priority = userStoriesTable->item(row, 5)->text().toInt();
+    int assignee = userStoriesTable->item(row, 6)->text().toInt();
+
+    updateUserStoryInDatabase(storyID, title, description, status, priority, assignee, newSprint);
 }
 
 
@@ -1374,23 +1415,34 @@ void pb_productbacklog_implementation::onUserStoryStatusChanged(int storyID, con
     int priority = userStoriesTable->item(row, 5)->text().toInt();
     int assignee = userStoriesTable->item(row, 6)->text().toInt();
 
-    updateUserStoryInDatabase(storyID, title, description, newStatus, priority, assignee);
+    QString assignedSprint;
+    QWidget* sprintWidget = userStoriesTable->cellWidget(row, 7);
+    if (sprintWidget) {
+        QComboBox* sprintComboBox = qobject_cast<QComboBox*>(sprintWidget);
+        if (sprintComboBox) {
+            assignedSprint = sprintComboBox->currentText();
+        }
+    }
+
+    updateUserStoryInDatabase(storyID, title, description, newStatus, priority, assignee, assignedSprint);
 }
 
 
-void pb_productbacklog_implementation::updateUserStoryInDatabase(int storyID, const QString& title, const QString& description, const QString& status, int priority, int assignee) {
-    if (!QSqlDatabase::database().isOpen()) {
+void pb_productbacklog_implementation::updateUserStoryInDatabase(int storyID, const QString& title, const QString& description, const QString& status, int priority, int assignee, const QString& assignedSprint) {
+    QSqlDatabase db = QSqlDatabase::database();
+    if (!db.isOpen()) {
         qDebug() << "Database is not open";
         return;
     }
 
-    QSqlQuery query;
-    query.prepare("UPDATE scrummy.UserStoryPB SET Title = ?, Description = ?, Status = ?, Priority = ?, Assignee = ? WHERE idUserStoryPB = ?");
+    QSqlQuery query(db);
+    query.prepare("UPDATE scrummy.UserStoryPB SET Title = ?, Description = ?, Status = ?, Priority = ?, Assignee = ?, AssignedSprint = ? WHERE idUserStoryPB = ?");
     query.addBindValue(title);
     query.addBindValue(description);
     query.addBindValue(status);
     query.addBindValue(priority);
     query.addBindValue(assignee);
+    query.addBindValue(assignedSprint);
     query.addBindValue(storyID);
 
     if (!query.exec()) {
@@ -1438,7 +1490,17 @@ void pb_productbacklog_implementation::onUserStoryTableItemChanged(QTableWidgetI
                  << " Status:" << status
                  << " Priority:" << priority
                  << " Assignee:" << assignee;
-        updateUserStoryInDatabase(storyID, title, description, status, priority, assignee);
+        QWidget* sprintWidget = userStoriesTable->cellWidget(row, 7);
+        QString sprint;
+        if (sprintWidget) {
+            QComboBox* sprintComboBox = qobject_cast<QComboBox*>(sprintWidget);
+            if (sprintComboBox) {
+                sprint = sprintComboBox->currentText();
+            }
+        }
+        // ... (the rest of the function remains unchanged)
+        updateUserStoryInDatabase(storyID, title, description, status, priority, assignee, sprint);
+
     } else {
         qDebug() << "User story ID not found in storyMap. ID:" << storyID;
     }

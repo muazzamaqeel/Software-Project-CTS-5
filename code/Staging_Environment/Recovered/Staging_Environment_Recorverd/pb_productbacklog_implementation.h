@@ -48,8 +48,7 @@ public:
 
     // Methods for managing tasks and user stories in the backlog
     void UserStoryPBretrieval();
-    void UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID);
-    void updateUserStoryInDatabase(int storyID, const QString& title, const QString& description, const QString& status, int priority, int assignee);
+    void UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID, const QString& assignedSprint);
     void addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee, QString SelectedSprint);
     void onButtonIssueClicked();
     void Hide_CreateSection();
@@ -57,6 +56,10 @@ public:
     void Show_CreateSection_UserStory();
     void Show_CreateSection_Tasks();
     void BL_fetechSprints();
+    void updateUserStoryInDatabase(int storyID, const QString& title, const QString& description, const QString& status, int priority, int assignee, const QString& assignedSprint);
+    void onUserStorySprintChanged(int storyID, const QString& newSprint);
+
+
 public slots:
     // Slot functions for handling UI events and data updates
     void onUserStoryTableItemChanged(QTableWidgetItem* item);
