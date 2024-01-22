@@ -18,7 +18,8 @@
  */
 
 /**
- * @brief This class handles data in the TaskSB and USerStorySB tables
+ * @brief Implementation for the Taskboard Page in Parentboard
+ * This class handles data in the TaskSB and USerStorySB tables
  * @param parentBoardInstance
  *
  * @details Functions:
