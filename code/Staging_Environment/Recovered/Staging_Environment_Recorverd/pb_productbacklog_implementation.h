@@ -85,6 +85,9 @@ public slots:
     QString getAssigneeFromRow(QTableWidget* table, int row);
     QString getStatusFromRow(QTableWidget* table, int row);
     void onUserStoryPriorityChanged(int storyID, int newPriority);
+    QString fetchAssigneeNameById(int assigneeId);
+    int fetchAssigneeIdByName(const QString& assigneeName);
+    void onUserStoryAssigneeChanged(int storyID, const QString& newAssignee);
 private:
     parentboard* parentBoard; // Reference to the parent board
     QMap<int, UserStoryDetails> storyMap; // Map for storing UserStoryDetails objects

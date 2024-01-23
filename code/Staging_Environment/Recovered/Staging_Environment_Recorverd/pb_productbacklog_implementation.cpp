@@ -1367,7 +1367,43 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
                     int newPriority = priorityComboBox->currentIndex() + 1;
                     onUserStoryPriorityChanged(storyID, newPriority);
                 });
-        userStoriesTable->setItem(rowCount, 5, itemAssignee);
+
+
+
+
+
+
+
+
+
+        QStringList assigneeList;
+        QSqlDatabase db = QSqlDatabase::database();
+        QSqlQuery assigneeQuery(db);
+        assigneeQuery.prepare("SELECT Username FROM User"); // Adjust query as needed
+        if (assigneeQuery.exec()) {
+            while (assigneeQuery.next()) {
+                assigneeList << assigneeQuery.value(0).toString();
+            }
+        } else {
+            qDebug() << "Error executing assignee query:" << assigneeQuery.lastError().text();
+        }
+
+        // Create and set up the assignee combo box
+        QComboBox* assigneeComboBox = new QComboBox();
+        assigneeComboBox->addItems(assigneeList);
+        QString currentAssignee = fetchAssigneeNameById(assignee); // Use 'assignee' instead of 'assigneeId'
+        assigneeComboBox->setCurrentText(currentAssignee);
+        userStoriesTable->setCellWidget(rowCount, 5, assigneeComboBox);
+
+        // Connect the ComboBox signal to a slot
+        connect(assigneeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+                [this, storyID, assigneeComboBox](int index) {
+                    QString newAssignee = assigneeComboBox->currentText();
+                    onUserStoryAssigneeChanged(storyID, newAssignee); // Ensure this method is declared and defined
+                });
+
+
+
 
 
         QComboBox* sprintComboBox = new QComboBox();
@@ -1392,38 +1428,14 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
     }
 }
 
-void pb_productbacklog_implementation::onUserStoryPriorityChanged(int storyID, int newPriority) {
+
+void pb_productbacklog_implementation::onUserStoryAssigneeChanged(int storyID, const QString& newAssignee) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     if (!userStoriesTable) return;
 
     int row = -1;
     for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
         if (userStoriesTable->item(i, 0)->data(Qt::UserRole).toInt() == storyID) {
-            row = i;
-            break;
-        }
-    }
-
-    if (row == -1) return;
-
-    QString title = userStoriesTable->item(row, 2)->text();
-    QString description = userStoriesTable->item(row, 3)->text();
-    QString status = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 4))->currentText();
-    int assignee = userStoriesTable->item(row, 5)->text().toInt();
-    QString assignedSprint = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 7))->currentText();
-
-    updateUserStoryInDatabase(storyID, title, description, status, newPriority, assignee, assignedSprint);
-}
-
-
-void pb_productbacklog_implementation::onUserStorySprintChanged(int storyID, const QString& newSprint) {
-    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
-    if (!userStoriesTable) return;
-
-    int row = -1;
-    for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
-        QTableWidgetItem* idItem = userStoriesTable->item(i, 0);
-        if (idItem && idItem->data(Qt::UserRole).toInt() == storyID) {
             row = i;
             break;
         }
@@ -1445,17 +1457,66 @@ void pb_productbacklog_implementation::onUserStorySprintChanged(int storyID, con
             priority = priorityComboBox->currentIndex() + 1;
         }
     }
-    int assignee = userStoriesTable->item(row, 5)->text().toInt();
+    QString assignedSprint = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 7))->currentText();
 
-    updateUserStoryInDatabase(storyID, title, description, status, priority, assignee, newSprint);
+    int newAssigneeId = fetchAssigneeIdByName(newAssignee); // Convert assignee name to ID
+
+    updateUserStoryInDatabase(storyID, title, description, status, priority, newAssigneeId, assignedSprint);
+}
+
+int pb_productbacklog_implementation::fetchAssigneeIdByName(const QString& assigneeName) {
+    QSqlDatabase db = QSqlDatabase::database();
+    if (!db.isOpen()) {
+        qDebug() << "Database is not open";
+        return -1; // Return -1 or an appropriate error code
+    }
+
+    QSqlQuery query(db);
+    query.prepare("SELECT idUser FROM User WHERE Username = :assigneeName");
+    query.bindValue(":assigneeName", assigneeName);
+
+    if (!query.exec()) {
+        qDebug() << "Query failed: " << query.lastError();
+        return -1; // Return -1 or an appropriate error code
+    }
+
+    if (query.next()) {
+        return query.value(0).toInt(); // Return the user ID
+    } else {
+        qDebug() << "No user found for name:" << assigneeName;
+        return -1; // Return -1 or an appropriate error code
+    }
 }
 
 
-void pb_productbacklog_implementation::onUserStoryStatusChanged(int storyID, const QString& newStatus) {
+QString pb_productbacklog_implementation::fetchAssigneeNameById(int assigneeId) {
+    QSqlDatabase db = QSqlDatabase::database();
+    if (!db.isOpen()) {
+        qDebug() << "Database is not open";
+        return QString(); // Return an empty string if the database is not open
+    }
+
+    QSqlQuery query(db);
+    query.prepare("SELECT Username FROM User WHERE idUser = :assigneeId");
+    query.bindValue(":assigneeId", assigneeId);
+
+    if (!query.exec()) {
+        qDebug() << "Query failed: " << query.lastError();
+        return QString(); // Return an empty string if the query fails
+    }
+
+    if (query.next()) {
+        return query.value(0).toString(); // Return the username
+    } else {
+        qDebug() << "No user found for ID:" << assigneeId;
+        return QString(); // Return an empty string if no user is found
+    }
+}
+
+void pb_productbacklog_implementation::onUserStoryPriorityChanged(int storyID, int newPriority) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     if (!userStoriesTable) return;
 
-    // Find the row for the storyID. This assumes storyID is unique.
     int row = -1;
     for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
         if (userStoriesTable->item(i, 0)->data(Qt::UserRole).toInt() == storyID) {
@@ -1463,38 +1524,69 @@ void pb_productbacklog_implementation::onUserStoryStatusChanged(int storyID, con
             break;
         }
     }
-    if (row == -1) return; // storyID not found
+    if (row == -1) return;
 
-    // Retrieve the rest of the details from the row
     QString title = userStoriesTable->item(row, 2)->text();
     QString description = userStoriesTable->item(row, 3)->text();
+    QString status = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 4))->currentText();
+    QString assigneeName = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 5))->currentText();
+    QString assignedSprint = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 7))->currentText();
+    int assigneeId = fetchAssigneeIdByName(assigneeName);
 
-    // Retrieve priority from the ComboBox in column 5
-    int priority = 0;
-    QWidget* priorityWidget = userStoriesTable->cellWidget(row, 6);
-    if (priorityWidget) {
-        QComboBox* priorityComboBox = qobject_cast<QComboBox*>(priorityWidget);
-        if (priorityComboBox) {
-            priority = priorityComboBox->currentIndex() + 1; // Assuming priority index starts at 0
-        }
-    }
-
-    int assignee = userStoriesTable->item(row, 5)->text().toInt();
-
-    QString assignedSprint;
-    QWidget* sprintWidget = userStoriesTable->cellWidget(row, 7);
-    if (sprintWidget) {
-        QComboBox* sprintComboBox = qobject_cast<QComboBox*>(sprintWidget);
-        if (sprintComboBox) {
-            assignedSprint = sprintComboBox->currentText();
-        }
-    }
-
-    updateUserStoryInDatabase(storyID, title, description, newStatus, priority, assignee, assignedSprint);
+    updateUserStoryInDatabase(storyID, title, description, status, newPriority, assigneeId, assignedSprint);
 }
 
 
-void pb_productbacklog_implementation::updateUserStoryInDatabase(int storyID, const QString& title, const QString& description, const QString& status, int priority, int assignee, const QString& assignedSprint) {
+void pb_productbacklog_implementation::onUserStorySprintChanged(int storyID, const QString& newSprint) {
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    if (!userStoriesTable) return;
+
+    int row = -1;
+    for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
+        if (userStoriesTable->item(i, 0)->data(Qt::UserRole).toInt() == storyID) {
+            row = i;
+            break;
+        }
+    }
+    if (row == -1) return;
+
+    QString title = userStoriesTable->item(row, 2)->text();
+    QString description = userStoriesTable->item(row, 3)->text();
+    QString status = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 4))->currentText();
+    QString assigneeName = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 5))->currentText();
+    int priority = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 6))->currentIndex() + 1;
+    int assigneeId = fetchAssigneeIdByName(assigneeName);
+
+    updateUserStoryInDatabase(storyID, title, description, status, priority, assigneeId, newSprint);
+}
+
+
+void pb_productbacklog_implementation::onUserStoryStatusChanged(int storyID, const QString& newStatus) {
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    if (!userStoriesTable) return;
+
+    int row = -1;
+    for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
+        if (userStoriesTable->item(i, 0)->data(Qt::UserRole).toInt() == storyID) {
+            row = i;
+            break;
+        }
+    }
+    if (row == -1) return;
+
+    QString title = userStoriesTable->item(row, 2)->text();
+    QString description = userStoriesTable->item(row, 3)->text();
+    QString assigneeName = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 5))->currentText();
+    int priority = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 6))->currentIndex() + 1;
+    QString assignedSprint = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 7))->currentText();
+    int assigneeId = fetchAssigneeIdByName(assigneeName);
+
+    updateUserStoryInDatabase(storyID, title, description, newStatus, priority, assigneeId, assignedSprint);
+}
+
+
+
+void pb_productbacklog_implementation::updateUserStoryInDatabase(int storyID, const QString& title, const QString& description, const QString& status, int priority, int assigneeId, const QString& assignedSprint) {
     QSqlDatabase db = QSqlDatabase::database();
     if (!db.isOpen()) {
         qDebug() << "Database is not open";
@@ -1507,7 +1599,7 @@ void pb_productbacklog_implementation::updateUserStoryInDatabase(int storyID, co
     query.addBindValue(description);
     query.addBindValue(status);
     query.addBindValue(priority);
-    query.addBindValue(assignee);
+    query.addBindValue(assigneeId);
     query.addBindValue(assignedSprint);
     query.addBindValue(storyID);
 
@@ -1535,46 +1627,19 @@ void pb_productbacklog_implementation::onUserStoryTableItemChanged(QTableWidgetI
 
     int storyID = userStoriesTable->item(row, 0)->data(Qt::UserRole).toInt();
 
-    qDebug() << "Attempting to update User Story ID:" << storyID;
-
     if (storyMap.contains(storyID)) {
         QString title = userStoriesTable->item(row, 2)->text();
         QString description = userStoriesTable->item(row, 3)->text();
-        // ...
-        QString status;
-        QWidget* widget = userStoriesTable->cellWidget(row, 4);
-        if (widget) {
-            QComboBox* comboBox = qobject_cast<QComboBox*>(widget);
-            if (comboBox) {
-                status = comboBox->currentText();
-            }
-        }
-        int priority = 0;
-        QWidget* priorityWidget = userStoriesTable->cellWidget(row, 6);
-        if (priorityWidget) {
-            QComboBox* priorityComboBox = qobject_cast<QComboBox*>(priorityWidget);
-            if (priorityComboBox) {
-                priority = priorityComboBox->currentIndex() + 1;
-            }
-        }
-        int assignee = userStoriesTable->item(row, 5)->text().toInt();
-        qDebug() << "Updating User Story: ID:" << storyID
-                 << " Title:" << title
-                 << " Description:" << description
-                 << " Status:" << status
-                 << " Priority:" << priority
-                 << " Assignee:" << assignee;
-        QWidget* sprintWidget = userStoriesTable->cellWidget(row, 7);
-        QString sprint;
-        if (sprintWidget) {
-            QComboBox* sprintComboBox = qobject_cast<QComboBox*>(sprintWidget);
-            if (sprintComboBox) {
-                sprint = sprintComboBox->currentText();
-            }
-        }
-        // ... (the rest of the function remains unchanged)
-        updateUserStoryInDatabase(storyID, title, description, status, priority, assignee, sprint);
+        QString status = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 4))->currentText();
 
+        int priority = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 6))->currentIndex() + 1;
+
+        QString assigneeName = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 5))->currentText();
+        int assigneeId = fetchAssigneeIdByName(assigneeName); // Convert assignee name to ID
+
+        QString assignedSprint = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 7))->currentText();
+
+        updateUserStoryInDatabase(storyID, title, description, status, priority, assigneeId, assignedSprint);
     } else {
         qDebug() << "User story ID not found in storyMap. ID:" << storyID;
     }
