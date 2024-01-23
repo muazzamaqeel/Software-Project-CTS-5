@@ -1283,7 +1283,21 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
                          << " Assignee:" << assignee;
                 */
                 QString assignedSprint = query.value(6).toString(); // Assuming 'AssignedSprint' is the 7th column
-                UserStories_Added_In_Table("User Story", title, description, status, assignee, priority, storyID, assignedSprint);
+
+                QStringList sprintTitles;
+                QSqlQuery sprintQuery(dbobj);
+                sprintQuery.prepare("SELECT Title FROM Sprint WHERE Project_idProject = :projectID");
+                sprintQuery.bindValue(":projectID", PassedProjectID);
+                if (sprintQuery.exec()) {
+                    while (sprintQuery.next()) {
+                        sprintTitles << sprintQuery.value(0).toString();
+                    }
+                } else {
+                    qDebug() << "Failed to retrieve sprints: " << sprintQuery.lastError().text();
+                }
+
+
+                UserStories_Added_In_Table("User Story", title, description, status, assignee, priority, storyID, assignedSprint, sprintTitles);
                 storyMap[storyID] = {title, description, status, priority, assignee, storyID};
             }
         } else {
@@ -1295,7 +1309,7 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
     }
 }
 
-void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID, const QString& assignedSprint) {
+void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID, const QString& assignedSprint, const QStringList& sprintTitles) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(8);
     userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority (1-3)", "Sprint"});
@@ -1344,8 +1358,7 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
 
 
         QComboBox* sprintComboBox = new QComboBox();
-        // Here you would add the sprints from your database or a predefined list
-        sprintComboBox->addItems({"Sprint1", "Sprint2", "Unassigned"});
+        sprintComboBox->addItems(sprintTitles); // Use sprintTitles instead of hardcoded values
         sprintComboBox->setCurrentText(assignedSprint);
         userStoriesTable->setCellWidget(rowCount, 7, sprintComboBox);
 
