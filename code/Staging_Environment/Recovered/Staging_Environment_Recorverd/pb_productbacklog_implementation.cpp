@@ -1656,6 +1656,27 @@ void pb_productbacklog_implementation::updateUserStoryInDatabase(int storyID, co
     } else {
         qDebug() << "Update successful for user story ID:" << storyID;
     }
+
+
+    QSqlQuery query1(db);
+    query1.prepare("UPDATE scrummy.UserStorySB SET Title = ?, Description = ?, Status = ?, Priority = ?, Assignee = ?, SprintBacklog_idSprintBacklog = ? WHERE idUserStorySB = ?");
+    query1.addBindValue(title);
+    query1.addBindValue(description);
+    query1.addBindValue(status);
+    query1.addBindValue(priority);
+    query1.addBindValue(assigneeId);
+    query1.addBindValue(assignedSprint);
+    query1.addBindValue(storyID);
+
+    if (!query1.exec()) {
+        qDebug() << "Update failed for User Story ID:" << storyID << " Error:" << query1.lastError();
+    } else {
+        qDebug() << "Update successful for user story ID:" << storyID;
+    }
+
+
+
+
 }
 
 
