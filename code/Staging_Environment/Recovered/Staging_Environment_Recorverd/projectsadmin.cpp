@@ -26,8 +26,8 @@ ProjectsAdmin::ProjectsAdmin(QWidget *parent) :
     ui->setupUi(this);
 
     // Set the table widget model to the taskModel
-    ui->project_table->setColumnCount(2);
-    ui->project_table->setHorizontalHeaderLabels({"Task Name", "Description"}); // Set column headers
+    ui->project_table->setColumnCount(3);
+    ui->project_table->setHorizontalHeaderLabels({"Project Name", "Project Description", "Project id"}); // Set column headers
 
     QFont font = ui->project_table->font();
     font.setPointSize(12); // Set the point size to 12, you can adjust this value
@@ -58,13 +58,13 @@ void ProjectsAdmin::openProjectCreation()
 void ProjectsAdmin::openProjectCreation1() {
     qDebug() << "Create task sprint button clicked.";
 
-    QString taskName = QInputDialog::getText(this, "Enter Task Name", "Task Name:");
-    QString taskDescription = QInputDialog::getText(this, "Enter Task Description", "Task Description:");
+    QString projectName = QInputDialog::getText(this, "Enter Project Name", "Project Name:");
+    QString projectDescription = QInputDialog::getText(this, "Enter Project Description", "Project Description:");
 
-    addProjectToDatabase(taskName, taskDescription);
+    addProjectToDatabase(projectName, projectDescription);
     RetrieveAndDisplayProjectBacklog();
-    qDebug() << "Task Name: " << taskName;
-    qDebug() << "Task Description: " << taskDescription;
+    qDebug() << "Project Name: " << projectName;
+    qDebug() << "Project Description: " << projectDescription;
 }
 
 
@@ -92,21 +92,23 @@ void ProjectsAdmin:: ProjectRetrieval(){
 
     if (dbobj.isOpen()) {
         QSqlQuery query(dbobj);
-        query.prepare("SELECT ProjectName, Description FROM scrummy.Project");
+        query.prepare("SELECT ProjectName, Description, idProject FROM scrummy.Project");
 
         if (query.exec()) {
             qDebug() << "Project Retrieved Successfully!";
 
             while (query.next()) {
+                qDebug() << "This is the current project ID:" << query.value(2).toInt();
                 // Retrieve each value from the query result
-                QString taskName = query.value(0).toString();
+                QString projectName = query.value(0).toString();
                 QString description = query.value(1).toString();
+                int projectId = query.value(2).toInt();
 
 
-    qDebug() << "Task Name:" << taskName << ", Description:" << description;
+                 qDebug() << "Project Name:" << projectName << ", Description:" << description;
 
                 // Now use the addBacklog function to add each retrieved row to the table
-                addProject( taskName, description);
+                addProject( projectName, description, projectId);
             }
         } else {
             qDebug() << "Failed to retrieve data: " << query.lastError().text();
@@ -123,7 +125,7 @@ void ProjectsAdmin:: ProjectRetrieval(){
 
 
 
-void ProjectsAdmin::addProject(const QString& taskName, const QString& description) {
+void ProjectsAdmin::addProject(const QString& taskName, const QString& description, const int projectId) {
 
     // Adjust the column widths to take up the available space
     QHeaderView* header = ui->project_table->horizontalHeader();
@@ -133,11 +135,15 @@ void ProjectsAdmin::addProject(const QString& taskName, const QString& descripti
     int row = ui->project_table->rowCount(); // Get the current row count
     ui->project_table->insertRow(row); // Insert a new row at the end
 
+    QString idString = QString::number(projectId);
     QTableWidgetItem *nameItem = new QTableWidgetItem(taskName);
     QTableWidgetItem *descriptionItem = new QTableWidgetItem(description);
+    QTableWidgetItem *projectIdItem = new QTableWidgetItem(idString);
 
+    qDebug() << "This is the project id item:" << projectIdItem->text();
     ui->project_table->setItem(row, 0, nameItem); // Set task name in the first column
     ui->project_table->setItem(row, 1, descriptionItem); // Set description in the second column
+    ui->project_table->setItem(row, 2, projectIdItem);
 }
 
 void ProjectsAdmin::deleteProject() {
@@ -147,10 +153,10 @@ void ProjectsAdmin::deleteProject() {
     // Iterate through selected rows in reverse order to avoid issues when removing rows
     for (int i = selectedRows.size() - 1; i >= 0; --i) {
         int row = selectedRows.at(i).row();
-        QString projectName = ui->project_table->item(row, 0)->text();
+        int projectId = ui->project_table->item(row, 2)->text().toInt();
 
         // SQL Statement to delete the project from the database
-        deleteProjectFromDatabase(projectName);
+        deleteProjectFromDatabase(projectId);
 
         ui->project_table->removeRow(row);
     }
@@ -211,14 +217,14 @@ void ProjectsAdmin::addProjectToDatabase(const QString& taskName, const QString&
 }
 
 
-void ProjectsAdmin::deleteProjectFromDatabase(const QString& projectName) {
+void ProjectsAdmin::deleteProjectFromDatabase(const int& projectId) {
     // SQL Statement to delete a project from the database
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
     if (dbobj.isOpen()) {
         QSqlQuery query(dbobj);
-        query.prepare("DELETE FROM Project WHERE ProjectName = :ProjectName");
-        query.bindValue(":ProjectName", projectName);
+        query.prepare("DELETE FROM Project WHERE idProject = :ProjectId");
+        query.bindValue(":ProjectId", projectId);
 
         if (query.exec()) {
             qDebug() << "Project deleted successfully!";

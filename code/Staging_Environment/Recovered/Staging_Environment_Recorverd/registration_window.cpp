@@ -120,7 +120,7 @@ void registration_window::storeInputValues() {
 
         if (dbobj.isOpen()) {
             QSqlQuery query(dbobj);
-            query.prepare("SELECT Email FROM User");
+            query.prepare("SELECT Email, Username FROM User");
             if (query.exec()) {
                 qDebug() << "Emails fetched!";
             }
@@ -132,8 +132,15 @@ void registration_window::storeInputValues() {
             }
             while (query.next())
             {
+                qDebug() << "Feched Email:" << query.value(0).toString() << "  Actual email" << email;
+                qDebug() << "Feched Username:" << query.value(1).toString() << "  Actual Username" << email;
                 if(query.value(0).toString() == email){
                     error += "<font color='red'>Email already registered. </font>\n";
+                    ui->display_error->setText(error);
+                    ui->display_error->setVisible(true);
+                    return;
+                }else if(query.value(1).toString() == username){
+                    error += "<font color='red'>Username already registered. </font>\n";
                     ui->display_error->setText(error);
                     ui->display_error->setVisible(true);
                     return;

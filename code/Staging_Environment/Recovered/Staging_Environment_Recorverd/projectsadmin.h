@@ -22,8 +22,8 @@ public slots:
     void openProjectCreation();
     void openProjectCreation1();
     void deleteProject();
-    void addProject(const QString& taskName, const QString& description);
-    void deleteProjectFromDatabase(const QString& projectName);
+    void addProject(const QString& taskName, const QString& description, const int projectId);
+    void deleteProjectFromDatabase(const int& projectId);
     void ProjectRetrieval();
     void RetrieveAndDisplayProjectBacklog();
     void clearProjectTable();
