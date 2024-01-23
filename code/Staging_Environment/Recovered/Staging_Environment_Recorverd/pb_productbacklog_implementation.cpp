@@ -7,6 +7,7 @@
 #include <QTableView>
 #include "databasemanager.h"
 #include "pb_productbacklog_implementation.h"
+#include "pb_productbacklog_implementation_extension.h"
 #include "qheaderview.h"
 #include "qsqlerror.h"
 #include "qsqlquery.h"
@@ -492,68 +493,68 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
     if (selectedSprint == "Unassigned") {
         qDebug() << "Nothing Happend: " << selectedValue;
     }else{
-    deleteTaskFromDatabase(taskID);
+        deleteTaskFromDatabase(taskID);
 
 
 
-    //Take the Correct ID of the Username
-    QSqlQuery queryUserId(dbobj);
-    queryUserId.prepare("SELECT U.idUser FROM User AS U WHERE U.Username = :username");
-    queryUserId.bindValue(":username", assigneeId);
+        //Take the Correct ID of the Username
+        QSqlQuery queryUserId(dbobj);
+        queryUserId.prepare("SELECT U.idUser FROM User AS U WHERE U.Username = :username");
+        queryUserId.bindValue(":username", assigneeId);
 
-    int userId = -1; // Default value, in case the query fails
-    if(queryUserId.exec()) {
-        if(queryUserId.next()) {
-            userId = queryUserId.value(0).toInt();
-            qDebug() << "Fetched User ID: " << userId;
+        int userId = -1; // Default value, in case the query fails
+        if(queryUserId.exec()) {
+            if(queryUserId.next()) {
+                userId = queryUserId.value(0).toInt();
+                qDebug() << "Fetched User ID: " << userId;
+            } else {
+                qDebug() << "No user found for username: " << assigneeId;
+            }
         } else {
-            qDebug() << "No user found for username: " << assigneeId;
+            qDebug() << "Query error while fetching user ID:" << queryUserId.lastError().text();
         }
-    } else {
-        qDebug() << "Query error while fetching user ID:" << queryUserId.lastError().text();
-    }
 
 
-    QSqlQuery querySprintValues(dbobj);
-    querySprintValues.prepare("SELECT SB.idSprintBacklog, SB.Sprint_idSprint "
-                              "FROM SprintBacklog SB "
-                              "INNER JOIN Sprint S ON S.idSprint = SB.Sprint_idSprint "
-                              "WHERE S.Title = :sprintTitle");
-    querySprintValues.bindValue(":sprintTitle", selectedValue1); // Binding the selected value
+        QSqlQuery querySprintValues(dbobj);
+        querySprintValues.prepare("SELECT SB.idSprintBacklog, SB.Sprint_idSprint "
+                                  "FROM SprintBacklog SB "
+                                  "INNER JOIN Sprint S ON S.idSprint = SB.Sprint_idSprint "
+                                  "WHERE S.Title = :sprintTitle");
+        querySprintValues.bindValue(":sprintTitle", selectedValue1); // Binding the selected value
 
-    if(querySprintValues.exec()) {
-        if(querySprintValues.next()) {
-            idSprintBacklog = querySprintValues.value(0).toString();
-            Sprint_idSprint = querySprintValues.value(1).toString();
-            qDebug() << "Fetched Values: " << idSprintBacklog << ", " << Sprint_idSprint;
+        if(querySprintValues.exec()) {
+            if(querySprintValues.next()) {
+                idSprintBacklog = querySprintValues.value(0).toString();
+                Sprint_idSprint = querySprintValues.value(1).toString();
+                qDebug() << "Fetched Values: " << idSprintBacklog << ", " << Sprint_idSprint;
+            } else {
+                qDebug() << "No data fetched. Check if the query returns any rows.";
+            }
         } else {
-            qDebug() << "No data fetched. Check if the query returns any rows.";
+            qDebug() << "Query error:" << querySprintValues.lastError().text();
         }
-    } else {
-        qDebug() << "Query error:" << querySprintValues.lastError().text();
-    }
-    qDebug() << "Executed query:" << querySprintValues.executedQuery();
-    //COPY IN THE TASKSB TABLE
-    QSqlQuery query1(dbobj);
-    query1.prepare("INSERT INTO scrummy.TaskSB(idTask, Title, Description, Status, Priority, Assignee, SprintBacklog_idSprintBacklog, SprintBacklog_Sprint_idSprint, SprintBacklog_Sprint_Project_idProject) "
-                   "VALUES (:idTask, :title, :description, :status, :priority, :assignee, :sprintBacklogId, :sprintId, :projectId)");
-    query1.bindValue(":idTask", SameValueTaskPB);
-    query1.bindValue(":title", title);
-    query1.bindValue(":description", description);
-    query1.bindValue(":status", status);
-    query1.bindValue(":priority", priority);
-    query1.bindValue(":assignee", userId);
-    query1.bindValue(":sprintBacklogId", idSprintBacklog);
-    query1.bindValue(":sprintId", Sprint_idSprint);
-    query1.bindValue(":projectId", PassedProjectID);
+        qDebug() << "Executed query:" << querySprintValues.executedQuery();
+        //COPY IN THE TASKSB TABLE
+        QSqlQuery query1(dbobj);
+        query1.prepare("INSERT INTO scrummy.TaskSB(idTask, Title, Description, Status, Priority, Assignee, SprintBacklog_idSprintBacklog, SprintBacklog_Sprint_idSprint, SprintBacklog_Sprint_Project_idProject) "
+                       "VALUES (:idTask, :title, :description, :status, :priority, :assignee, :sprintBacklogId, :sprintId, :projectId)");
+        query1.bindValue(":idTask", SameValueTaskPB);
+        query1.bindValue(":title", title);
+        query1.bindValue(":description", description);
+        query1.bindValue(":status", status);
+        query1.bindValue(":priority", priority);
+        query1.bindValue(":assignee", userId);
+        query1.bindValue(":sprintBacklogId", idSprintBacklog);
+        query1.bindValue(":sprintId", Sprint_idSprint);
+        query1.bindValue(":projectId", PassedProjectID);
 
-    if (!query1.exec()) {
-        qDebug() << "Failed to insert data into TaskSB table:" << query1.lastError().text();
+        if (!query1.exec()) {
+            qDebug() << "Failed to insert data into TaskSB table:" << query1.lastError().text();
+            dbobj.close();
+            return;
+        }
+        qDebug() << "Data inserted into TaskSB table successfully!";
         dbobj.close();
-        return;
-    }
-    qDebug() << "Data inserted into TaskSB table successfully!";
-    dbobj.close();
     }
 }
 
@@ -1125,70 +1126,70 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
     if (SelectedSprint == "Unassigned" ) {
         goto ONLYTASKPB_END;
     } else {
-    //-----------------START-----------------------------Copy Of the Task in the Sprint Table
-    QSqlQuery queryUser(dbobj);
-    queryUser.prepare("SELECT idUser FROM User WHERE Username = :username");
-    queryUser.bindValue(":username", assignee);
+        //-----------------START-----------------------------Copy Of the Task in the Sprint Table
+        QSqlQuery queryUser(dbobj);
+        queryUser.prepare("SELECT idUser FROM User WHERE Username = :username");
+        queryUser.bindValue(":username", assignee);
 
-    int assigneeId = 0;
-    if (queryUser.exec()) {
-        if (queryUser.next()) {
-            assigneeId = queryUser.value(0).toInt(); // Assuming the first column is the user ID
-        }
-    } else {
-        qDebug() << "Failed to retrieve user ID:" << queryUser.lastError().text();
-        return;
-    }
-    //TAKE THE CORRECT VALUES FROM THE SPRINT BACKLOG TABLE
-    /*
-    */
-    QString idSprintBacklog;
-    QString Sprint_idSprint;
-    QComboBox* SprintComboBox = parentBoard->get_BL_SprintDropDown();
-    QString selectedValue = SprintComboBox->currentText().trimmed(); // Trim to remove any whitespace
-    qDebug() << "Selected Value from ComboBox: " << selectedValue;
-
-    QSqlQuery querySprintValues(dbobj);
-    querySprintValues.prepare("SELECT SB.idSprintBacklog, SB.Sprint_idSprint "
-                              "FROM SprintBacklog SB "
-                              "INNER JOIN Sprint S ON S.idSprint = SB.Sprint_idSprint "
-                              "WHERE S.Title = :sprintTitle");
-    querySprintValues.bindValue(":sprintTitle", selectedValue); // Binding the selected value
-
-    if(querySprintValues.exec()) {
-        if(querySprintValues.next()) {
-            idSprintBacklog = querySprintValues.value(0).toString();
-            Sprint_idSprint = querySprintValues.value(1).toString();
-            qDebug() << "Fetched Values: " << idSprintBacklog << ", " << Sprint_idSprint;
+        int assigneeId = 0;
+        if (queryUser.exec()) {
+            if (queryUser.next()) {
+                assigneeId = queryUser.value(0).toInt(); // Assuming the first column is the user ID
+            }
         } else {
-            qDebug() << "No data fetched. Check if the query returns any rows.";
+            qDebug() << "Failed to retrieve user ID:" << queryUser.lastError().text();
+            return;
         }
-    } else {
-        qDebug() << "Query error:" << querySprintValues.lastError().text();
-    }
+        //TAKE THE CORRECT VALUES FROM THE SPRINT BACKLOG TABLE
+        /*
+    */
+        QString idSprintBacklog;
+        QString Sprint_idSprint;
+        QComboBox* SprintComboBox = parentBoard->get_BL_SprintDropDown();
+        QString selectedValue = SprintComboBox->currentText().trimmed(); // Trim to remove any whitespace
+        qDebug() << "Selected Value from ComboBox: " << selectedValue;
 
-    qDebug() << "Executed query:" << querySprintValues.executedQuery();
-    //COPY IN THE TASKSB TABLE
-    QSqlQuery query1(dbobj);
-    query1.prepare("INSERT INTO scrummy.TaskSB(idTask, Title, Description, Status, Priority, Assignee, SprintBacklog_idSprintBacklog, SprintBacklog_Sprint_idSprint, SprintBacklog_Sprint_Project_idProject) "
-                   "VALUES (:idTask, :title, :description, :status, :priority, :assignee, :sprintBacklogId, :sprintId, :projectId)");
-    query1.bindValue(":idTask", SameValueTaskPB);
-    query1.bindValue(":title", title);
-    query1.bindValue(":description", description);
-    query1.bindValue(":status", status);
-    query1.bindValue(":priority", priority);
-    query1.bindValue(":assignee", assigneeId); // Assuming 'assignee' is a variable holding the assignee's ID
-    query1.bindValue(":sprintBacklogId", idSprintBacklog); // Assuming this is a constant or should be obtained dynamically
-    query1.bindValue(":sprintId", Sprint_idSprint); // Assuming SelectedSprint is a variable holding the sprint ID
-    query1.bindValue(":projectId", PassedProjectID); // Assuming PassedProjectID is a variable holding the project ID
+        QSqlQuery querySprintValues(dbobj);
+        querySprintValues.prepare("SELECT SB.idSprintBacklog, SB.Sprint_idSprint "
+                                  "FROM SprintBacklog SB "
+                                  "INNER JOIN Sprint S ON S.idSprint = SB.Sprint_idSprint "
+                                  "WHERE S.Title = :sprintTitle");
+        querySprintValues.bindValue(":sprintTitle", selectedValue); // Binding the selected value
 
-    if (!query1.exec()) {
-        qDebug() << "Failed to insert data into TaskSB table:" << query1.lastError().text();
+        if(querySprintValues.exec()) {
+            if(querySprintValues.next()) {
+                idSprintBacklog = querySprintValues.value(0).toString();
+                Sprint_idSprint = querySprintValues.value(1).toString();
+                qDebug() << "Fetched Values: " << idSprintBacklog << ", " << Sprint_idSprint;
+            } else {
+                qDebug() << "No data fetched. Check if the query returns any rows.";
+            }
+        } else {
+            qDebug() << "Query error:" << querySprintValues.lastError().text();
+        }
+
+        qDebug() << "Executed query:" << querySprintValues.executedQuery();
+        //COPY IN THE TASKSB TABLE
+        QSqlQuery query1(dbobj);
+        query1.prepare("INSERT INTO scrummy.TaskSB(idTask, Title, Description, Status, Priority, Assignee, SprintBacklog_idSprintBacklog, SprintBacklog_Sprint_idSprint, SprintBacklog_Sprint_Project_idProject) "
+                       "VALUES (:idTask, :title, :description, :status, :priority, :assignee, :sprintBacklogId, :sprintId, :projectId)");
+        query1.bindValue(":idTask", SameValueTaskPB);
+        query1.bindValue(":title", title);
+        query1.bindValue(":description", description);
+        query1.bindValue(":status", status);
+        query1.bindValue(":priority", priority);
+        query1.bindValue(":assignee", assigneeId); // Assuming 'assignee' is a variable holding the assignee's ID
+        query1.bindValue(":sprintBacklogId", idSprintBacklog); // Assuming this is a constant or should be obtained dynamically
+        query1.bindValue(":sprintId", Sprint_idSprint); // Assuming SelectedSprint is a variable holding the sprint ID
+        query1.bindValue(":projectId", PassedProjectID); // Assuming PassedProjectID is a variable holding the project ID
+
+        if (!query1.exec()) {
+            qDebug() << "Failed to insert data into TaskSB table:" << query1.lastError().text();
+            dbobj.close();
+            return;
+        }
+        qDebug() << "Data inserted into TaskSB table successfully!";
         dbobj.close();
-        return;
-    }
-    qDebug() << "Data inserted into TaskSB table successfully!";
-    dbobj.close();
     }
     //-----------------END-----------------------------Copy Of the Task in the Sprint Table
 
@@ -1383,10 +1384,10 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
 
 
         assigneeQuery.prepare("SELECT User.Username "
-                          "FROM Project "
-                          "INNER JOIN Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
-                          "INNER JOIN User ON Project_has_User.User_idUser = User.idUser "
-                          "WHERE Project_has_User.Project_idProject = :projectID");
+                              "FROM Project "
+                              "INNER JOIN Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
+                              "INNER JOIN User ON Project_has_User.User_idUser = User.idUser "
+                              "WHERE Project_has_User.Project_idProject = :projectID");
         assigneeQuery.bindValue(":projectID", PassedProjectID);
         if (assigneeQuery.exec()) {
             while (assigneeQuery.next()) {
@@ -1419,11 +1420,50 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
         sprintComboBox->setCurrentText(assignedSprint);
         userStoriesTable->setCellWidget(rowCount, 7, sprintComboBox);
 
+
+        pb_productbacklog_implementation_Extension *pbbacklogextensionobj = new pb_productbacklog_implementation_Extension(parentBoard);
+        connect(sprintComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+                [this, userStoriesTable, rowCount, storyID, pbbacklogextensionobj](int index) {
+                    QString title = userStoriesTable->item(rowCount, 2)->text();
+                    QString description = userStoriesTable->item(rowCount, 3)->text();
+
+                    // Retrieve the status from the ComboBox in column 4
+                    QString status;
+                    QWidget* statusWidget = userStoriesTable->cellWidget(rowCount, 4);
+                    if (statusWidget) {
+                        QComboBox* statusComboBox = qobject_cast<QComboBox*>(statusWidget);
+                        if (statusComboBox) {
+                            status = statusComboBox->currentText();
+                        }
+                    }
+
+                    // Retrieve the assigneeId from the ComboBox in column 5
+                    QString assigneeId;
+                    QWidget* assigneeWidget = userStoriesTable->cellWidget(rowCount, 5);
+                    if (assigneeWidget) {
+                        QComboBox* assigneeComboBox = qobject_cast<QComboBox*>(assigneeWidget);
+                        if (assigneeComboBox) {
+                            assigneeId = assigneeComboBox->currentText();
+                        }
+                    }
+
+                    QString priorityString = getStatusFromRow(userStoriesTable, rowCount); // use your function to get the priority string
+                    int priority = priorityToInt(priorityString); // convert the string to an integer
+                    QString selectedSprint = qobject_cast<QComboBox *>(userStoriesTable->cellWidget(rowCount, 7))->currentText();
+
+
+
+                    pbbacklogextensionobj->Send_UserStory_ToSprint(storyID, title, description, status, priority, assigneeId, selectedSprint);
+                });
+
+
+        /*
+
         connect(sprintComboBox, &QComboBox::currentTextChanged,
                 [this, storyID, sprintComboBox](const QString &newSprint) {
                     onUserStorySprintChanged(storyID, newSprint);
                 });
-        /*
+
         qDebug() << "Adding User Story to Table: ID:" << storyID
                  << " Title:" << storyName
                  << " Description:" << description

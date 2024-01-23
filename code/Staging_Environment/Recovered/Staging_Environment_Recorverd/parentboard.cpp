@@ -128,7 +128,7 @@ parentboard::parentboard(QWidget *parent) :
         QTableWidgetItem* item = ui->user_stories->item(selectedRow, 0); // 0 is the column for storyID
         if (item) {
             int storyID = item->data(Qt::UserRole).toInt(); // Assuming the storyID is stored in the UserRole
-            pbProductBacklog_ExtensionObj->deleteUserStory(storyID); // Call the deleteUserStory function
+            pbProductBacklog_ExtensionObj->deleteTaskFromDatabase(storyID); // Call the deleteUserStory function
         } else {
             qDebug() << "Item is null";
             // Optionally, handle this case
