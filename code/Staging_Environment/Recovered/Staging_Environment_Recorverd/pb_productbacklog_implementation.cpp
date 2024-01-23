@@ -1372,14 +1372,22 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
 
 
 
+        int PassedProjectID = parentBoard->getProjectId();
 
 
 
-
+        //COME HERE
         QStringList assigneeList;
         QSqlDatabase db = QSqlDatabase::database();
         QSqlQuery assigneeQuery(db);
-        assigneeQuery.prepare("SELECT Username FROM User"); // Adjust query as needed
+
+
+        assigneeQuery.prepare("SELECT User.Username "
+                          "FROM Project "
+                          "INNER JOIN Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
+                          "INNER JOIN User ON Project_has_User.User_idUser = User.idUser "
+                          "WHERE Project_has_User.Project_idProject = :projectID");
+        assigneeQuery.bindValue(":projectID", PassedProjectID);
         if (assigneeQuery.exec()) {
             while (assigneeQuery.next()) {
                 assigneeList << assigneeQuery.value(0).toString();
