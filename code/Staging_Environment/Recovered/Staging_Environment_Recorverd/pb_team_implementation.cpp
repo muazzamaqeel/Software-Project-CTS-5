@@ -51,13 +51,13 @@ void pb_team_implemenation::on_createuser_clicked()
 
 void pb_team_implemenation::UserRetrieval()
 {
-
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
-    if (parentBoard->isTeamTableActive)
-    {
-        return;
-    }
+    QTableWidget* teamTable = parentBoard->getTeamTableView();
+    parentBoard->setTeamTableBool(false);
+    int rowSize = teamTable->rowCount();
+    qDebug() << "TEAM: The number of rows" << rowSize;
+
     parentBoard->isTeamTableActive = true;
     QSqlQuery query(dbobj);
     QStringList roleList;

@@ -35,6 +35,7 @@ public:
     QPushButton* on_create_sprint_clicked();
     QTableWidget* getSprintTableView();
     QTableWidget* getTeamTableView();
+    void setTeamTableBool(const bool val);
     QTextBrowser *getSprintDate();
     QLineEdit *getFirstNameField();
     void displayBacklogOnMaximized();

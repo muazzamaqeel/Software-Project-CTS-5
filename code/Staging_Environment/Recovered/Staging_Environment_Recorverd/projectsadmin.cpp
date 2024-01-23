@@ -13,6 +13,7 @@
 #include <QDebug>
 #include <QtSql/QSqlDatabase>
 #include <QDebug>
+#include "parentboard.h"
 #include <iostream>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlDriver>
@@ -24,6 +25,7 @@ ProjectsAdmin::ProjectsAdmin(QWidget *parent) :
     ui(new Ui::ProjectsAdmin)
 {
     ui->setupUi(this);
+    ui->display_error->setVisible(false);
 
     // Set the table widget model to the taskModel
     ui->project_table->setColumnCount(3);
@@ -36,16 +38,56 @@ ProjectsAdmin::ProjectsAdmin(QWidget *parent) :
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(openMainWindowfromAdmin()));
     connect(ui->createProjectButton, SIGNAL(clicked()), this, SLOT(openProjectCreation1()));
     connect(ui->delete_project, SIGNAL(clicked()), this, SLOT(deleteProject()));
+    connect(ui->editProjectButton, &QPushButton::clicked, [this]() {
+        if (!ui->project_table) {
+            qDebug() << "Project table not found";
+            return;
+        }
+        int selectedRow = -1;
+        QList<QTableWidgetItem*> selectedItems = ui->project_table->selectedItems();
+        if (!selectedItems.isEmpty()) {
+            selectedRow = selectedItems.first()->row();
+        }
+        if (selectedRow == -1) {
+            qDebug() << "No row selected";
+            ui->display_error->setText("No row selected.");
+            ui->display_error->setVisible(true);
+            return;
+        }
+        QTableWidgetItem* item = ui->project_table->item(selectedRow, 2); // 0 is the column for taskID
+        if (item) {
+            ui->display_error->setText("");
+            ui->display_error->setVisible(false);
+            editProjectButton_clicked(item->text().toInt());
+        } else {
+            qDebug() << "Item is null";
+            ui->display_error->setText("Please select a row to delete.");
+            ui->display_error->setVisible(true);
+            // Optionally, handle this case
+        }
+
+    });
     RetrieveAndDisplayProjectBacklog();
 }
 
 
+void ProjectsAdmin::editProjectButton_clicked(const int projectId){
 
+    parentboard* parentboardwindow = parentboard::getInstance();
+    parentboardwindow->setProjectId(projectId);
+    parentboardwindow->adjustUIForUserRole(1);
+    this->close();
+    parentboardwindow->resize(1280,720);
+    parentboardwindow->show();
+    parentboardwindow->displayBacklogOnMaximized();
+    ui->~ProjectsAdmin();
+}
 void ProjectsAdmin::openMainWindowfromAdmin()
 {
     hide();
     MainWindow* mainWindow = new MainWindow;
     mainWindow->showMaximized();
+    ui->~ProjectsAdmin();
 }
 
 void ProjectsAdmin::openProjectCreation()

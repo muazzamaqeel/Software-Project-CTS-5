@@ -18,6 +18,7 @@ public:
     explicit ProjectsAdmin(QWidget *parent = nullptr);
     ~ProjectsAdmin();
 public slots:
+    void editProjectButton_clicked(const int projectId);
     void openMainWindowfromAdmin();
     void openProjectCreation();
     void openProjectCreation1();

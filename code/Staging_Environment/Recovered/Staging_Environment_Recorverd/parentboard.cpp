@@ -40,6 +40,7 @@ parentboard::parentboard(QWidget *parent) :
     QPixmap logo("qrc:/LogoScrummy.png");
     logoScrummy.setPixmap(logo);
 
+
     // Bottom border of buttons
     ui->taskboardButton->setCheckable(true);
     ui->backlogButton->setCheckable(true);
@@ -51,6 +52,7 @@ parentboard::parentboard(QWidget *parent) :
 
     taskModel = new QStandardItemModel(this);
     taskModel->setColumnCount(2);
+    ui->teamTable->reset();
     ui->teamTable->setColumnCount(4);
     ui->teamTable->setHorizontalHeaderLabels({"First name","Last name", "Email", "Role"});
 
@@ -337,6 +339,8 @@ void parentboard::goBackToMainWindow() {
     MainWindow* mainWindow = new MainWindow; // Create a new instance of the main window
     hide(); // Hide the registration window
     mainWindow->showMaximized(); // Show the main window
+    setTeamTableBool(false);
+    this->close();
     ui->~parentboard();
 }
 
@@ -426,6 +430,16 @@ QTextEdit* parentboard::getInputTitle(){
 }
 QTableWidget* parentboard::getTeamTableView(){
     return ui->teamTable;
+}
+void parentboard::setTeamTableBool(const bool val){
+    ui->teamTable->clear();
+    ui->teamTable->reset();
+    ui->teamTable->setRowCount(0);
+    int rowSize = ui->teamTable->rowCount();
+    for(int i = 0; i < rowSize; i++){
+        ui->teamTable->removeRow(i);
+    }
+    isTeamTableActive = val;
 }
 
 QComboBox* parentboard::get_BL_SprintDropDown(){
