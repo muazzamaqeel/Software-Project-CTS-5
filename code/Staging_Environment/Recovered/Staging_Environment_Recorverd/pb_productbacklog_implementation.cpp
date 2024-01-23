@@ -1297,7 +1297,12 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
                 }
 
 
-                UserStories_Added_In_Table("User Story", title, description, status, assignee, priority, storyID, assignedSprint, sprintTitles);
+                QComboBox* priorityComboBox = new QComboBox();
+                priorityComboBox->addItems({"High", "Medium", "Low"});
+                int priorityValue = query.value(4).toInt();
+                priorityComboBox->setCurrentIndex(priorityValue - 1);  // Assuming 1 = High, 2 = Medium, 3 = Low
+
+                UserStories_Added_In_Table("User Story", title, description, status, assignee, priorityComboBox, storyID, assignedSprint, sprintTitles);
                 storyMap[storyID] = {title, description, status, priority, assignee, storyID};
             }
         } else {
@@ -1309,7 +1314,7 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
     }
 }
 
-void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID, const QString& assignedSprint, const QStringList& sprintTitles) {
+void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, QComboBox* priorityComboBox, int storyID, const QString& assignedSprint, const QStringList& sprintTitles) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(8);
     userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority (1-3)", "Sprint"});
@@ -1330,7 +1335,7 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
         QTableWidgetItem* itemStoryName = new QTableWidgetItem(storyName);
         QTableWidgetItem* itemDescription = new QTableWidgetItem(description);
         //QTableWidgetItem* itemStatus = new QTableWidgetItem(status);
-        QTableWidgetItem* itemPriority = new QTableWidgetItem(QString::number(priority));
+        //QTableWidgetItem* itemPriority = new QTableWidgetItem(QString::number(priority));
         QTableWidgetItem* itemAssignee = new QTableWidgetItem(QString::number(assignee));
 
         type->setFlags(type->flags() & ~Qt::ItemIsEditable);
@@ -1353,8 +1358,16 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
                     onUserStoryStatusChanged(storyID, newStatus);
                 });
 
-        userStoriesTable->setItem(rowCount, 5, itemPriority);
-        userStoriesTable->setItem(rowCount, 6, itemAssignee);
+        //userStoriesTable->setItem(rowCount, 5, itemPriority);
+
+
+        userStoriesTable->setCellWidget(rowCount, 6, priorityComboBox);
+        connect(priorityComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+                [this, storyID, priorityComboBox](int index) {
+                    int newPriority = priorityComboBox->currentIndex() + 1;
+                    onUserStoryPriorityChanged(storyID, newPriority);
+                });
+        userStoriesTable->setItem(rowCount, 5, itemAssignee);
 
 
         QComboBox* sprintComboBox = new QComboBox();
@@ -1379,6 +1392,29 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
     }
 }
 
+void pb_productbacklog_implementation::onUserStoryPriorityChanged(int storyID, int newPriority) {
+    QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    if (!userStoriesTable) return;
+
+    int row = -1;
+    for (int i = 0; i < userStoriesTable->rowCount(); ++i) {
+        if (userStoriesTable->item(i, 0)->data(Qt::UserRole).toInt() == storyID) {
+            row = i;
+            break;
+        }
+    }
+
+    if (row == -1) return;
+
+    QString title = userStoriesTable->item(row, 2)->text();
+    QString description = userStoriesTable->item(row, 3)->text();
+    QString status = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 4))->currentText();
+    int assignee = userStoriesTable->item(row, 5)->text().toInt();
+    QString assignedSprint = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 7))->currentText();
+
+    updateUserStoryInDatabase(storyID, title, description, status, newPriority, assignee, assignedSprint);
+}
+
 
 void pb_productbacklog_implementation::onUserStorySprintChanged(int storyID, const QString& newSprint) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
@@ -1401,8 +1437,15 @@ void pb_productbacklog_implementation::onUserStorySprintChanged(int storyID, con
     QString title = userStoriesTable->item(row, 2)->text();
     QString description = userStoriesTable->item(row, 3)->text();
     QString status = qobject_cast<QComboBox*>(userStoriesTable->cellWidget(row, 4))->currentText();
-    int priority = userStoriesTable->item(row, 5)->text().toInt();
-    int assignee = userStoriesTable->item(row, 6)->text().toInt();
+    int priority = 0;
+    QWidget* priorityWidget = userStoriesTable->cellWidget(row, 6);
+    if (priorityWidget) {
+        QComboBox* priorityComboBox = qobject_cast<QComboBox*>(priorityWidget);
+        if (priorityComboBox) {
+            priority = priorityComboBox->currentIndex() + 1;
+        }
+    }
+    int assignee = userStoriesTable->item(row, 5)->text().toInt();
 
     updateUserStoryInDatabase(storyID, title, description, status, priority, assignee, newSprint);
 }
@@ -1425,8 +1468,18 @@ void pb_productbacklog_implementation::onUserStoryStatusChanged(int storyID, con
     // Retrieve the rest of the details from the row
     QString title = userStoriesTable->item(row, 2)->text();
     QString description = userStoriesTable->item(row, 3)->text();
-    int priority = userStoriesTable->item(row, 5)->text().toInt();
-    int assignee = userStoriesTable->item(row, 6)->text().toInt();
+
+    // Retrieve priority from the ComboBox in column 5
+    int priority = 0;
+    QWidget* priorityWidget = userStoriesTable->cellWidget(row, 6);
+    if (priorityWidget) {
+        QComboBox* priorityComboBox = qobject_cast<QComboBox*>(priorityWidget);
+        if (priorityComboBox) {
+            priority = priorityComboBox->currentIndex() + 1; // Assuming priority index starts at 0
+        }
+    }
+
+    int assignee = userStoriesTable->item(row, 5)->text().toInt();
 
     QString assignedSprint;
     QWidget* sprintWidget = userStoriesTable->cellWidget(row, 7);
@@ -1465,6 +1518,7 @@ void pb_productbacklog_implementation::updateUserStoryInDatabase(int storyID, co
     }
 }
 
+
 void pb_productbacklog_implementation::onUserStoryTableItemChanged(QTableWidgetItem* item) {
     if (!item) {
         qDebug() << "Item is null";
@@ -1495,8 +1549,15 @@ void pb_productbacklog_implementation::onUserStoryTableItemChanged(QTableWidgetI
                 status = comboBox->currentText();
             }
         }
-        int priority = userStoriesTable->item(row, 5)->text().toInt();
-        int assignee = userStoriesTable->item(row, 6)->text().toInt();
+        int priority = 0;
+        QWidget* priorityWidget = userStoriesTable->cellWidget(row, 6);
+        if (priorityWidget) {
+            QComboBox* priorityComboBox = qobject_cast<QComboBox*>(priorityWidget);
+            if (priorityComboBox) {
+                priority = priorityComboBox->currentIndex() + 1;
+            }
+        }
+        int assignee = userStoriesTable->item(row, 5)->text().toInt();
         qDebug() << "Updating User Story: ID:" << storyID
                  << " Title:" << title
                  << " Description:" << description

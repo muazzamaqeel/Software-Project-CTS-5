@@ -48,7 +48,7 @@ public:
 
     // Methods for managing tasks and user stories in the backlog
     void UserStoryPBretrieval();
-    void UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, int priority, int storyID, const QString& assignedSprint, const QStringList& sprintTitles);
+    void UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, QComboBox* priorityComboBox, int storyID, const QString& assignedSprint, const QStringList& sprintTitles);
     void addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee, QString SelectedSprint);
     void onButtonIssueClicked();
     void Hide_CreateSection();
@@ -84,6 +84,7 @@ public slots:
     void onPriorityChanged(int taskID, QString& Priority);
     QString getAssigneeFromRow(QTableWidget* table, int row);
     QString getStatusFromRow(QTableWidget* table, int row);
+    void onUserStoryPriorityChanged(int storyID, int newPriority);
 private:
     parentboard* parentBoard; // Reference to the parent board
     QMap<int, UserStoryDetails> storyMap; // Map for storing UserStoryDetails objects
