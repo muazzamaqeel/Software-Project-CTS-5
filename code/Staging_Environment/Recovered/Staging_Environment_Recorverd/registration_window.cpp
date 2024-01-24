@@ -28,29 +28,8 @@ registration_window::registration_window(QWidget *parent) :
     ui->display_error->setVisible(false); // Initially hide the error message
 
     // For Background
-    QPixmap pix("C:/programming/GIT-REPO-SP23/softwareproject/code/Staging_Environment/Recovered/Staging_Environment_Recorverd/assets/MainWindowbg.jpg");
-    // Create a blur effect
-    QGraphicsBlurEffect *blurEffect = new QGraphicsBlurEffect;
-    blurEffect->setBlurRadius(10); // Adjust the blur radius as needed
-
-    // Create a scene and pixmap item
-    QGraphicsScene scene;
-    QGraphicsPixmapItem item;
-    item.setPixmap(pix);
-    item.setGraphicsEffect(blurEffect);
-
-    // Render the scene to a new QPixmap
-    scene.addItem(&item);
-    QPixmap blurredPixmap(pix.size());
-    blurredPixmap.fill(Qt::transparent);
-    QPainter painter(&blurredPixmap);
-    scene.render(&painter);
-
-    // Set the blurred pixmap as the background
-    ui->bg_main->setPixmap(blurredPixmap);
-
-
-
+    QLabel bg_main;
+    QPixmap pix("qrc:/MainWindowbg.png");
 
     connect(ui->back, SIGNAL(clicked()), this, SLOT(FromRegToMainWindow())); // Connect the "back" button to go back
     connect(ui->next, SIGNAL(clicked()), this, SLOT(storeInputValues())); // Connect the "next" button to store input values
