@@ -1830,7 +1830,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
               <widget class="QPushButton" name="delete_item_UserStory">
                <property name="minimumSize">
                 <size>
-                 <width>170</width>
+                 <width>180</width>
                  <height>40</height>
                 </size>
                </property>
@@ -1875,7 +1875,7 @@ QPushButton:checked {
 </string>
                </property>
                <property name="text">
-                <string>Delete UserStory</string>
+                <string>Delete User Story</string>
                </property>
               </widget>
              </item>
