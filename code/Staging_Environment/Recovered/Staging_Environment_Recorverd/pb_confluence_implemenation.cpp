@@ -122,6 +122,7 @@ void PB_Confluence_Implemenation::onTreeItemClicked(QTreeWidgetItem* item, int c
         // Create and show the dialog
         QDialog *editorDialog = new QDialog(parentBoard);
         editorDialog->resize(800, 600);
+        editorDialog->setWindowTitle("Scrummy 1.0"); //
         QVBoxLayout *layout = new QVBoxLayout(editorDialog);
         QTextEdit *textEditor = new QTextEdit(editorDialog);
         QPushButton *saveButton = new QPushButton("Save", editorDialog);

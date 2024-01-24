@@ -17,6 +17,7 @@ LaunchScreen::LaunchScreen(QWidget *parent) :
     ui(new Ui::LaunchScreen)
 {
     ui->setupUi(this);
+    setWindowTitle("Scrummy 1.0");
 
     // Remove title bar and frame
     setWindowFlags(Qt::FramelessWindowHint);

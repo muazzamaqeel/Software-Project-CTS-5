@@ -30,6 +30,7 @@ parentboard::parentboard(QWidget *parent) :
     ui(new Ui::parentboard)
 {
     ui->setupUi(this);
+    setWindowTitle("Scrummy 1.0");
     isTeamTableActive = false;
     DatabaseManager database;
     QSqlDatabase databaseInstance = database.getDatabase();

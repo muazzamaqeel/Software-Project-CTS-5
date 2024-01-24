@@ -17,6 +17,7 @@ TeamMember_ProjectsWindow::TeamMember_ProjectsWindow(QWidget *parent) :
     idProject(-1) {
 
     ui->setupUi(this);
+    setWindowTitle("Scrummy 1.0");
     connect(ui->BackButton, SIGNAL(clicked()), this, SLOT(BackButtonClicked()));
 
     centerOnScreen();

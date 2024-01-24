@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("Scrummy 1.0");
     ui->input_password->setEchoMode(QLineEdit::Password);
 
     QLabel bg_main;
