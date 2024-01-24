@@ -56,6 +56,7 @@ public:
     QTextBrowser* getDisplayRole();
     QLineEdit* getInputEmail();
     QComboBox* getComboBoxRole();
+    QTextBrowser* getTeamErrorDisplay();
 
     QComboBox* getInputAssignee();
     QTextEdit* getInputDescription();

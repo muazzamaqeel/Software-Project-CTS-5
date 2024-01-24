@@ -51,6 +51,8 @@ void pb_team_implemenation::on_createuser_clicked()
 
 void pb_team_implemenation::UserRetrieval()
 {
+    QTextBrowser* teamErrorDisplay = parentBoard->getTeamErrorDisplay();
+    teamErrorDisplay->setText("");
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
     QTableWidget* teamTable = parentBoard->getTeamTableView();
@@ -152,6 +154,8 @@ void pb_team_implemenation::AddUserToProject(int userId){
     parentBoard->isTeamTableActive = true;
     QSqlQuery query(dbobj);
 
+    QTextBrowser* teamErrorDisplay = parentBoard->getTeamErrorDisplay();
+    teamErrorDisplay->setText("");
     QString userRoleString = parentBoard->getComboBoxRole()->currentText();
     qDebug() << "TEAM: This is the text from role:" << userRoleString;
     int userRole;
@@ -163,6 +167,23 @@ void pb_team_implemenation::AddUserToProject(int userId){
         userRole = 2;
     int projectID = parentBoard->getProjectId();
     qDebug() << "TEAM: The user ID:" << userId;
+    if (dbobj.isOpen()) {
+        query.prepare("SELECT User_idUser FROM User_Role_Project WHERE User_idUser = :userId AND Project_idProject = :projectID");
+        query.bindValue(":projectID", projectID);
+        query.bindValue(":userId", userId);
+        if (!query.exec())
+        {
+            qDebug() << "Query execution error: " << query.lastError().text();
+            return;
+        }
+        while (query.next())
+        {
+            int user = query.value(0).toInt();
+            if(user != NULL){
+                teamErrorDisplay->setText("User already in this project.");
+            }
+        }
+    }
     if (dbobj.isOpen()) {
         query.prepare("INSERT INTO User_Role_Project(User_idUser, Project_idProject, Role_idRole) VALUES"
                       "(:userId, :projectID, :userRole)");
@@ -176,7 +197,6 @@ void pb_team_implemenation::AddUserToProject(int userId){
             qDebug() << "Query execution error: " << query.lastError().text();
             return;
         }
-
     } else {
         qDebug() << "Failed to open database: " << dbobj.lastError().text();
     }
@@ -323,7 +343,10 @@ void pb_team_implemenation::onRoleChanged(const QString& role)
 }
 
 void pb_team_implemenation::RemoveUser(QTableWidgetItem* item){
+    QTextBrowser* teamErrorDisplay = parentBoard->getTeamErrorDisplay();
+    teamErrorDisplay->setText("");
     if (!item) {
+        teamErrorDisplay->setText("No user row selected");
         qDebug() << "Item is null";
         return;
     }
@@ -376,6 +399,7 @@ void pb_team_implemenation::RemoveUser(QTableWidgetItem* item){
         query.addBindValue(userId);
 
         if (!query.exec()) {
+            teamErrorDisplay->setText("");
             qDebug() << "Delete user failed: " << query.lastError();
         } else {
             qDebug() << "Delete successful for user ID:" << userId;

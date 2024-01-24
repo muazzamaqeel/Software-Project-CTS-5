@@ -581,6 +581,11 @@ QComboBox* parentboard::getComboBoxRole()
 {
     return ui->comboBox_role;
 }
+
+QTextBrowser* parentboard::getTeamErrorDisplay()
+{
+    return ui->TeamError_display;
+}
 QTextBrowser* parentboard::getDisplayFirstName()
 {
     return ui->display_firstname;
