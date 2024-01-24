@@ -29,8 +29,10 @@ pb_sprint_implemenation::pb_sprint_implemenation(parentboard* parentBoardInstanc
 
 
 void pb_sprint_implemenation::OBJECTS_VISIBLE_BOXES(){
-
     // Initialize the sprintGroupBox member variable
+
+    parentBoard->getSprintDate()->setVisible(false);
+    parentBoard->getSprint_Top_Down()->setVisible(false);
     sprintGroupBox = parentBoard->getSprintGroupBox();  // Assuming you have a function to get the QGroupBox pointer
     sprintGroupBox->setVisible(false);  // Set the initial visibility to false
     parentBoard->get_Line_EditSprintEndDate()->setVisible(false);

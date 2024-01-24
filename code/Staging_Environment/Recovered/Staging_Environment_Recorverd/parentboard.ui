@@ -1014,7 +1014,7 @@ QPushButton {
     color: white; /* White text */
     border-radius: 5px; /* Rounded corners */
     padding: 10px 20px; /* Padding around text */
-    font-size: 12px; /* Font size */
+    font-size: 16px; /* Font size */
     border: none; /* No border */
     text-align: center; /* Center text */
 	color: #22344C;
@@ -1031,7 +1031,7 @@ QPushButton:pressed {
 </string>
                   </property>
                   <property name="text">
-                   <string>EDIT</string>
+                   <string>Edit</string>
                   </property>
                  </widget>
                 </item>

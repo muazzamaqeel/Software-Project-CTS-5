@@ -591,7 +591,7 @@ void pb_taskboard_implemenation::fetchSprintDates()
 
         if (selectedSprintId == -1)
         {
-            parentBoard->updateSprintDateLabel("All Sprints");
+            parentBoard->updateSprintDateLabel("");
         }
         else
         {
