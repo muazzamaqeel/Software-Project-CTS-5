@@ -36,20 +36,6 @@ TeamMember_ProjectsWindow::TeamMember_ProjectsWindow(QWidget *parent) :
     font.setPointSize(12); // Set your desired font size
     ui->tm_project_table->setFont(font);
 
-    // Modernize the design using style sheets
-    ui->tm_project_table->setStyleSheet(
-        "QTableView {"
-        "   border: 1px solid #CCCCCC;"
-        "   selection-background-color: #87CEEB;"
-        "}"
-        "QHeaderView::section {"
-        "   background-color: #F0F0F0;"
-        "   padding: 4px;"
-        "   border: 1px solid #CCCCCC;"
-        "   font-size: 12pt;"  // Adjust header font size
-        "}"
-        );
-
     RetrieveAndDisplayUser_Project();
 
     connect(ui->tm_project_table, SIGNAL(itemClicked(QTableWidgetItem*)),
@@ -192,17 +178,37 @@ void TeamMember_ProjectsWindow::showParentBoard() {
 void TeamMember_ProjectsWindow::onProjectNameClicked(QTableWidgetItem *item) {
     if (item && item->column() == 0) {
         idProject = item->data(Qt::UserRole).toInt(); // Extract the project ID
+
         QDialog *loadingDialog = new QDialog(this);
         loadingDialog->setWindowTitle("Loading");
+
         // Remove title bar and frame
-        loadingDialog->setWindowFlags(Qt::FramelessWindowHint);
+        // loadingDialog->setWindowFlags(Qt::FramelessWindowHint);
+
         QLabel *loadingLabel = new QLabel("Loading, please wait...", loadingDialog);
+
+        // Set text alignment directly on the QLabel
+        loadingLabel->setAlignment(Qt::AlignCenter);
+
+        // Apply stylesheet with background color and font styling
+        loadingLabel->setStyleSheet("QLabel { background-color: #22344C; color: white; border-radius: 5px; font-weight: bold; }");
+
         QVBoxLayout *layout = new QVBoxLayout(loadingDialog);
         layout->addWidget(loadingLabel);
+
+        // Set content margins to zero to eliminate extra space
+        layout->setContentsMargins(0, 0, 0, 0);
+
         loadingDialog->setLayout(layout);
         loadingDialog->setModal(true);
-        loadingLabel->setStyleSheet("QLabel { background-color: white; color: black;}");
-        loadingDialog->resize(300,100);
+        loadingDialog->resize(300, 100);
+
+        // Center the dialog on the screen without considering the parent widget's position
+        QRect mainScreenGeometry = QGuiApplication::primaryScreen()->availableGeometry();
+        int x = (mainScreenGeometry.width() - loadingDialog->width()) / 2;
+        int y = (mainScreenGeometry.height() - loadingDialog->height()) / 2;
+        loadingDialog->move(x, y);
+
         loadingDialog->show();
 
         QTimer::singleShot(2000, [this, loadingDialog]() {

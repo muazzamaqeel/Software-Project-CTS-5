@@ -36,8 +36,8 @@ LaunchScreen::LaunchScreen(QWidget *parent) :
     //qDebug() << "Logo label created.";
 
     // Style done here for flicker debugging
-    ui->label->setStyleSheet("QLabel { color: black; }");
-    ui->logoLabel->setStyleSheet("QTextBrowser { background-color: white; }");
+    // ui->label->setStyleSheet("QLabel { color: black; }");
+    // ui->logoLabel->setStyleSheet("QTextBrowser { background-color: white; }");
 
     // Create a QGraphicsOpacityEffect for fading
     QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(this);
@@ -47,7 +47,7 @@ LaunchScreen::LaunchScreen(QWidget *parent) :
 
     // Create a QPropertyAnimation for fading in and out
     QPropertyAnimation *animation = new QPropertyAnimation(opacityEffect, "opacity", this);
-    animation->setDuration(1000);  // Fade in effect duration (ms) - default = 5000
+    animation->setDuration(3000);  // Fade in effect duration (ms) - default = 5000
     animation->setStartValue(1.0); // 0.0-1.0 is the % for the start of the opacity - under 1.0 causes flicker
     animation->setEndValue(1.0);
 
