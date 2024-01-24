@@ -150,7 +150,7 @@ void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
 
     QTextBrowser* Create_Header = parentBoard->getCreate_Header();
     Create_Header->setAlignment(Qt::AlignCenter);  // Align text to center
-    Create_Header->setHtml("<html><head/><body><p style='font-size:12pt; text-align:center;'>Create User Stories</p></body></html>");
+    Create_Header->setHtml("<html><head/><body><p style='font-size:14pt; text-align:center; color:white;'>Create User Story</p></body></html>");
 
 }
 /**
@@ -168,7 +168,7 @@ void pb_productbacklog_implementation::Show_CreateSection_Tasks(){
     parentBoard->get_SelecteSprint()->setVisible(true);
     QTextBrowser* Create_Header = parentBoard->getCreate_Header();
     Create_Header->setAlignment(Qt::AlignCenter);  // Align text to center
-    Create_Header->setHtml("<html><head/><body><p style='font-size:12pt; text-align:center;'>Create User Tasks</p></body></html>");
+    Create_Header->setHtml("<html><head/><body><p style='font-size:14pt; text-align:center; color:white;'>Create Task</p></body></html>");
 
 }
 
