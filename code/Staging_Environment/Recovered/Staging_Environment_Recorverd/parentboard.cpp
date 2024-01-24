@@ -440,6 +440,7 @@ void parentboard::setTeamTableBool(const bool val){
         ui->teamTable->removeRow(i);
     }
     isTeamTableActive = val;
+    ui->teamTable->setHorizontalHeaderLabels({"First name","Last name", "Email", "Role"});
 }
 
 QComboBox* parentboard::get_BL_SprintDropDown(){

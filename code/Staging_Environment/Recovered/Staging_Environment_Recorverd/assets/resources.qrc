@@ -8,5 +8,6 @@
         <file>MainWindowbg.png</file>
         <file>LogoScrummy.png</file>
         <file>Resgister_LogoScrummy.png</file>
+        <file>ScrummyIconLast.png</file>
     </qresource>
 </RCC>

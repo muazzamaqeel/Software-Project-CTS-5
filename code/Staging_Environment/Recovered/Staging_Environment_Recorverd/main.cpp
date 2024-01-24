@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
 
     // Application Icon
     //app.setWindowIcon(QIcon(":/path"));
+    app.setWindowIcon(QIcon(":/ScrummyIconLast.png"));
 
     // Launch Screen window
     LaunchScreen launchScreen;
