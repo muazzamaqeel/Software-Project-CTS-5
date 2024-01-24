@@ -274,6 +274,9 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                 case 1:
                     taskPriority = "Low";
                     break;
+                case -1:
+                    taskPriority = "None";
+                    break;
                 default:
                     break;
                 }
@@ -289,6 +292,9 @@ void pb_taskboard_implemenation::generateUserTaskTree()
                     break;
                 case 1:
                     storyPriority = "Low";
+                    break;
+                case -1:
+                    storyPriority = "None";
                     break;
                 default:
                     break;
