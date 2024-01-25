@@ -56,6 +56,7 @@ void pb_team_implemenation::UserRetrieval()
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
     QTableWidget* teamTable = parentBoard->getTeamTableView();
+    teamTable->verticalHeader()->setDefaultSectionSize(40);
     parentBoard->setTeamTableBool(false);
     int rowSize = teamTable->rowCount();
     qDebug() << "TEAM: The number of rows" << rowSize;
@@ -93,6 +94,57 @@ void pb_team_implemenation::UserRetrieval()
             QString role1 = query.value(3).toString();
 
             QComboBox* roleComboBox = new QComboBox();
+            // Set the stylesheet for the QComboBox directly
+            roleComboBox->setStyleSheet(
+                "QComboBox {"
+                "    color: black;"
+                "    combobox-popup: 0;"
+                "    background-color: white;"
+                "    border: none;"
+                "}"
+                "QComboBox::drop-down {"
+                "    subcontrol-origin: padding;"
+                "    subcontrol-position: top right;"
+                "    width: 20px;"
+                "    color: black;"
+                "    border: 4px solid white;"
+                "}"
+                "QComboBox::up-arrow:open {"
+                "    image: url(:/down-arrow.png);"
+                "    width: 20px;"
+                "    height: 20px;"
+                "    border-radius: 4px;"
+                "    background-repeat: no-repeat;"
+                "    background-position: center;"
+                "    border: none;"
+                "}"
+                "QComboBox::down-arrow:closed {"
+                "    image: url(:/up-arrow.png);"
+                "    width: 20px;"
+                "    height: 20px;"
+                "    border-radius: 4px;"
+                "    background-repeat: no-repeat;"
+                "    background-position: center;"
+                "    border: none;"
+                "}"
+                "QComboBox QAbstractItemView {"
+                "    background-color: white;"
+                "    color: black;"
+                "    border: 1px solid white;"
+                "    border-radius: 4px;"
+                "    bottom: -1px;"
+                "    margin-top: 1px;"
+                "}"
+                "QComboBox QAbstractItemView::item {"
+                "    height: 25px;"
+                "    padding: 3px 10px;"
+                "    border-radius: 4px;"
+                "}"
+                "QComboBox QAbstractItemView::item:selected {"
+                "    background-color: #D5FEFF;"
+                "    color: black;"
+                "    border-radius: 4px;"
+                "}");
             roleComboBox->addItems(roleList);
             QString role = role1.back();
             int role2 = role.toInt();
@@ -179,7 +231,7 @@ void pb_team_implemenation::AddUserToProject(int userId){
         while (query.next())
         {
             int user = query.value(0).toInt();
-            if(user != NULL){
+            if(user){
                 teamErrorDisplay->setText("User already in this project.");
             }
         }

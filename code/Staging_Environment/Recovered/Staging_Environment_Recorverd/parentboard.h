@@ -52,8 +52,8 @@ public:
     QLabel* getCreate_Title();
 
     QPushButton* getCreateUserButton();
-    QTextBrowser* getDisplayFirstName();
-    QTextBrowser* getDisplayRole();
+    QLabel *getDisplayFirstName();
+    QLabel* getDisplayRole();
     QLineEdit* getInputEmail();
     QComboBox* getComboBoxRole();
     QTextBrowser* getTeamErrorDisplay();

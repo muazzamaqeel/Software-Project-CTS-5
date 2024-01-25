@@ -589,11 +589,11 @@ QTextBrowser* parentboard::getTeamErrorDisplay()
 {
     return ui->TeamError_display;
 }
-QTextBrowser* parentboard::getDisplayFirstName()
+QLabel* parentboard::getDisplayFirstName()
 {
     return ui->display_firstname;
 }
-QTextBrowser* parentboard::getDisplayRole()
+QLabel* parentboard::getDisplayRole()
 {
     return ui->display_role;
 }
