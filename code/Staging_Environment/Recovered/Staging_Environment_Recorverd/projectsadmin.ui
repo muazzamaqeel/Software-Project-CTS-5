@@ -130,7 +130,7 @@ color: rgb(255, 255, 255);
     <string notr="true">QPushButton {
 font: 13pt &quot;Arial&quot;;
 background-color: #22344C;
-color: rgb(0, 0, 0);
+color: rgb(255, 255, 255);
 }</string>
    </property>
    <property name="text">
@@ -183,7 +183,7 @@ color: rgb(0, 0, 0);
     <string notr="true">QPushButton {
 font: 13pt &quot;Arial&quot;;
 background-color: #22344C;
-color: rgb(0, 0, 0);
+color: rgb(255, 255, 255);
 }</string>
    </property>
    <property name="text">
@@ -323,7 +323,7 @@ color: rgb(255, 255, 255);
     <string notr="true">QPushButton {
 font: 13pt &quot;Arial&quot;;
 background-color: #22344C;
-color: rgb(0, 0, 0);
+color: rgb(255, 255, 255);
 }</string>
    </property>
    <property name="text">
