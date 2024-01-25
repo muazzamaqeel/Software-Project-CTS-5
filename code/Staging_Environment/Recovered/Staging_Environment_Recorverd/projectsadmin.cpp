@@ -181,6 +181,9 @@ void ProjectsAdmin::addProject(const QString& taskName, const QString& descripti
     QTableWidgetItem *nameItem = new QTableWidgetItem(taskName);
     QTableWidgetItem *descriptionItem = new QTableWidgetItem(description);
     QTableWidgetItem *projectIdItem = new QTableWidgetItem(idString);
+    nameItem->setFlags(nameItem->flags() & ~Qt::ItemIsEditable);
+    descriptionItem->setFlags(descriptionItem->flags() & ~Qt::ItemIsEditable);
+    projectIdItem->setFlags(projectIdItem->flags() & ~Qt::ItemIsEditable);
 
     qDebug() << "This is the project id item:" << projectIdItem->text();
     ui->project_table->setItem(row, 0, nameItem); // Set task name in the first column

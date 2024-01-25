@@ -178,6 +178,8 @@ void pb_team_implemenation::AddRowUser(const QString& firstNameInput, const QStr
         QTableWidgetItem* email = new QTableWidgetItem(emailInput);
 
         email->setFlags(email->flags() & ~Qt::ItemIsEditable);
+        firstName->setFlags(firstName->flags() & ~Qt::ItemIsEditable);
+        lastName->setFlags(lastName->flags() & ~Qt::ItemIsEditable);
 
         teamTable->setItem(rowSize, 0, firstName);
         teamTable->setItem(rowSize, 1, lastName);
