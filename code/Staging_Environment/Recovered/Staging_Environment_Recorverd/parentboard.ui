@@ -626,7 +626,7 @@ QPushButton:checked {
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="taskboardPage">
        <property name="minimumSize">
@@ -743,7 +743,7 @@ background-color: #9EB3C0
                  <widget class="QComboBox" name="sprintDropdownT">
                   <property name="minimumSize">
                    <size>
-                    <width>138</width>
+                    <width>114</width>
                     <height>50</height>
                    </size>
                   </property>
@@ -1512,7 +1512,7 @@ qproperty-alignment: 'AlignCenter';
                  <widget class="QComboBox" name="InputAssigneeT">
                   <property name="minimumSize">
                    <size>
-                    <width>128</width>
+                    <width>104</width>
                     <height>30</height>
                    </size>
                   </property>
@@ -1613,7 +1613,7 @@ qproperty-alignment: 'AlignCenter';
                  <widget class="QComboBox" name="BL_SprintDropDownT">
                   <property name="minimumSize">
                    <size>
-                    <width>128</width>
+                    <width>104</width>
                     <height>30</height>
                    </size>
                   </property>
@@ -3321,7 +3321,7 @@ color: rgb(255, 255, 255);
             <height>600</height>
            </size>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_38" stretch="78,50">
+          <layout class="QHBoxLayout" name="horizontalLayout_38" stretch="0,50">
            <property name="spacing">
             <number>0</number>
            </property>
@@ -4403,7 +4403,12 @@ color: rgb(255, 255, 255);
           </property>
           <property name="styleSheet">
            <string notr="true">
-background-color: #rgb(255, 255, 255);
+background-color: #D5FEFF;
+hover {
+background-color: #22344C;
+}
+
+
 </string>
           </property>
          </widget>
