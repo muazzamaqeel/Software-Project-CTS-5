@@ -27,6 +27,14 @@ pb_productbacklog_implementation_Extension::pb_productbacklog_implementation_Ext
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
 }
 
+/**
+ * @brief Deletes a user story from the database.
+ *
+ * This function deletes a user story from the database using its ID.
+ * It also updates the UI by removing the corresponding row from the user stories table.
+ *
+ * @param storyID The ID of the user story to be deleted.
+ */
 
 void pb_productbacklog_implementation_Extension::deleteUserStory(int storyID) {
     QSqlDatabase db = QSqlDatabase::database();
@@ -57,6 +65,21 @@ void pb_productbacklog_implementation_Extension::deleteUserStory(int storyID) {
     }
 }
 
+/**
+ * @brief Sends a user story to a sprint.
+ *
+ * This function handles the process of moving a user story from the product backlog
+ * to a specific sprint. It involves updating the database entries and potentially
+ * altering the UI elements to reflect these changes.
+ *
+ * @param taskID The ID of the task to be moved.
+ * @param title The title of the task.
+ * @param description The description of the task.
+ * @param status The status of the task.
+ * @param priority The priority of the task.
+ * @param assigneeId The ID of the assignee.
+ * @param selectedSprint The sprint to which the task is assigned.
+ */
 
 void pb_productbacklog_implementation_Extension::Send_UserStory_ToSprint(int taskID, const QString& title, const QString& description, const QString& status, int priority, const QString& assigneeId, const QString& selectedSprint){
     DatabaseManager database;
@@ -210,6 +233,15 @@ void pb_productbacklog_implementation_Extension::Send_UserStory_ToSprint(int tas
 }
 
 
+/**
+ * @brief Deletes a task from the database.
+ *
+ * This function deletes a task from both UserStoryPB and UserStorySB tables in the database
+ * using the provided task ID. It outputs debug information regarding the success
+ * or failure of the operation.
+ *
+ * @param taskID The ID of the task to be deleted.
+ */
 
 void pb_productbacklog_implementation_Extension::deleteTaskFromDatabase(int taskID) {
 

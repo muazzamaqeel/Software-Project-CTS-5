@@ -41,7 +41,7 @@ parentboard::parentboard(QWidget *parent) :
     QPixmap logo("qrc:/LogoScrummy.png");
     logoScrummy.setPixmap(logo);
 
-
+    ui->edit_sprint_button->setVisible(false);
     // Bottom border of buttons
     ui->taskboardButton->setCheckable(true);
     ui->backlogButton->setCheckable(true);

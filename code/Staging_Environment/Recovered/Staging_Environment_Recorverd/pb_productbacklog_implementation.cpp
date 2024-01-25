@@ -569,6 +569,13 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
 
 }
 
+/**
+ * @brief Converts a priority integer to its corresponding string representation.
+ *
+ * @param priority Priority value (integer).
+ * @return QString String representation of the priority.
+ */
+
 QString pb_productbacklog_implementation::priorityToString(int priority) {
     switch (priority) {
     case 1: return "High";
@@ -577,6 +584,13 @@ QString pb_productbacklog_implementation::priorityToString(int priority) {
     default: return "Unknown"; // For any other value that is not 1, 2, or 3
     }
 }
+
+/**
+ * @brief Converts a priority string to its corresponding integer value.
+ *
+ * @param priorityString Priority value (string).
+ * @return int Integer representation of the priority.
+ */
 int pb_productbacklog_implementation::priorityToInt(QString& priorityString) {
     if (priorityString == "High") return 1;
     if (priorityString == "Medium") return 2;
@@ -584,7 +598,17 @@ int pb_productbacklog_implementation::priorityToInt(QString& priorityString) {
     return -1; // return a default value for unknown priority strings
 }
 
-
+/**
+ * @brief Sends a task to a sprint, handling database operations for updating and assigning tasks to sprints.
+ *
+ * @param taskID ID of the task.
+ * @param title Title of the task.
+ * @param description Description of the task.
+ * @param status Status of the task.
+ * @param priority Priority of the task.
+ * @param assigneeId ID of the assignee.
+ * @param selectedSprint Sprint selected for the task.
+ */
 void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& title, const QString& description, const QString& status, int priority, const QString& assigneeId, const QString& selectedSprint){
 
     //First we need to delete exisiting row from TaskPB in the Table
@@ -764,6 +788,14 @@ void pb_productbacklog_implementation::SendToSprint(int taskID, const QString& t
 }
 
 
+/**
+ * @brief Retrieves the assignee name from a given row in the user stories table.
+ *
+ * @param table Pointer to the table widget.
+ * @param row Row index in the table.
+ * @return QString Name of the assignee.
+ */
+
 QString pb_productbacklog_implementation::getAssigneeFromRow(QTableWidget* table, int row) {
     QWidget* widget = table->cellWidget(row, 5); // Assuming that assignees are in the 6th column (index 5)
     QComboBox* comboBox = qobject_cast<QComboBox*>(widget);
@@ -774,6 +806,14 @@ QString pb_productbacklog_implementation::getAssigneeFromRow(QTableWidget* table
         return QString();
     }
 }
+
+/**
+ * @brief Retrieves the status from a given row in the user stories table.
+ *
+ * @param table Pointer to the table widget.
+ * @param row Row index in the table.
+ * @return QString Status of the item.
+ */
 
 QString pb_productbacklog_implementation::getStatusFromRow(QTableWidget* table, int row) {
     QWidget* widget = table->cellWidget(row, 4); // Assuming that status values are in the 5th column (index 4)
@@ -786,6 +826,13 @@ QString pb_productbacklog_implementation::getStatusFromRow(QTableWidget* table, 
     }
 }
 
+
+/**
+ * @brief Handler for when the priority of a task is changed.
+ *
+ * @param taskID ID of the task whose priority changed.
+ * @param Priority New priority value.
+ */
 void pb_productbacklog_implementation::onPriorityChanged(int taskID, QString& Priority) {
 
     // Convert the priority string to an int
@@ -828,7 +875,12 @@ void pb_productbacklog_implementation::onPriorityChanged(int taskID, QString& Pr
 }
 
 
-
+/**
+ * @brief Handler for when the assignee of a task is changed.
+ *
+ * @param taskID ID of the task whose assignee changed.
+ * @param newAssignee New assignee name.
+ */
 void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const QString& newAssignee) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     if (!userStoriesTable) return;
@@ -941,6 +993,14 @@ void pb_productbacklog_implementation::onTaskAssigneeChanged(int taskID, const Q
 
 }
 
+
+
+/**
+ * @brief Handler for when the status of a task is changed.
+ *
+ * @param taskID ID of the task whose status changed.
+ * @param status New status.
+ */
 void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString& status) {
     qDebug() << "onStatusChanged called with taskID:" << taskID << " status:" << status;
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
@@ -980,7 +1040,11 @@ void pb_productbacklog_implementation::onStatusChanged(int taskID, const QString
 }
 
 
-
+/**
+ * @brief Handler for table item changes. Updates the database based on changes made in the table.
+ *
+ * @param item Pointer to the changed table item.
+ */
 //EDIT FUNCTIONALITY
 void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item) {
     if (!item) {
@@ -1081,7 +1145,16 @@ void pb_productbacklog_implementation::onTableItemChanged(QTableWidgetItem* item
 
 
 
-
+/**
+ * @brief Updates a task in the database with the provided details.
+ *
+ * @param taskID ID of the task to update.
+ * @param title New title of the task.
+ * @param description New description of the task.
+ * @param status New status of the task.
+ * @param assignee New assignee of the task.
+ * @param priority New priority of the task.
+ */
 void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QString& title, const QString& description, const QString& status, QString assignee, int priority) {
 
     qDebug() << "updateTaskInDatabase Function has been called";
@@ -1145,6 +1218,11 @@ void pb_productbacklog_implementation::updateTaskInDatabase(int taskID, const QS
 }
 
 
+/**
+ * @brief Handler for row clicks. Deletes a task from the database and table based on the clicked row.
+ *
+ * @param item Pointer to the clicked table item.
+ */
 // Slot to handle row deletion when a row is clicked
 void pb_productbacklog_implementation::onRowClicked(QTableWidgetItem* item) {
     if (!item) {
@@ -1170,6 +1248,12 @@ void pb_productbacklog_implementation::onRowClicked(QTableWidgetItem* item) {
     deleteTaskFromDatabase(taskID);
 }
 
+
+/**
+ * @brief Deletes a task from the database.
+ *
+ * @param taskID ID of the task to delete.
+ */
 // Function to delete a task from the database
 void pb_productbacklog_implementation::deleteTaskFromDatabase(int taskID) {
     if (!QSqlDatabase::database().isOpen()) {
@@ -1208,7 +1292,9 @@ void pb_productbacklog_implementation::deleteTaskFromDatabase(int taskID) {
 //------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------
 
-
+/**
+ * @brief Handler for the issue creation button. Creates a new task based on user input.
+ */
 void pb_productbacklog_implementation::onButtonIssueClicked() {
     //QComboBox* inputAssignee = parentBoard->getInputAssignee();
     QTextEdit* inputDescription = parentBoard->getInputDescription();
@@ -1236,7 +1322,16 @@ void pb_productbacklog_implementation::onButtonIssueClicked() {
 
 
 
-
+/**
+ * @brief Adds a new task to the backlog.
+ *
+ * @param title Title of the task.
+ * @param description Description of the task.
+ * @param status Status of the task.
+ * @param priority Priority of the task.
+ * @param assignee Assignee of the task.
+ * @param SelectedSprint Sprint selected for the task.
+ */
 void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, const QString& description, const QString& status, int priority, QString assignee, QString SelectedSprint) {
     /*
      *
@@ -1458,7 +1553,9 @@ ONLYTASKPB_END:
 //FULL IMPLEMENTATION OF CREATION OF USER-STORIES AND EDIT FUCNTIONALITY    -----    START
 //------------------------------------------------------------------------------------------------------------------------------
 
-
+/**
+ * @brief Retrieves user stories from the database and displays them in the user stories table.
+ */
 
 void pb_productbacklog_implementation::UserStoryPBretrieval() {
     DatabaseManager database;
@@ -1570,7 +1667,19 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
         qDebug() << "Connection Not Established - pb_productbacklog_implementation class! - User Story";
     }
 }
-
+/**
+ * @brief Adds a user story to the user stories table with the specified details.
+ *
+ * @param type_pb Type of the backlog item (Task or User Story).
+ * @param storyName Name of the user story.
+ * @param description Description of the user story.
+ * @param status Status of the user story.
+ * @param assignee Assignee of the user story.
+ * @param priorityComboBox ComboBox for selecting the priority.
+ * @param storyID ID of the user story.
+ * @param assignedSprint Sprint assigned to the user story.
+ * @param sprintTitles List of sprint titles.
+ */
 void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, QComboBox* priorityComboBox, int storyID, const QString& assignedSprint, const QStringList& sprintTitles) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(8);
@@ -1885,7 +1994,12 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
     }
 }
 
-
+/**
+ * @brief Handler for when the assignee of a user story is changed.
+ *
+ * @param storyID ID of the user story whose assignee changed.
+ * @param newAssignee New assignee name.
+ */
 void pb_productbacklog_implementation::onUserStoryAssigneeChanged(int storyID, const QString& newAssignee) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     if (!userStoriesTable) return;
@@ -1920,7 +2034,12 @@ void pb_productbacklog_implementation::onUserStoryAssigneeChanged(int storyID, c
 
     updateUserStoryInDatabase(storyID, title, description, status, priority, newAssigneeId, assignedSprint);
 }
-
+/**
+ * @brief Fetches the assignee ID for a given assignee name from the database.
+ *
+ * @param assigneeName Name of the assignee.
+ * @return int ID of the assignee.
+ */
 int pb_productbacklog_implementation::fetchAssigneeIdByName(const QString& assigneeName) {
     QSqlDatabase db = QSqlDatabase::database();
     if (!db.isOpen()) {
@@ -1945,7 +2064,12 @@ int pb_productbacklog_implementation::fetchAssigneeIdByName(const QString& assig
     }
 }
 
-
+/**
+ * @brief Fetches the assignee name for a given assignee ID from the database.
+ *
+ * @param assigneeId ID of the assignee.
+ * @return QString Name of the assignee.
+ */
 QString pb_productbacklog_implementation::fetchAssigneeNameById(int assigneeId) {
     QSqlDatabase db = QSqlDatabase::database();
     if (!db.isOpen()) {
@@ -1969,7 +2093,12 @@ QString pb_productbacklog_implementation::fetchAssigneeNameById(int assigneeId) 
         return QString(); // Return an empty string if no user is found
     }
 }
-
+/**
+ * @brief Handler for when the priority of a user story is changed.
+ *
+ * @param storyID ID of the user story whose priority changed.
+ * @param newPriority New priority value.
+ */
 void pb_productbacklog_implementation::onUserStoryPriorityChanged(int storyID, int newPriority) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     if (!userStoriesTable) return;
@@ -1992,7 +2121,6 @@ void pb_productbacklog_implementation::onUserStoryPriorityChanged(int storyID, i
 
     updateUserStoryInDatabase(storyID, title, description, status, newPriority, assigneeId, assignedSprint);
 }
-
 
 void pb_productbacklog_implementation::onUserStorySprintChanged(int storyID, const QString& newSprint) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
