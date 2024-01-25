@@ -588,7 +588,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <rect>
       <x>580</x>
       <y>570</y>
-      <width>171</width>
+      <width>181</width>
       <height>51</height>
      </rect>
     </property>
@@ -625,7 +625,7 @@ QPushButton:pressed {
 </string>
     </property>
     <property name="text">
-     <string>Forget Password</string>
+     <string>Change Password</string>
     </property>
    </widget>
    <zorder>bg_main</zorder>
