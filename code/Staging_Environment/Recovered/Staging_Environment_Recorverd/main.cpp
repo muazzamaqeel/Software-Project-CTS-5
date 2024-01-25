@@ -24,7 +24,7 @@
 int main(int argc, char *argv[]) {
     Py_Initialize();
 
-//Application-------------------------------------------------------------------
+    //Application-------------------------------------------------------------------
     QApplication app(argc, argv);
 
     QString currentPath = QDir::currentPath();
@@ -39,18 +39,18 @@ int main(int argc, char *argv[]) {
     launchScreen.show();
 
     //MainWindow w;
-   //w.showMaximized();
-//------------------------------------------------------------------------------
+    //w.showMaximized();
+    //------------------------------------------------------------------------------
 
 
 
-//Test--------------------------------------------------------------------------
+    //Test--------------------------------------------------------------------------
     //QTUnitTest testObj;
     //return QTest::qExec(&testObj, argc, argv);
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
 
-//Test
-/*
+    //Test
+    /*
 //Database-Backup---------------------------------------------------------------
 
     DatabaseManager databaseManager;
@@ -66,30 +66,5 @@ int main(int argc, char *argv[]) {
     int result = app.exec();
     Py_Finalize();
     return result;
-  return app.exec();
+    return app.exec();
 }
-
-
-
-
-
-/*
-int main() {
-    std::string recipient_email = "test@gmail.com";
-    std::string subject = "Your Subject Here";
-    std::string email_body = "Hello, this is the email body.";
-
-    Email_Notification emailNotifier;
-    bool success = emailNotifier.sendEmail(recipient_email, subject, email_body);
-
-    if (success) {
-        std::cout << "Email sent successfully." << std::endl;
-    } else {
-        std::cerr << "Failed to send email." << std::endl;
-    }
-
-    return 0;
-}
-
-
-*/

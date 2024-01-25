@@ -18,8 +18,9 @@
 #include "pb_confluence_implemenation.h"
 #include "teammember_projectswindow.h"
 //#include "pb_confluence_implemenation.h"
-//#include "pb_productbacklog_implementation.h"
-//#include "pb_sprint_implemenation.h"
+#include "pb_productbacklog_implementation.h"
+#include "pb_sprint_implemenation.h"
+#include "pb_calendar_implemenation.h"
 //#include "pb_taskboard_implemenation.h"
 //#include "pb_team_implemenation.h"
 
@@ -255,38 +256,197 @@ void QTUnitTest::PB_Confluence_HideCreationSection_Test() {
 //Ui.Component Visibilty - - - - - - - - - - - - - - - - - - Sprint - - - - - - - - - - - -
 void QTUnitTest::PB_Sprint_OBJECTS_VISIBLE_BOXES(){
 
+
+    class parentboard parentBoardInstance;
+    pb_sprint_implemenation sprintImplementation(&parentBoardInstance);
+
+    // Call the method to test
+    sprintImplementation.OBJECTS_VISIBLE_BOXES();
+
+    // Now verify each component is invisible
+    QVERIFY2(!parentBoardInstance.getSprintDate()->isVisible(), "SprintDate is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getSprint_Top_Down()->isVisible(), "Sprint_Top_Down is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getSprintGroupBox()->isVisible(), "SprintGroupBox is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Line_EditSprintEndDate()->isVisible(), "Line_EditSprintEndDate is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Label_SprintTitle()->isVisible(), "Label_SprintTitle is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Label_TaskName()->isVisible(), "Label_TaskName is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Table_SprintDetails()->isVisible(), "Table_SprintDetails is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_GroupBox_SprintGroup()->isVisible(), "GroupBox_SprintGroup is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Button_CreateSprintTab()->isVisible(), "Button_CreateSprintTab is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_DateEdit_InputEndDate()->isVisible(), "DateEdit_InputEndDate is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_TextEdit_InputSprintGoal()->isVisible(), "TextEdit_InputSprintGoal is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_LineEdit_InputSprintName()->isVisible(), "LineEdit_InputSprintName is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_DateEdit_InputStartDate()->isVisible(), "DateEdit_InputStartDate is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_DateEdit_Text_EndDate()->isVisible(), "DateEdit_Text_EndDate is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Label_TextName()->isVisible(), "Label_TextName is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Label_TextSprintGoal()->isVisible(), "Label_TextSprintGoal is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Label_TextStartDate()->isVisible(), "Label_TextStartDate is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Sprint_View_Box()->isVisible(), "Sprint_View_Box is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_LineEdit_SprintName()->isVisible(), "LineEdit_SprintName is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_LineEdit_SprintStartDate()->isVisible(), "LineEdit_SprintStartDate is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Label_Sprint_EndDate()->isVisible(), "Label_Sprint_EndDate is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Label_SprintStartDate()->isVisible(), "Label_SprintStartDate is still visible (Failed)");
+
 }
 
 
 void QTUnitTest::PB_Sprint_OBJECTS_VISIBLE_on_create_sprint_clicked(){
 
+
+    // Assuming you have a class 'parentboard' and an instance 'parentBoardInstance'
+    class parentboard parentBoardInstance;
+    pb_sprint_implemenation sprintImplementation(&parentBoardInstance);
+
+    // Call the method to test
+    sprintImplementation.OBJECTS_VISIBLE_on_create_sprint_clicked();
+
+    // Verify that certain components are invisible
+    QVERIFY2(!parentBoardInstance.get_Sprint_View_Box()->isVisible(), "Sprint_View_Box is still visible (Failed)");
+
+    // Verify that certain components are visible
+    QVERIFY2(parentBoardInstance.get_Button_CreateSprintTab()->isVisible(), "Button_CreateSprintTab is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_DateEdit_InputEndDate()->isVisible(), "DateEdit_InputEndDate is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_TextEdit_InputSprintGoal()->isVisible(), "TextEdit_InputSprintGoal is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_LineEdit_InputSprintName()->isVisible(), "LineEdit_InputSprintName is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_DateEdit_InputStartDate()->isVisible(), "DateEdit_InputStartDate is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_DateEdit_Text_EndDate()->isVisible(), "DateEdit_Text_EndDate is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_Label_TextName()->isVisible(), "Label_TextName is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_Label_TextSprintGoal()->isVisible(), "Label_TextSprintGoal is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_Label_TextStartDate()->isVisible(), "Label_TextStartDate is not visible (Failed)");
+
+
+
 }
 
 
 void QTUnitTest::PB_Sprint_OBJECTS_VISIBLE_Additional_Details(){
+    // Assuming you have a class 'parentboard' and an instance 'parentBoardInstance'
+    class parentboard parentBoardInstance;
+    pb_sprint_implemenation sprintImplementation(&parentBoardInstance);
 
+    // Call the method to test
+    sprintImplementation.OBJECTS_VISIBLE_Additional_Details();
+
+    // Verify that certain components are invisible
+    QVERIFY2(!parentBoardInstance.get_GroupBox_SprintGroup()->isVisible(), "GroupBox_SprintGroup is still visible (Failed)");
+
+    // Verify that certain components are visible
+    QVERIFY2(parentBoardInstance.get_Label_SprintTitle()->isVisible(), "Label_SprintTitle is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_Table_SprintDetails()->isVisible(), "Table_SprintDetails is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_Label_TaskName()->isVisible(), "Label_TaskName is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_Sprint_View_Box()->isVisible(), "Sprint_View_Box is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_LineEdit_SprintName()->isVisible(), "LineEdit_SprintName is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_LineEdit_SprintStartDate()->isVisible(), "LineEdit_SprintStartDate is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_Label_Sprint_EndDate()->isVisible(), "Label_Sprint_EndDate is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_Label_SprintStartDate()->isVisible(), "Label_SprintStartDate is not visible (Failed)");
 
 }
 
 //Ui.Component Visibilty - - - - - - - - - - - - - - - - - - Backlog - - - - - - - - - - - -
 void QTUnitTest::Show_CreateSection_UserStory(){
 
+    class parentboard parentBoardInstance;
+    pb_productbacklog_implementation backlogImplementation(&parentBoardInstance);
 
+    // Call the method to test
+    backlogImplementation.Show_CreateSection_UserStory();
+
+    // Verify the visibility of components
+    QVERIFY2(parentBoardInstance.getButton_CreateUserStory()->isVisible(), "Button_CreateUserStory is not visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getButton_CreateTask()->isVisible(), "Button_CreateTask is still visible (Failed)");
+
+    QVERIFY2(!parentBoardInstance.get_BL_SprintDropDown()->isVisible(), "BL_SprintDropDown is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_SelecteSprint()->isVisible(), "SelecteSprint is still visible (Failed)");
+
+    // Verify properties of the Create_Header label
+    QLabel* Create_Header = parentBoardInstance.getCreate_Header();
+    QVERIFY2(Create_Header->alignment() == Qt::AlignCenter, "Create_Header alignment is not center (Failed)");
+    QVERIFY2(Create_Header->text() == "Create User Story", "Create_Header text is not 'Create User Story' (Failed)");
 }
 void QTUnitTest::Hide_CreateSection(){
 
+    class parentboard parentBoardInstance;
+    pb_productbacklog_implementation backlogImplementation(&parentBoardInstance);
 
+    // Call the method to test
+    backlogImplementation.Hide_CreateSection();
+
+    // Verify that each component is invisible
+    QVERIFY2(!parentBoardInstance.getCreate_Assignee()->isVisible(), "Create_Assignee is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getCreate_Description()->isVisible(), "Create_Description is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getCreate_Header()->isVisible(), "Create_Header is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getCreate_Priority()->isVisible(), "Create_Priority is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getCreate_Status()->isVisible(), "Create_Status is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getCreate_Title()->isVisible(), "Create_Title is still visible (Failed)");
+
+    QVERIFY2(!parentBoardInstance.getInputAssignee()->isVisible(), "InputAssignee is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getInputDescription()->isVisible(), "InputDescription is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getInputPriority()->isVisible(), "InputPriority is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getInputStatus()->isVisible(), "InputStatus is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getInputTitle()->isVisible(), "InputTitle is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getButton_CreateUserStory()->isVisible(), "Button_CreateUserStory is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getButton_CreateTask()->isVisible(), "Button_CreateTask is still visible (Failed)");
+
+    QVERIFY2(!parentBoardInstance.get_BL_SprintDropDown()->isVisible(), "BL_SprintDropDown is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_SelecteSprint()->isVisible(), "SelecteSprint is still visible (Failed)");
 }
 void QTUnitTest::Show_CreateSection(){
+    class parentboard parentBoardInstance;
+    pb_productbacklog_implementation backlogImplementation(&parentBoardInstance);
 
+    // Call the method to test
+    backlogImplementation.Show_CreateSection_UserStory();  // Using Show_CreateSection_UserStory for testing, as per the provided details
+
+    // Verify the visibility of components
+    QVERIFY2(parentBoardInstance.getButton_CreateUserStory()->isVisible(), "Button_CreateUserStory is not visible (Failed)");
+    QVERIFY2(!parentBoardInstance.getButton_CreateTask()->isVisible(), "Button_CreateTask is still visible (Failed)");
+
+    QVERIFY2(!parentBoardInstance.get_BL_SprintDropDown()->isVisible(), "BL_SprintDropDown is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_SelecteSprint()->isVisible(), "SelecteSprint is still visible (Failed)");
+
+    // Verify properties of the Create_Header label
+    QLabel* Create_Header = parentBoardInstance.getCreate_Header();
+    QVERIFY2(Create_Header->alignment() == Qt::AlignCenter, "Create_Header alignment is not center (Failed)");
+    QVERIFY2(Create_Header->text() == "Create User Story", "Create_Header text is not 'Create User Story' (Failed)");
 
 }
 
 //Ui.Component Visibilty - - - - - - - - - - - - - - - - - - Calendar - - - - - - - - - - - -
 void QTUnitTest::Calendar_ShowEventCreation(){
 
+    class parentboard parentBoardInstance;
+    pb_calendar_implementation calendarImplementation(&parentBoardInstance);
+
+    // Call the method to test
+    calendarImplementation.Calendar_ShowEventCreation();
+
+    // Verify that each component is visible
+    QVERIFY2(parentBoardInstance.get_CalendarDescription()->isVisible(), "CalendarDescription is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_CalendarHeading()->isVisible(), "CalendarHeading is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_CalendarTitle()->isVisible(), "CalendarTitle is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_Input_Calendar_Description()->isVisible(), "Input_Calendar_Description is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_Input_Calendar_Title()->isVisible(), "Input_Calendar_Title is not visible (Failed)");
+    QVERIFY2(parentBoardInstance.get_Calendar_GroupBox()->isVisible(), "Calendar_GroupBox is not visible (Failed)");
+
+
 }
 void QTUnitTest::Calendar_HideEventCreation(){
+
+    class parentboard parentBoardInstance;
+    pb_calendar_implementation calendarImplementation(&parentBoardInstance);
+
+    // Call the method to test
+    calendarImplementation.Calendar_HideEventCreation();
+
+    // Verify that each component is invisible
+    QVERIFY2(!parentBoardInstance.get_Button_SaveCalendar()->isVisible(), "Button_SaveCalendar is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_CalendarDescription()->isVisible(), "CalendarDescription is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_CalendarHeading()->isVisible(), "CalendarHeading is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_CalendarTitle()->isVisible(), "CalendarTitle is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Input_Calendar_Description()->isVisible(), "Input_Calendar_Description is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Input_Calendar_Title()->isVisible(), "Input_Calendar_Title is still visible (Failed)");
+    QVERIFY2(!parentBoardInstance.get_Calendar_GroupBox()->isVisible(), "Calendar_GroupBox is still visible (Failed)");
+
 
 }
 

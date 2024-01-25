@@ -2358,27 +2358,6 @@ void pb_productbacklog_implementation::onHeaderClicked(int column) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void pb_productbacklog_implementation::SendTasksToSprints() {
     qDebug() << "SendTasksToSprints called";
 

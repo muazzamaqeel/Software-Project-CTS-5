@@ -140,7 +140,7 @@ background-color: #D5FEFF;
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="assets/resources.qrc">:/LogoScrummy.png</pixmap>
+          <pixmap>:/LogoScrummy.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -702,7 +702,7 @@ background-color: #9EB3C0;
                  <widget class="QComboBox" name="sprintDropdownT">
                   <property name="minimumSize">
                    <size>
-                    <width>114</width>
+                    <width>138</width>
                     <height>50</height>
                    </size>
                   </property>
@@ -1487,7 +1487,7 @@ qproperty-alignment: 'AlignCenter';
                  <widget class="QComboBox" name="InputAssigneeT">
                   <property name="minimumSize">
                    <size>
-                    <width>104</width>
+                    <width>128</width>
                     <height>30</height>
                    </size>
                   </property>
@@ -1590,7 +1590,7 @@ qproperty-alignment: 'AlignCenter';
                  <widget class="QComboBox" name="BL_SprintDropDownT">
                   <property name="minimumSize">
                    <size>
-                    <width>104</width>
+                    <width>128</width>
                     <height>30</height>
                    </size>
                   </property>
@@ -3008,7 +3008,7 @@ qproperty-alignment: 'AlignCenter';
                  <widget class="QComboBox" name="comboBox_role">
                   <property name="minimumSize">
                    <size>
-                    <width>350</width>
+                    <width>128</width>
                     <height>30</height>
                    </size>
                   </property>
@@ -3345,7 +3345,7 @@ background-color: #9EB3C0;
                <widget class="QComboBox" name="sprint_top_down">
                 <property name="minimumSize">
                  <size>
-                  <width>114</width>
+                  <width>138</width>
                   <height>50</height>
                  </size>
                 </property>
@@ -5003,7 +5003,7 @@ qproperty-alignment: 'AlignCenter';
                   <widget class="QComboBox" name="InputGroup_Confluence_Heading">
                    <property name="minimumSize">
                     <size>
-                     <width>104</width>
+                     <width>128</width>
                      <height>30</height>
                     </size>
                    </property>
@@ -5098,7 +5098,7 @@ QComboBox QAbstractItemView::item:selected {
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_25">
                 <property name="spacing">
-                 <number>-1</number>
+                 <number>7</number>
                 </property>
                 <item>
                  <widget class="QPushButton" name="Button_CreatePage_Confluence">
@@ -5546,8 +5546,6 @@ QPushButton:pressed {
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="assets/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
