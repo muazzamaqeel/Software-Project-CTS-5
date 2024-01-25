@@ -140,7 +140,7 @@ background-color: #D5FEFF;
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>:/LogoScrummy.png</pixmap>
+          <pixmap resource="assets/resources.qrc">:/LogoScrummy.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -598,7 +598,7 @@ QPushButton:checked {
        </size>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="taskboardPage">
        <property name="minimumSize">
@@ -702,7 +702,7 @@ background-color: #9EB3C0;
                  <widget class="QComboBox" name="sprintDropdownT">
                   <property name="minimumSize">
                    <size>
-                    <width>138</width>
+                    <width>114</width>
                     <height>50</height>
                    </size>
                   </property>
@@ -1487,7 +1487,7 @@ qproperty-alignment: 'AlignCenter';
                  <widget class="QComboBox" name="InputAssigneeT">
                   <property name="minimumSize">
                    <size>
-                    <width>128</width>
+                    <width>104</width>
                     <height>30</height>
                    </size>
                   </property>
@@ -1590,7 +1590,7 @@ qproperty-alignment: 'AlignCenter';
                  <widget class="QComboBox" name="BL_SprintDropDownT">
                   <property name="minimumSize">
                    <size>
-                    <width>128</width>
+                    <width>104</width>
                     <height>30</height>
                    </size>
                   </property>
@@ -3008,7 +3008,7 @@ qproperty-alignment: 'AlignCenter';
                  <widget class="QComboBox" name="comboBox_role">
                   <property name="minimumSize">
                    <size>
-                    <width>128</width>
+                    <width>104</width>
                     <height>30</height>
                    </size>
                   </property>
@@ -3345,7 +3345,7 @@ background-color: #9EB3C0;
                <widget class="QComboBox" name="sprint_top_down">
                 <property name="minimumSize">
                  <size>
-                  <width>138</width>
+                  <width>114</width>
                   <height>50</height>
                  </size>
                 </property>
@@ -5003,7 +5003,7 @@ qproperty-alignment: 'AlignCenter';
                   <widget class="QComboBox" name="InputGroup_Confluence_Heading">
                    <property name="minimumSize">
                     <size>
-                     <width>128</width>
+                     <width>104</width>
                      <height>30</height>
                     </size>
                    </property>
@@ -5546,6 +5546,8 @@ QPushButton:pressed {
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="assets/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

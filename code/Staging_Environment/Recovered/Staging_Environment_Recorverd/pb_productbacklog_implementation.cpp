@@ -207,9 +207,9 @@ void pb_productbacklog_implementation::TaskPBretrieval() {
         QSqlQuery queryUser(dbobj);
         queryUser.prepare("SELECT User.Username "
                           "FROM Project "
-                          "INNER JOIN Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
-                          "INNER JOIN User ON Project_has_User.User_idUser = User.idUser "
-                          "WHERE Project_has_User.Project_idProject = :projectID");
+                          "INNER JOIN User_Role_Project ON Project.idProject = User_Role_Project.Project_idProject "
+                          "INNER JOIN User ON User_Role_Project.User_idUser = User.idUser "
+                          "WHERE User_Role_Project.Project_idProject = :projectID");
         queryUser.bindValue(":projectID", PassedProjectID);
         if (queryUser.exec()) {
             while (queryUser.next()) {
@@ -1801,9 +1801,9 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
 
         assigneeQuery.prepare("SELECT User.Username "
                               "FROM Project "
-                              "INNER JOIN Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
-                              "INNER JOIN User ON Project_has_User.User_idUser = User.idUser "
-                              "WHERE Project_has_User.Project_idProject = :projectID");
+                              "INNER JOIN User_Role_Project ON Project.idProject = User_Role_Project.Project_idProject "
+                              "INNER JOIN User ON User_Role_Project.User_idUser = User.idUser "
+                              "WHERE User_Role_Project.Project_idProject = :projectID");
         assigneeQuery.bindValue(":projectID", PassedProjectID);
         if (assigneeQuery.exec()) {
             while (assigneeQuery.next()) {
@@ -2421,9 +2421,9 @@ void pb_productbacklog_implementation::BL_fetechSprints() {
     QSqlQuery query1(dbobj);
     query1.prepare("SELECT User.Username "
                    "FROM Project "
-                   "INNER JOIN Project_has_User ON Project.idProject = Project_has_User.Project_idProject "
-                   "INNER JOIN User ON Project_has_User.User_idUser = User.idUser "
-                   "WHERE Project_has_User.Project_idProject = :projectID");
+                   "INNER JOIN User_Role_Project ON Project.idProject = User_Role_Project.Project_idProject "
+                   "INNER JOIN User ON User_Role_Project.User_idUser = User.idUser "
+                   "WHERE User_Role_Project.Project_idProject = :projectID");
     query1.bindValue(":projectID", PassedProjectID);
 
     if (!query1.exec()) {

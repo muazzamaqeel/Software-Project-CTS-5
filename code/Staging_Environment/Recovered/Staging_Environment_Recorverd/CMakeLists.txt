@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(Staging_Environment_Recovered VERSION 0.1 LANGUAGES CXX)
+project(Scrummy VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -41,7 +41,7 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(Staging_Environment_Recovered
+    qt_add_executable(Scrummy
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         pb_team_implementation.cpp
@@ -60,16 +60,16 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
     )
 elseif(ANDROID)
-    add_library(Staging_Environment_Recovered SHARED
+    add_library(Scrummy SHARED
         ${PROJECT_SOURCES}
     )
 else()
-    add_executable(Staging_Environment_Recovered
+    add_executable(Scrummy
         ${PROJECT_SOURCES}
     )
 endif()
 
-target_link_libraries(Staging_Environment_Recovered PRIVATE
+target_link_libraries(Scrummy PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Sql
     Qt${QT_VERSION_MAJOR}::Test
@@ -78,7 +78,7 @@ target_link_libraries(Staging_Environment_Recovered PRIVATE
 )
 
 if(WIN32)
-    target_link_libraries(Staging_Environment_Recovered PRIVATE
+    target_link_libraries(Scrummy PRIVATE
         ws2_32
         crypt32
         bcrypt
@@ -86,8 +86,8 @@ if(WIN32)
 endif()
 
 if(APPLE)
-    set_target_properties(Staging_Environment_Recovered PROPERTIES
-        MACOSX_BUNDLE_GUI_IDENTIFIER com.example.Staging_Environment_Recovered
+    set_target_properties(Scrummy PROPERTIES
+        MACOSX_BUNDLE_GUI_IDENTIFIER com.example.Scrummy
         MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
         MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
         MACOSX_BUNDLE TRUE
@@ -96,12 +96,12 @@ if(APPLE)
 endif()
 
 include(GNUInstallDirs)
-install(TARGETS Staging_Environment_Recovered
+install(TARGETS Scrummy
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(Staging_Environment_Recovered)
+    qt_finalize_executable(Scrummy)
 endif()
