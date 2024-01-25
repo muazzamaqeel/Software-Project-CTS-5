@@ -654,15 +654,15 @@ QPushButton* parentboard::get_Button_SaveCalendar(){
     return ui->Button_SaveCalendar;
 }
 
-QTextBrowser* parentboard::get_CalendarDescription() {
+QLabel* parentboard::get_CalendarDescription() {
     return ui->CalendarDescription;
 }
 
-QTextBrowser* parentboard::get_CalendarHeading() {
+QLabel* parentboard::get_CalendarHeading() {
     return ui->CalendarHeading;
 }
 
-QTextBrowser* parentboard::get_CalendarTitle() {
+QLabel* parentboard::get_CalendarTitle() {
     return ui->CalendarTitle;
 }
 QTextEdit* parentboard::get_Input_Calendar_Description(){

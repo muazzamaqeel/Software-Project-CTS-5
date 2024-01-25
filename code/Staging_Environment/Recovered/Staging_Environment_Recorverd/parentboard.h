@@ -92,9 +92,9 @@ public:
 
     //Calendar
     QPushButton* get_Button_SaveCalendar();
-    QTextBrowser* get_CalendarDescription();
-    QTextBrowser* get_CalendarHeading();
-    QTextBrowser* get_CalendarTitle();
+    QLabel* get_CalendarDescription();
+    QLabel* get_CalendarHeading();
+    QLabel* get_CalendarTitle();
     QTextEdit* get_Input_Calendar_Description();
     QTextEdit* get_Input_Calendar_Title();
     QGroupBox* get_Calendar_GroupBox();

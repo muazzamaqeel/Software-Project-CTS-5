@@ -626,7 +626,7 @@ QPushButton:checked {
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="taskboardPage">
        <property name="minimumSize">
@@ -1732,12 +1732,8 @@ QPushButton {
     text-align: center; /* Center text */
 }
 
-QPushButton:hover {
-    background-color: #3A3A3A; /* Slightly lighter grey on hover */
-}
-
 QPushButton:pressed {
-    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+    background-color: white; /* Even lighter grey for pressed state */
 }
 </string>
                   </property>
@@ -4486,6 +4482,12 @@ color: rgb(255, 255, 255);
          <height>660</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QWidget {
+background-color: #22344C;
+color: white;
+}</string>
+       </property>
        <layout class="QHBoxLayout" name="horizontalLayout_23" stretch="78,50">
         <property name="spacing">
          <number>0</number>
@@ -4511,14 +4513,41 @@ color: rgb(255, 255, 255);
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">
-background-color: #D5FEFF;
-hover {
-background-color: #22344C;
+           <string notr="true">QCalendarWidget {
+background-color: white;
+color: black;
+}
+
+QCalendarWidget QAbstractItemView:enabled {
+    selection-background-color: #22344C; /* Color for selected date */
+}
+
+QCalendarWidget QAbstractItemView:disabled {
+    color: #808080; /* Color for disabled dates */
+}
+QCalendarWidget QAbstractItemView:section {
+    background-color: #22344C;
+    color: white; /* Set the text color if needed */
+}
+QCalendarWidget QAbstractItemView {
+    background-color: white; /* Set the background color of the dropdown */
+    color: black; /* Set the text color of the dropdown items */
+    selection-background-color: #D5FEFF; /* Set the background color of the selected item */
 }
 
 
-</string>
+#qt_calendar_prevmonth {
+    qproperty-icon: url(:/left-arrow.png);
+background-color: white;
+}
+#qt_calendar_nextmonth {
+    qproperty-icon: url(:/right-arrow.png);
+background-color: white;
+}
+QCalendarWidget QHeaderView {
+background-color: #22344C;
+    color: white; /* Set the text color of the day names and week numbers */
+}</string>
           </property>
          </widget>
         </item>
@@ -4538,9 +4567,9 @@ background-color: #22344C;
           <property name="title">
            <string/>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0,2,5,1">
+          <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0,3,6,1">
            <property name="spacing">
-            <number>10</number>
+            <number>20</number>
            </property>
            <property name="leftMargin">
             <number>20</number>
@@ -4555,35 +4584,17 @@ background-color: #22344C;
             <number>30</number>
            </property>
            <item>
-            <widget class="QTextBrowser" name="CalendarHeading">
-             <property name="minimumSize">
-              <size>
-               <width>450</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>60</height>
-              </size>
-             </property>
+            <widget class="QLabel" name="CalendarHeading">
              <property name="styleSheet">
-              <string notr="true">QTextBrowser { background-color: rgba(255, 255, 255, 0); color: black; }
+              <string notr="true">QLabel {
+    font-weight: bold;
+    font-size: 20px;
+    qproperty-alignment: AlignCenter; /* This ensures text is centered */
+}
 </string>
              </property>
-             <property name="frameShape">
-              <enum>QFrame::VLine</enum>
-             </property>
-             <property name="html">
-              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-hr { height: 1px; border-width: 0; }
-li.unchecked::marker { content: &quot;\2610&quot;; }
-li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:24pt; color:#ffffff;&quot;&gt;Details&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <property name="text">
+              <string>Details</string>
              </property>
             </widget>
            </item>
@@ -4595,40 +4606,33 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <height>120</height>
               </size>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_9" stretch="1,2">
+             <layout class="QVBoxLayout" name="verticalLayout_9" stretch="0,2">
               <property name="spacing">
+               <number>5</number>
+              </property>
+              <property name="leftMargin">
+               <number>20</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>20</number>
+              </property>
+              <property name="bottomMargin">
                <number>0</number>
               </property>
               <item>
-               <widget class="QTextBrowser" name="CalendarTitle">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>40</height>
-                 </size>
-                </property>
+               <widget class="QLabel" name="CalendarTitle">
                 <property name="styleSheet">
-                 <string notr="true">QTextBrowser { background-color: rgba(255, 255, 255, 0); color: black; }
+                 <string notr="true">QLabel {
+    font-weight: bold;
+    font-size: 14px;
+}
 </string>
                 </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="html">
-                 <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-hr { height: 1px; border-width: 0; }
-li.unchecked::marker { content: &quot;\2610&quot;; }
-li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:16pt; color:#ffffff;&quot;&gt;Event Title&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <property name="text">
+                 <string>Event Title</string>
                 </property>
                </widget>
               </item>
@@ -4639,6 +4643,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
                   <width>450</width>
                   <height>0</height>
                  </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QTextEdit {
+background: white;
+font: 14pt Arial;
+padding: 3px 3px 3px 3px;
+color: black;
+border-radius: 5px;
+border: 0;
+}</string>
                 </property>
                </widget>
               </item>
@@ -4661,38 +4675,31 @@ li.checked::marker { content: &quot;\2612&quot;; }
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_10">
               <property name="spacing">
+               <number>5</number>
+              </property>
+              <property name="leftMargin">
+               <number>20</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>20</number>
+              </property>
+              <property name="bottomMargin">
                <number>0</number>
               </property>
               <item>
-               <widget class="QTextBrowser" name="CalendarDescription">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>40</height>
-                 </size>
-                </property>
+               <widget class="QLabel" name="CalendarDescription">
                 <property name="styleSheet">
-                 <string notr="true">QTextBrowser { background-color: rgba(255, 255, 255, 0); color: black; }
+                 <string notr="true">QLabel {
+    font-weight: bold;
+    font-size: 14px;
+}
 </string>
                 </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="html">
-                 <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-hr { height: 1px; border-width: 0; }
-li.unchecked::marker { content: &quot;\2610&quot;; }
-li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:16pt; color:#ffffff;&quot;&gt;Event Description&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <property name="text">
+                 <string>Event Description</string>
                 </property>
                </widget>
               </item>
@@ -4703,6 +4710,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
                   <width>450</width>
                   <height>0</height>
                  </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QTextEdit {
+background: white;
+font: 14pt Arial;
+padding: 3px 3px 3px 3px;
+color: black;
+border-radius: 5px;
+border: 0;
+}</string>
                 </property>
                </widget>
               </item>
@@ -4729,11 +4746,21 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: #22344C;
-color: rgb(255, 255, 255);
-}</string>
+                <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #D5FEFF; /* Dark grey background */
+    color: #22344C; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+}
+
+QPushButton:pressed {
+    background-color: white; /* Even lighter grey for pressed state */
+}
+</string>
                </property>
                <property name="text">
                 <string>Delete</string>
@@ -4755,11 +4782,21 @@ color: rgb(255, 255, 255);
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">QPushButton {
-font: 13pt &quot;Arial&quot;;
-background-color: #22344C;
-color: rgb(255, 255, 255);
-}</string>
+                <string notr="true">/* Styles for QPushButton */
+QPushButton {
+    background-color: #D5FEFF; /* Dark grey background */
+    color: #22344C; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+}
+
+QPushButton:pressed {
+    background-color: white; /* Even lighter grey for pressed state */
+}
+</string>
                </property>
                <property name="text">
                 <string>Save</string>
