@@ -239,7 +239,7 @@ background-color: #22344C;
           <string notr="true">QLabel {
 font: 24pt &quot;Arial&quot;;
 background-color: #9EB3C0;
-color: rgb(255, 255, 255);
+color: #22344C;
 }</string>
          </property>
          <property name="text">
@@ -302,7 +302,16 @@ QScrollBar:vertical {
 QScrollBar:horizontal {
     height: 0;
 }
-</string>
+
+/*The lower part of the vertical header:*/
+QHeaderView {
+    background-color: #22344C;
+}
+
+/*The top-left area is actually a button:*/
+QTableCornerButton::section {
+    background-color: white;
+}</string>
          </property>
         </widget>
        </item>
@@ -310,10 +319,6 @@ QScrollBar:horizontal {
      </widget>
     </item>
    </layout>
-   <zorder>logo</zorder>
-   <zorder>BackButton</zorder>
-   <zorder>toplabel</zorder>
-   <zorder>tm_project_table</zorder>
   </widget>
  </widget>
  <resources>

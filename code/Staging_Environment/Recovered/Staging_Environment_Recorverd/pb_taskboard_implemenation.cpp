@@ -19,7 +19,7 @@
 
 /**
  * @brief Implementation for the Taskboard Page in Parentboard
- * This class handles data in the TaskSB and USerStorySB tables
+ * This class handles data in the TaskSB and UserStorySB tables
  * @param parentBoardInstance
  *
  * @details Functions:
@@ -36,7 +36,6 @@
  *      addToTableTaskboard(const QString& title, const QString& description, const QString& status, int assignee, int sprint, int id, const QString& type)
  *      ~pb_taskboard_implemenation()
  */
-
 pb_taskboard_implemenation::pb_taskboard_implemenation(parentboard* parentBoardInstance)
     : parentBoard(parentBoardInstance),
     scrollAreaLayout(parentBoardInstance->getScrollAreaLayout())  // Initialize the layout

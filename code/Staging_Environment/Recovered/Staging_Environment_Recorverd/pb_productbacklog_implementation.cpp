@@ -32,7 +32,7 @@ pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* 
     // Initialize any necessary variables or connections
     parentBoard = parentBoardInstance;
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
-    userStoriesTable->setGeometry(20, 55, 1250, 500);
+    // userStoriesTable->setGeometry(20, 55, 1250, 500);
 
     QHeaderView* headerView = userStoriesTable->horizontalHeader();
     connect(headerView, SIGNAL(sectionClicked(int)), this, SLOT(onHeaderClicked(int)));
@@ -57,7 +57,7 @@ void pb_productbacklog_implementation::clearUserStoriesTable() {
 void pb_productbacklog_implementation::RetrieveAndDisplayBacklog() {
     qDebug() <<"RetrieveAndDisplayBacklog Called";
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
-    userStoriesTable->setGeometry(20, 55, 1250, 500);
+    // userStoriesTable->setGeometry(20, 55, 1250, 500);
     parentBoard->getCreationBox()->setVisible(false);
     if (userStoriesTable) {
         userStoriesTable->blockSignals(true); // Block signals
@@ -139,7 +139,7 @@ void pb_productbacklog_implementation::Show_CreateSection(){
 void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
 
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
-    userStoriesTable->setGeometry(20, 55, 750, 500);
+    // userStoriesTable->setGeometry(20, 55, 750, 500);
 
     parentBoard->getCreationBox()->setVisible(true);
     parentBoard->getButton_CreateUserStory()->setVisible(true);
@@ -160,7 +160,7 @@ void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
 void pb_productbacklog_implementation::Show_CreateSection_Tasks(){
 
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
-    userStoriesTable->setGeometry(20, 55, 750, 500);
+    // userStoriesTable->setGeometry(20, 55, 750, 500);
     parentBoard->getCreationBox()->setVisible(true);
     parentBoard->getButton_CreateUserStory()->setVisible(false);
     parentBoard->getButton_CreateTask()->setVisible(true);
@@ -259,7 +259,7 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
     }
 
     userStoriesTable->setColumnCount(8); // Include an additional column for Task ID
-    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority (1-3)", "Sprint"});
+    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority", "Sprint"});
     userStoriesTable->setColumnHidden(0, true);
 
     QHeaderView* header = userStoriesTable->horizontalHeader();
@@ -284,7 +284,58 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
     userStoriesTable->setItem(rowCount, 3, itemDescription);
 
     QComboBox* statusComboBox = new QComboBox();
-    statusComboBox->addItems({"ToDo", "InProgress", "Blocked", "Done"});
+    statusComboBox->addItems({"To Do", "In Progress", "Blocked", "Done"});
+    // Set the stylesheet for the QComboBox directly
+    statusComboBox->setStyleSheet(
+        "QComboBox {"
+        "    color: black;"
+        "    combobox-popup: 0;"
+        "    background-color: white;"
+        "    border: none;"
+        "}"
+        "QComboBox::drop-down {"
+        "    subcontrol-origin: padding;"
+        "    subcontrol-position: top right;"
+        "    width: 20px;"
+        "    color: black;"
+        "    border: 4px solid white;"
+        "}"
+        "QComboBox::up-arrow:open {"
+        "    image: url(:/down-arrow.png);"
+        "    width: 20px;"
+        "    height: 20px;"
+        "    border-radius: 4px;"
+        "    background-repeat: no-repeat;"
+        "    background-position: center;"
+        "    border: none;"
+        "}"
+        "QComboBox::down-arrow:closed {"
+        "    image: url(:/up-arrow.png);"
+        "    width: 20px;"
+        "    height: 20px;"
+        "    border-radius: 4px;"
+        "    background-repeat: no-repeat;"
+        "    background-position: center;"
+        "    border: none;"
+        "}"
+        "QComboBox QAbstractItemView {"
+        "    background-color: white;"
+        "    color: black;"
+        "    border: 1px solid white;"
+        "    border-radius: 4px;"
+        "    bottom: -1px;"
+        "    margin-top: 1px;"
+        "}"
+        "QComboBox QAbstractItemView::item {"
+        "    height: 25px;"
+        "    padding: 3px 10px;"
+        "    border-radius: 4px;"
+        "}"
+        "QComboBox QAbstractItemView::item:selected {"
+        "    background-color: #D5FEFF;"
+        "    color: black;"
+        "    border-radius: 4px;"
+        "}");
     statusComboBox->setCurrentText(status);
     userStoriesTable->setCellWidget(rowCount, 4, statusComboBox);
     connect(statusComboBox, &QComboBox::currentTextChanged,
@@ -295,6 +346,57 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
 
 
     QComboBox* assigneeComboBox = new QComboBox();
+    // Set the stylesheet for the QComboBox directly
+    assigneeComboBox->setStyleSheet(
+        "QComboBox {"
+        "    color: black;"
+        "    combobox-popup: 0;"
+        "    background-color: white;"
+        "    border: none;"
+        "}"
+        "QComboBox::drop-down {"
+        "    subcontrol-origin: padding;"
+        "    subcontrol-position: top right;"
+        "    width: 20px;"
+        "    color: black;"
+        "    border: 4px solid white;"
+        "}"
+        "QComboBox::up-arrow:open {"
+        "    image: url(:/down-arrow.png);"
+        "    width: 20px;"
+        "    height: 20px;"
+        "    border-radius: 4px;"
+        "    background-repeat: no-repeat;"
+        "    background-position: center;"
+        "    border: none;"
+        "}"
+        "QComboBox::down-arrow:closed {"
+        "    image: url(:/up-arrow.png);"
+        "    width: 20px;"
+        "    height: 20px;"
+        "    border-radius: 4px;"
+        "    background-repeat: no-repeat;"
+        "    background-position: center;"
+        "    border: none;"
+        "}"
+        "QComboBox QAbstractItemView {"
+        "    background-color: white;"
+        "    color: black;"
+        "    border: 1px solid white;"
+        "    border-radius: 4px;"
+        "    bottom: -1px;"
+        "    margin-top: 1px;"
+        "}"
+        "QComboBox QAbstractItemView::item {"
+        "    height: 25px;"
+        "    padding: 3px 10px;"
+        "    border-radius: 4px;"
+        "}"
+        "QComboBox QAbstractItemView::item:selected {"
+        "    background-color: #D5FEFF;"
+        "    color: black;"
+        "    border-radius: 4px;"
+        "}");
     assigneeComboBox->addItems(assigneeList);
     assigneeComboBox->setCurrentText(assignee); // Set the current assignee
     userStoriesTable->setCellWidget(rowCount, 5, assigneeComboBox);
@@ -307,6 +409,57 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
             });
 
     QComboBox* itemPriority1 = new QComboBox();
+    // Set the stylesheet for the QComboBox directly
+    itemPriority1->setStyleSheet(
+        "QComboBox {"
+        "    color: black;"
+        "    combobox-popup: 0;"
+        "    background-color: white;"
+        "    border: none;"
+        "}"
+        "QComboBox::drop-down {"
+        "    subcontrol-origin: padding;"
+        "    subcontrol-position: top right;"
+        "    width: 20px;"
+        "    color: black;"
+        "    border: 4px solid white;"
+        "}"
+        "QComboBox::up-arrow:open {"
+        "    image: url(:/down-arrow.png);"
+        "    width: 20px;"
+        "    height: 20px;"
+        "    border-radius: 4px;"
+        "    background-repeat: no-repeat;"
+        "    background-position: center;"
+        "    border: none;"
+        "}"
+        "QComboBox::down-arrow:closed {"
+        "    image: url(:/up-arrow.png);"
+        "    width: 20px;"
+        "    height: 20px;"
+        "    border-radius: 4px;"
+        "    background-repeat: no-repeat;"
+        "    background-position: center;"
+        "    border: none;"
+        "}"
+        "QComboBox QAbstractItemView {"
+        "    background-color: white;"
+        "    color: black;"
+        "    border: 1px solid white;"
+        "    border-radius: 4px;"
+        "    bottom: -1px;"
+        "    margin-top: 1px;"
+        "}"
+        "QComboBox QAbstractItemView::item {"
+        "    height: 25px;"
+        "    padding: 3px 10px;"
+        "    border-radius: 4px;"
+        "}"
+        "QComboBox QAbstractItemView::item:selected {"
+        "    background-color: #D5FEFF;"
+        "    color: black;"
+        "    border-radius: 4px;"
+        "}");
     itemPriority1->addItems({"High", "Medium", "Low"});
     itemPriority1->setCurrentText(priorityToString(priority));
     userStoriesTable->setCellWidget(rowCount, 6, itemPriority1);
@@ -320,6 +473,57 @@ void pb_productbacklog_implementation::Tasks_Added_In_Table(const QString& type_
 
 
     SprintSelectionComboBox = new QComboBox();
+    // Set the stylesheet for the QComboBox directly
+    SprintSelectionComboBox->setStyleSheet(
+        "QComboBox {"
+        "    color: black;"
+        "    combobox-popup: 0;"
+        "    background-color: white;"
+        "    border: none;"
+        "}"
+        "QComboBox::drop-down {"
+        "    subcontrol-origin: padding;"
+        "    subcontrol-position: top right;"
+        "    width: 20px;"
+        "    color: black;"
+        "    border: 4px solid white;"
+        "}"
+        "QComboBox::up-arrow:open {"
+        "    image: url(:/down-arrow.png);"
+        "    width: 20px;"
+        "    height: 20px;"
+        "    border-radius: 4px;"
+        "    background-repeat: no-repeat;"
+        "    background-position: center;"
+        "    border: none;"
+        "}"
+        "QComboBox::down-arrow:closed {"
+        "    image: url(:/up-arrow.png);"
+        "    width: 20px;"
+        "    height: 20px;"
+        "    border-radius: 4px;"
+        "    background-repeat: no-repeat;"
+        "    background-position: center;"
+        "    border: none;"
+        "}"
+        "QComboBox QAbstractItemView {"
+        "    background-color: white;"
+        "    color: black;"
+        "    border: 1px solid white;"
+        "    border-radius: 4px;"
+        "    bottom: -1px;"
+        "    margin-top: 1px;"
+        "}"
+        "QComboBox QAbstractItemView::item {"
+        "    height: 25px;"
+        "    padding: 3px 10px;"
+        "    border-radius: 4px;"
+        "}"
+        "QComboBox QAbstractItemView::item:selected {"
+        "    background-color: #D5FEFF;"
+        "    color: black;"
+        "    border-radius: 4px;"
+        "}");
     SprintSelectionComboBox->addItems(sprintTitles);
     // Set the current text of the combo box to the assigned sprint
     if (sprintTitles.contains(assignedSprint)) {
@@ -1050,7 +1254,7 @@ void pb_productbacklog_implementation::addTaskToBacklog(const QString& title, co
         return;
     }
     table->setColumnCount(8);
-    table->setHorizontalHeaderLabels({"ID", "Title", "Description", "Status", "Assignee", "Priority (1-3)", "ProductBacklog ID", "Sprint"});
+    table->setHorizontalHeaderLabels({"ID", "Title", "Description", "Status", "Assignee", "Priority", "ProductBacklog ID", "Sprint"});
     QHeaderView* header = table->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
     DatabaseManager database;
@@ -1299,6 +1503,57 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
 
 
                 QComboBox* priorityComboBox = new QComboBox();
+                // Set the stylesheet for the QComboBox directly
+                priorityComboBox->setStyleSheet(
+                    "QComboBox {"
+                    "    color: black;"
+                    "    combobox-popup: 0;"
+                    "    background-color: white;"
+                    "    border: none;"
+                    "}"
+                    "QComboBox::drop-down {"
+                    "    subcontrol-origin: padding;"
+                    "    subcontrol-position: top right;"
+                    "    width: 20px;"
+                    "    color: black;"
+                    "    border: 4px solid white;"
+                    "}"
+                    "QComboBox::up-arrow:open {"
+                    "    image: url(:/down-arrow.png);"
+                    "    width: 20px;"
+                    "    height: 20px;"
+                    "    border-radius: 4px;"
+                    "    background-repeat: no-repeat;"
+                    "    background-position: center;"
+                    "    border: none;"
+                    "}"
+                    "QComboBox::down-arrow:closed {"
+                    "    image: url(:/up-arrow.png);"
+                    "    width: 20px;"
+                    "    height: 20px;"
+                    "    border-radius: 4px;"
+                    "    background-repeat: no-repeat;"
+                    "    background-position: center;"
+                    "    border: none;"
+                    "}"
+                    "QComboBox QAbstractItemView {"
+                    "    background-color: white;"
+                    "    color: black;"
+                    "    border: 1px solid white;"
+                    "    border-radius: 4px;"
+                    "    bottom: -1px;"
+                    "    margin-top: 1px;"
+                    "}"
+                    "QComboBox QAbstractItemView::item {"
+                    "    height: 25px;"
+                    "    padding: 3px 10px;"
+                    "    border-radius: 4px;"
+                    "}"
+                    "QComboBox QAbstractItemView::item:selected {"
+                    "    background-color: #D5FEFF;"
+                    "    color: black;"
+                    "    border-radius: 4px;"
+                    "}");
                 priorityComboBox->addItems({"High", "Medium", "Low"});
                 int priorityValue = query.value(4).toInt();
                 priorityComboBox->setCurrentIndex(priorityValue - 1);  // Assuming 1 = High, 2 = Medium, 3 = Low
@@ -1318,7 +1573,7 @@ void pb_productbacklog_implementation::UserStoryPBretrieval() {
 void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString& type_pb, const QString& storyName, const QString& description, const QString& status, int assignee, QComboBox* priorityComboBox, int storyID, const QString& assignedSprint, const QStringList& sprintTitles) {
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
     userStoriesTable->setColumnCount(8);
-    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority (1-3)", "Sprint"});
+    userStoriesTable->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Assignee", "Priority", "Sprint"});
     userStoriesTable->setColumnHidden(0, true);
     //userStoriesTable->setColumnHidden(6, true);
     QHeaderView* header = userStoriesTable->horizontalHeader();
@@ -1348,7 +1603,58 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
 
 
         QComboBox* statusComboBox = new QComboBox();
-        statusComboBox->addItems({"ToDo", "InProgress", "Blocked", "Done"});
+        // Set the stylesheet for the QComboBox directly
+        statusComboBox->setStyleSheet(
+            "QComboBox {"
+            "    color: black;"
+            "    combobox-popup: 0;"
+            "    background-color: white;"
+            "    border: none;"
+            "}"
+            "QComboBox::drop-down {"
+            "    subcontrol-origin: padding;"
+            "    subcontrol-position: top right;"
+            "    width: 20px;"
+            "    color: black;"
+            "    border: 4px solid white;"
+            "}"
+            "QComboBox::up-arrow:open {"
+            "    image: url(:/down-arrow.png);"
+            "    width: 20px;"
+            "    height: 20px;"
+            "    border-radius: 4px;"
+            "    background-repeat: no-repeat;"
+            "    background-position: center;"
+            "    border: none;"
+            "}"
+            "QComboBox::down-arrow:closed {"
+            "    image: url(:/up-arrow.png);"
+            "    width: 20px;"
+            "    height: 20px;"
+            "    border-radius: 4px;"
+            "    background-repeat: no-repeat;"
+            "    background-position: center;"
+            "    border: none;"
+            "}"
+            "QComboBox QAbstractItemView {"
+            "    background-color: white;"
+            "    color: black;"
+            "    border: 1px solid white;"
+            "    border-radius: 4px;"
+            "    bottom: -1px;"
+            "    margin-top: 1px;"
+            "}"
+            "QComboBox QAbstractItemView::item {"
+            "    height: 25px;"
+            "    padding: 3px 10px;"
+            "    border-radius: 4px;"
+            "}"
+            "QComboBox QAbstractItemView::item:selected {"
+            "    background-color: #D5FEFF;"
+            "    color: black;"
+            "    border-radius: 4px;"
+            "}");
+        statusComboBox->addItems({"To Do", "In Progress", "Blocked", "Done"});
         statusComboBox->setCurrentText(status);
         userStoriesTable->setCellWidget(rowCount, 4, statusComboBox);
 
@@ -1399,6 +1705,57 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
 
         // Create and set up the assignee combo box
         QComboBox* assigneeComboBox = new QComboBox();
+        // Set the stylesheet for the QComboBox directly
+        assigneeComboBox->setStyleSheet(
+            "QComboBox {"
+            "    color: black;"
+            "    combobox-popup: 0;"
+            "    background-color: white;"
+            "    border: none;"
+            "}"
+            "QComboBox::drop-down {"
+            "    subcontrol-origin: padding;"
+            "    subcontrol-position: top right;"
+            "    width: 20px;"
+            "    color: black;"
+            "    border: 4px solid white;"
+            "}"
+            "QComboBox::up-arrow:open {"
+            "    image: url(:/down-arrow.png);"
+            "    width: 20px;"
+            "    height: 20px;"
+            "    border-radius: 4px;"
+            "    background-repeat: no-repeat;"
+            "    background-position: center;"
+            "    border: none;"
+            "}"
+            "QComboBox::down-arrow:closed {"
+            "    image: url(:/up-arrow.png);"
+            "    width: 20px;"
+            "    height: 20px;"
+            "    border-radius: 4px;"
+            "    background-repeat: no-repeat;"
+            "    background-position: center;"
+            "    border: none;"
+            "}"
+            "QComboBox QAbstractItemView {"
+            "    background-color: white;"
+            "    color: black;"
+            "    border: 1px solid white;"
+            "    border-radius: 4px;"
+            "    bottom: -1px;"
+            "    margin-top: 1px;"
+            "}"
+            "QComboBox QAbstractItemView::item {"
+            "    height: 25px;"
+            "    padding: 3px 10px;"
+            "    border-radius: 4px;"
+            "}"
+            "QComboBox QAbstractItemView::item:selected {"
+            "    background-color: #D5FEFF;"
+            "    color: black;"
+            "    border-radius: 4px;"
+            "}");
         assigneeComboBox->addItems(assigneeList);
         QString currentAssignee = fetchAssigneeNameById(assignee); // Use 'assignee' instead of 'assigneeId'
         assigneeComboBox->setCurrentText(currentAssignee);
@@ -1416,6 +1773,57 @@ void pb_productbacklog_implementation::UserStories_Added_In_Table(const QString&
 
 
         QComboBox* sprintComboBox = new QComboBox();
+        // Set the stylesheet for the QComboBox directly
+        sprintComboBox->setStyleSheet(
+            "QComboBox {"
+            "    color: black;"
+            "    combobox-popup: 0;"
+            "    background-color: white;"
+            "    border: none;"
+            "}"
+            "QComboBox::drop-down {"
+            "    subcontrol-origin: padding;"
+            "    subcontrol-position: top right;"
+            "    width: 20px;"
+            "    color: black;"
+            "    border: 4px solid white;"
+            "}"
+            "QComboBox::up-arrow:open {"
+            "    image: url(:/down-arrow.png);"
+            "    width: 20px;"
+            "    height: 20px;"
+            "    border-radius: 4px;"
+            "    background-repeat: no-repeat;"
+            "    background-position: center;"
+            "    border: none;"
+            "}"
+            "QComboBox::down-arrow:closed {"
+            "    image: url(:/up-arrow.png);"
+            "    width: 20px;"
+            "    height: 20px;"
+            "    border-radius: 4px;"
+            "    background-repeat: no-repeat;"
+            "    background-position: center;"
+            "    border: none;"
+            "}"
+            "QComboBox QAbstractItemView {"
+            "    background-color: white;"
+            "    color: black;"
+            "    border: 1px solid white;"
+            "    border-radius: 4px;"
+            "    bottom: -1px;"
+            "    margin-top: 1px;"
+            "}"
+            "QComboBox QAbstractItemView::item {"
+            "    height: 25px;"
+            "    padding: 3px 10px;"
+            "    border-radius: 4px;"
+            "}"
+            "QComboBox QAbstractItemView::item:selected {"
+            "    background-color: #D5FEFF;"
+            "    color: black;"
+            "    border-radius: 4px;"
+            "}");
         sprintComboBox->addItems(sprintTitles); // Use sprintTitles instead of hardcoded values
         sprintComboBox->setCurrentText(assignedSprint);
         userStoriesTable->setCellWidget(rowCount, 7, sprintComboBox);
@@ -1766,7 +2174,7 @@ void pb_productbacklog_implementation::addUserStoryToBacklog(const QString& titl
         return;
     }
     table->setColumnCount(8);
-    table->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Priority (1-3)", "Assignee", "Sprint"});
+    table->setHorizontalHeaderLabels({"ID", "Type", "Title", "Description", "Status", "Priority", "Assignee", "Sprint"});
 
     QHeaderView* header = table->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
