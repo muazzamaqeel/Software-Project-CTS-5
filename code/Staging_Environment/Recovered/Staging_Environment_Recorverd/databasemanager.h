@@ -8,6 +8,10 @@ class DatabaseManager
 
 private:
     QSqlDatabase db;
+    QString dbHostname;
+    QString dbName;
+    QString dbUsername;
+    QString dbPassword;
 
 public:
 
@@ -15,6 +19,8 @@ public:
     QSqlDatabase getDatabase() const;
     bool createBackup(const QString& backupFilePath);
     ~DatabaseManager();
+    void closeConnection(const QString& connectionName);
+    QSqlDatabase getDatabase(const QString& connectionName);
 };
 
 #endif // DATABASEMANAGER_H

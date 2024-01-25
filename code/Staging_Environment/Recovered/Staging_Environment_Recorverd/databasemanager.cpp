@@ -10,41 +10,79 @@
 DatabaseManager::DatabaseManager() {
     // Read the configuration file
     QFile configFile("config.json");
-    if (configFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QJsonParseError error;
-        QJsonDocument doc = QJsonDocument::fromJson(configFile.readAll(), &error);
-
-        if (error.error == QJsonParseError::NoError) {
-            QJsonObject config = doc.object();
-            db = QSqlDatabase::addDatabase("QMYSQL");
-            db.setHostName(config["db_hostname"].toString());
-            db.setDatabaseName(config["db_name"].toString());
-            db.setUserName(config["db_username"].toString());
-            db.setPassword(config["db_password"].toString());
-        } else {
-            qDebug() << "Error parsing JSON config:" << error.errorString();
-        }
-
-        configFile.close();
-    } else {
+    if (!configFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "Failed to open config file:" << configFile.errorString();
+        return;
     }
 
-    if (!db.open()) {
-        qDebug() << "Connection Not Established - Database Class:" << db.lastError().text();
-    } else {
-        qDebug() << "Connection Established - Database Class!";
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(configFile.readAll(), &error);
+    configFile.close();
+
+    if (error.error != QJsonParseError::NoError) {
+        qDebug() << "Error parsing JSON config:" << error.errorString();
+        return;
     }
+
+    QJsonObject config = doc.object();
+    dbHostname = config["db_hostname"].toString();
+    dbName = config["db_name"].toString();
+    dbUsername = config["db_username"].toString();
+    dbPassword = config["db_password"].toString();
 }
+
+
 QSqlDatabase DatabaseManager::getDatabase() const {
+    static QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    if (!db.isOpen()) {
+        db.setHostName(dbHostname);
+        db.setDatabaseName(dbName);
+        db.setUserName(dbUsername);
+        db.setPassword(dbPassword);
+        if (!db.open()) {
+            qDebug() << "Connection Not Established - Default Database:" << db.lastError().text();
+        } else {
+            qDebug() << "Connection Established - Default Database!";
+        }
+    }
     return db;
 }
 
-DatabaseManager::~DatabaseManager(){
+QSqlDatabase DatabaseManager::getDatabase(const QString& connectionName) {
+    QString connName = connectionName;
+    if (connName.isEmpty()) {
+        connName = QUuid::createUuid().toString();
+    }
+
+    if (QSqlDatabase::contains(connName)) {
+        return QSqlDatabase::database(connName);
+    } else {
+        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL", connName);
+        db.setHostName(dbHostname);
+        db.setDatabaseName(dbName);
+        db.setUserName(dbUsername);
+        db.setPassword(dbPassword);
+
+        if (!db.open()) {
+            qDebug() << "Connection Not Established - Database Class:" << db.lastError().text();
+        } else {
+            qDebug() << "Connection Established - Database Class!";
+        }
+        return db;
+    }
+}
+
+void DatabaseManager::closeConnection(const QString& connectionName) {
+    QSqlDatabase db = QSqlDatabase::database(connectionName);
     if (db.isOpen()) {
         db.close();
-        qDebug() << "Database connection closed - Database Class.";
     }
+    QSqlDatabase::removeDatabase(connectionName);
+    qDebug() << "Database connection '" << connectionName << "' closed - Database Class.";
+}
+
+DatabaseManager::~DatabaseManager() {
+    // Destructor is now empty since we're not managing a persistent connection
 }
 
 bool DatabaseManager::createBackup(const QString& backupFilePath) {

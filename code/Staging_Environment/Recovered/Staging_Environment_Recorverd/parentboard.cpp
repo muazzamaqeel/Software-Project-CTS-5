@@ -229,7 +229,7 @@ parentboard::parentboard(QWidget *parent) :
     connect(ui->calendarButton, SIGNAL(clicked()), this, SLOT(on_calendarButton_clicked()));
     pb_calendar_implementation *pbcalendarObj = new pb_calendar_implementation(this); // Corrected class name
     connect(ui->calendarButton, &QPushButton::clicked, pbcalendarObj, &pb_calendar_implementation::Calendar_HideEventCreation);
-    connect(ui->Button_SaveCalendar, &QPushButton::clicked, pbcalendarObj, &pb_calendar_implementation::onCreateTaskClicked);
+    connect(ui->Button_SaveCalendar, &QPushButton::clicked, pbcalendarObj, &pb_calendar_implementation::onSaveButtonClicked);
 
 
 }

@@ -7,6 +7,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QMessageBox>
+#include <QUuid>
 
 
 
@@ -83,10 +84,11 @@ void pb_calendar_implementation::Calendar_ShowEventCreation(){
 }
 
 void pb_calendar_implementation::onMonthChanged(int year, int month) {
-    QDate startDate(year, month, 1); // First day of the selected month
-    QDate endDate = startDate.addMonths(1).addDays(-1); // Last day of the selected month
-    retrieveEventsForMonth(startDate, endDate);
+    QDate startDate(year, month, 1);
+    QDate endDate = startDate.addMonths(1).addDays(-1);
+    cacheEventsForMonth(startDate, endDate);
 }
+
 void pb_calendar_implementation::retrieveEventsForMonth(const QDate &startDate, const QDate &endDate) {
     DatabaseManager database;
     QSqlDatabase dbobj = database.getDatabase();
@@ -125,19 +127,28 @@ void pb_calendar_implementation::retrieveEventsForMonth(const QDate &startDate, 
 
 
 void pb_calendar_implementation::onDateSelected() {
-    selectedDate = parentBoard->get_CalendarWidget()->selectedDate();
-    CustomCalendarWidget* calendarWidget = dynamic_cast<CustomCalendarWidget*>(parentBoard->get_CalendarWidget());
-    int newWidth = 700;
-    calendarWidget->adjustWidth(newWidth);
-    Calendar_ShowEventCreation();
-    if (checkEventExists(selectedDate)) {
-        paintCell(selectedDate);
+    QDate date = parentBoard->get_CalendarWidget()->selectedDate();
+    Calendar_ShowEventCreation(); // Show event creation UI components
+
+    if (eventsForMonth.contains(date)) {
+        // Event exists, retrieve details from the cache
+        EventDetails details = eventsForMonth.value(date);
+        parentBoard->get_Input_Calendar_Title()->setPlainText(details.title);
+        parentBoard->get_Input_Calendar_Description()->setPlainText(details.description);
     } else {
-        clearCellHighlighting(selectedDate);
+        // No event, clear the UI components
+        parentBoard->get_Input_Calendar_Title()->setPlainText("");
+        parentBoard->get_Input_Calendar_Description()->setPlainText("");
     }
 
-    retrieveEventDetails(selectedDate);
+    // Adjust the calendar widget width if needed
+    CustomCalendarWidget* calendarWidget = dynamic_cast<CustomCalendarWidget*>(parentBoard->get_CalendarWidget());
+    if (calendarWidget) {
+        int newWidth = 700;
+        calendarWidget->adjustWidth(newWidth);
+    }
 }
+
 
 
 bool pb_calendar_implementation::checkEventExists(const QDate &date) {
@@ -324,4 +335,112 @@ void pb_calendar_implementation::onDeleteButtonClicked() {
 }
 
 
+EventDetails pb_calendar_implementation::getEventForDate(const QDate &date) {
+    return eventsForMonth.value(date, EventDetails());
+}
 
+
+void pb_calendar_implementation::cacheEventsForMonth(const QDate &startDate, const QDate &endDate) {
+    DatabaseManager database;
+    QSqlDatabase dbobj = database.getDatabase();
+
+    if (!dbobj.open()) {
+        qDebug() << "Database connection error!";
+        return;
+    }
+
+    QSqlQuery query(dbobj);
+    query.prepare("SELECT date, eventTitle, eventDescription FROM Calendar "
+                  "WHERE date BETWEEN :startDate AND :endDate AND Project_idProject = :Project_idProject");
+    query.bindValue(":startDate", startDate.toString("yyyy-MM-dd"));
+    query.bindValue(":endDate", endDate.toString("yyyy-MM-dd"));
+    query.bindValue(":Project_idProject", parentBoard->getProjectId());
+
+    if (!query.exec()) {
+        qDebug() << "Select query error: " << query.lastError().text();
+        return;
+    }
+
+    CustomCalendarWidget* calendarWidget = dynamic_cast<CustomCalendarWidget*>(parentBoard->get_CalendarWidget());
+    if (calendarWidget) {
+        calendarWidget->clearAllHighlights(); // Clear existing highlights
+    }
+
+    eventsForMonth.clear(); // Clear any existing cached events
+
+    while (query.next()) {
+        QDate date = query.value(0).toDate();
+        QString eventTitle = query.value(1).toString();
+        QString eventDescription = query.value(2).toString();
+
+        // Cache the events
+        eventsForMonth[date] = EventDetails(eventTitle, eventDescription);
+
+        // Highlight the date on the calendar
+        if (calendarWidget) {
+            calendarWidget->highlightDate(date, Qt::lightGray); // Use an appropriate color
+        }
+    }
+}
+
+void pb_calendar_implementation::onSaveButtonClicked() {
+    QDate date = parentBoard->get_CalendarWidget()->selectedDate();
+    QString eventTitle = parentBoard->get_Input_Calendar_Title()->toPlainText();
+    QString eventDescription = parentBoard->get_Input_Calendar_Description()->toPlainText();
+
+    // Check if the event title and description are not empty
+    if (eventTitle.isEmpty() || eventDescription.isEmpty()) {
+        QMessageBox::warning(parentBoard, "Incomplete Information", "Please provide both a title and a description for the event.");
+        return;
+    }
+
+    DatabaseManager databaseManager;
+
+    // When you need a database connection:
+    QString uniqueConnName = QUuid::createUuid().toString();
+    QSqlDatabase db = databaseManager.getDatabase(uniqueConnName);
+    // ...perform database operations...
+
+    // When done with the database operations:
+
+
+    if (!db.open()) {
+        qDebug() << "Database connection error!";
+        return;
+    }
+
+    QSqlQuery query(db);
+    // Check if the event already exists for the selected date
+    if (checkEventExists(date)) {
+        // Update the existing event
+        query.prepare("UPDATE Calendar SET eventTitle = :eventTitle, eventDescription = :eventDescription "
+                      "WHERE date = :date AND Project_idProject = :Project_idProject");
+    } else {
+        // Insert a new event
+        query.prepare("INSERT INTO Calendar (date, eventTitle, eventDescription, Project_idProject) "
+                      "VALUES (:date, :eventTitle, :eventDescription, :Project_idProject)");
+    }
+    query.bindValue(":date", date.toString("yyyy-MM-dd"));
+    query.bindValue(":eventTitle", eventTitle);
+    query.bindValue(":eventDescription", eventDescription);
+    query.bindValue(":Project_idProject", parentBoard->getProjectId());
+
+    if (!query.exec()) {
+        qDebug() << "Database query error: " << query.lastError().text();
+        QMessageBox::critical(parentBoard, "Database Error", "Failed to save the event details.");
+    } else {
+        qDebug() << "Event details successfully saved.";
+        QMessageBox::information(parentBoard, "Success", "The event details have been saved successfully.");
+
+        // Update the calendar view
+        CustomCalendarWidget* calendarWidget = dynamic_cast<CustomCalendarWidget*>(parentBoard->get_CalendarWidget());
+        if (calendarWidget) {
+            QColor highlightColor = Qt::lightGray; // Choose an appropriate color
+            calendarWidget->highlightDate(date, highlightColor);
+            // Update the local cache if you are using one
+            eventsForMonth[date] = EventDetails(eventTitle, eventDescription);
+        }
+    }
+    databaseManager.closeConnection(uniqueConnName);
+
+}
