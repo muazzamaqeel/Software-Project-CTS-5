@@ -36,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("Scrummy 1.0");
     ui->input_password->setEchoMode(QLineEdit::Password);
 
+    centerOnScreen();
+
     QLabel bg_main;
     QPixmap pix("qrc:/MainWindowbg.png");
 
@@ -261,6 +263,14 @@ QString MainWindow::PassUsername(){
 
 void MainWindow::setPassUsername(const QString& username) {
     Pass_inputUsername = username; // Should be using the passed 'username', not 'inputUsername'
+}
+
+void MainWindow::centerOnScreen()
+{
+    // Center the window on the screen
+    QScreen *screenProject = QApplication::primaryScreen();
+    QRect mainScreenGeometry = screenProject->availableGeometry();
+    move(mainScreenGeometry.center() - rect().center());
 }
 
 

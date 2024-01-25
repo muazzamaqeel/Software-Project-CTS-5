@@ -31,6 +31,8 @@ private:
     QString username;
     QString role;
 
+    void centerOnScreen();
+
 };
 
 #endif // REGISTRATION_WINDOW_H

@@ -17,6 +17,7 @@ public:
 
 private slots:
     void changePassword(); // Added slot for changing password
+    void centerOnScreen();
 
 private:
     Ui::RecoverPassword *ui;

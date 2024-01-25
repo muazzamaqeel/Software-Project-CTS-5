@@ -1,4 +1,5 @@
 #include "recoverpassword.h"
+#include "QtGui/qscreen.h"
 #include "ui_recoverpassword.h"
 #include "databasemanager.h"
 #include <QCryptographicHash>
@@ -11,6 +12,8 @@ RecoverPassword::RecoverPassword(QWidget *parent)
     , ui(new Ui::RecoverPassword)
 {
     ui->setupUi(this);
+
+    centerOnScreen();
 
     // Connect the save button's click signal to a slot
     connect(ui->Save_Button, SIGNAL(clicked()), this, SLOT(changePassword()));
@@ -95,4 +98,12 @@ void RecoverPassword::changePassword()
     {
         QMessageBox::critical(this, "Error", "Connection Not Established.");
     }
+}
+
+void RecoverPassword::centerOnScreen()
+{
+    // Center the window on the screen
+    QScreen *screenProject = QApplication::primaryScreen();
+    QRect mainScreenGeometry = screenProject->availableGeometry();
+    move(mainScreenGeometry.center() - rect().center());
 }

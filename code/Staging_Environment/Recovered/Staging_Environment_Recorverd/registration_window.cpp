@@ -27,6 +27,8 @@ registration_window::registration_window(QWidget *parent) :
     ui->setupUi(this); // Set up the user interface
     ui->display_error->setVisible(false); // Initially hide the error message
 
+    centerOnScreen();
+
     // For Background
     QLabel bg_main;
     QPixmap pix("qrc:/MainWindowbg.png");
@@ -145,4 +147,12 @@ void registration_window::storeInputValues() {
         }
     }
     FromRegToMainWindow();
+}
+
+void registration_window::centerOnScreen()
+{
+    // Center the window on the screen
+    QScreen *screenProject = QApplication::primaryScreen();
+    QRect mainScreenGeometry = screenProject->availableGeometry();
+    move(mainScreenGeometry.center() - rect().center());
 }

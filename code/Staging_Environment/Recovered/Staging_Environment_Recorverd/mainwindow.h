@@ -41,6 +41,7 @@ public slots:
     void Open_RecoverPassword();
 private slots:
     void openSettings();
+    void centerOnScreen();
 
 
 };
