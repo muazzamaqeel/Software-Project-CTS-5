@@ -24,6 +24,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QPainter>
+#include "recoverpassword.h"
 
 
 // Constructor of MainWindow Class
@@ -80,6 +81,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->signIn_Button, SIGNAL(clicked()), this, SLOT(onSignInButtonClicked()));
 
+    connect(ui->ForgetPass_Button, SIGNAL(clicked()), this, SLOT(Open_RecoverPassword()));
+
+
     ui->backlog_test->setVisible(false);
     ui->parentboardButton->setVisible(false);
     ui->adminButton->setVisible(false);
@@ -87,6 +91,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 }
+
+
+void MainWindow::Open_RecoverPassword() {
+    RecoverPassword* RecoverPassword_Obj = new  RecoverPassword; // Add this line
+    RecoverPassword_Obj->showMaximized();
+    ui->~MainWindow();
+}
+
 
 void MainWindow::onSignInButtonClicked() {
     TeamMember_ProjectsWindow* TeamMember_ProjectsWindowObj = new  TeamMember_ProjectsWindow; // Add this line

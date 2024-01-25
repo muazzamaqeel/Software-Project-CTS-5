@@ -38,6 +38,7 @@ public slots:
     void onSignInButtonClicked();
     void setPassUsername(const QString& username);
     void keyPressEvent(QKeyEvent *event);
+    void Open_RecoverPassword();
 private slots:
     void openSettings();
 

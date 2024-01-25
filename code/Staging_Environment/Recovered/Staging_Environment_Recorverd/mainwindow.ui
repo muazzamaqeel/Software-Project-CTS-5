@@ -121,7 +121,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>-20</y>
+      <y>-30</y>
       <width>951</width>
       <height>361</height>
      </rect>
@@ -205,8 +205,8 @@ QPushButton:pressed {
    <widget class="QPushButton" name="registerbutton_main">
     <property name="geometry">
      <rect>
-      <x>610</x>
-      <y>570</y>
+      <x>670</x>
+      <y>510</y>
       <width>121</width>
       <height>51</height>
      </rect>
@@ -250,7 +250,7 @@ QPushButton:pressed {
    <widget class="QPushButton" name="signIn_Button">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>540</x>
       <y>510</y>
       <width>121</width>
       <height>51</height>
@@ -296,7 +296,7 @@ QPushButton:pressed {
     <property name="geometry">
      <rect>
       <x>1130</x>
-      <y>540</y>
+      <y>480</y>
       <width>121</width>
       <height>51</height>
      </rect>
@@ -583,6 +583,51 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="ForgetPass_Button">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>570</y>
+      <width>171</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #2D2D2D; /* Dark grey background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 18px; /* Font size */
+    border: none; /* No border */
+    text-align: center; /* Center text */
+    text-decoration: none; /* No text decoration */
+    display: inline-block; /* Display as inline-block */
+    transition: all 0.3s; /* Smooth transition for hover effects */
+    cursor: pointer; /* Show hand cursor on hover */
+}
+
+QPushButton:hover {
+    background-color: #3A3A3A; /* Slightly lighter grey on hover */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Subtle shadow effect on hover */
+}
+
+QPushButton:pressed {
+    background-color: #1A1A1A; /* Even lighter grey for pressed state */
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Forget Password</string>
+    </property>
+   </widget>
    <zorder>bg_main</zorder>
    <zorder>boder_login</zorder>
    <zorder>textBrowser_2</zorder>
@@ -598,6 +643,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <zorder>backlog_test</zorder>
    <zorder>adminButton</zorder>
    <zorder>logo</zorder>
+   <zorder>ForgetPass_Button</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
