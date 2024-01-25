@@ -120,13 +120,13 @@ void pb_productbacklog_implementation::Show_CreateSection(){
     parentBoard->getCreate_Assignee()->setVisible(true);
     parentBoard->getCreate_Description()->setVisible(true);
     parentBoard->getCreate_Header()->setVisible(true);
-    parentBoard->getCreate_Priority()->setVisible(true);
-    parentBoard->getCreate_Status()->setVisible(true);
+    parentBoard->getCreate_Priority()->setVisible(false);
+    parentBoard->getCreate_Status()->setVisible(false);
     parentBoard->getCreate_Title()->setVisible(true);
     parentBoard->getInputAssignee()->setVisible(true);
     parentBoard->getInputDescription()->setVisible(true);
-    parentBoard->getInputPriority()->setVisible(true);
-    parentBoard->getInputStatus()->setVisible(true);
+    parentBoard->getInputPriority()->setVisible(false);
+    parentBoard->getInputStatus()->setVisible(false);
     parentBoard->getInputTitle()->setVisible(true);
     parentBoard->get_BL_SprintDropDown()->setVisible(true);
     parentBoard->get_SelecteSprint()->setVisible(true);
@@ -1225,7 +1225,7 @@ void pb_productbacklog_implementation::onButtonIssueClicked() {
     // To get the currently selected text from the combo boxes
     QString Pass_sprint = SprintDropDown->currentText();
     QString assignee = InputAssignee->currentText();
-    if (title.isEmpty() || description.isEmpty() || priorityText.isEmpty() || status.isEmpty()) {
+    if (title.isEmpty() || description.isEmpty()) {
         // One or more fields are empty
         QMessageBox::warning(nullptr, "Missing Values", "Please fill in all fields.");
     } else {
@@ -2151,7 +2151,7 @@ void pb_productbacklog_implementation::on_createUserStory_clicked() {
     int priority = priorityText.toInt();
     QString status = inputStatus->toPlainText();
 
-    if (title.isEmpty() || description.isEmpty() || priorityText.isEmpty()) {
+    if (title.isEmpty() || description.isEmpty()) {
         // One or more fields are empty
         QMessageBox::warning(nullptr, "Missing Values", "Please fill in all fields.");
     } else {
