@@ -407,7 +407,7 @@ void pb_team_implemenation::RemoveUser(QTableWidgetItem* item){
     QTableWidget* teamTable = parentBoard->getTeamTableView();
 
     if (!teamTable) {
-        qDebug() << "User stories table not found";
+        qDebug() << "Team table not found. It's a Trap!";
         return;
     }
 
