@@ -7,6 +7,11 @@
 #include <QJsonParseError>
 #include <QJsonObject>
 
+/**
+ * @brief DatabaseManager::DatabaseManager
+ * Constructor for the DatabaseManager class.
+ * Reads the configuration file and initializes the database connection parameters.
+ */
 DatabaseManager::DatabaseManager() {
     // Read the configuration file
     QFile configFile("config.json");
@@ -31,7 +36,12 @@ DatabaseManager::DatabaseManager() {
     dbPassword = config["db_password"].toString();
 }
 
-
+/**
+ * @brief DatabaseManager::getDatabase
+ * Gets the default database connection.
+ * If the connection is not open, establishes the connection.
+ * @return QSqlDatabase object representing the default database connection.
+ */
 QSqlDatabase DatabaseManager::getDatabase() const {
     static QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     if (!db.isOpen()) {
@@ -48,6 +58,14 @@ QSqlDatabase DatabaseManager::getDatabase() const {
     return db;
 }
 
+/**
+ * @brief DatabaseManager::getDatabase
+ * Gets a named database connection.
+ * If the connection with the given name exists, returns it.
+ * Otherwise, establishes a new connection with the specified name.
+ * @param connectionName The name of the database connection.
+ * @return QSqlDatabase object representing the specified database connection.
+ */
 QSqlDatabase DatabaseManager::getDatabase(const QString& connectionName) {
     QString connName = connectionName;
     if (connName.isEmpty()) {
@@ -72,6 +90,11 @@ QSqlDatabase DatabaseManager::getDatabase(const QString& connectionName) {
     }
 }
 
+/**
+ * @brief DatabaseManager::closeConnection
+ * Closes the specified database connection.
+ * @param connectionName The name of the database connection to close.
+ */
 void DatabaseManager::closeConnection(const QString& connectionName) {
     QSqlDatabase db = QSqlDatabase::database(connectionName);
     if (db.isOpen()) {
@@ -81,10 +104,22 @@ void DatabaseManager::closeConnection(const QString& connectionName) {
     qDebug() << "Database connection '" << connectionName << "' closed - Database Class.";
 }
 
+/**
+ * @brief DatabaseManager::~DatabaseManager
+ * Destructor for the DatabaseManager class.
+ * The destructor is empty since the class is not managing a persistent connection.
+ */
 DatabaseManager::~DatabaseManager() {
     // Destructor is now empty since we're not managing a persistent connection
 }
 
+/**
+ * @brief DatabaseManager::createBackup
+ * Creates a backup of the database to the specified file path.
+ * Uses the mysqldump tool for MySQL databases.
+ * @param backupFilePath The file path where the backup will be saved.
+ * @return True if the backup is successful, false otherwise.
+ */
 bool DatabaseManager::createBackup(const QString& backupFilePath) {
     QString program = "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump";
 
@@ -106,4 +141,3 @@ bool DatabaseManager::createBackup(const QString& backupFilePath) {
     qDebug() << "Backup created successfully at:" << backupFilePath;
     return true;
 }
-

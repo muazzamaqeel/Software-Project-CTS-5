@@ -7,6 +7,12 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
+/**
+ * @brief RecoverPassword::RecoverPassword
+ * Constructor for the RecoverPassword class.
+ * Sets up the UI, centers the window on the screen, and connects the save button to the changePassword() slot.
+ * @param parent The parent widget.
+ */
 RecoverPassword::RecoverPassword(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::RecoverPassword)
@@ -19,11 +25,20 @@ RecoverPassword::RecoverPassword(QWidget *parent)
     connect(ui->Save_Button, SIGNAL(clicked()), this, SLOT(changePassword()));
 }
 
+/**
+ * @brief RecoverPassword::~RecoverPassword
+ * Destructor for the RecoverPassword class.
+ */
 RecoverPassword::~RecoverPassword()
 {
     delete ui;
 }
 
+/**
+ * @brief RecoverPassword::changePassword
+ * Slot called when the save button is clicked.
+ * Retrieves user input, hashes passwords, validates input, and updates the password in the database if successful.
+ */
 void RecoverPassword::changePassword()
 {
     QString inputUsername = ui->Input_UserName->text();
@@ -100,6 +115,10 @@ void RecoverPassword::changePassword()
     }
 }
 
+/**
+ * @brief RecoverPassword::centerOnScreen
+ * Centers the window on the screen.
+ */
 void RecoverPassword::centerOnScreen()
 {
     // Center the window on the screen

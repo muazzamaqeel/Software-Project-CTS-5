@@ -19,7 +19,12 @@
 #include <QPainter>
 #include <QKeyEvent>
 
-// Constructor for the registration window
+/**
+ * @brief registration_window::registration_window
+ * Constructor for the registration_window class.
+ * Sets up the UI, initializes variables, and connects signals to slots.
+ * @param parent The parent widget.
+ */
 registration_window::registration_window(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::registration_window)
@@ -37,31 +42,42 @@ registration_window::registration_window(QWidget *parent) :
     connect(ui->next, SIGNAL(clicked()), this, SLOT(storeInputValues())); // Connect the "next" button to store input values
 }
 
-// Destructor
+/**
+ * @brief registration_window::~registration_window
+ * Destructor for the registration_window class.
+ */
 registration_window::~registration_window()
 {
     delete ui; // Clean up the user interface
 }
 
-// Function to close the application (not currently used in the code)
+/**
+ * @brief registration_window::closeApp
+ * Function to close the application
+ */
 void registration_window::closeApp()
 {
     QApplication::quit();
 }
 
-// Function to switch from the registration window to the main window
+/**
+ * @brief registration_window::FromRegToMainWindow
+ * Function to switch from the registration window to the main window.
+ * Creates a new instance of the main window, hides the registration window, and shows the main window.
+ */
 void registration_window::FromRegToMainWindow()
 {
-
     MainWindow* mainWindow = new MainWindow; // Create a new instance of the main window
     hide(); // Hide the registration window
     mainWindow->showMaximized(); // Show the main window
     ui->~registration_window();
 }
 
-
-
-// Function to store user input values and display them for testing
+/**
+ * @brief registration_window::storeInputValues
+ * Function to store user input values and display them for testing.
+ * Captures user input, hashes passwords, validates input, and inserts data into the database if successful.
+ */
 void registration_window::storeInputValues() {
     // Capture user input from various fields
     firstName = ui->input_firstname->text();
@@ -113,8 +129,8 @@ void registration_window::storeInputValues() {
             }
             while (query.next())
             {
-                qDebug() << "Feched Email:" << query.value(0).toString() << "  Actual email" << email;
-                qDebug() << "Feched Username:" << query.value(1).toString() << "  Actual Username" << email;
+                qDebug() << "Fetched Email:" << query.value(0).toString() << "  Actual email" << email;
+                qDebug() << "Fetched Username:" << query.value(1).toString() << "  Actual Username" << email;
                 if(query.value(0).toString() == email){
                     error += "<font color='red'>Email already registered. </font>\n";
                     ui->display_error->setText(error);
@@ -149,6 +165,10 @@ void registration_window::storeInputValues() {
     FromRegToMainWindow();
 }
 
+/**
+ * @brief registration_window::centerOnScreen
+ * Centers the window on the screen.
+ */
 void registration_window::centerOnScreen()
 {
     // Center the window on the screen
