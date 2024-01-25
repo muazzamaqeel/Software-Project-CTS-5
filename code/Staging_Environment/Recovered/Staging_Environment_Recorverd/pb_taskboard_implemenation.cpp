@@ -706,7 +706,7 @@ void pb_taskboard_implemenation::showEditTaskboard()
 
     QLabel* Create_HeaderT = parentBoard->getCreate_HeaderT();
     Create_HeaderT->setAlignment(Qt::AlignCenter);  // Align text to center
-    Create_HeaderT->setText("EDIT");
+    Create_HeaderT->setText("Edit");
 }
 
 /**
@@ -736,12 +736,12 @@ void pb_taskboard_implemenation::retrieveDataTaskboard()
         if (taskType == "Task")
         {
             parentBoard->getButton_CreateTaskT()->setVisible(true);
-            Create_HeaderT->setText("TASK");
+            Create_HeaderT->setText("Task");
         }
         if (taskType == "User Story")
         {
             parentBoard->getButton_CreateTaskT()->setVisible(true);
-            Create_HeaderT->setText("USER STORY");
+            Create_HeaderT->setText("User Story");
         }
 
         // Updating Input for editing

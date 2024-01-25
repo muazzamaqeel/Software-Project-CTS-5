@@ -32,6 +32,7 @@ pb_productbacklog_implementation::pb_productbacklog_implementation(parentboard* 
     // Initialize any necessary variables or connections
     parentBoard = parentBoardInstance;
     QTableWidget* userStoriesTable = parentBoard->getUserStoriesTableView();
+    userStoriesTable->verticalHeader()->setDefaultSectionSize(40);
     // userStoriesTable->setGeometry(20, 55, 1250, 500);
 
     QHeaderView* headerView = userStoriesTable->horizontalHeader();
@@ -148,9 +149,9 @@ void pb_productbacklog_implementation::Show_CreateSection_UserStory(){
     parentBoard->get_BL_SprintDropDown()->setVisible(false);
     parentBoard->get_SelecteSprint()->setVisible(false);
 
-    QTextBrowser* Create_Header = parentBoard->getCreate_Header();
+    QLabel* Create_Header = parentBoard->getCreate_Header();
     Create_Header->setAlignment(Qt::AlignCenter);  // Align text to center
-    Create_Header->setHtml("<html><head/><body><p style='font-size:14pt; text-align:center; color:white;'>Create User Story</p></body></html>");
+    Create_Header->setText("Create User Story");
 
 }
 /**
@@ -166,9 +167,9 @@ void pb_productbacklog_implementation::Show_CreateSection_Tasks(){
     parentBoard->getButton_CreateTask()->setVisible(true);
     parentBoard->get_BL_SprintDropDown()->setVisible(true);
     parentBoard->get_SelecteSprint()->setVisible(true);
-    QTextBrowser* Create_Header = parentBoard->getCreate_Header();
+    QLabel* Create_Header = parentBoard->getCreate_Header();
     Create_Header->setAlignment(Qt::AlignCenter);  // Align text to center
-    Create_Header->setHtml("<html><head/><body><p style='font-size:14pt; text-align:center; color:white;'>Create Task</p></body></html>");
+    Create_Header->setText("Create Task");
 
 }
 

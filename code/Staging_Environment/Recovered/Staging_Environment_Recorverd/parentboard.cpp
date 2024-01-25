@@ -397,22 +397,22 @@ QPushButton* parentboard::getButton_CreateUserStory(){
 QPushButton* parentboard::getButton_CreateTask(){
     return ui->Button_CreateTask;
 }
-QTextBrowser* parentboard::getCreate_Assignee(){
+QLabel* parentboard::getCreate_Assignee(){
     return ui->CreateAssignee;
 }
-QTextBrowser* parentboard::getCreate_Description(){
+QLabel* parentboard::getCreate_Description(){
     return ui->CreateDescription;
 }
-QTextBrowser* parentboard::getCreate_Header(){
+QLabel* parentboard::getCreate_Header(){
     return ui->CreateHeader;
 }
-QTextBrowser* parentboard::getCreate_Priority(){
+QLabel* parentboard::getCreate_Priority(){
     return ui->CreatePriority;
 }
-QTextBrowser* parentboard::getCreate_Status(){
+QLabel* parentboard::getCreate_Status(){
     return ui->CreateStatus;
 }
-QTextBrowser* parentboard::getCreate_Title(){
+QLabel* parentboard::getCreate_Title(){
     return ui->CreateTitle;
 }
 QComboBox* parentboard::getInputAssignee(){
@@ -449,7 +449,7 @@ QComboBox* parentboard::get_BL_SprintDropDown(){
     return ui->BL_SprintDropDown;
 
 }
-QTextBrowser* parentboard::get_SelecteSprint(){
+QLabel* parentboard::get_SelecteSprint(){
     return ui->SelecteSprint;
 }
 QGroupBox* parentboard::getCreationBox(){
@@ -468,7 +468,7 @@ QTableWidget* parentboard::getSprintTableView() {
 QComboBox* parentboard::getSprint_Top_Down(){
     return ui->sprint_top_down;
 }
-QTextBrowser* parentboard::getSprintDate(){
+QLabel* parentboard::getSprintDate(){
     return ui->sprint_date;
 }
 QLineEdit* parentboard::getFirstNameField(){
@@ -615,13 +615,13 @@ QTextEdit* parentboard::get_InputTitle_2() {
 QComboBox* parentboard::get_InputGroup_Confluence_Heading() {
     return ui->InputGroup_Confluence_Heading;
 }
-QTextBrowser* parentboard::get_Confluence_NameText() {
+QLabel* parentboard::get_Confluence_NameText() {
     return ui->Confluence_NameText;
 }
-QTextBrowser* parentboard::get_Confluence_HeadingText() {
+QLabel* parentboard::get_Confluence_HeadingText() {
     return ui->Confluence_HeadingText;
 }
-QTextBrowser* parentboard::get_Confluence_GroupText() {
+QLabel* parentboard::get_Confluence_GroupText() {
     return ui->Confluence_GroupText;
 }
 QGroupBox* parentboard::getCreationBox_Confluence() const {

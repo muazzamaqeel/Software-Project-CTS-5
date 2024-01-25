@@ -36,7 +36,7 @@ public:
     QTableWidget* getSprintTableView();
     QTableWidget* getTeamTableView();
     void setTeamTableBool(const bool val);
-    QTextBrowser *getSprintDate();
+    QLabel *getSprintDate();
     QLineEdit *getFirstNameField();
     void displayBacklogOnMaximized();
     QGroupBox* getSprintGroupBox() const;
@@ -44,12 +44,12 @@ public:
 
 
     QPushButton* getButton_Create();
-    QTextBrowser* getCreate_Assignee();
-    QTextBrowser* getCreate_Description();
-    QTextBrowser* getCreate_Header();
-    QTextBrowser* getCreate_Priority();
-    QTextBrowser* getCreate_Status();
-    QTextBrowser* getCreate_Title();
+    QLabel* getCreate_Assignee();
+    QLabel* getCreate_Description();
+    QLabel* getCreate_Header();
+    QLabel* getCreate_Priority();
+    QLabel* getCreate_Status();
+    QLabel* getCreate_Title();
 
     QPushButton* getCreateUserButton();
     QTextBrowser* getDisplayFirstName();
@@ -67,7 +67,7 @@ public:
     QPushButton* getButton_CreateUserStory();
     QPushButton* get_delete_item();
     QComboBox* get_BL_SprintDropDown();
-    QTextBrowser* get_SelecteSprint();
+    QLabel *get_SelecteSprint();
 
     QLineEdit* get_Input_SprintName();
     QDateEdit* get_Input_StartDate();
@@ -78,9 +78,9 @@ public:
     //Confluence
     QTextEdit* get_InputTitle_2();
     QComboBox* get_InputGroup_Confluence_Heading();
-    QTextBrowser* get_Confluence_NameText();
-    QTextBrowser* get_Confluence_HeadingText();
-    QTextBrowser* get_Confluence_GroupText();
+    QLabel *get_Confluence_NameText();
+    QLabel *get_Confluence_HeadingText();
+    QLabel* get_Confluence_GroupText();
     QPushButton* get_Button_Create_Confluence();
     QTreeWidget* getuserTaskTreeWidget_2();
     QGroupBox* getCreationBox_Confluence() const;

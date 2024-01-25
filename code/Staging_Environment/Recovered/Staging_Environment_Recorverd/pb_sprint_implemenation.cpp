@@ -24,6 +24,7 @@ pb_sprint_implemenation::pb_sprint_implemenation(parentboard* parentBoardInstanc
     OBJECTS_VISIBLE_BOXES();
     parentBoard->getSprintTableView()->setColumnCount(5);
     parentBoard->getSprintTableView()->setHorizontalHeaderLabels({"ID", "StartDate", "EndDate","Title", "Additional Details"}); // Set column headers
+    parentBoard->getSprintTableView()->verticalHeader()->setDefaultSectionSize(50);
     TaskSBretrieval();
 }
 
@@ -57,6 +58,7 @@ void pb_sprint_implemenation::OBJECTS_VISIBLE_BOXES(){
 }
 void pb_sprint_implemenation::OBJECTS_VISIBLE_on_create_sprint_clicked(){
 
+    parentBoard->get_Sprint_View_Box()->setVisible(false);
     parentBoard->get_GroupBox_SprintGroup()->setVisible(true);
     parentBoard->get_Button_CreateSprintTab()->setVisible(true);
     parentBoard->get_DateEdit_InputEndDate()->setVisible(true);
@@ -69,6 +71,8 @@ void pb_sprint_implemenation::OBJECTS_VISIBLE_on_create_sprint_clicked(){
     parentBoard->get_Label_TextStartDate()->setVisible(true);
 }
 void pb_sprint_implemenation::OBJECTS_VISIBLE_Additional_Details(){
+
+    parentBoard->get_GroupBox_SprintGroup()->setVisible(false);
     parentBoard->get_Line_EditSprintEndDate()->setVisible(true);
     parentBoard->get_Label_SprintTitle()->setVisible(true);
     parentBoard->get_Table_SprintDetails()->setVisible(true);
@@ -151,6 +155,23 @@ void pb_sprint_implemenation::addSprint(int idSprint, const QString& StartDate, 
         sprint_table->setItem(IssuerowCount, 2, SprintenddateItem);
         sprint_table->setItem(IssuerowCount, 3, SprinttitleItem);
         QPushButton *viewButton = new QPushButton("Click Here");
+        viewButton->setStyleSheet(
+            "QPushButton {"
+            "    background-color: #22344C;"
+            "    color: white;"
+            "    border-radius: 5px;"
+            "    padding: 10px 20px;"
+            "    font-size: 12px;"
+            "    border: none;"
+            "    text-align: center;"
+            "}"
+            "QPushButton:pressed {"
+            "    background-color: #9EB3C0;"
+            "}"
+            "QPushButton:checked {"
+            "    border-bottom: 5px solid white;"
+            "}"
+            );
         sprint_table->setCellWidget(IssuerowCount, 4, viewButton);
         connect(viewButton, &QPushButton::clicked, [this, IssuerowCount, idSprint, StartDate, EndDate, Title](){
             AdditionalDetails(IssuerowCount, idSprint, StartDate, EndDate, Title);
@@ -494,11 +515,11 @@ void pb_sprint_implemenation::on_editsprint_sprint_clicked() {
     qDebug() << "Edit sprint button clicked.";
 
     QComboBox* sprint_top_down = parentBoard->getSprint_Top_Down();
-    QTextBrowser* date = parentBoard->getSprintDate();
+    QLabel* date = parentBoard->getSprintDate();
 
     // Get the selected sprint name from the dropdown
     QString selectedSprintName = sprint_top_down->currentText();
-    QTextBrowser *selectedSprintDate = date;
+    QLabel *selectedSprintDate = date;
 
     // Get the new sprint name
     QString newSprintName = QInputDialog::getText(nullptr, "Enter Sprint Name", "Sprint Name:", QLineEdit::Normal, selectedSprintName);
@@ -510,7 +531,7 @@ void pb_sprint_implemenation::on_editsprint_sprint_clicked() {
     }
 
     // Get the new date
-    QString newDate = QInputDialog::getText(nullptr, "Enter Sprint Date", "Sprint Date:", QLineEdit::Normal, selectedSprintDate->toPlainText());
+    QString newDate = QInputDialog::getText(nullptr, "Enter Sprint Date", "Sprint Date:", QLineEdit::Normal, selectedSprintDate->text());
 
     // Check if the user canceled the input for the date
     if (newDate.isEmpty()) {
