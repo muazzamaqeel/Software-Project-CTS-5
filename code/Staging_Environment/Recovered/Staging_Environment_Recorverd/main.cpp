@@ -27,6 +27,9 @@ int main(int argc, char *argv[]) {
 //Application-------------------------------------------------------------------
     QApplication app(argc, argv);
 
+    QString currentPath = QDir::currentPath();
+    qDebug() << "Current Working Directory:" << currentPath;
+
     // Application Icon
     //app.setWindowIcon(QIcon(":/path"));
     app.setWindowIcon(QIcon(":/ScrummyIconLast.png"));
