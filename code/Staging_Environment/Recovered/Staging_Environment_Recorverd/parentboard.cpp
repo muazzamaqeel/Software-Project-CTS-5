@@ -112,7 +112,7 @@ parentboard::parentboard(QWidget *parent) :
         }
 
     });
-    connect(ui->delete_item_UserStory, &QPushButton::clicked, [this, pbProductBacklog_ExtensionObj]() {
+    connect(ui->delete_item_UserStory, &QPushButton::clicked, [this, pbProductBacklog_ExtensionObj, pbProductBacklogObj]() {
         qDebug() << "Delete button clicked"; // Debug message
         if (!ui->user_stories) {
             qDebug() << "User stories table not found";
@@ -132,6 +132,7 @@ parentboard::parentboard(QWidget *parent) :
         if (item) {
             int storyID = item->data(Qt::UserRole).toInt(); // Assuming the storyID is stored in the UserRole
             pbProductBacklog_ExtensionObj->deleteTaskFromDatabase(storyID); // Call the deleteUserStory function
+             pbProductBacklogObj->RetrieveAndDisplayBacklog();
         } else {
             qDebug() << "Item is null";
             // Optionally, handle this case

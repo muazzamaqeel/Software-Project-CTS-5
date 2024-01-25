@@ -1,4 +1,5 @@
 #include "pb_productbacklog_implementation_extension.h"
+#include "pb_productbacklog_implementation.h"
 #include <QCoreApplication>
 #include <QDir>
 #include <QFileInfo>
@@ -224,20 +225,24 @@ void pb_productbacklog_implementation_Extension::deleteTaskFromDatabase(int task
     query.addBindValue(taskID);
 
     if (!query.exec()) {
-        qDebug() << "Delete failed: " << query.lastError();
+        qDebug() << "Delete failed: ";
     } else {
         qDebug() << "Delete successful for task ID:" << taskID;
     }
 
     //Also Gets Deleted in
     QSqlQuery query1;
-    query.prepare("DELETE FROM scrummy.UserStorySB WHERE idUserStorySB = ?");
-    query.addBindValue(taskID);
+    query1.prepare("DELETE FROM scrummy.UserStorySB WHERE idUserStorySB = ?");
+    query1.addBindValue(taskID);
 
     if (!query.exec()) {
         qDebug() << "Delete failed: " << query.lastError();
+
     } else {
         qDebug() << "Delete successful for task ID:" << taskID;
+        //pb_productbacklog_implementation* pbProductBacklogObj = new pb_productbacklog_implementation(parentBoard);
+        //pbProductBacklogObj->RetrieveAndDisplayBacklog();
+
     }
 }
 
