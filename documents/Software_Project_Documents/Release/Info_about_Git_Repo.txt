@@ -1,6 +1,4 @@
 1. Here the link to our Git Repo:
-
 https://github.com/muazzamaqeel/softwareproject
-
 
 2. You can also depoly the software on your pc, that is also available on Git
