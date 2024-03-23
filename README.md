@@ -1,2 +1,2 @@
 # softwareproject
- Scrummy
+ Scrummy 1.0
